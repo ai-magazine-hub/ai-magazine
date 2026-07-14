@@ -1222,6 +1222,19 @@ function escapeHtml(s){return (s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&
     if(i===BANDS.length-1) w = cnt*RECENT_BOOST + RATE_BASE;   // 最新分组（如 2026）占满轨道，点分散展开
     bandUnits[b.label]=w; totalUnits+=w;
   });
+  // 前置分组（如「2022年前」）标签较长，强制最小像素宽度，避免其标签与下一分组（如「2023」）标签重叠；
+  // 多出的权重从最末（最新）分组扣除，整体占比几乎不变。
+  const MIN_FIRST_BW=66;
+  if(BANDS.length>1){
+    const fLab=BANDS[0].label, lLab=BANDS[BANDS.length-1].label;
+    const need=MIN_FIRST_BW/plotW*totalUnits;
+    if(bandUnits[fLab]<need){
+      const diff=need-bandUnits[fLab];
+      bandUnits[fLab]=need;
+      bandUnits[lLab]=Math.max(bandUnits[lLab]-diff, need);
+      let acc=0; BANDS.forEach(b=>{ cumBeforeB[b.label]=acc; acc+=bandUnits[b.label]; }); totalUnits=acc;
+    }
+  }
   // 视图：viewStart=内容空间起点(单位)，viewUnits=可见内容跨度(单位)
   let viewStart=0, viewUnits=totalUnits;
   const minView=Math.max(2, totalUnits/12);
@@ -1310,16 +1323,18 @@ function escapeHtml(s){return (s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&
     // 2) 时间轴：内容加权列宽（稀疏年细、密集年宽）+ 顶部年份标签
     h+=`<rect x="${L}" y="0" width="${W-L-R}" height="${T}" fill="#ffffff"/>`;
     h+=`<text x="${(W-4)}" y="${(T-4).toFixed(1)}" text-anchor="end" font-size="9.5" font-weight="800" fill="#9aa1b1">LMArena Elo ↓</text>`;
-    BANDS.forEach(b=>{
+    BANDS.forEach((b,i)=>{
       const x0=xOfUnits(cumBeforeB[b.label]);            // 该分组列左边界
       const x1=xOfUnits(cumBeforeB[b.label]+bandUnits[b.label]); // 右边界
       if(x1<L-1 || x0>W-R+1) return;                      // 完全在视野外
       if(x0>=L-1) h+=`<line x1="${x0.toFixed(1)}" y1="${T}" x2="${x0.toFixed(1)}" y2="${plotBottom.toFixed(1)}" stroke="#e3e6ee"/>`;
       const wpx=x1-x0;
-      if(wpx>12){                                  // 列足够宽才显示标签，避免拥挤
-        const xc=(x0+x1)/2;
-        const fs = wpx<24 ? 9 : 11;                // 窄列用更小字号，保证「2022年前」等长标签可读
-        h+=`<text x="${xc.toFixed(1)}" y="${(T-4).toFixed(1)}" text-anchor="middle" font-size="${fs}" font-weight="800" fill="#6b7280">${b.label}</text>`;
+      const long=b.label.length>=5;                       // 「2022年前」等长标签用更小字号
+      if(wpx>10){                                  // 列足够宽才显示标签，避免拥挤
+        const fs = long ? 9 : 11;
+        const anchor = (i===0 && long) ? "start" : "middle";   // 前置长标签左对齐，避免越界压到下一分组
+        const xc = (i===0 && long) ? (x0+3) : (x0+x1)/2;
+        h+=`<text x="${xc.toFixed(1)}" y="${(T-4).toFixed(1)}" text-anchor="${anchor}" font-size="${fs}" font-weight="800" fill="#6b7280">${b.label}</text>`;
       }
     });
     // 月份细线：仅在放大到足够窄（≤约半个内容跨度，≈3 年）时显示，避免拥挤
@@ -1329,44 +1344,48 @@ function escapeHtml(s){return (s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&
       });
     }
     // 3) 事件标记（重大模型更新=红；其余按类型着色）
+    //    每个模型行：事件先按「所在分组」归类，再在各自分组的整个宽度内均匀铺开（首末留白贴边），
+    //    从而把密集年份（如 2026）的点平铺满整条轨道、消除拥挤与空白浪费；保留时间先后顺序。
     rows.forEach(r=>{ if(r.type!=="m") return;
-      const m=r.m, y0=rowY[m.company+"|"+m.name], cy=y0+rowH/2; let lastX=-999;
+      const m=r.m, y0=rowY[m.company+"|"+m.name], cy=y0+rowH/2;
       const mH = markerMode==="dot" ? 0 : (markerMode==="bar" ? Math.round(rowH*0.6) : 15);
-      const gapBase = markerMode==="dot" ? 11 : (markerMode==="bar" ? 7 : 13);
       const vis=visibleEvents(m);
-      // 自适应间距：让该行事件在其实际跨越的横向范围内尽量铺开（首/尾对齐真实日期，中间均摊），
-      // 既「把点分散到整个轨道」又避免挤成一团或越界被丢弃导致数据丢失。
-      let minX=Infinity, maxX=-Infinity;
-      vis.forEach(e=>{ const xx=xAtDate(e.date); if(xx<minX)minX=xx; if(xx>maxX)maxX=xx; });
-      const span=(isFinite(minX)&&isFinite(maxX))?(maxX-minX):0;
-      const gap = vis.length>1 ? Math.max(2, Math.min(gapBase, span/(vis.length-1))) : gapBase;
-      vis.forEach(e=>{
-        let x=xAtDate(e.date);
-        if(Math.abs(x-lastX)<gap) x=lastX+gap;
-        lastX=x;
-        if(x<L-10) return;                  // 仅左侧越界跳过；右侧不再丢弃（贴边绘制，保证数据不丢失）
-        if(x>W-R+10) x=W-R+10;
-        const col = (e.kind==="model" && e.major) ? MAJOR : kindColor[e.kind];
-        const j=JSON.stringify({t:e.title,d:e.date,k:e.kind,s:e.source,f:e.file})
-          .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-        if(markerMode==="dot"){
-          h+=`<g class="gev" data-j="${j}" style="cursor:pointer">`+
-             `<circle cx="${x.toFixed(1)}" cy="${cy.toFixed(1)}" r="4.5" fill="${col}"/>`+
-             `<circle cx="${x.toFixed(1)}" cy="${cy.toFixed(1)}" r="8.5" fill="transparent"/>`+
-             `</g>`;
-        } else if(markerMode==="bar"){
-          const ry=(cy-mH/2).toFixed(1);
-          h+=`<g class="gev" data-j="${j}" style="cursor:pointer">`+
-             `<rect x="${(x-1.5).toFixed(1)}" y="${ry}" width="3" height="${mH}" rx="1.5" fill="${col}"/>`+
-             `<rect x="${(x-5).toFixed(1)}" y="${(cy-mH/2-4).toFixed(1)}" width="10" height="${mH+8}" rx="4" fill="transparent"/>`+
-             `</g>`;
-        } else {
-          const rx=(x-5.5).toFixed(1), ry=(cy-mH/2).toFixed(1);
-          h+=`<g class="gev" data-j="${j}" style="cursor:pointer">`+
-             `<rect x="${rx}" y="${ry}" width="11" height="${mH}" rx="3.5" fill="${col}"/>`+
-             `<rect x="${(x-10.5).toFixed(1)}" y="${(cy-mH/2-5).toFixed(1)}" width="21" height="${mH+10}" rx="6" fill="transparent"/>`+
-             `</g>`;
-        }
+      if(!vis.length) return;
+      const byBand={};
+      vis.forEach(e=>{ const y=parseInt(e.date.slice(0,4),10); const b=bandOf(y);
+        (byBand[b.label]=byBand[b.label]||[]).push(e); });
+      Object.keys(byBand).forEach(label=>{
+        const arr=byBand[label].slice().sort((a,b)=> a.date<b.date?-1:(a.date>b.date?1:0));
+        const bx0=xOfUnits(cumBeforeB[label]);
+        const bx1=xOfUnits(cumBeforeB[label]+bandUnits[label]);
+        if(bx1<L-1 || bx0>W-R+1) return;             // 整个分组在视野外
+        const pad=Math.min(7,(bx1-bx0)/2);
+        const lo=bx0+pad, hi=bx1-pad, n=arr.length;
+        arr.forEach((e,i)=>{
+          let x = n>1 ? lo + (i/(n-1))*(hi-lo) : (lo+hi)/2;
+          if(x<L-10) x=L-10; if(x>W-R+10) x=W-R+10;
+          const col = (e.kind==="model" && e.major) ? MAJOR : kindColor[e.kind];
+          const j=JSON.stringify({t:e.title,d:e.date,k:e.kind,s:e.source,f:e.file})
+            .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+          if(markerMode==="dot"){
+            h+=`<g class="gev" data-j="${j}" style="cursor:pointer">`+
+               `<circle cx="${x.toFixed(1)}" cy="${cy.toFixed(1)}" r="4.5" fill="${col}"/>`+
+               `<circle cx="${x.toFixed(1)}" cy="${cy.toFixed(1)}" r="8.5" fill="transparent"/>`+
+               `</g>`;
+          } else if(markerMode==="bar"){
+            const ry=(cy-mH/2).toFixed(1);
+            h+=`<g class="gev" data-j="${j}" style="cursor:pointer">`+
+               `<rect x="${(x-1.5).toFixed(1)}" y="${ry}" width="3" height="${mH}" rx="1.5" fill="${col}"/>`+
+               `<rect x="${(x-5).toFixed(1)}" y="${(cy-mH/2-4).toFixed(1)}" width="10" height="${mH+8}" rx="4" fill="transparent"/>`+
+               `</g>`;
+          } else {
+            const rx=(x-5.5).toFixed(1), ry=(cy-mH/2).toFixed(1);
+            h+=`<g class="gev" data-j="${j}" style="cursor:pointer">`+
+               `<rect x="${rx}" y="${ry}" width="11" height="${mH}" rx="3.5" fill="${col}"/>`+
+               `<rect x="${(x-10.5).toFixed(1)}" y="${(cy-mH/2-5).toFixed(1)}" width="21" height="${mH+10}" rx="6" fill="transparent"/>`+
+               `</g>`;
+          }
+        });
       });
     });
     svg.innerHTML=h;
