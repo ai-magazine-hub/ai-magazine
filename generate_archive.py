@@ -786,7 +786,9 @@ INDEX_TPL = r"""<!DOCTYPE html>
   .month-name{font-size:24px;font-weight:800;color:#1f2430;line-height:1}
   .month-cnt{font-size:12px;font-weight:700;color:#4f46e5;background:#eef0fe;padding:3px 0;border-radius:999px;text-align:center}
   .month-carousel{flex:1;min-width:0}
-  .month-track{display:flex;gap:12px;overflow:hidden}
+  .month-track{display:flex;gap:12px;overflow-x:auto;scroll-behavior:smooth;
+    scrollbar-width:none;-ms-overflow-style:none;padding-bottom:4px}
+  .month-track::-webkit-scrollbar{display:none}
   .day-mini{flex:0 0 212px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:13px 15px;
     text-decoration:none;color:inherit;display:flex;flex-direction:column;gap:8px;transition:border-color .15s,box-shadow .15s;cursor:pointer}
   .day-mini:hover{border-color:#c9cdfb;box-shadow:0 6px 16px rgba(16,24,40,.10)}
@@ -879,20 +881,17 @@ function renderMonths(){
       car.append(track,scroll);
       row.append(head,car);
       ysec.appendChild(row);
-      // 横滑：滑块控制 track 的 translateX；左=月末、右=1日（降序）
-      requestAnimationFrame(()=>{
-        const step=track.querySelector(".day-mini").offsetWidth + MGAP;
-        const maxOff=Math.max(0, track.scrollWidth - track.clientWidth);
-        scroll.max=maxOff||0;
-        scroll.style.display = maxOff>0 ? "block" : "none";
-        const apply=()=>{ track.style.transform="translateX("+(-parseInt(scroll.value,10))+"px)"; };
-        scroll.addEventListener("input",apply);
-        apply();
-        window.addEventListener("resize",()=>{
-          const m=Math.max(0, track.scrollWidth - track.clientWidth);
-          scroll.max=m||0; if(parseInt(scroll.value,10)>m) scroll.value=m; apply();
-        });
-      });
+      // 横滑：滑块控制 track 的 scrollLeft（原生滚动，左=月末、右=1日，降序）
+      const sync=()=>{
+        const max=Math.max(0, track.scrollWidth - track.clientWidth);
+        scroll.max=max; scroll.step=Math.max(1, Math.round(max/100));
+        scroll.style.display = max>4 ? "block" : "none";
+        scroll.value=0; track.scrollLeft=0;
+      };
+      requestAnimationFrame(sync);
+      scroll.addEventListener("input",()=>{ track.scrollLeft=parseInt(scroll.value,10); });
+      track.addEventListener("scroll",()=>{ scroll.value=track.scrollLeft; });
+      window.addEventListener("resize",sync);
     });
     ARCHIVE.appendChild(ysec);
   });
@@ -907,13 +906,19 @@ function escapeHtml(s){return (s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&
   const W=960,L=118,R=20,T=18,B=44,rowH=30;
   const REGION={us:{label:"🇺🇸 美国公司",tint:"#f3f5ff",tag:"#4f46e5"},
                 cn:{label:"🇨🇳 中国公司",tint:"#fff5f6",tag:"#e11d48"}};
-  const headerH=24;
+  const headerH=22;
+  const compH=20;
   const rows=[];
   G.regions.forEach(reg=>{
     rows.push({type:"h",region:reg.region});
-    reg.models.forEach(m=> rows.push({type:"m",m}));
+    const byComp={};
+    reg.models.forEach(m=>{ (byComp[m.company]=byComp[m.company]||[]).push(m); });
+    Object.keys(byComp).forEach(comp=>{
+      rows.push({type:"c",company:comp,color:(byComp[comp][0]||{}).color||"#888",models:byComp[comp]});
+      byComp[comp].forEach(m=> rows.push({type:"m",m}));
+    });
   });
-  let plotH=T; rows.forEach(r=> plotH += (r.type==="h"?headerH:rowH));
+  let plotH=T; rows.forEach(r=> plotH += (r.type==="h"?headerH:(r.type==="c"?compH:rowH)));
   const H=plotH+B;
   svg.setAttribute("viewBox",`0 0 ${W} ${H}`);
   const full0=new Date(G.range[0]+"T00:00:00Z").getTime();
@@ -957,20 +962,29 @@ function escapeHtml(s){return (s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&
   function render(){
     clamp();
     let h=""; const rowY={}; let band=0; let y=T;
-    // 1) 区域带 + 模型行（每行一个模型）
+    // 1) 区域带 + 公司分组头 + 模型行（每公司下展开各自模型）
     rows.forEach(r=>{
       if(r.type==="h"){
         const reg=REGION[r.region];
         h+=`<rect x="0" y="${y.toFixed(1)}" width="${W}" height="${headerH}" fill="${reg.tint}"/>`;
         h+=`<text x="12" y="${(y+headerH/2+4).toFixed(1)}" font-size="11.5" font-weight="800" fill="${reg.tag}">${reg.label}</text>`;
         y+=headerH;
+      } else if(r.type==="c"){
+        const comp=r.company;
+        h+=`<rect x="0" y="${y.toFixed(1)}" width="${W}" height="${compH}" fill="#f6f7fb"/>`;
+        h+=`<line x1="0" y1="${(y+compH).toFixed(1)}" x2="${W}" y2="${(y+compH).toFixed(1)}" stroke="#eceef4"/>`;
+        h+=`<circle cx="13" cy="${(y+compH/2).toFixed(1)}" r="4" fill="${r.color}"/>`;
+        h+=`<text x="23" y="${(y+compH/2+4).toFixed(1)}" font-size="11.5" font-weight="800" fill="#1f2430">${escapeHtml(comp)}</text>`;
+        const tot=r.models.reduce((a,m)=>a+visibleEvents(m).length,0);
+        h+=`<text x="${L-8}" y="${(y+compH/2+4).toFixed(1)}" text-anchor="end" font-size="10.5" fill="#9aa1b1">${r.models.length} 个模型 · ${tot} 次</text>`;
+        y+=compH;
       } else {
         const m=r.m, y0=y;
         h+=`<rect x="0" y="${y0.toFixed(1)}" width="${W}" height="${rowH}" fill="${band%2?'#fafbff':'#fff'}"/>`;
         band++;
         const vis=visibleEvents(m);
-        h+=`<circle cx="14" cy="${(y0+rowH/2).toFixed(1)}" r="4.5" fill="${m.color}"/>`;
-        h+=`<text x="26" y="${(y0+rowH/2+4).toFixed(1)}" font-size="12" font-weight="700" fill="#1f2430">${escapeHtml(m.name)}</text>`;
+        h+=`<circle cx="26" cy="${(y0+rowH/2).toFixed(1)}" r="4" fill="${m.color}"/>`;
+        h+=`<text x="38" y="${(y0+rowH/2+4).toFixed(1)}" font-size="11.5" font-weight="600" fill="#3a3f4b">${escapeHtml(m.name)}</text>`;
         h+=`<text x="${L-8}" y="${(y0+rowH/2+4).toFixed(1)}" text-anchor="end" font-size="10.5" fill="#9aa1b1">${vis.length}</text>`;
         rowY[m.company+"|"+m.name]=y0;
         y+=rowH;
