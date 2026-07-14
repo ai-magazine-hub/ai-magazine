@@ -933,7 +933,7 @@ function escapeHtml(s){return (s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&
 (function(){
   const G=GANTT; if(!G.regions || !G.regions.length) return;
   const svg=document.getElementById("ganttChart");
-  const W=960,L=118,R=20,T=18,B=44,rowH=30;
+  const W=960,L=200,R=20,T=18,B=44,rowH=30;
   const REGION={us:{label:"🇺🇸 美国公司",tint:"#f3f5ff",tag:"#4f46e5"},
                 cn:{label:"🇨🇳 中国公司",tint:"#fff5f6",tag:"#e11d48"}};
   const headerH=22;
@@ -1010,7 +1010,7 @@ function escapeHtml(s){return (s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&
         h+=`<text x="23" y="${(y+compH/2+4).toFixed(1)}" font-size="11.5" font-weight="800" fill="#1f2430">${escapeHtml(comp)}</text>`;
         const tot=r.all.reduce((a,m)=>a+visibleEvents(m).length,0);
         const countText=r.models.length?`${r.models.length} 个模型 · ${tot} 次`:`${tot} 次`;
-        h+=`<text x="${L-8}" y="${(y+compH/2+4).toFixed(1)}" text-anchor="end" font-size="10.5" fill="#9aa1b1">${countText}</text>`;
+        h+=`<text x="${L-12}" y="${(y+compH/2+4).toFixed(1)}" text-anchor="end" font-size="10.5" fill="#9aa1b1">${countText}</text>`;
         y+=compH;
       } else {
         const m=r.m, y0=y;
@@ -1019,12 +1019,14 @@ function escapeHtml(s){return (s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&
         const vis=visibleEvents(m);
         h+=`<circle cx="26" cy="${(y0+rowH/2).toFixed(1)}" r="4" fill="${m.color}"/>`;
         h+=`<text x="38" y="${(y0+rowH/2+4).toFixed(1)}" font-size="11.5" font-weight="600" fill="#3a3f4b">${escapeHtml(m.name)}</text>`;
-        h+=`<text x="${L-8}" y="${(y0+rowH/2+4).toFixed(1)}" text-anchor="end" font-size="10.5" fill="#9aa1b1">${vis.length}</text>`;
+        h+=`<text x="${L-12}" y="${(y0+rowH/2+4).toFixed(1)}" text-anchor="end" font-size="10.5" fill="#9aa1b1">${vis.length}</text>`;
         rowY[m.company+"|"+m.name]=y0;
         y+=rowH;
       }
     });
     const plotBottom=y;
+    // 左侧标签栏与绘图区分隔线
+    h+=`<line x1="${L.toFixed(1)}" y1="${T}" x2="${L.toFixed(1)}" y2="${plotBottom.toFixed(1)}" stroke="#e4e7ef" stroke-width="1"/>`;
     // 2) 月网格
     ticks().forEach(ms=>{ const x=xAt(ms);
       if(x<L-0.5||x>W-R+0.5) return;
