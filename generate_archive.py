@@ -774,6 +774,15 @@ INDEX_TPL = r"""<!DOCTYPE html>
   .idx-head{margin:26px 0 2px}
   .idx-head h2{margin:0;font-size:22px;font-weight:800}
   .idx-head .trend-sub{margin:6px 0 0;font-size:12.5px}
+  /* 年份索引按钮栏（吸顶） */
+  .year-tabs{position:sticky;top:0;z-index:6;display:flex;flex-wrap:wrap;gap:8px;align-items:center;
+    margin:14px 0 6px;padding:10px 12px;background:rgba(255,255,255,.92);backdrop-filter:blur(6px);
+    border:1px solid var(--line);border-radius:12px}
+  .year-tabs .yt-label{font-size:12.5px;color:var(--muted);font-weight:600;margin-right:2px}
+  .year-tabs .yt-btn{font-size:13px;font-weight:700;color:#4b5163;background:#f1f3f9;border:1px solid transparent;
+    border-radius:999px;padding:5px 14px;cursor:pointer;transition:all .15s}
+  .year-tabs .yt-btn:hover{background:#e7eafb;color:#3730a3}
+  .year-tabs .yt-btn.active{background:#4f46e5;color:#fff;border-color:#4f46e5}
   /* 每月一行：左侧月份，右侧横滑卡片窗口 + 下方拖动条 */
   .month-row{display:flex;align-items:stretch;gap:18px;padding:18px 0;border-bottom:1px solid var(--line)}
   .month-head{flex:0 0 88px;display:flex;flex-direction:column;justify-content:center;gap:6px}
@@ -832,6 +841,7 @@ INDEX_TPL = r"""<!DOCTYPE html>
       <h2>📚 日报归档（按年 / 月）</h2>
       <p class="trend-sub">每月一行，拖动滑块在当月各日期间快速跳转（左=当月最后一日，右=1日，降序）；松手或点「打开 ↗」进入当日完整日报。</p>
     </div>
+    <div id="yearTabs" class="year-tabs"><span class="yt-label">年份：</span></div>
     <div id="archive"></div>
   </main>
   <footer>
@@ -849,7 +859,7 @@ const ARCHIVE=document.getElementById("archive");
 const MGAP=12; // 与 CSS .month-track gap 一致
 function renderMonths(){
   GROUPS.forEach(g=>{
-    const ysec=document.createElement("section"); ysec.className="year";
+    const ysec=document.createElement("section"); ysec.className="year"; ysec.dataset.year=g.year;
     const yh=document.createElement("h2"); yh.className="year-h"; yh.textContent=g.year+" 年"; ysec.appendChild(yh);
     g.months.forEach(mo=>{
       const days=mo.days; if(!days.length) return;
@@ -891,6 +901,32 @@ function renderMonths(){
   });
 }
 renderMonths();
+// ---- 年份索引按钮：按数据实际存在的年份动态生成（如 2025/2027 有数据则自动出现） ----
+function buildYearTabs(){
+  const tabs=document.getElementById("yearTabs");
+  if(!tabs || !GROUPS.length) return;
+  const years=GROUPS.map(g=>g.year);
+  const onPick=(y)=>{
+    tabs.querySelectorAll(".yt-btn").forEach(x=>x.classList.remove("active"));
+    let first=null;
+    document.querySelectorAll("#archive .year").forEach(sec=>{
+      const show=(y===""||sec.dataset.year===y);
+      sec.style.display=show?"":"none";
+      if(show && !first) first=sec;
+    });
+    const btn=[...tabs.querySelectorAll(".yt-btn")].find(b=>(b.dataset.year||"")===y);
+    if(btn) btn.classList.add("active");
+    if(first) first.scrollIntoView({behavior:"smooth",block:"start"});
+  };
+  const make=(label,y,active)=>{
+    const b=document.createElement("button"); b.className="yt-btn"+(active?" active":"");
+    b.textContent=label; b.dataset.year=y;
+    b.addEventListener("click",()=>onPick(y)); return b;
+  };
+  tabs.appendChild(make("全部","",true));
+  years.forEach(y=> tabs.appendChild(make(y+" 年",String(y),false)));
+}
+buildYearTabs();
 function escapeHtml(s){return (s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
 
 // ---------- 主要 AI 公司 模型/产品 更新时间线（甘特式 + 缩放/拖动，纯 SVG） ----------
