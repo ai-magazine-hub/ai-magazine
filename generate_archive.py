@@ -270,16 +270,15 @@ def ratio_en(s):
     nonsp = len([c for c in s if not c.isspace()])
     return (len(letters) / nonsp) if nonsp else 0
 
-_G_BASE = "https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=zh-CN&dt=t&q="
+_G_URL = "https://translate.googleapis.com/translate_a/single"
 
 def _gtrans_one(text):
-    """调用免费 Google 翻译端点翻译一段文本；失败回退原文。自动保留品牌/模型名（如 GPT-5、OpenAI）。"""
-    q = urllib.parse.quote(text)
-    url = _G_BASE + q
+    """调用免费 Google 翻译端点翻译一段文本；失败回退原文。自动保留品牌/模型名（如 GPT-5、OpenAI）。使用 POST 避免长文本 URL 超限。"""
+    body = urllib.parse.urlencode({"client": "gtx", "sl": "auto", "tl": "zh-CN", "dt": "t", "q": text}).encode()
     for attempt in range(3):
         try:
-            req = urllib.request.Request(url, headers={"User-Agent": UA, "Accept": "application/json"})
-            with urllib.request.urlopen(req, timeout=20) as r:
+            req = urllib.request.Request(_G_URL, data=body, headers={"User-Agent": UA, "Content-Type": "application/x-www-form-urlencoded"})
+            with urllib.request.urlopen(req, timeout=25) as r:
                 data = json.loads(r.read().decode("utf-8"))
             return "".join(seg[0] for seg in data[0] if seg and seg[0])
         except Exception:
@@ -329,9 +328,12 @@ def _translate_item(it):
         it["zh"] = True
         return
     new = translate_en_zh(c)
-    if new:
+    # 仅当确实翻出中文才标记完成；否则保留未完成，便于后续重试（避免假完成）
+    if new and ratio_en(new) <= 0.45:
         it["content"] = new
-    it["zh"] = True
+        it["zh"] = True
+    else:
+        it["zh"] = False
 
 def translate_archive(arch, workers=8):
     """将英文为主的全文翻译为中文（保留专有名词）。已翻译(it['zh'])或纯中文跳过。增量落盘、可续传。"""
@@ -509,7 +511,7 @@ if not RENDER_ONLY and not NO_BACKFILL:
 
 # ---------- 3.6 英文全文→中文翻译（保留专有名词；断点续传） ----------
 if not RENDER_ONLY and not NO_TRANSLATE:
-    translate_archive(arch)
+    translate_archive(arch, workers=14)
 
 # ---------- 4. 渲染每份日报（仅写缺失/新文件，不重写旧档） ----------
 DAY_TPL = r"""<!DOCTYPE html>
