@@ -138,6 +138,59 @@ FAMILY = {
     "星火": "星火",
 }
 
+# ── 模型评分（LMArena 文本榜 Arena Elo，2026-07 公开快照）──────────────────────
+# 用于甘特图「按模型评分降序」排序与每行右侧评分条展示。
+# 数值取自 LMArena（原 LMSYS Chatbot Arena）公开 Arena Elo 排行榜 2026 年 7 月快照，
+# 代表该模型系列当前最强公开版本的盲测偏好分（100 Elo ≈ 头部对战胜率差约 64%）。
+# 仅收录「有公开可比文本 Arena 分数」的模型；视频/图像/语音类或未公开独立评分的
+# 产品类（如 Copilot、豆包、混元、即梦、Seedance、Coze、Nova、Titan、Apple、百川、MiniMax、星火）
+# 记为 None，时间线中显示「—」，并统一排在各公司评分模型之后。
+RATINGS = {
+    # OpenAI
+    "GPT": 1508,            # GPT-5.6 / GPT-5.5 Pro 区间
+    "OpenAI o 系列": 1370,  # o3 / o4 推理系列
+    "Sora": None,           # 视频生成，无文本 Arena 分
+    "DALL·E": None,         # 图像生成
+    # Anthropic
+    "Claude": 1508,         # Claude Opus 4.8 / Fable 5 区间
+    # Google
+    "Gemini": 1486,         # Gemini 3.1 / 3.2 Pro
+    "Gemma": 1240,          # 开源轻量
+    "Veo": None,            # 视频
+    # Meta
+    "Llama": 1370,          # Llama 4.5 Maverick
+    # xAI
+    "Grok": 1476,           # Grok 4.20
+    # DeepSeek
+    "DeepSeek 系列": 1450,  # DeepSeek V4.5 / V4.1 Pro
+    # Microsoft
+    "Copilot": None,        # 基于 OpenAI，无独立公开分数
+    # 百度
+    "文心 ERNIE": 1475,     # ERNIE-5.1
+    # 阿里
+    "通义千问 Qwen": 1486,  # Qwen3.7-Max
+    # 腾讯
+    "混元": None,
+    # 字节
+    "豆包": None, "即梦": None, "Seedance": None, "Coze 扣子": None,
+    # 智谱
+    "智谱 GLM": 1470,       # GLM-5.2
+    # 月之暗面
+    "Kimi": 1466,           # Kimi K2.6
+    # Mistral（欧洲）
+    "Mistral 系列": 1352,   # Mistral Large 3
+    # Amazon
+    "Nova": None, "Titan": None,
+    # Apple
+    "Apple 基础模型": None,
+    # 百川
+    "Baichuan": None,
+    # MiniMax
+    "MiniMax 系列": None,
+    # 讯飞星火
+    "星火": None,
+}
+
 # ── 历史里程碑（2020–2026 模型发布 / 重大产品版本更新）───────────────────────
 # 经网络核实的主要 AI 模型与产品发布时间线；仅收录「模型发布」与「产品版本更新」，
 # 不收录融资 / 合作 / 研究论文 / 榜单等非发布类事件。
@@ -988,7 +1041,7 @@ INDEX_TPL = r"""<!DOCTYPE html>
   <section class="gantt wrap">
     <div class="trend-head">
       <h2>🗓️ 主要 AI 公司 模型 / 产品 更新时间线</h2>
-      <p class="trend-sub">上方为🇺🇸美国公司、下方为🇨🇳中国公司；<b>每个模型单独一行</b>（如某公司有 2 个模型则分行），横向为日期。🔵蓝=模型发布，🟢绿=产品更新，🔴红=重大模型更新（如 Seedance 2.0 文生视频、GPT-5、Gemini 2.0 等）。产品默认仅显示重大发布（点版本号、常规功能增量、指南类已自动隐藏，可关闭「⚡仅重要」看全部）。每行右侧数字为该模型事件数；滚轮缩放、拖动平移、悬停看详情、点击跳转当日日报 · 事件日期取自日报报道日</p>
+      <p class="trend-sub">上方为🇺🇸美国公司、下方为🇨🇳中国公司；<b>每个模型单独一行</b>（如某公司有 2 个模型则分行），横向为日期。🔵蓝=模型发布，🟢绿=产品更新，🔴红=重大模型更新（如 Seedance 2.0 文生视频、GPT-5、Gemini 2.0 等）。产品默认仅显示重大发布（点版本号、常规功能增量、指南类已自动隐藏，可关闭「⚡仅重要」看全部）。每行左侧数字为该模型事件数；<b>模型行按 LMArena 评分降序排列</b>，每行最右为「评分条 + 该系列最强公开版本的 Arena Elo 分」，无公开可比分数者显示「—」（如视频/图像/未公开独立评分的产品）；滚轮缩放、拖动平移、悬停看详情、点击跳转当日日报 · 事件日期取自日报报道日</p>
     </div>
     <div class="gantt-ctrl">
       <button class="gbtn active" data-kind="model">🔵 模型发布</button>
@@ -1105,7 +1158,7 @@ function escapeHtml(s){return (s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&
 (function(){
   const G=GANTT; if(!G.regions || !G.regions.length) return;
   const svg=document.getElementById("ganttChart");
-  const W=960,L=200,R=20,T=18,B=44,rowH=30;
+  const W=960,L=200,R=78,T=18,B=44,rowH=30;   // R 加宽至 78：右侧预留「评分栏」
   const REGION={us:{label:"🇺🇸 美国公司",tint:"#f3f5ff",tag:"#4f46e5"},
                 eu:{label:"🌍 欧洲公司",tint:"#f0fff4",tag:"#059669"},
                 cn:{label:"🇨🇳 中国公司",tint:"#fff5f6",tag:"#e11d48"}};
@@ -1116,12 +1169,13 @@ function escapeHtml(s){return (s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&
     rows.push({type:"h",region:reg.region});
     const byComp={};
     reg.models.forEach(m=>{ (byComp[m.company]=byComp[m.company]||[]).push(m); });
-    Object.keys(byComp).forEach(comp=>{
-      const all=byComp[comp];
-      // 所有行均为「具体模型族」，无“其他”兜底；直接全部展示
-      const vis=all;
-      rows.push({type:"c",company:comp,color:(all[0]||{}).color||"#888",all:all,models:vis});
-      vis.forEach(m=> rows.push({type:"m",m}));
+    // 公司按「最强模型评分」降序；同公司内模型按评分降序（无评分者置底）→ 实现「模型评分降序」呈现
+    const compNames=Object.keys(byComp).sort((a,b)=> bestRating(byComp[b]) - bestRating(byComp[a]));
+    compNames.forEach(comp=>{
+      const all=byComp[comp].slice().sort((x,y)=>
+        ((y.rating==null?-1:y.rating) - (x.rating==null?-1:x.rating)) || x.name.localeCompare(y.name));
+      rows.push({type:"c",company:comp,color:(all[0]||{}).color||"#888",all:all,models:all});
+      all.forEach(m=> rows.push({type:"m",m}));
     });
   });
   let plotH=T; rows.forEach(r=> plotH += (r.type==="h"?headerH:(r.type==="c"?compH:rowH)));
@@ -1153,6 +1207,8 @@ function escapeHtml(s){return (s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&
   let majorOnly=true;       // true=仅重要（过滤次要的模型微调 / 产品小更新）
   const tip=document.getElementById("ganttTip");
   const rangeLabel=document.getElementById("ganttRange");
+  const RATE_MIN=1250, RATE_MAX=1530;   // 评分条色阶范围（LMArena Elo）
+  function bestRating(arr){ let r=-1; arr.forEach(m=>{ if(m.rating!=null && m.rating>r) r=m.rating; }); return r; }
 
   function visibleEvents(c){
     return c.events.filter(e=> show[e.kind] && !(majorOnly && e.minor));
@@ -1197,6 +1253,17 @@ function escapeHtml(s){return (s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&
         h+=`<circle cx="26" cy="${(y0+rowH/2).toFixed(1)}" r="4" fill="${m.color}"/>`;
         h+=`<text x="38" y="${(y0+rowH/2+4).toFixed(1)}" font-size="11.5" font-weight="600" fill="#3a3f4b">${escapeHtml(m.name)}</text>`;
         h+=`<text x="${L-12}" y="${(y0+rowH/2+4).toFixed(1)}" text-anchor="end" font-size="10.5" fill="#9aa1b1">${vis.length}</text>`;
+        // 右侧评分栏：色条 + 分数（无公开可比分数显示「—」）
+        if(m.rating!=null){
+          const rv=m.rating;
+          const frac=Math.max(0,Math.min(1,(rv-RATE_MIN)/(RATE_MAX-RATE_MIN)));
+          const bx=W-R+6, bw=R-40, fy=(y0+rowH/2-3).toFixed(1);
+          h+=`<rect x="${bx}" y="${fy}" width="${bw}" height="6" rx="3" fill="#eef0f6"/>`;
+          h+=`<rect x="${bx}" y="${fy}" width="${(bw*frac).toFixed(1)}" height="6" rx="3" fill="${m.color}"/>`;
+          h+=`<text x="${(W-4)}" y="${(y0+rowH/2+4).toFixed(1)}" text-anchor="end" font-size="10.5" font-weight="700" fill="#3a3f4b">${rv}</text>`;
+        } else {
+          h+=`<text x="${(W-4)}" y="${(y0+rowH/2+4).toFixed(1)}" text-anchor="end" font-size="10" fill="#b7bcc8">—</text>`;
+        }
         rowY[m.company+"|"+m.name]=y0;
         y+=rowH;
       }
@@ -1206,6 +1273,7 @@ function escapeHtml(s){return (s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&
     h+=`<line x1="${L.toFixed(1)}" y1="${T}" x2="${L.toFixed(1)}" y2="${plotBottom.toFixed(1)}" stroke="#e4e7ef" stroke-width="1"/>`;
     // 2) 时间轴：每年等宽列 + 顶部年份标签（置于白色带，竖线从绘图区顶部向下，避免数字被线割裂）
     h+=`<rect x="${L}" y="0" width="${W-L-R}" height="${T}" fill="#ffffff"/>`;
+    h+=`<text x="${(W-4)}" y="${(T-4).toFixed(1)}" text-anchor="end" font-size="9.5" font-weight="800" fill="#9aa1b1">LMArena Elo ↓</text>`;
     yearTicks().forEach(y=>{
       const xb = L + (y - viewMinYear)/viewSpan*plotW;   // 该年列左边界
       if(xb<L-1 || xb>W-R+1) return;
@@ -1398,7 +1466,8 @@ def compute_gantt(arch, top_n=GANTT_TOP_N):
                 g = groups.get(key)
                 if not g:
                     g = {"company": comp, "name": family, "color": ccolor,
-                         "region": cregion, "events": []}
+                         "region": cregion, "events": [],
+                         "rating": RATINGS.get(family)}
                     groups[key] = g
                 g["events"].append({
                     "date": d,
@@ -1422,7 +1491,8 @@ def compute_gantt(arch, top_n=GANTT_TOP_N):
         g = groups.get(key)
         if not g:
             g = {"company": comp, "name": fam, "color": ccolor,
-                 "region": cregion, "events": []}
+                 "region": cregion, "events": [],
+                 "rating": RATINGS.get(fam)}
             groups[key] = g
         g["events"].append({
             "date": mst["d"], "kind": mst["k"], "title": mst["t"],
