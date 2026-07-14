@@ -302,6 +302,17 @@ MILESTONES = [
     {"d":"2024-05-21","c":"Microsoft","m":"Copilot","k":"product","t":"Copilot+ PC / Copilot Studio 发布","major":False,"src":"Microsoft"},
 ]
 GANTT_TOP_N = 12  # 时间线甘特图展示事件数最多的 N 家公司
+
+# 甘特时间线「年份分组」：用于合并稀疏年份、压缩空年份。
+# 2021 不单列；2020/2021/2022 合并为「2020–2022」；其余年份独立成列。
+# 每个元素：(显示标签, 起始年, 结束年)。2021 计入该区间但不单独出现。
+GANTT_YEAR_BANDS = [
+    ("2020–2022", 2020, 2022),
+    ("2023", 2023, 2023),
+    ("2024", 2024, 2024),
+    ("2025", 2025, 2025),
+    ("2026", 2026, 2026),
+]
 # 甘特时间线中「产品更新」的「仅重要」过滤（激进版，仅作用于时间线；每日日报仍保留全部）。
 # 判定为「次要/不展示」：① 指南/教程/观点类(_GUIDE_KW)
 #   ② 点版本号 vX.Y.Z（如 Claude Code v2.1.207 这类频繁点发布）
@@ -1078,6 +1089,7 @@ INDEX_TPL = r"""<!DOCTYPE html>
 const DAYS = __DAYS__;
 const GROUPS = __GROUPS__;
 const GANTT = __GANTT__;
+const GANTT_BANDS = __GANTT_BANDS__;   // [[label,y0,y1], ...] 年份分组（含合并规则）
 // ---- 按 年→月 分组：每月一行 = 左月份 + 右横滑卡片窗口（3-4 张可见）+ 下方拖动条 ----
 // 卡片按日期降序排列：左=月末，右=1日；拖动下方滑块从月末向 1 日翻动
 const ARCHIVE=document.getElementById("archive");
@@ -1188,28 +1200,38 @@ function escapeHtml(s){return (s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&
   const minYear=new Date(full0).getUTCFullYear();
   const maxYear=new Date(full1).getUTCFullYear();
   const numYears=Math.max(1,maxYear-minYear+1);
-  // 时间轴采用「内容加权列宽」：每个年份占用的像素宽度 ∝ 该年事件数 + 基准权重，
-  // 稀疏年份（如 2020/2022 仅 1 次）被压缩成细条，密集年份（如 2026 有数百次）获得更多空间。
-  const RATE_BASE=12;  // 每年最小内容权重，保证空/稀疏年仍有可见细条与年份标签
+  // 时间轴采用「内容加权列宽」：每个年份分组占用的像素宽度 ∝ 组内事件数 + 基准权重，
+  // 稀疏分组（如 2020–2022 仅 2 次）被压缩成细条，密集分组（如 2026 有数百次）获得更多空间。
+  // 年份分组由 GANTT_BANDS 指定：2021 不单列；2020/2021/2022 合并为「2020–2022」。
+  const RATE_BASE=12;  // 每个分组最小内容权重，保证稀疏分组仍有可见细条与标签
   const yearCounts={};
   G.regions.forEach(reg=> reg.models.forEach(m=> m.events.forEach(e=>{
     const y=e.date.slice(0,4); yearCounts[y]=(yearCounts[y]||0)+1;
   })));
-  const YEARS=[]; for(let y=minYear;y<=maxYear;y++) YEARS.push(y);
-  const W_Y={}; let totalUnits=0; const cumBefore={};
-  YEARS.forEach(y=>{ cumBefore[y]=totalUnits; const w=(yearCounts[y]||0)+RATE_BASE; W_Y[y]=w; totalUnits+=w; });
+  // 构建实际生效的分组：仅保留与数据范围 [minYear,maxYear] 有交集的分组，并裁剪到数据范围
+  const BANDS=GANTT_BANDS
+    .filter(b=> b[1]<=maxYear && b[2]>=minYear)
+    .map(b=>{ const y0=Math.max(b[1],minYear), y1=Math.min(b[2],maxYear); return {label:b[0], y0, y1}; })
+    .sort((a,b)=>a.y0-b.y0);
+  const bandUnits={}; let totalUnits=0; const cumBeforeB={};
+  BANDS.forEach(b=>{
+    cumBeforeB[b.label]=totalUnits;
+    let cnt=0; for(let y=b.y0;y<=b.y1;y++) cnt += (yearCounts[String(y)]||0);
+    const w=cnt+RATE_BASE; bandUnits[b.label]=w; totalUnits+=w;
+  });
   // 视图：viewStart=内容空间起点(单位)，viewUnits=可见内容跨度(单位)
   let viewStart=0, viewUnits=totalUnits;
   const minView=Math.max(2, totalUnits/12);
-  function yearFrac(ms){const dt=new Date(ms);const y=dt.getUTCFullYear();
-    const ys=Date.UTC(y,0,1), ye=Date.UTC(y+1,0,1); return (ms-ys)/(ye-ys);}
-  function posOf(ms){ const dt=new Date(ms); const y=dt.getUTCFullYear();
-    return cumBefore[y] + yearFrac(ms)*W_Y[y]; }            // 事件 → 内容空间坐标
+  function bandOf(y){ for(const b of BANDS){ if(y>=b.y0 && y<=b.y1) return b; } return BANDS[0]; }
+  // 事件 → 内容空间坐标：落在其所在分组的 [组起点, 组终点) 区间内按比例定位
+  function posOf(ms){ const dt=new Date(ms); const y=dt.getUTCFullYear(); const b=bandOf(y);
+    const bs=Date.UTC(b.y0,0,1), be=Date.UTC(b.y1+1,0,1);
+    const frac=(ms-bs)/(be-bs); return cumBeforeB[b.label] + frac*bandUnits[b.label]; }
   function xOfUnits(u){ return L + (u-viewStart)/viewUnits*plotW; }
   function xAt(ms){ return xOfUnits(posOf(ms)); }
   const xAtDate=s=> xAt(new Date(s+"T00:00:00Z").getTime());
-  function yearAtUnits(u){ u=Math.max(0,Math.min(totalUnits,u));
-    for(let i=YEARS.length-1;i>=0;i--){ if(u>=cumBefore[YEARS[i]]) return YEARS[i]; } return YEARS[0]; }
+  function bandLabelAtUnits(u){ u=Math.max(0,Math.min(totalUnits,u));
+    for(let i=BANDS.length-1;i>=0;i--){ if(u>=cumBeforeB[BANDS[i].label]) return BANDS[i].label; } return BANDS[0].label; }
   const kindColor={model:"#4f46e5",product:"#059669"};
   const MAJOR="#ef4444";                       // 重大模型更新 红
   const kindText={model:"模型发布",product:"产品更新"};
@@ -1285,15 +1307,15 @@ function escapeHtml(s){return (s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&
     // 2) 时间轴：内容加权列宽（稀疏年细、密集年宽）+ 顶部年份标签
     h+=`<rect x="${L}" y="0" width="${W-L-R}" height="${T}" fill="#ffffff"/>`;
     h+=`<text x="${(W-4)}" y="${(T-4).toFixed(1)}" text-anchor="end" font-size="9.5" font-weight="800" fill="#9aa1b1">LMArena Elo ↓</text>`;
-    YEARS.forEach(y=>{
-      const x0=xOfUnits(cumBefore[y]);            // 该年列左边界
-      const x1=xOfUnits(cumBefore[y]+W_Y[y]);     // 右边界
-      if(x1<L-1 || x0>W-R+1) return;              // 完全在视野外
+    BANDS.forEach(b=>{
+      const x0=xOfUnits(cumBeforeB[b.label]);            // 该分组列左边界
+      const x1=xOfUnits(cumBeforeB[b.label]+bandUnits[b.label]); // 右边界
+      if(x1<L-1 || x0>W-R+1) return;                      // 完全在视野外
       if(x0>=L-1) h+=`<line x1="${x0.toFixed(1)}" y1="${T}" x2="${x0.toFixed(1)}" y2="${plotBottom.toFixed(1)}" stroke="#e3e6ee"/>`;
       const wpx=x1-x0;
-      if(wpx>14){                                  // 列足够宽才显示年份数字，避免拥挤
+      if(wpx>14){                                  // 列足够宽才显示标签，避免拥挤
         const xc=(x0+x1)/2;
-        h+=`<text x="${xc.toFixed(1)}" y="${(T-4).toFixed(1)}" text-anchor="middle" font-size="11" font-weight="800" fill="#6b7280">${y}</text>`;
+        h+=`<text x="${xc.toFixed(1)}" y="${(T-4).toFixed(1)}" text-anchor="middle" font-size="11" font-weight="800" fill="#6b7280">${b.label}</text>`;
       }
     });
     // 月份细线：仅在放大到足够窄（≤约半个内容跨度，≈3 年）时显示，避免拥挤
@@ -1336,7 +1358,7 @@ function escapeHtml(s){return (s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&
       });
     });
     svg.innerHTML=h;
-    if(rangeLabel) rangeLabel.textContent=`可见 ${yearAtUnits(viewStart)}–${yearAtUnits(viewStart+viewUnits)} · 约 ${(viewUnits/totalUnits*numYears).toFixed(1)} 年（按内容量分配列宽）`;
+    if(rangeLabel) rangeLabel.textContent=`可见 ${bandLabelAtUnits(viewStart)} – ${bandLabelAtUnits(viewStart+viewUnits)} · 约 ${(viewUnits/totalUnits*numYears).toFixed(1)} 年（按内容量分配列宽）`;
     svg.querySelectorAll(".gev").forEach(g=>{
       const j=JSON.parse(g.getAttribute("data-j"));
       g.addEventListener("mouseenter",()=>{
@@ -1565,6 +1587,7 @@ def render_index(days):
         .replace("__DAYS__", json.dumps(idx_days, ensure_ascii=False).replace("<","\\u003c").replace(">","\\u003e"))
         .replace("__GROUPS__", json.dumps(groups, ensure_ascii=False).replace("<","\\u003c").replace(">","\\u003e"))
         .replace("__GANTT__", json.dumps(gantt, ensure_ascii=False).replace("<","\\u003c").replace(">","\\u003e"))
+        .replace("__GANTT_BANDS__", json.dumps(GANTT_YEAR_BANDS, ensure_ascii=False))
         .replace("__RANGE__", f"{oldest} – {newest}")
         .replace("__NDAYS__", str(len(days)))
         .replace("__SOURCE__", "AI HOT")
