@@ -143,8 +143,8 @@ _UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
        "(KHTML, like Gecko) Chrome/124.0 Safari/537.36")
 
 def fetch_content(url, cap=15000):
-    """抓取原文并抽取正文；正文中的图片下载到本地 assets/img/ 并替换为本地路径（限前 IMG_CAP 张）。
-    返回含 ![alt](本地路径) 的 Markdown 正文；失败返回空串。"""
+    """抓取原文并抽取正文（纯文本归档：不下载/不内嵌图片）。
+    返回纯文本 Markdown 正文；失败返回空串。"""
     if not url:
         return ""
     try:
@@ -154,7 +154,7 @@ def fetch_content(url, cap=15000):
             raw = r.read(5_000_000)  # 上限 5MB，防超大页卡死
             html = raw.decode("utf-8", "ignore")
         import trafilatura
-        res = trafilatura.extract(html, output_format="json", include_images=True, url=url)
+        res = trafilatura.extract(html, output_format="json", include_images=False, url=url)
         text = ""
         if res:
             d = json.loads(res)
@@ -166,16 +166,6 @@ def fetch_content(url, cap=15000):
             text = re.sub(r"\s+", " ", text).strip()
         if not text:
             return ""
-        # 本地化图片：下载前 IMG_CAP 张，替换成本地相对路径
-        imgs = re.findall(r'!\[[^\]]*\]\(([^)]+)\)', text)
-        kept = 0
-        for im in imgs:
-            if kept >= IMG_CAP:
-                break
-            local = _save_img(im, url)
-            if local:
-                text = text.replace(f"]({im})", f"]({local})", 1)
-                kept += 1
         return text.strip()[:cap]
     except Exception:
         return ""
@@ -223,13 +213,14 @@ def _save_img(src, page_url):
         return None
 
 def backfill_content(arch, workers=8):
-    """并发回填缺失/未本地化图片的全文；写入 content（含本地图片路径）。
+    """并发回填缺失全文（纯文本归档，不下载图片）；写入 content。
     具备：单任务超时（避免个别慢站拖垮整体）、每 100 条增量落盘（可断点续传）、不阻塞退出。"""
     todos = []
     for d, rec in arch.items():
         for s in rec.get("sections", []):
             for it in s.get("items", []):
-                if it.get("url") and "assets/img/" not in (it.get("content") or ""):
+                # 仅回填正文缺失或过短的条目，避免对已镜像内容重复抓取
+                if it.get("url") and len((it.get("content") or "").strip()) < 80:
                     todos.append(it)
     if not todos:
         print("[3.5] 全文缓存已齐，无需回填")
@@ -258,8 +249,8 @@ def backfill_content(arch, workers=8):
         print(f"    ! 回填异常({e})，进度已落盘")
     save_archive(arch)
     ex.shutdown(wait=False)
-    ok = sum(1 for it in todos if "assets/img/" in (it.get("content") or ""))
-    print(f"     完成：已本地化图片 {ok}/{len(todos)}")
+    ok = sum(1 for it in todos if len((it.get("content") or "").strip()) >= 80)
+    print(f"     完成：已回填正文 {ok}/{len(todos)}")
     return ok
 
 # ---------- 翻译：英文全文 → 中文（保留公司/模型名等英文专有名词） ----------
@@ -598,7 +589,7 @@ DAY_TPL = r"""<!DOCTYPE html>
   .reader-x:hover{background:rgba(255,255,255,.34)}
   .reader-body{padding:20px 24px;overflow:auto;color:#2a2f3a;font-size:15.5px;line-height:1.85}
   .reader-body p{margin:0 0 14px}
-  .reader-body img.r-img{max-width:100%;height:auto;border-radius:10px;margin:14px 0;display:block;box-shadow:0 1px 4px rgba(16,24,40,.08)}
+  .reader-body .r-img-cap{display:inline-block;margin:6px 0;padding:4px 10px;border-radius:8px;background:#f1f3f9;color:#8a93a6;font-size:13px;font-style:italic;border:1px dashed #d7dce8}
   .reader-body .r-empty{color:#6b7280;font-style:italic}
   .reader-foot{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;
     padding:14px 24px 18px;border-top:1px solid var(--line);background:#fafbff}
@@ -682,7 +673,7 @@ sections.forEach((s,i)=>{
 });
 function escapeHtml(s){return (s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
 function escapeAttr(s){return escapeHtml(s);}
-// 渲染正文：将 ![alt](src) 转为内联图片，其余文本按段落转义（防 XSS）
+// 渲染正文（纯文本归档）：图片不加载远程资源，仅以文字占位符呈现；其余文本按段落转义（防 XSS）
 var _IMG_RE=/!\[([^\]]*)\]\(([^)\s]+)\)/g;
 function renderRich(text){
   return (text||"").split(/\n{1,}/).map(function(p){
@@ -690,7 +681,8 @@ function renderRich(text){
     var out=''; var last=0; var m; _IMG_RE.lastIndex=0;
     while((m=_IMG_RE.exec(p))!==null){
       out+=escapeHtml(p.slice(last,m.index));
-      out+='<img class="r-img" src="'+escapeAttr(m[2])+'" alt="'+escapeAttr(m[1])+'" loading="lazy">';
+      var cap=(m[1]||'').trim()||'图片';
+      out+='<span class="r-img-cap">🖼 '+escapeHtml(cap)+'</span>';
       last=_IMG_RE.lastIndex;
     }
     out+=escapeHtml(p.slice(last));
