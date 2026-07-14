@@ -1037,7 +1037,6 @@ INDEX_TPL = r"""<!DOCTYPE html>
   .gbtn:hover{border-color:#c9cdfb}
   .gbtn.active{color:#fff}
   .gbtn[data-kind=model].active{background:#4f46e5;border-color:#4f46e5}
-  .gbtn[data-kind=product].active{background:#059669;border-color:#059669}
   .gbtn[data-mode].active{background:#4f46e5;border-color:#4f46e5}
   .gbtn#ganttMajor.active{background:#d97706;border-color:#d97706}
   .gsep{width:1px;background:var(--line);margin:3px 4px}
@@ -1092,13 +1091,12 @@ INDEX_TPL = r"""<!DOCTYPE html>
   </div></header>
   <section class="gantt wrap">
     <div class="trend-head">
-      <h2>🗓️ 主要 AI 公司 模型 / 产品 更新时间线</h2>
-      <p class="trend-sub">上方为🇺🇸美国公司、中间为🇨🇳中国公司、底部为🇫🇷法国公司；<b>每个模型单独一行</b>（如某公司有 2 个模型则分行），横向为日期。🔵蓝=模型发布，🟢绿=产品更新，🔴红=重大模型更新（如 Seedance 2.0 文生视频、GPT-5、Gemini 2.0 等）。产品默认仅显示重大发布（点版本号、常规功能增量、指南类已自动隐藏，可关闭「⚡仅重要」看全部）。每行左侧数字为该模型事件数；<b>模型行按 LMArena 评分降序排列</b>，每行最右为「评分条 + 该系列最强公开版本的 Arena Elo 分」，无公开可比分数者显示「—」（如视频/图像/未公开独立评分的产品）；滚轮缩放、拖动平移、悬停看详情 · 事件日期为经网络核实的官方发布日（2020 起）</p>
+      <h2>🗓️ 主要 AI 公司 模型发布 / 版本更新 时间线</h2>
+      <p class="trend-sub">上方为🇺🇸美国公司、中间为🇨🇳中国公司、底部为🇫🇷法国公司；<b>纯模型视角</b>——仅收录「模型发布 / 版本更新」，不含产品 App、技术报告、模型登陆平台等非发布类事件。<b>每个模型单独一行</b>（如某公司有 2 个模型则分行），横向为日期。🔵蓝=模型发布，🔴红=重大模型更新（如 GPT-5、Gemini 3、Llama 5 等）。每行左侧数字为该模型事件数；<b>模型行按 LMArena 评分降序排列</b>，每行最右为「评分条 + 该系列最强公开版本的 Arena Elo 分」，无公开可比分数者显示「—」（如视频/图像/未公开独立评分的模型）；滚轮缩放、拖动平移、悬停看详情。历史基线（2020–2024）来自经网络核实的发布日，2025 起自动同步 AI HOT 每日日报「模型发布/更新」版块，新模型发布即自动入图。</p>
     </div>
     <div class="gantt-ctrl">
       <button class="gbtn active" data-kind="model">🔵 模型发布</button>
-      <button class="gbtn active" data-kind="product">🟢 产品更新</button>
-      <button class="gbtn active" id="ganttMajor">⚡ 仅重要（模型+产品）</button>
+      <button class="gbtn active" id="ganttMajor">⚡ 仅重要（过滤次要微调）</button>
       <span class="gsep"></span>
       <span style="align-self:center;font-size:12.5px;color:var(--muted)">标记：</span>
       <button class="gbtn active" data-mode="block">▮ 方块</button>
@@ -1525,37 +1523,104 @@ def render_day(day):
 _GANT_SKIP_KW = ["融资", "收购", "并购", "财报", "上市", "诉讼", "监管", "处罚",
                  "招聘", "离职", "人事变动", "获奖", "榜单", "排名", "论坛", "大会", "协会"]
 
+# 「纯模型发布 / 版本更新」严格判定：daily-feed 自动抽取时只接纳真正的模型发布，
+# 排除「模型登陆/上架某平台」「发布技术报告/论文」「合作/评测」等非发布类头条。
+# 仅在 AI HOT 日报「模型发布/更新」版块内使用，进一步收紧以杜绝污染。
+_MODEL_RELEASE_ACT = ["发布", "推出", "开源", "上线", "首发", "正式可用", "ga", "release"]
+_MODEL_RELEASE_HARD = [
+    "登录", "登陆", "上架", "接入", "落地", "技术报告", "研究报告", "论文",
+    "白皮书", "合作", "联合", "评测", "基准", "benchmark", "榜单", "排名",
+    "融资", "收购", "获奖", "大会", "论坛", "开源周", "直播", "教程",
+]
+_MODEL_VERSION_RE = re.compile(r"(?:v|V)?\d+\.\d+(?:\.\d+)?|\d+\.\d+\s*(?:版本|版)|"
+                               r"(?:gpt|claude|gemini|llama|grok|glm|kimi|qwen|ernie|mixtral|mistral|nova|titan|abab|baichuan|spark|deepseek)[- ]?\d", re.I)
+_MODEL_TYPE_KW = ["大模型", "模型", "moE", "moe", "基座", "多模态", "推理模型", "语言模型",
+                  "开源模型", "视频模型", "图像模型", "声音模型", "语音模型", "文生", "图生"]
+def is_pure_model_release(title):
+    t = title or ""
+    tl = t.lower()
+    if any(k in t for k in _GANT_SKIP_KW):      # 融资/收购/榜单…
+        return False
+    if any(k in tl for k in _MODEL_RELEASE_HARD):
+        return False                            # 登陆平台/技术报告/论文…
+    if not any(a in tl for a in _MODEL_RELEASE_ACT):
+        return False                            # 必须含「发布/推出/开源…」动作
+    has_ver = bool(_MODEL_VERSION_RE.search(tl))
+    has_type = any(k in tl for k in _MODEL_TYPE_KW)
+    comp_hit = any(k in tl for _, _, kws, _ in COMPANIES for k in kws)
+    return has_ver or has_type or comp_hit
+
+
 def compute_gantt(arch=None, top_n=GANTT_TOP_N):
-    """甘特式时间线：基于「经网络核实」的模型发布 / 版本更新里程碑（MILESTONES）渲染，
-    按 (公司 → 模型) 逐模型分行；模型事件命中「重大版本/发布」高亮（major=True，前端红色块）。
-    仅收录真正的「模型发布」与「产品版本更新」，不含融资/合作/技术报告/模型登陆平台等非发布类事件；
-    数据完全来自人工核实的 MILESTONES，不再从每日日报抓取（避免把「登陆某平台」「发布技术报告」
-    等非发布类头条混入时间线）。
+    """甘特式时间线：纯「模型发布 / 版本更新」视角。
+    数据来源 = 人工核实的 MILESTONES（2020–2024 历史基线，仅取 k=="model"）+
+               AI HOT 每日日报「模型发布/更新」版块（2025 起自动抽取，is_pure_model_release 严格过滤）。
+    两者合并去重，按 (公司 → 模型) 逐模型分行；命中「重大版本/发布」高亮（major=True，前端红色块）。
+    不含融资/合作/技术报告/模型登陆平台/产品 App 等非发布类事件。
     返回 {range:[最早,最晚], regions:[{region,label,tint,tag, models:[{company,name,color,events}]}]}，
-    regions 按阵营分块（美国在上、中国居中、欧洲置底）；区域内按 公司→事件数 排序；
+    regions 按阵营分块（美国在上、中国居中、🇫🇷法国置底）；区域内按 公司→事件数 排序；
     models 即每行一个模型。events: {date, kind(model/product), title, source, file, minor, major}"""
-    groups = {}  # key=(company,model) -> {company,name,color,region,events:[]}
-    # ── 合并历史里程碑（2020–2026 经网络核实的模型发布 / 版本更新）──
+    groups = {}      # key=(company,family) -> {company,name,color,region,events:[]}
+    seen = set()     # (company, date, title) 去重
+    def _add(comp, ccolor, cregion, fam, date, kind, title, source, file_, minor, major):
+        key = (comp, fam)
+        g = groups.get(key)
+        if not g:
+            g = {"company": comp, "name": fam, "color": ccolor,
+                 "region": cregion, "events": [], "rating": RATINGS.get(fam)}
+            groups[key] = g
+        g["events"].append({
+            "date": date, "kind": kind, "title": title,
+            "source": source, "file": file_, "minor": minor, "major": bool(major),
+        })
+    # ── 来源一：人工核实的历史里程碑（仅「模型发布」类型，剔除产品 App）──
     for mst in MILESTONES:
+        if mst.get("k") != "model":
+            continue
         comp = mst["c"]
         if comp not in COMP_MAP:
             continue
         ccolor, cregion = COMP_MAP[comp]
         fam = FAMILY.get(mst["m"], mst["m"])
-        if mst["m"] == comp:   # 仅当里程碑本身就是公司名（兜底桶）时剔除
+        if mst["m"] == comp:   # 兜底桶（公司名 == 模型名）剔除
             continue
-        key = (comp, fam)
-        g = groups.get(key)
-        if not g:
-            g = {"company": comp, "name": fam, "color": ccolor,
-                 "region": cregion, "events": [],
-                 "rating": RATINGS.get(fam)}
-            groups[key] = g
-        g["events"].append({
-            "date": mst["d"], "kind": mst["k"], "title": mst["t"],
-            "source": mst.get("src", "历史资料"), "file": "",
-            "minor": False, "major": bool(mst.get("major")),
-        })
+        _add(comp, ccolor, cregion, fam, mst["d"], mst["k"], mst["t"],
+             mst.get("src", "历史资料"), "", False, bool(mst.get("major")))
+    # ── 来源二：每日日报「模型发布/更新」版块（自动更新，严格过滤）──
+    arch = arch or load_archive()
+    for d in sorted(arch.keys()):
+        rec = arch[d]
+        for sec in rec.get("sections", []):
+            if sec.get("label") != "模型发布/更新":
+                continue
+            for it in sec.get("items", []):
+                title = (it.get("title") or "").strip()
+                if not is_pure_model_release(title):
+                    continue
+                text = (title + " " + (it.get("summary") or "")).lower()
+                # 公司识别
+                comp = None
+                for name, _, kws, _ in COMPANIES:
+                    if any(k in text for k in kws):
+                        comp = name
+                        break
+                if not comp:
+                    continue
+                ccolor, cregion = COMP_MAP[comp]
+                # 具体模型识别（命中某系列则归族，否则归入公司名系列）
+                model = comp
+                for mname, mcomp, mkws in MODELS:
+                    if mcomp == comp and any(k in text for k in mkws):
+                        model = mname
+                        break
+                fam = FAMILY.get(model, model)
+                sig = (comp, d, title)
+                if sig in seen:
+                    continue
+                seen.add(sig)
+                _add(comp, ccolor, cregion, fam, d, "model", title,
+                     it.get("source") or "AI HOT", f"ai-daily-{d}.html",
+                     is_minor_model(title), is_major_model(title))
     regions = []
     _REGION_META = {
         "us": ("🇺🇸 美国公司", "#f3f5ff", "#4f46e5"),
@@ -1575,9 +1640,9 @@ def compute_gantt(arch=None, top_n=GANTT_TOP_N):
             "tag": tag,
             "models": models,
         })
-    # 时间线范围：全部里程碑日期（2020 起 → 最新发布）
-    mdates = [m["d"] for m in MILESTONES if m["c"] in COMP_MAP]
-    alld = sorted(set(mdates))
+    # 时间线范围：覆盖里程碑与每日日报的最早/最晚日期
+    mdates = [m["d"] for m in MILESTONES if m.get("k") == "model" and m["c"] in COMP_MAP]
+    alld = sorted(set(mdates + list(arch.keys())))
     return {"range": [alld[0], alld[-1]], "regions": regions}
 
 def render_index(days):
