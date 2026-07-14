@@ -39,6 +39,11 @@
   .trend-head h2{margin:0;font-size:22px;font-weight:800}
   .trend-sub{margin:0;font-size:13px;color:var(--muted)}
   .chart-wrap{position:relative;background:var(--card);border:1px solid var(--line);border-radius:16px;
+    overflow:hidden;box-shadow:0 1px 3px rgba(16,24,40,.04)}
+  .gantt-sticky-years{position:fixed;top:0;left:0;right:0;z-index:15;display:none;
+    background:#fff;border-bottom:1px solid var(--line);box-shadow:0 2px 10px rgba(16,24,40,.07)}
+  .gantt-sticky-inner{max-width:1180px;margin:0 auto;padding:0 18px}
+  .gantt-sticky-inner svg{width:100%;display:block}
     padding:14px 14px 6px;box-shadow:var(--shadow)}
   .gantt{margin:30px 0 6px}
   .gantt-ctrl{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
@@ -48,14 +53,15 @@
   .gbtn.active{color:#fff}
   .gbtn[data-kind=model].active{background:#4f46e5;border-color:#4f46e5}
   .gbtn[data-mode].active{background:#4f46e5;border-color:#4f46e5}
-  .glegend{display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:600;color:#4b5161;
-    background:#f6f7fb;border:1px solid var(--line);border-radius:999px;padding:7px 14px;user-select:none;
-    cursor:pointer;transition:.15s}
-  .glegend:hover{border-color:var(--lc,#c9cdfb)}
-  .glegend.active{border-color:var(--lc);color:#1f2430;
-    box-shadow:0 0 0 2.5px color-mix(in srgb, var(--lc) 32%, transparent)}
-  .glegend.dim{opacity:.4}
-  .glegend .lg-dot{width:11px;height:11px;border-radius:3px;display:inline-block}
+  .glegend{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:700;
+    border-radius:8px;padding:6px 13px;user-select:none;cursor:pointer;transition:.15s;
+    background:color-mix(in srgb, var(--lc) 12%, #fff);color:var(--lc);
+    border:1.5px solid color-mix(in srgb, var(--lc) 28%, #fff)}
+  .glegend:hover{background:color-mix(in srgb, var(--lc) 22%, #fff)}
+  .glegend.active{background:var(--lc);color:#fff;border-color:var(--lc);
+    box-shadow:0 2px 8px color-mix(in srgb, var(--lc) 35%, transparent)}
+  .glegend.dim{opacity:.35}
+  .glegend .lg-dot{width:8px;height:8px;border-radius:2px;display:inline-block;background:currentColor}
   .gsep{width:1px;background:var(--line);margin:3px 4px}
   #ganttChart{width:100%;height:auto;display:block;cursor:grab}
   #ganttChart:active{cursor:grabbing}
@@ -116,11 +122,11 @@
     </div>
     <div class="gantt-ctrl">
       <span class="glegend" data-legend="blue" style="--lc:#4f46e5" title="点击仅显示模型版本发布">
-        <i class="lg-dot" style="background:#4f46e5"></i>模型版本发布</span>
+        <i class="lg-dot"></i>模型版本发布</span>
       <span class="glegend" data-legend="green" style="--lc:#059669" title="点击仅显示模型产品更新">
-        <i class="lg-dot" style="background:#059669"></i>模型产品更新</span>
+        <i class="lg-dot"></i>模型产品更新</span>
       <span class="glegend" data-legend="red" style="--lc:#ef4444" title="点击仅显示模型重磅更新">
-        <i class="lg-dot" style="background:#ef4444"></i>模型重磅更新</span>
+        <i class="lg-dot"></i>模型重磅更新</span>
       <span class="gsep"></span>
       <span style="align-self:center;font-size:12.5px;color:var(--muted)">标记：</span>
       <button class="gbtn active" data-mode="block">▮ 方块</button>
@@ -128,6 +134,11 @@
       <button class="gbtn" data-mode="bar">▎ 竖条</button>
       <button class="gbtn" id="ganttReset" style="margin-left:auto">↺ 重置视图</button>
       <span id="ganttRange" style="font-size:12.5px;color:var(--muted);align-self:center"></span>
+    </div>
+    <div id="ganttStickyYears" class="gantt-sticky-years">
+      <div class="gantt-sticky-inner">
+        <svg id="ganttYearsSvg"></svg>
+      </div>
     </div>
     <div class="chart-wrap">
       <svg id="ganttChart" preserveAspectRatio="xMidYMid meet" role="img" aria-label="主要 AI 公司模型与产品更新时间线"></svg>
@@ -144,7 +155,7 @@
     <div id="archive"></div>
   </main>
   <footer>
-    <div>数据来源：<a href="https://aihot.virxact.com" target="_blank" rel="noopener noreferrer">AI HOT（aihot.virxact.com）</a> · 生成于 2026年07月15日 02:46</div>
+    <div>数据来源：<a href="https://aihot.virxact.com" target="_blank" rel="noopener noreferrer">AI HOT（aihot.virxact.com）</a> · 生成于 2026年07月15日 02:54</div>
     <div style="margin-top:6px">点击任意一期查看当日完整日报（含五版块与原文跳转）</div>
     <div style="margin-top:8px;opacity:.85">说明：本页已把每条新闻的标题、摘要、来源、日期<b>镜像保存到本地</b>；外部「原文」链接仅作溯源，即使链接失效或无法访问境外站点，已存档内容仍可正常查看。</div>
   </footer>
@@ -329,6 +340,8 @@ function escapeHtml(s){return (s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&
   let majorOnly=true;       // 常开：过滤次要模型微调（无切换按钮，时间线仅保留重要事件）
   const tip=document.getElementById("ganttTip");
   const rangeLabel=document.getElementById("ganttRange");
+  const stickyYears=document.getElementById("ganttStickyYears");
+  const stickyYearsSvg=document.getElementById("ganttYearsSvg");
   const RATE_MIN=1250, RATE_MAX=1530;   // 评分条色阶范围（LMArena Elo）
   function bestRating(arr){ let r=-1; arr.forEach(m=>{ if(m.rating!=null && m.rating>r) r=m.rating; }); return r; }
 
@@ -479,6 +492,27 @@ function escapeHtml(s){return (s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&
     // 筛选时行数变化，按实际内容高度更新画布，避免底部留白
     svg.setAttribute("viewBox",`0 0 ${W} ${(plotBottom+B).toFixed(1)}`);
     svg.innerHTML=h;
+    // 同步渲染 sticky 年份浮层（与主 SVG 年份标签完全一致，pan/zoom 时跟随更新）
+    if(stickyYearsSvg){
+      let yh=`<rect x="0" y="0" width="${W}" height="${T}" fill="#fff"/>`;
+      yh+=`<rect x="0" y="0" width="${L}" height="${T}" fill="#f8f9fc"/>`;
+      yh+=`<line x1="${L}" y1="0" x2="${L}" y2="${T}" stroke="#e4e7ef" stroke-width="1"/>`;
+      yh+=`<text x="${(W-4)}" y="${(T-4).toFixed(1)}" text-anchor="end" font-size="9.5" font-weight="800" fill="#9aa1b1">LMArena Elo ↓</text>`;
+      BANDS.forEach((b,i)=>{
+        const x0=xOfUnits(cumBeforeB[b.label]);
+        const x1=xOfUnits(cumBeforeB[b.label]+bandUnits[b.label]);
+        if(x1<L-1 || x0>W-R+1) return;
+        const wpx=x1-x0;
+        if(wpx>10){
+          const fs=11;
+          const anchor=(i===0)?"start":"middle";
+          const xc=(i===0)?(x0+3):(x0+x1)/2;
+          yh+=`<text x="${xc.toFixed(1)}" y="${(T-4).toFixed(1)}" text-anchor="${anchor}" font-size="${fs}" font-weight="800" fill="#6b7280">${b.label}</text>`;
+        }
+      });
+      stickyYearsSvg.setAttribute("viewBox",`0 0 ${W} ${T}`);
+      stickyYearsSvg.innerHTML=yh;
+    }
     if(rangeLabel) rangeLabel.textContent=`可见 ${bandLabelAtUnits(viewStart)} – ${bandLabelAtUnits(viewStart+viewUnits)} · 约 ${(viewUnits/totalUnits*numYears).toFixed(1)} 年（按内容量分配列宽）`;
     svg.querySelectorAll(".gev").forEach(g=>{
       const j=JSON.parse(g.getAttribute("data-j"));
@@ -532,6 +566,20 @@ function escapeHtml(s){return (s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&
   });
   svg.addEventListener("mouseleave",()=>{ if(!dragging) tip.style.display="none"; });
 
+  // 年份浮层：滚动时主 SVG 年份标签消失 → 浮层自动出现；滚回顶部或离开图表 → 自动隐藏
+  function updateStickyYears(){
+    if(!stickyYears) return;
+    const rect=svg.getBoundingClientRect();
+    const Tpx=T*(rect.width/W);       // 年份标签高度（像素）
+    if(rect.top<-Tpx && rect.bottom>Tpx+30){
+      stickyYears.style.display="block";
+    } else {
+      stickyYears.style.display="none";
+    }
+  }
+  window.addEventListener("scroll",updateStickyYears,{passive:true});
+  window.addEventListener("resize",updateStickyYears);
+
   // 筛选（模型/产品）
   document.querySelectorAll(".gbtn[data-kind]").forEach(b=>{
     b.addEventListener("click",()=>{ const k=b.getAttribute("data-kind");
@@ -564,6 +612,7 @@ function escapeHtml(s){return (s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&
   const rb=document.getElementById("ganttReset");
   if(rb) rb.addEventListener("click",()=>{ viewStart=0; viewUnits=totalUnits; legendFilter=null; syncLegend(); render(); });
   render();
+  updateStickyYears();
 })();
 </script>
 </body></html>
