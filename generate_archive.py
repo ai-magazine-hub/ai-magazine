@@ -161,7 +161,7 @@ RATINGS = {
     # Meta
     "Llama": 1370,          # Llama 4.5 Maverick
     # xAI
-    "Grok": 1476,           # Grok 4.20
+    "Grok": 1476,           # Grok 4.2
     # DeepSeek
     "DeepSeek 系列": 1450,  # DeepSeek V4.5 / V4.1 Pro
     # Microsoft
@@ -261,7 +261,7 @@ MILESTONES = [
     {"d":"2025-02-17","c":"xAI","m":"Grok","k":"model","t":"Grok 3 发布","major":True,"src":"xAI"},
     {"d":"2025-07-09","c":"xAI","m":"Grok","k":"model","t":"Grok 4 发布（多智能体 / 原生工具）","major":True,"src":"xAI"},
     {"d":"2025-11-19","c":"xAI","m":"Grok","k":"model","t":"Grok 4.1 发布（2M 上下文）","major":True,"src":"xAI"},
-    {"d":"2026-03-10","c":"xAI","m":"Grok","k":"model","t":"Grok 4.20 发布（低幻觉 / 推理可配）","major":True,"src":"xAI"},
+    {"d":"2026-02-17","c":"xAI","m":"Grok","k":"model","t":"Grok 4.2 发布（公开测试版，快速学习 / 每周迭代）","major":True,"src":"xAI"},
     {"d":"2026-04-30","c":"xAI","m":"Grok","k":"model","t":"Grok 4.3 发布（原生视频输入 / 1M 上下文）","major":True,"src":"xAI"},
     # ── DeepSeek（中国）──
     {"d":"2024-01-05","c":"深度求索","m":"DeepSeek","k":"model","t":"DeepSeek LLM 首个大模型发布","major":False,"src":"深度求索"},
