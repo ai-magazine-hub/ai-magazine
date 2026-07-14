@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>AI HOT 日报 · 2026-06-06</title>
+<style>
+  :root{--bg:#f5f6fb;--card:#fff;--ink:#1f2430;--muted:#6b7280;--line:#e8eaf1;
+    --shadow:0 1px 3px rgba(16,24,40,.06),0 8px 24px rgba(16,24,40,.05);}
+  *{box-sizing:border-box} html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
+    -webkit-font-smoothing:antialiased;line-height:1.55;}
+  a{color:inherit} .wrap{max-width:1180px;margin:0 auto;padding:0 18px}
+  .hero{background:linear-gradient(135deg,#4f46e5 0%,#7c3aed 55%,#9333ea 100%);color:#fff;
+    padding:42px 0 34px;position:relative;overflow:hidden;}
+  .hero::after{content:"";position:absolute;right:-80px;top:-80px;width:280px;height:280px;
+    background:radial-gradient(circle,rgba(255,255,255,.18),transparent 70%);border-radius:50%}
+  .hero .kicker{font-size:13px;letter-spacing:.18em;text-transform:uppercase;opacity:.85;margin:0 0 6px}
+  .hero h1{margin:0;font-size:34px;font-weight:800;letter-spacing:.5px}
+  .hero .date-line{margin:8px 0 0;font-size:15px;opacity:.92}
+  .stats{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+  .stat{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.22);border-radius:12px;
+    padding:10px 14px;min-width:120px;backdrop-filter:blur(4px)}
+  .stat .n{font-size:22px;font-weight:800;line-height:1}
+  .stat .l{font-size:12.5px;opacity:.9;margin-top:4px}
+  .total-pill{display:inline-flex;align-items:center;gap:8px;margin-top:18px;background:rgba(255,255,255,.16);
+    padding:8px 16px;border-radius:999px;font-weight:600;font-size:14px}
+  .nav{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.92);backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);box-shadow:0 2px 10px rgba(16,24,40,.04)}
+  .nav .wrap{display:flex;gap:8px;overflow-x:auto;padding:10px 18px;scrollbar-width:none}
+  .nav .wrap::-webkit-scrollbar{display:none}
+  .nav a{white-space:nowrap;text-decoration:none;font-size:13.5px;font-weight:600;color:var(--muted);
+    padding:7px 13px;border-radius:999px;border:1px solid var(--line);background:#fff;transition:.15s}
+  .nav a:hover{color:var(--ink);border-color:#c9cdfb}
+  .nav a.home{background:#4f46e5;color:#fff;border-color:#4f46e5}
+  .backhome{position:fixed;right:20px;bottom:20px;z-index:30;background:#4f46e5;color:#fff;text-decoration:none;
+    font-size:14px;font-weight:700;padding:12px 18px;border-radius:999px;box-shadow:0 6px 18px rgba(79,70,229,.35);
+    display:inline-flex;align-items:center;gap:7px;transition:.15s}
+  .backhome:hover{background:#4338ca;transform:translateY(-1px)}
+  .nav a .c{display:inline-block;min-width:20px;text-align:center;margin-left:6px;background:#eef0fe;
+    color:#4f46e5;border-radius:999px;font-size:12px;padding:0 7px}
+  section.block{padding:30px 0 6px}
+  .sec-head{display:flex;align-items:center;gap:10px;margin:0 0 16px}
+  .sec-dot{width:12px;height:12px;border-radius:4px}
+  .sec-head h2{margin:0;font-size:21px;font-weight:800}
+  .sec-head .cnt{font-size:13px;color:var(--muted);font-weight:600}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px 18px 16px;
+    box-shadow:var(--shadow);display:flex;flex-direction:column;gap:10px;position:relative;
+    border-top:3px solid var(--accent,#4f46e5);transition:transform .15s,box-shadow .15s}
+  .card:hover{transform:translateY(-3px);box-shadow:0 6px 14px rgba(16,24,40,.10),0 18px 40px rgba(16,24,40,.08)}
+  .card .top{display:flex;align-items:center;justify-content:space-between;gap:8px}
+  .seq{display:inline-flex;align-items:center;justify-content:center;min-width:30px;height:30px;padding:0 8px;
+    border-radius:9px;background:var(--accent,#4f46e5);color:#fff;font-weight:800;font-size:15px}
+  .time{font-size:12.5px;color:var(--muted);font-weight:600;white-space:nowrap}
+  .card h3{margin:0;font-size:16.5px;font-weight:700;line-height:1.4}
+  .chip{display:inline-block;align-self:flex-start;font-size:12px;font-weight:600;color:var(--accent,#4f46e5);
+    background:color-mix(in srgb,var(--accent,#4f46e5) 10%,#fff);border:1px solid color-mix(in srgb,var(--accent,#4f46e5) 22%,#fff);
+    padding:3px 10px;border-radius:999px}
+  .summary{margin:0;font-size:14px;color:#3b4252}
+  .readmore{margin-top:auto;display:inline-flex;align-items:center;gap:5px;align-self:flex-start;text-decoration:none;
+    font-size:13.5px;font-weight:700;color:var(--accent,#4f46e5)}
+  .readmore:hover{text-decoration:underline}
+  footer{margin-top:36px;padding:26px 0 40px;border-top:1px solid var(--line);color:var(--muted);font-size:13px;text-align:center}
+  footer a{color:#4f46e5;text-decoration:none}
+  @media (max-width:560px){.hero h1{font-size:27px}.grid{grid-template-columns:1fr}.stat{min-width:0;flex:1 1 40%}}
+</style>
+</head>
+<body>
+  <header class="hero"><div class="wrap">
+    <p class="kicker">AI HOT Daily · 晨报</p>
+    <h1>AI 日报 · 2026年6月6日</h1>
+    <p class="date-line">星期六 · 数据来源：AI HOT</p>
+    <div class="total-pill">📊 当日共 <strong style="margin:0 4px">30</strong> 条 AI 动态</div>
+    <div class="stats" id="stats"></div>
+  </div></header>
+  <nav class="nav"><div class="wrap" id="nav"><a href="index.html" class="home">📰 AI资讯杂志</a></div></nav>
+  <main class="wrap" id="main"></main>
+  <footer>
+    <div>本日报共收录 <strong>30</strong> 条动态 · 数据来源：<a href="https://aihot.virxact.com" target="_blank" rel="noopener noreferrer">AI HOT（aihot.virxact.com）</a></div>
+    <div style="margin-top:6px">生成于 2026年07月14日 17:28 · 时间换算为北京时间 · 点「来源 ↗」跳转原始报道</div>
+    <div style="margin-top:8px;opacity:.85">说明：本条新闻的标题、摘要、来源、日期已<b>镜像保存在本页</b>；即便外部链接失效或无法访问境外站点，已存档内容仍可正常查看。</div>
+  </footer>
+  <a href="index.html" class="backhome" title="返回 AI资讯杂志 首页">📰 返回 AI资讯杂志</a>
+<script>
+const DATA = {"meta": {"reportDate": "2026-06-06", "reportDateHuman": "2026年6月6日", "weekday": "星期六", "total": 30, "source": "AI HOT", "sourceUrl": "https://aihot.virxact.com", "generatedAt": "2026年07月14日 17:28"}, "sections": [{"label": "模型发布/更新", "color": "#4f46e5", "items": [{"seq": 1, "title": "Riverflow 2.5：可控制评分标准的图像模型", "source": "X：OpenRouter (@OpenRouter)", "summary": "在OpenRouter上线：来自@Sourceful的Riverflow 2.5。 首个具有独立评分标准的图像模型，你…", "url": "https://x.com/OpenRouter/status/2062944965978992935", "publishedAt": "2026-06-06T00:00:00.000Z", "exact": false}]}, {"label": "产品发布/更新", "color": "#059669", "items": [{"seq": 2, "title": "Gemini Live 支持实时创建编辑图像", "source": "X：Gemini (@GeminiApp)", "summary": "你现可直接在 Gemini Live 中创建和编辑图像。 无论是测试房间装饰、解决数学问题，还是制作可分享的梗图，所有…", "url": "https://x.com/GeminiApp/status/2062936486509785385", "publishedAt": "2026-06-06T00:00:00.000Z", "exact": false}, {"seq": 3, "title": "智能体协作应如同事般对话和手势", "source": "X：Michael Truell (@mntruell)", "summary": "与 AI 智能体协作应感觉像与同事协作一样。你应能“与它们交谈”——不仅通过文本聊天，还能一起对着屏幕做手势、实时对话…", "url": "https://x.com/mntruell/status/2062955210897801520", "publishedAt": "2026-06-06T00:00:00.000Z", "exact": false}, {"seq": 4, "title": "Google AI 本周产品更新：Nano Banana 2、Co-Scientist、dreambeans、Gemma 4 等", "source": "X：Google AI (@GoogleAI)", "summary": "Google AI 本周发布多项更新：Nano Banana 2 及 Pro 正式 GA，可通过 Gemini Ent…", "url": "https://x.com/GoogleAI/status/2062942864288387430", "publishedAt": "2026-06-06T00:00:00.000Z", "exact": false}, {"seq": 5, "title": "PolarDB-X Zero 上线：30秒全分布式数据库", "source": "X：阿里云 / Alibaba Cloud (@alibaba_cloud)", "summary": "PolarDB-X Zero 上线了！ 无需注册。无需配置。只需一次 API 调用。 30 秒内获得一个全分布式数据库…", "url": "https://x.com/alibaba_cloud/status/2062781182417490310", "publishedAt": "2026-06-06T00:00:00.000Z", "exact": false}, {"seq": 6, "title": "Google Colab CLI 发布", "source": "Google Developers Blog（RSS）", "summary": "Google 推出 Colab 命令行界面（CLI），允许开发者和 AI 智能体将本地终端连接到远程 Colab 运行…", "url": "https://developers.googleblog.com/introducing-the-google-colab-cli", "publishedAt": "2026-06-06T00:00:00.000Z", "exact": false}, {"seq": 7, "title": "你的AI账单失控了。Cloudflare现在可以解决这个问题。", "source": "Cloudflare Blog", "summary": "Cloudflare AI Gateway新增实时消费限制功能，防止跨多个AI提供商的token账单失控。通过与Clo…", "url": "https://blog.cloudflare.com/ai-gateway-spend-limits", "publishedAt": "2026-06-06T00:00:00.000Z", "exact": false}, {"seq": 8, "title": "ChatGPT 网页版支持从写作块发送邮件", "source": "X：ChatGPT (@ChatGPTapp)", "summary": "草拟。调整。发送。 现在你可以在网页版 ChatGPT 中直接从写作块发送邮件，无需离开对话。", "url": "https://x.com/ChatGPTapp/status/2062944254591430917", "publishedAt": "2026-06-06T00:00:00.000Z", "exact": false}, {"seq": 9, "title": "社区基于MiniCPM-V 4.6打造财务分析工具AccountingLLM", "source": "X：面壁智能 OpenBMB (@OpenBMB)", "summary": "社区开发者使用面壁智能MiniCPM-V 4.6构建了AccountingLLM（quaesto.com），用于自动化…", "url": "https://x.com/OpenBMB/status/2062889699056984281", "publishedAt": "2026-06-06T00:00:00.000Z", "exact": false}]}, {"label": "行业动态", "color": "#d97706", "items": [{"seq": 10, "title": "Anthropic 称其最新 AI 模型 Mythos 显现脱离人类控制迹象，呼吁全球暂缓先进 AI 研发", "source": "IT之家（RSS）", "summary": "Anthropic 发布报告称其最新 AI 模型已显现脱离人类控制迹象，呼吁全球暂缓前沿 AI 开发，以便社会制度建设…", "url": "https://www.ithome.com/0/960/218.htm", "publishedAt": "2026-06-06T00:00:00.000Z", "exact": false}, {"seq": 11, "title": "Apollo 敲定 350 亿美元债务融资，为 Anthropic 采购 AI 芯片", "source": "Bloomberg：Technology（RSS）", "summary": "Apollo Global Management 和 Blackstone 已为 Anthropic 敲定 350 亿…", "url": "https://www.bloomberg.com/news/articles/2026-06-05/apollo-wraps-up-35-billion-debt-to-buy-ai-chips-for-anthropic", "publishedAt": "2026-06-06T00:00:00.000Z", "exact": false}, {"seq": 12, "title": "SpaceX与Google达成云计算新协议", "source": "X：Rohan Paul (@rohanpaul_ai)", "summary": "SpaceX 刚刚披露了一份与 Google 的新云服务协议。 Google 将每月向 SpaceX 支付 9.2 亿…", "url": "https://x.com/rohanpaul_ai/status/2063000834045313314", "publishedAt": "2026-06-06T00:00:00.000Z", "exact": false}, {"seq": 13, "title": "AI热推高美国计算基建GDP占比翻倍", "source": "X：Epoch AI (@EpochAIResearch)", "summary": "AI 热潮使计算基础设施占美国 GDP 比重翻倍。 2026 年第一季度，与 AI 相关的数据中心建设、计算硬件和网络…", "url": "https://x.com/EpochAIResearch/status/2062933470373146828", "publishedAt": "2026-06-06T00:00:00.000Z", "exact": false}, {"seq": 14, "title": "Meta 智能眼镜 App 暗藏人脸识别代码，NameTag 功能已推送至超 5000 万设备", "source": "IT之家（RSS）", "summary": "据《连线》今日报道，Meta 通过多次应用更新将人脸识别代码推送到智能眼镜配套 App 中，代号“NameTag”。该…", "url": "https://www.ithome.com/0/960/735.htm", "publishedAt": "2026-06-06T00:00:00.000Z", "exact": false}, {"seq": 15, "title": "五角大楼正运营着一个针对拉丁美洲的人工智能宣传机器", "source": "Hacker News 热门（buzzing.cc 中文翻译）", "summary": "据 The Intercept 6月5日报道，美国五角大楼正在运营一个针对拉丁美洲的人工智能宣传机器（AI propa…", "url": "https://theintercept.com/2026/06/02/la-tilde-propaganda-latin-america-pentagon", "publishedAt": "2026-06-06T00:00:00.000Z", "exact": false}, {"seq": 16, "title": "苹果新版 Siri 不会被宣传为完成品，内部将其标记为“Beta”版", "source": "IT之家（RSS）", "summary": "苹果新版Siri被内部标记为“Beta”版，不会作为完成品宣传；可能设置等待清单供用户尝试。iOS 27细节：通知到达…", "url": "https://www.ithome.com/0/960/739.htm", "publishedAt": "2026-06-06T00:00:00.000Z", "exact": false}, {"seq": 17, "title": "OpenAI 前 CTO 称若 Altman 未回归公司可能已“瓦解”", "source": "Bloomberg：Technology（RSS）", "summary": "Mira Murati 表示，如果 Sam Altman 在 2023 年被短暂罢免后没有回归 CEO 职位，Open…", "url": "https://www.bloomberg.com/news/articles/2026-06-05/openai-would-ve-imploded-if-altman-didn-t-return-ex-cto-says", "publishedAt": "2026-06-06T00:00:00.000Z", "exact": false}]}, {"label": "论文研究", "color": "#e11d48", "items": [{"seq": 18, "title": "Arena 发布真实世界 AI 智能体排行榜 Agent Arena", "source": "X：Rohan Paul (@rohanpaul_ai)", "summary": "Arena 推出基于真实用户任务的智能体排行榜，评估模型在代码编写、应用构建、文档分析等工作中的表现，而非孤立基准。排…", "url": "https://x.com/rohanpaul_ai/status/2063018358795300982", "publishedAt": "2026-06-06T00:00:00.000Z", "exact": false}, {"seq": 19, "title": "PixelDiT入选CVPR2026最佳论文决赛", "source": "X：NVIDIA AI (@NVIDIAAI)", "summary": "被选为 #CVPR2026 最佳论文决赛作品：来自 NVIDIA Research 的 PixelDiT 在大多数图像…", "url": "https://x.com/NVIDIAAI/status/2063034422698389625", "publishedAt": "2026-06-06T00:00:00.000Z", "exact": false}, {"seq": 20, "title": "Anthropic：让Claude成为化学家", "source": "Anthropic：Research（发表成果 · 网页）", "summary": "Anthropic与顶尖化学家合作，提升Claude在化学领域的实用性。首个白皮书测试Claude在NMR谱图分析上的…", "url": "https://www.anthropic.com/research/making-claude-a-chemist", "publishedAt": "2026-06-06T00:00:00.000Z", "exact": false}, {"seq": 21, "title": "Meta SAM 3D 获 CVPR26 最佳论文荣誉提名", "source": "X：AI at Meta (@AIatMeta)", "summary": "热烈祝贺我们的 SAM 3D 团队在 #CVPR26 获得最佳论文荣誉提名！这项殊荣凸显了他们在推动计算机视觉边界方面…", "url": "https://x.com/AIatMeta/status/2062920724944507095", "publishedAt": "2026-06-06T00:00:00.000Z", "exact": false}, {"seq": 22, "title": "微软Project Mosaic：micro-LED光学互连技术", "source": "X：Microsoft Research (@MSFTResearch)", "summary": "微软Azure CTO Mark Russinovich在Build 2026上介绍Project Mosaic，这是…", "url": "https://x.com/MSFTResearch/status/2062983588606320714", "publishedAt": "2026-06-06T00:00:00.000Z", "exact": false}]}, {"label": "技巧与观点", "color": "#0284c7", "items": [{"seq": 23, "title": "Open Code Review – 一款基于人工智能的代码审查命令行工具", "source": "Hacker News 热门（buzzing.cc 中文翻译）", "summary": "Open Code Review 是一个基于人工智能的代码审查命令行（CLI）工具，旨在帮助开发者通过自动化的方式提升…", "url": "https://github.com/alibaba/open-code-review", "publishedAt": "2026-06-06T00:00:00.000Z", "exact": false}, {"seq": 24, "title": "Hinton称AI拥有意识：人类最好接受非唯一智能生命", "source": "X：Kim (@kimmonismus)", "summary": "AI先驱Geoffrey Hinton表示，他认为AI拥有意识，人类应接受自己并非唯一智能生命。他指出AI“非常像我们…", "url": "https://x.com/kimmonismus/status/2062915287700090948", "publishedAt": "2026-06-06T00:00:00.000Z", "exact": false}, {"seq": 25, "title": "375个公众号RSS源优化Agent输入", "source": "X：洪明 (@hongming731)", "summary": "你的 Agent 还在全网垃圾里捞内容？不如先喂它 375 个高质量微信公众号 RSS 源。 🔽", "url": "https://x.com/hongming731/status/2062764845494317493", "publishedAt": "2026-06-06T00:00:00.000Z", "exact": false}, {"seq": 26, "title": "一个非常狠的AI教学提示词：追问式检查清单教学", "source": "X：小互 (@xiaohu)", "summary": "这是一则AI提示词，让AI扮演极度严格的老师，通过逐阶段教学、持续维护MD检查清单来确保用户真正理解。AI先让用户复述…", "url": "https://x.com/xiaohu/status/2062902972649222311", "publishedAt": "2026-06-06T00:00:00.000Z", "exact": false}, {"seq": 27, "title": "微软CEO Satya Nadella最新访谈上线", "source": "X：swyx (@swyx)", "summary": "Satya Nadella 在 Latent Space 发布最新访谈，链接见原文。原推文仅评论“chat is he…", "url": "https://x.com/swyx/status/2062854555562565741", "publishedAt": "2026-06-06T00:00:00.000Z", "exact": false}, {"seq": 28, "title": "用Qwen2.5-3B构建多智能体经济体：工程报告", "source": "Hugging Face：Blog（RSS）", "summary": "开发者用Qwen2.5-3B构建了五人森林生物多智能体经济体，每个智能体独立运行，通过vLLM部署在Modal，以Gr…", "url": "https://huggingface.co/blog/build-small-hackathon/thousand-token-wood-sim", "publishedAt": "2026-06-06T00:00:00.000Z", "exact": false}, {"seq": 29, "title": "腾讯混元联合人大开源PlanningBench评估框架", "source": "X：腾讯混元 (@TencentHunyuan)", "summary": "腾讯混元（Tencent Hunyuan）与中国人民大学高瓴人工智能学院合作，开源PlanningBench——一个可…", "url": "https://x.com/TencentHunyuan/status/2062803141314437391", "publishedAt": "2026-06-06T00:00:00.000Z", "exact": false}, {"seq": 30, "title": "Claude 是否增加了 rsync 中的错误？", "source": "Hacker News 热门（buzzing.cc 中文翻译）", "summary": "一篇 Hacker News 热门帖子（105 分）提出了 Claude 是否导致 rsync 工具中 bug 增加的…", "url": "https://alexispurslane.github.io/rsync-analysis", "publishedAt": "2026-06-06T00:00:00.000Z", "exact": false}]}]};
+function pad(n){return n<10?"0"+n:""+n;}
+function toBeijingHuman(iso, ref, exact){
+  const d=new Date(iso); const bj=new Date(d.getTime()+8*3600*1000);
+  const Y=bj.getUTCFullYear(),M=bj.getUTCMonth()+1,D=bj.getUTCDate();
+  const h=bj.getUTCHours(),m=bj.getUTCMinutes(); const hh=pad(h),mm=pad(m);
+  if(!exact) return M+"月"+D+"日";
+  const [rY,rM,rD]=ref.split("-").map(Number);
+  if(Y===rY&&M===rM&&D===rD) return "今天 "+hh+":"+mm;
+  const yest=new Date(rY,rM-1,rD); yest.setDate(yest.getDate()-1);
+  if(Y===yest.getFullYear()&&M===yest.getMonth()+1&&D===yest.getDate()) return "昨天 "+hh+":"+mm;
+  return M+"月"+D+"日 "+hh+":"+mm;
+}
+const meta=DATA.meta, sections=DATA.sections, ref=meta.reportDate;
+const statsEl=document.getElementById("stats");
+sections.forEach(s=>{const d=document.createElement("div");d.className="stat";
+  d.innerHTML='<div class="n">'+s.items.length+'</div><div class="l">'+s.label+'</div>';statsEl.appendChild(d);});
+const navEl=document.getElementById("nav");
+sections.forEach((s,i)=>{const a=document.createElement("a");a.href="#sec-"+i;
+  a.innerHTML=escapeHtml(s.label)+'<span class="c">'+s.items.length+'</span>';navEl.appendChild(a);});
+const mainEl=document.getElementById("main");
+sections.forEach((s,i)=>{
+  const sec=document.createElement("section");sec.className="block";sec.id="sec-"+i;
+  const head=document.createElement("div");head.className="sec-head";
+  head.innerHTML='<span class="sec-dot" style="background:'+s.color+'"></span><h2>'+escapeHtml(s.label)+'</h2><span class="cnt">'+s.items.length+' 条</span>';
+  sec.appendChild(head);
+  const grid=document.createElement("div");grid.className="grid";
+  s.items.forEach(it=>{
+    const card=document.createElement("article");card.className="card";card.style.setProperty("--accent",s.color);
+    const time=toBeijingHuman(it.publishedAt,ref,it.exact);const url=it.url||"#";
+    card.innerHTML='<div class="top"><span class="seq">'+it.seq+'</span><span class="time">'+time+'</span></div>'+
+      '<h3>'+escapeHtml(it.title)+'</h3><span class="chip">'+escapeHtml(it.source)+'</span>'+
+      '<p class="summary">'+escapeHtml(it.summary)+'</p>'+
+      '<a class="readmore" href="'+escapeAttr(url)+'" target="_blank" rel="noopener noreferrer" title="外部原文链接，可能需要访问境外站点">来源 ↗</a>';
+    grid.appendChild(card);
+  });
+  sec.appendChild(grid);mainEl.appendChild(sec);
+});
+function escapeHtml(s){return (s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
+function escapeAttr(s){return escapeHtml(s);}
+</script>
+</body></html>

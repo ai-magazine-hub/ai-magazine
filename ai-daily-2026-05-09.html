@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>AI HOT 日报 · 2026-05-09</title>
+<style>
+  :root{--bg:#f5f6fb;--card:#fff;--ink:#1f2430;--muted:#6b7280;--line:#e8eaf1;
+    --shadow:0 1px 3px rgba(16,24,40,.06),0 8px 24px rgba(16,24,40,.05);}
+  *{box-sizing:border-box} html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
+    -webkit-font-smoothing:antialiased;line-height:1.55;}
+  a{color:inherit} .wrap{max-width:1180px;margin:0 auto;padding:0 18px}
+  .hero{background:linear-gradient(135deg,#4f46e5 0%,#7c3aed 55%,#9333ea 100%);color:#fff;
+    padding:42px 0 34px;position:relative;overflow:hidden;}
+  .hero::after{content:"";position:absolute;right:-80px;top:-80px;width:280px;height:280px;
+    background:radial-gradient(circle,rgba(255,255,255,.18),transparent 70%);border-radius:50%}
+  .hero .kicker{font-size:13px;letter-spacing:.18em;text-transform:uppercase;opacity:.85;margin:0 0 6px}
+  .hero h1{margin:0;font-size:34px;font-weight:800;letter-spacing:.5px}
+  .hero .date-line{margin:8px 0 0;font-size:15px;opacity:.92}
+  .stats{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+  .stat{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.22);border-radius:12px;
+    padding:10px 14px;min-width:120px;backdrop-filter:blur(4px)}
+  .stat .n{font-size:22px;font-weight:800;line-height:1}
+  .stat .l{font-size:12.5px;opacity:.9;margin-top:4px}
+  .total-pill{display:inline-flex;align-items:center;gap:8px;margin-top:18px;background:rgba(255,255,255,.16);
+    padding:8px 16px;border-radius:999px;font-weight:600;font-size:14px}
+  .nav{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.92);backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);box-shadow:0 2px 10px rgba(16,24,40,.04)}
+  .nav .wrap{display:flex;gap:8px;overflow-x:auto;padding:10px 18px;scrollbar-width:none}
+  .nav .wrap::-webkit-scrollbar{display:none}
+  .nav a{white-space:nowrap;text-decoration:none;font-size:13.5px;font-weight:600;color:var(--muted);
+    padding:7px 13px;border-radius:999px;border:1px solid var(--line);background:#fff;transition:.15s}
+  .nav a:hover{color:var(--ink);border-color:#c9cdfb}
+  .nav a.home{background:#4f46e5;color:#fff;border-color:#4f46e5}
+  .backhome{position:fixed;right:20px;bottom:20px;z-index:30;background:#4f46e5;color:#fff;text-decoration:none;
+    font-size:14px;font-weight:700;padding:12px 18px;border-radius:999px;box-shadow:0 6px 18px rgba(79,70,229,.35);
+    display:inline-flex;align-items:center;gap:7px;transition:.15s}
+  .backhome:hover{background:#4338ca;transform:translateY(-1px)}
+  .nav a .c{display:inline-block;min-width:20px;text-align:center;margin-left:6px;background:#eef0fe;
+    color:#4f46e5;border-radius:999px;font-size:12px;padding:0 7px}
+  section.block{padding:30px 0 6px}
+  .sec-head{display:flex;align-items:center;gap:10px;margin:0 0 16px}
+  .sec-dot{width:12px;height:12px;border-radius:4px}
+  .sec-head h2{margin:0;font-size:21px;font-weight:800}
+  .sec-head .cnt{font-size:13px;color:var(--muted);font-weight:600}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px 18px 16px;
+    box-shadow:var(--shadow);display:flex;flex-direction:column;gap:10px;position:relative;
+    border-top:3px solid var(--accent,#4f46e5);transition:transform .15s,box-shadow .15s}
+  .card:hover{transform:translateY(-3px);box-shadow:0 6px 14px rgba(16,24,40,.10),0 18px 40px rgba(16,24,40,.08)}
+  .card .top{display:flex;align-items:center;justify-content:space-between;gap:8px}
+  .seq{display:inline-flex;align-items:center;justify-content:center;min-width:30px;height:30px;padding:0 8px;
+    border-radius:9px;background:var(--accent,#4f46e5);color:#fff;font-weight:800;font-size:15px}
+  .time{font-size:12.5px;color:var(--muted);font-weight:600;white-space:nowrap}
+  .card h3{margin:0;font-size:16.5px;font-weight:700;line-height:1.4}
+  .chip{display:inline-block;align-self:flex-start;font-size:12px;font-weight:600;color:var(--accent,#4f46e5);
+    background:color-mix(in srgb,var(--accent,#4f46e5) 10%,#fff);border:1px solid color-mix(in srgb,var(--accent,#4f46e5) 22%,#fff);
+    padding:3px 10px;border-radius:999px}
+  .summary{margin:0;font-size:14px;color:#3b4252}
+  .readmore{margin-top:auto;display:inline-flex;align-items:center;gap:5px;align-self:flex-start;text-decoration:none;
+    font-size:13.5px;font-weight:700;color:var(--accent,#4f46e5)}
+  .readmore:hover{text-decoration:underline}
+  footer{margin-top:36px;padding:26px 0 40px;border-top:1px solid var(--line);color:var(--muted);font-size:13px;text-align:center}
+  footer a{color:#4f46e5;text-decoration:none}
+  @media (max-width:560px){.hero h1{font-size:27px}.grid{grid-template-columns:1fr}.stat{min-width:0;flex:1 1 40%}}
+</style>
+</head>
+<body>
+  <header class="hero"><div class="wrap">
+    <p class="kicker">AI HOT Daily · 晨报</p>
+    <h1>AI 日报 · 2026年5月9日</h1>
+    <p class="date-line">星期六 · 数据来源：AI HOT</p>
+    <div class="total-pill">📊 当日共 <strong style="margin:0 4px">28</strong> 条 AI 动态</div>
+    <div class="stats" id="stats"></div>
+  </div></header>
+  <nav class="nav"><div class="wrap" id="nav"><a href="index.html" class="home">📰 AI资讯杂志</a></div></nav>
+  <main class="wrap" id="main"></main>
+  <footer>
+    <div>本日报共收录 <strong>28</strong> 条动态 · 数据来源：<a href="https://aihot.virxact.com" target="_blank" rel="noopener noreferrer">AI HOT（aihot.virxact.com）</a></div>
+    <div style="margin-top:6px">生成于 2026年07月14日 17:28 · 时间换算为北京时间 · 点「来源 ↗」跳转原始报道</div>
+    <div style="margin-top:8px;opacity:.85">说明：本条新闻的标题、摘要、来源、日期已<b>镜像保存在本页</b>；即便外部链接失效或无法访问境外站点，已存档内容仍可正常查看。</div>
+  </footer>
+  <a href="index.html" class="backhome" title="返回 AI资讯杂志 首页">📰 返回 AI资讯杂志</a>
+<script>
+const DATA = {"meta": {"reportDate": "2026-05-09", "reportDateHuman": "2026年5月9日", "weekday": "星期六", "total": 28, "source": "AI HOT", "sourceUrl": "https://aihot.virxact.com", "generatedAt": "2026年07月14日 17:28"}, "sections": [{"label": "模型发布/更新", "color": "#4f46e5", "items": [{"seq": 1, "title": "Ring-2.6-1T发布：万亿参数思维模型专为复杂任务设计", "source": "X：蚂蚁百灵 (@AntLingAGI)", "summary": "Ring-2.6-1T是一款万亿参数的旗舰思维模型，专为现实世界复杂任务和生产环境构建。该模型具备可调节思维努力功能，…", "url": "https://x.com/AntLingAGI/status/2052808934390661134", "publishedAt": "2026-05-09T00:00:00.000Z", "exact": false}, {"seq": 2, "title": "EMO：为涌现模块化预训练的专家混合模型", "source": "Hugging Face：Blog（RSS）", "summary": "EMO是一种新型专家混合模型，通过端到端预训练使模块化结构直接从数据中涌现，无需依赖人类定义的先验。该模型允许在特定任…", "url": "https://huggingface.co/blog/allenai/emo", "publishedAt": "2026-05-09T00:00:00.000Z", "exact": false}]}, {"label": "产品发布/更新", "color": "#059669", "items": [{"seq": 3, "title": "Codex切换功能正式上线", "source": "X：OpenAI (@OpenAI)", "summary": "就把这个留在这里。 https://chatgpt.com/codex/switch-to-codex/", "url": "https://x.com/OpenAI/status/2052800507727781979", "publishedAt": "2026-05-09T00:00:00.000Z", "exact": false}, {"seq": 4, "title": "Grok 升级推出全平台连接器功能", "source": "X：Elon Musk (@elonmusk, xAI)", "summary": "Grok 升级 [引用 @grok]：... 今天就在 iOS、Android 和 http://grok.com 上…", "url": "https://x.com/elonmusk/status/2052856431611941200", "publishedAt": "2026-05-09T00:00:00.000Z", "exact": false}, {"seq": 5, "title": "Gemini笔记本助您高效组织复杂任务", "source": "X：Gemini (@GeminiApp)", "summary": "Gemini中的笔记本功能为复杂任务带来条理性。 以研究生院申请流程为例：通过笔记本，您可以将成绩单、文书草稿和录取要…", "url": "https://x.com/GeminiApp/status/2052805372050604187", "publishedAt": "2026-05-09T00:00:00.000Z", "exact": false}, {"seq": 6, "title": "仅凭人声能否创作流行歌曲？", "source": "X：Suno (@suno)", "summary": "你能只用你的声音创作一首流行歌曲吗？", "url": "https://x.com/suno/status/2052848941260058808", "publishedAt": "2026-05-09T00:00:00.000Z", "exact": false}, {"seq": 7, "title": "Bugbot团队与个人计划更新", "source": "Cursor Blog", "summary": "Bugbot宣布将团队与个人计划从每月每席位40美元的订阅制改为按使用量计费。现有用户的变化将于2026年6月5日后的…", "url": "https://cursor.com/blog/may-2026-bugbot-changes", "publishedAt": "2026-05-09T00:00:00.000Z", "exact": false}, {"seq": 8, "title": "阿里云推出Smart Studio，一站式自托管AI模型平台", "source": "X：阿里云 / Alibaba Cloud (@alibaba_cloud)", "summary": "阿里云发布Smart Studio平台，旨在整合AI模型测试与服务的全流程，终结用户在不同平台间切换的繁琐。该平台提供…", "url": "https://x.com/alibaba_cloud/status/2052680300803596574", "publishedAt": "2026-05-09T00:00:00.000Z", "exact": false}, {"seq": 9, "title": "OpenRouter SDK新增人工审核工具", "source": "X：OpenRouter (@OpenRouter)", "summary": "OpenRouter Agent SDK 新增功能：人工介入工具。 自动处理常规工具调用。暂停高风险调用以供审核。 返…", "url": "https://x.com/OpenRouter/status/2052856129961758917", "publishedAt": "2026-05-09T00:00:00.000Z", "exact": false}, {"seq": 10, "title": "v2.1.136", "source": "Claude Code：GitHub Releases（RSS）", "summary": "Claude发布了v2.1.136版本更新，主要包含一系列错误修复与功能改进。新增了`CLAUDE_CODE_ENAB…", "url": "https://github.com/anthropics/claude-code/releases/tag/v2.1.136", "publishedAt": "2026-05-09T00:00:00.000Z", "exact": false}]}, {"label": "行业动态", "color": "#d97706", "items": [{"seq": 11, "title": "AI 终端智能化分级国标出炉：L1~L4 等级，涉及手机、电脑、眼镜、电视、耳机等", "source": "IT之家（RSS）", "summary": "工信部等部门联合发布《人工智能终端智能化分级》系列国家标准。该标准采用“2+N”架构，基础部分明确了AI终端的定义、分…", "url": "https://www.ithome.com/0/947/582.htm", "publishedAt": "2026-05-09T00:00:00.000Z", "exact": false}, {"seq": 12, "title": "消息称 Anthropic 拟今夏融资数百亿美元，冲击万亿估值反超 OpenAI", "source": "IT之家（RSS）", "summary": "据《金融时报》报道，人工智能公司Anthropic计划今年夏季进行大规模融资，以扩展计算能力。此轮融资额最高可达500…", "url": "https://www.ithome.com/0/947/647.htm", "publishedAt": "2026-05-09T00:00:00.000Z", "exact": false}, {"seq": 13, "title": "我们保护儿童安全的方法", "source": "Runway：News（网页）", "summary": "Runway公司遵循Thorn的“生成式AI安全设计”原则，全流程保护儿童免受AI滥用。从模型开发开始，通过哈希匹配、…", "url": "https://runwayml.com/news/our-approach-to-child-safety", "publishedAt": "2026-05-09T00:00:00.000Z", "exact": false}, {"seq": 14, "title": "看创意传奇人物如何用AI为小企业制作广告", "source": "Google Blog：AI（RSS）", "summary": "谷歌推出\"The Small Brief\"项目，邀请四位广告业偶像——Susan、David、Victoria和Pen…", "url": "https://blog.google/company-news/inside-google/company-announcements/the-small-brief", "publishedAt": "2026-05-09T00:00:00.000Z", "exact": false}, {"seq": 15, "title": "苹果隐私保护机器学习与AI研讨会2026", "source": "Apple Machine Learning Research（RSS）", "summary": "苹果公司于2026年初举办为期两天的隐私保护机器学习与AI研讨会，汇集内部研究团队与外部学术专家，共同探讨差分隐私、联…", "url": "https://machinelearning.apple.com/updates/ppml-2026", "publishedAt": "2026-05-09T00:00:00.000Z", "exact": false}, {"seq": 16, "title": "Securing the Agentic Enterprise：保障智能体化企业的安全", "source": "Tomer Tunguz 博客（VC 分析）", "summary": "Lemonade公司首席信息安全官Jonathan Jaffe将参与一场15分钟的在线对话活动，探讨AI智能体时代的企…", "url": "https://www.tomtunguz.com/jonathan-jaffe-office-hours", "publishedAt": "2026-05-09T00:00:00.000Z", "exact": false}]}, {"label": "论文研究", "color": "#e11d48", "items": [{"seq": 17, "title": "教导Claude理解“为什么”", "source": "Anthropic：Research（发表成果 · 网页）", "summary": "Anthropic针对Claude模型在代理错位评估中出现的黑邮件等严重问题，改进了安全训练方法。自Claude Ha…", "url": "https://www.anthropic.com/research/teaching-claude-why", "publishedAt": "2026-05-09T00:00:00.000Z", "exact": false}, {"seq": 18, "title": "RVPO：基于方差正则化的风险敏感对齐", "source": "Apple Machine Learning Research（RSS）", "summary": "现有无评论者RLHF方法通过算术平均聚合多目标奖励，易导致约束忽视：单一目标的高分可能掩盖其他关键目标（如安全性或格式…", "url": "https://machinelearning.apple.com/research/rvpo-risk-sensitive-alignment", "publishedAt": "2026-05-09T00:00:00.000Z", "exact": false}, {"seq": 19, "title": "OpenAI分析意外思维链评分对模型影响", "source": "X：OpenAI (@OpenAI)", "summary": "思维链监控器是防御AI智能体错位的关键层。为保持可监控性，我们在RL期间避免惩罚错位推理。 我们发现少量意外思维链评分…", "url": "https://x.com/OpenAI/status/2052845764507062349", "publishedAt": "2026-05-09T00:00:00.000Z", "exact": false}, {"seq": 20, "title": "Velox：学习4D几何与外观的表示", "source": "Apple Machine Learning Research（RSS）", "summary": "Velox提出一个学习4D对象潜在表示的框架，该表示具备描述性、压缩性与易获取性。它仅需非结构化动态点云作为输入，通过…", "url": "https://machinelearning.apple.com/research/velox", "publishedAt": "2026-05-09T00:00:00.000Z", "exact": false}]}, {"label": "技巧与观点", "color": "#0284c7", "items": [{"seq": 21, "title": "机器人终局：物理AGI路线图与LLM类比", "source": "X：Jim Fan (@DrJimFan)", "summary": "演讲者以“Robotics: Endgame”为题，提出解决物理AGI的路线图，直接类比LLM的成功路径。核心观点包括…", "url": "https://x.com/DrJimFan/status/2052758642781487237", "publishedAt": "2026-05-09T00:00:00.000Z", "exact": false}, {"seq": 22, "title": "发布智能体技能构建内部手册", "source": "X：Perplexity (@perplexity_ai)", "summary": "我们已发布构建智能体技能的内部手册。 开发者需要以全新思维方式构建技能。 https://research.perpl…", "url": "https://x.com/perplexity_ai/status/2052786858774630665", "publishedAt": "2026-05-09T00:00:00.000Z", "exact": false}, {"seq": 23, "title": "抖音“法天象地”特效：从图片生成到视频优化的突破", "source": "X：歸藏 (@op7418)", "summary": "抖音近期流行的“法天象地”户外照片特效多基于图片生成，但实际测试表明直接生成视频效果更佳。作者通过优化提示词实现了这一…", "url": "https://x.com/op7418/status/2052764933696475279", "publishedAt": "2026-05-09T00:00:00.000Z", "exact": false}, {"seq": 24, "title": "Claude Code实践：HTML输出格式的卓越效果", "source": "Simon Willison 博客", "summary": "Anthropic公司Claude Code团队的Thariq Shihipar主张，在向Claude等大语言模型请求…", "url": "https://simonwillison.net/2026/May/8/unreasonable-effectiveness-of-html", "publishedAt": "2026-05-09T00:00:00.000Z", "exact": false}, {"seq": 25, "title": "别自己瞎折腾Claude Code 了！", "source": "X：Berry Xia (@berryxia)", "summary": "Alvaro Cintas 提出的“Agent Development Kit”系统，仅需五个核心文件夹即可将Clau…", "url": "https://x.com/berryxia/status/2052719498021773349", "publishedAt": "2026-05-09T00:00:00.000Z", "exact": false}, {"seq": 26, "title": "在AMD ROCm平台微调临床问答模型MedQA：无需CUDA", "source": "Hugging Face：Blog（RSS）", "summary": "一篇博客介绍了在AMD ROCm开源计算平台上微调临床问答AI模型MedQA的实践。该工作成功摆脱了对英伟达CUDA生…", "url": "https://huggingface.co/blog/lablab-ai-amd-developer-hackathon/medqa", "publishedAt": "2026-05-09T00:00:00.000Z", "exact": false}, {"seq": 27, "title": "自适应并行推理：高效推理扩展的新范式", "source": "BAIR：Berkeley AI Research Blog", "summary": "自适应并行推理是一种新范式，它让大语言模型能够自主决定何时分解任务、并行处理多少子任务以及如何协调结果，以应对序列推理…", "url": "http://bair.berkeley.edu/blog/2026/05/08/adaptive-parallel-reasoning", "publishedAt": "2026-05-09T00:00:00.000Z", "exact": false}, {"seq": 28, "title": "在OpenAI安全运行Codex", "source": "OpenAI：官网动态（RSS · 排除企业/客户案例）", "summary": "OpenAI通过沙盒隔离、人工审批流程、严格网络策略与原生代理遥测四层防护机制，确保Codex代码生成模型的安全运行。…", "url": "https://openai.com/index/running-codex-safely", "publishedAt": "2026-05-09T00:00:00.000Z", "exact": false}]}]};
+function pad(n){return n<10?"0"+n:""+n;}
+function toBeijingHuman(iso, ref, exact){
+  const d=new Date(iso); const bj=new Date(d.getTime()+8*3600*1000);
+  const Y=bj.getUTCFullYear(),M=bj.getUTCMonth()+1,D=bj.getUTCDate();
+  const h=bj.getUTCHours(),m=bj.getUTCMinutes(); const hh=pad(h),mm=pad(m);
+  if(!exact) return M+"月"+D+"日";
+  const [rY,rM,rD]=ref.split("-").map(Number);
+  if(Y===rY&&M===rM&&D===rD) return "今天 "+hh+":"+mm;
+  const yest=new Date(rY,rM-1,rD); yest.setDate(yest.getDate()-1);
+  if(Y===yest.getFullYear()&&M===yest.getMonth()+1&&D===yest.getDate()) return "昨天 "+hh+":"+mm;
+  return M+"月"+D+"日 "+hh+":"+mm;
+}
+const meta=DATA.meta, sections=DATA.sections, ref=meta.reportDate;
+const statsEl=document.getElementById("stats");
+sections.forEach(s=>{const d=document.createElement("div");d.className="stat";
+  d.innerHTML='<div class="n">'+s.items.length+'</div><div class="l">'+s.label+'</div>';statsEl.appendChild(d);});
+const navEl=document.getElementById("nav");
+sections.forEach((s,i)=>{const a=document.createElement("a");a.href="#sec-"+i;
+  a.innerHTML=escapeHtml(s.label)+'<span class="c">'+s.items.length+'</span>';navEl.appendChild(a);});
+const mainEl=document.getElementById("main");
+sections.forEach((s,i)=>{
+  const sec=document.createElement("section");sec.className="block";sec.id="sec-"+i;
+  const head=document.createElement("div");head.className="sec-head";
+  head.innerHTML='<span class="sec-dot" style="background:'+s.color+'"></span><h2>'+escapeHtml(s.label)+'</h2><span class="cnt">'+s.items.length+' 条</span>';
+  sec.appendChild(head);
+  const grid=document.createElement("div");grid.className="grid";
+  s.items.forEach(it=>{
+    const card=document.createElement("article");card.className="card";card.style.setProperty("--accent",s.color);
+    const time=toBeijingHuman(it.publishedAt,ref,it.exact);const url=it.url||"#";
+    card.innerHTML='<div class="top"><span class="seq">'+it.seq+'</span><span class="time">'+time+'</span></div>'+
+      '<h3>'+escapeHtml(it.title)+'</h3><span class="chip">'+escapeHtml(it.source)+'</span>'+
+      '<p class="summary">'+escapeHtml(it.summary)+'</p>'+
+      '<a class="readmore" href="'+escapeAttr(url)+'" target="_blank" rel="noopener noreferrer" title="外部原文链接，可能需要访问境外站点">来源 ↗</a>';
+    grid.appendChild(card);
+  });
+  sec.appendChild(grid);mainEl.appendChild(sec);
+});
+function escapeHtml(s){return (s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
+function escapeAttr(s){return escapeHtml(s);}
+</script>
+</body></html>

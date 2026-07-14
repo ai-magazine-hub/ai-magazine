@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>AI HOT 日报 · 2026-07-10</title>
+<style>
+  :root{--bg:#f5f6fb;--card:#fff;--ink:#1f2430;--muted:#6b7280;--line:#e8eaf1;
+    --shadow:0 1px 3px rgba(16,24,40,.06),0 8px 24px rgba(16,24,40,.05);}
+  *{box-sizing:border-box} html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
+    -webkit-font-smoothing:antialiased;line-height:1.55;}
+  a{color:inherit} .wrap{max-width:1180px;margin:0 auto;padding:0 18px}
+  .hero{background:linear-gradient(135deg,#4f46e5 0%,#7c3aed 55%,#9333ea 100%);color:#fff;
+    padding:42px 0 34px;position:relative;overflow:hidden;}
+  .hero::after{content:"";position:absolute;right:-80px;top:-80px;width:280px;height:280px;
+    background:radial-gradient(circle,rgba(255,255,255,.18),transparent 70%);border-radius:50%}
+  .hero .kicker{font-size:13px;letter-spacing:.18em;text-transform:uppercase;opacity:.85;margin:0 0 6px}
+  .hero h1{margin:0;font-size:34px;font-weight:800;letter-spacing:.5px}
+  .hero .date-line{margin:8px 0 0;font-size:15px;opacity:.92}
+  .stats{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+  .stat{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.22);border-radius:12px;
+    padding:10px 14px;min-width:120px;backdrop-filter:blur(4px)}
+  .stat .n{font-size:22px;font-weight:800;line-height:1}
+  .stat .l{font-size:12.5px;opacity:.9;margin-top:4px}
+  .total-pill{display:inline-flex;align-items:center;gap:8px;margin-top:18px;background:rgba(255,255,255,.16);
+    padding:8px 16px;border-radius:999px;font-weight:600;font-size:14px}
+  .nav{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.92);backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);box-shadow:0 2px 10px rgba(16,24,40,.04)}
+  .nav .wrap{display:flex;gap:8px;overflow-x:auto;padding:10px 18px;scrollbar-width:none}
+  .nav .wrap::-webkit-scrollbar{display:none}
+  .nav a{white-space:nowrap;text-decoration:none;font-size:13.5px;font-weight:600;color:var(--muted);
+    padding:7px 13px;border-radius:999px;border:1px solid var(--line);background:#fff;transition:.15s}
+  .nav a:hover{color:var(--ink);border-color:#c9cdfb}
+  .nav a.home{background:#4f46e5;color:#fff;border-color:#4f46e5}
+  .backhome{position:fixed;right:20px;bottom:20px;z-index:30;background:#4f46e5;color:#fff;text-decoration:none;
+    font-size:14px;font-weight:700;padding:12px 18px;border-radius:999px;box-shadow:0 6px 18px rgba(79,70,229,.35);
+    display:inline-flex;align-items:center;gap:7px;transition:.15s}
+  .backhome:hover{background:#4338ca;transform:translateY(-1px)}
+  .nav a .c{display:inline-block;min-width:20px;text-align:center;margin-left:6px;background:#eef0fe;
+    color:#4f46e5;border-radius:999px;font-size:12px;padding:0 7px}
+  section.block{padding:30px 0 6px}
+  .sec-head{display:flex;align-items:center;gap:10px;margin:0 0 16px}
+  .sec-dot{width:12px;height:12px;border-radius:4px}
+  .sec-head h2{margin:0;font-size:21px;font-weight:800}
+  .sec-head .cnt{font-size:13px;color:var(--muted);font-weight:600}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px 18px 16px;
+    box-shadow:var(--shadow);display:flex;flex-direction:column;gap:10px;position:relative;
+    border-top:3px solid var(--accent,#4f46e5);transition:transform .15s,box-shadow .15s}
+  .card:hover{transform:translateY(-3px);box-shadow:0 6px 14px rgba(16,24,40,.10),0 18px 40px rgba(16,24,40,.08)}
+  .card .top{display:flex;align-items:center;justify-content:space-between;gap:8px}
+  .seq{display:inline-flex;align-items:center;justify-content:center;min-width:30px;height:30px;padding:0 8px;
+    border-radius:9px;background:var(--accent,#4f46e5);color:#fff;font-weight:800;font-size:15px}
+  .time{font-size:12.5px;color:var(--muted);font-weight:600;white-space:nowrap}
+  .card h3{margin:0;font-size:16.5px;font-weight:700;line-height:1.4}
+  .chip{display:inline-block;align-self:flex-start;font-size:12px;font-weight:600;color:var(--accent,#4f46e5);
+    background:color-mix(in srgb,var(--accent,#4f46e5) 10%,#fff);border:1px solid color-mix(in srgb,var(--accent,#4f46e5) 22%,#fff);
+    padding:3px 10px;border-radius:999px}
+  .summary{margin:0;font-size:14px;color:#3b4252}
+  .readmore{margin-top:auto;display:inline-flex;align-items:center;gap:5px;align-self:flex-start;text-decoration:none;
+    font-size:13.5px;font-weight:700;color:var(--accent,#4f46e5)}
+  .readmore:hover{text-decoration:underline}
+  footer{margin-top:36px;padding:26px 0 40px;border-top:1px solid var(--line);color:var(--muted);font-size:13px;text-align:center}
+  footer a{color:#4f46e5;text-decoration:none}
+  @media (max-width:560px){.hero h1{font-size:27px}.grid{grid-template-columns:1fr}.stat{min-width:0;flex:1 1 40%}}
+</style>
+</head>
+<body>
+  <header class="hero"><div class="wrap">
+    <p class="kicker">AI HOT Daily · 晨报</p>
+    <h1>AI 日报 · 2026年7月10日</h1>
+    <p class="date-line">星期五 · 数据来源：AI HOT</p>
+    <div class="total-pill">📊 当日共 <strong style="margin:0 4px">25</strong> 条 AI 动态</div>
+    <div class="stats" id="stats"></div>
+  </div></header>
+  <nav class="nav"><div class="wrap" id="nav"><a href="index.html" class="home">📰 AI资讯杂志</a></div></nav>
+  <main class="wrap" id="main"></main>
+  <footer>
+    <div>本日报共收录 <strong>25</strong> 条动态 · 数据来源：<a href="https://aihot.virxact.com" target="_blank" rel="noopener noreferrer">AI HOT（aihot.virxact.com）</a></div>
+    <div style="margin-top:6px">生成于 2026年07月14日 17:28 · 时间换算为北京时间 · 点「来源 ↗」跳转原始报道</div>
+    <div style="margin-top:8px;opacity:.85">说明：本条新闻的标题、摘要、来源、日期已<b>镜像保存在本页</b>；即便外部链接失效或无法访问境外站点，已存档内容仍可正常查看。</div>
+  </footer>
+  <a href="index.html" class="backhome" title="返回 AI资讯杂志 首页">📰 返回 AI资讯杂志</a>
+<script>
+const DATA = {"meta": {"reportDate": "2026-07-10", "reportDateHuman": "2026年7月10日", "weekday": "星期五", "total": 25, "source": "AI HOT", "sourceUrl": "https://aihot.virxact.com", "generatedAt": "2026年07月14日 17:28"}, "sections": [{"label": "模型发布/更新", "color": "#4f46e5", "items": [{"seq": 1, "title": "OpenAI 推出 ChatGPT Work：可跨应用自主工作的 AI 智能体", "source": "OpenAI：官网动态（RSS · 排除企业/客户案例）", "summary": "OpenAI 发布 ChatGPT Work，一个能跨应用和文件收集信息、将复杂项目分解为小步骤独立完成并持续工作数小…", "url": "https://openai.com/index/chatgpt-for-your-most-ambitious-work", "publishedAt": "2026-07-09T10:00:00.000Z", "exact": true}, {"seq": 2, "title": "蚂蚁灵波开源实时交互世界模型 LingBot-World 2.0", "source": "IT之家（RSS）", "summary": "蚂蚁灵波开源新一代实时交互世界模型 LingBot-World 2.0（14B 参数），支持施法、攻击、跳跃等丰富角色…", "url": "https://www.ithome.com/0/974/508.htm", "publishedAt": "2026-07-09T06:53:40.000Z", "exact": true}, {"seq": 3, "title": "OpenAI 发布最强模型与最佳博文", "source": "X：Sam Altman (@sama)", "summary": "显然是我们有史以来最好的模型，也是我们写得最好的博文之一： https://openai.com/index/gpt-…", "url": "https://x.com/sama/status/2075266471316615436", "publishedAt": "2026-07-09T17:10:58.000Z", "exact": true}, {"seq": 4, "title": "蚂蚁灵波开源全球首个面向具身智能的MoE视频基模LingBot-Video", "source": "IT之家（RSS）", "summary": "蚂蚁灵波科技正式开源LingBot-Video，这是全球首个基于MoE架构、面向具身智能的视频生成基础模型。总参数30…", "url": "https://www.ithome.com/0/974/517.htm", "publishedAt": "2026-07-09T07:06:00.000Z", "exact": true}, {"seq": 5, "title": "NVIDIA 发布 Nemotron-Labs-3-Puzzle-75B-A9B：压缩混合 MoE 模型，服务器吞吐量提升 2.03 倍", "source": "MarkTechPost（RSS）", "summary": "NVIDIA 发布 Nemotron-3-Super 的压缩变体 Nemotron-Labs-3-Puzzle-75B…", "url": "https://www.marktechpost.com/2026/07/09/nvidia-releases-nemotron-labs-3-puzzle-75b-a9b-a-compressed-hybrid-moe-llm-delivering-2-03x-server-throughput-at-matched-user-throughput", "publishedAt": "2026-07-09T08:47:37.000Z", "exact": true}, {"seq": 6, "title": "Robbyant 发布 LingBot-VLA 2.0：开源 6B 跨实体机器人视觉-语言-动作模型", "source": "MarkTechPost（RSS）", "summary": "Robbyant 推出 LingBot-VLA 2.0，一个 6B 参数的开源视觉-语言-动作（VLA）基础模型。它以…", "url": "https://www.marktechpost.com/2026/07/08/lingbot-vla-2-0", "publishedAt": "2026-07-09T00:45:39.000Z", "exact": true}, {"seq": 7, "title": "Meta 发布 Muse Spark 1.1 模型", "source": "X：AI at Meta (@AIatMeta)", "summary": "来自 @finkd 的消息 — Muse Spark 1.1 已上线。", "url": "https://x.com/AIatMeta/status/2075218647359111460", "publishedAt": "2026-07-09T14:00:55.000Z", "exact": true}]}, {"label": "产品发布/更新", "color": "#059669", "items": [{"seq": 8, "title": "微软发布Flint：面向AI智能体的可视化语言", "source": "Hacker News 热门（buzzing.cc 中文翻译）", "summary": "微软研究院推出Flint，一种可视化中间语言，让AI智能体通过简洁的人类可编辑spec自动生成美观图表。用户只需提供数…", "url": "https://microsoft.github.io/flint-chart", "publishedAt": "2026-07-09T21:46:19.253Z", "exact": true}, {"seq": 9, "title": "Claude 推出反思功能（Beta）", "source": "Anthropic：Newsroom（网页）", "summary": "Anthropic 为 Claude 推出一项反思功能（Beta），帮助用户追踪使用模式。用户可回顾过去 1、3、6 …", "url": "https://www.anthropic.com/news/reflect-with-claude", "publishedAt": "2026-07-09T13:40:30.163Z", "exact": true}, {"seq": 10, "title": "ChatGPT Sites将创意变可发布网站", "source": "X：OpenAI Developers (@OpenAIDevs)", "summary": "将一个想法变成可发布和分享的实时网站 以下是OpenAI团队的一些成员用Sites构建的示例👇 @prd_008 用S…", "url": "https://x.com/OpenAIDevs/status/2075331020090687666", "publishedAt": "2026-07-09T21:27:27.000Z", "exact": true}, {"seq": 11, "title": "Google 推出 LiteRT.js：高性能 Web AI 推理运行时", "source": "Google Developers Blog（RSS）", "summary": "Google 发布 LiteRT.js，这是 LiteRT 跨平台边缘 AI 运行时的最新成员，专为 JavaScri…", "url": "https://developers.googleblog.com/litertjs-googles-high-performance-web-ai-inference", "publishedAt": "2026-07-09T21:21:08.292Z", "exact": true}, {"seq": 12, "title": "Mistral 推出 Studio，为 AI 提示词和技能提供系统记录", "source": "Mistral AI：News（网页）", "summary": "Mistral 今日推出 Studio，为 AI 提示词和技能提供集中式系统记录。平台将 prompts 和 skil…", "url": "https://mistral.ai/news/manage-prompts-and-skills-in-studio", "publishedAt": "2026-07-09T14:33:44.761Z", "exact": true}]}, {"label": "行业动态", "color": "#d97706", "items": [{"seq": 13, "title": "Elon Musk称赞Anthropic并承诺不切断其算力", "source": "TechCrunch：AI（RSS）", "summary": "Elon Musk近日在X上承认此前对Anthropic的判断有误，称其“显然是当前AI领域的领导者”，盛赞Mytho…", "url": "https://techcrunch.com/2026/07/09/elon-musk-praises-mythos-fable-promises-not-to-cut-off-anthropic", "publishedAt": "2026-07-09T21:57:42.000Z", "exact": true}, {"seq": 14, "title": "消息称特斯拉三代擎天柱人形机器人初步定型，马斯克放话达不成产能目标就开掉整个采购团队", "source": "IT之家（RSS）", "summary": "据晚点LatePost报道，特斯拉Optimus Gen 3经马斯克评审通过，即将量产。供应链要求供应商9月产能达10…", "url": "https://www.ithome.com/0/974/782.htm", "publishedAt": "2026-07-09T15:48:31.000Z", "exact": true}, {"seq": 15, "title": "Ollama 开发者数达890万，B轮融资由Theory领投", "source": "Tomer Tunguz 博客（VC 分析）", "summary": "Ollama 让开源模型在本地或云端轻松运行，保持体验一致。目前拥有890万开发者、6.7万集成，并与各大模型实验室及…", "url": "https://www.tomtunguz.com/ollama-series-b", "publishedAt": "2026-07-09T00:00:00.000Z", "exact": true}, {"seq": 16, "title": "Anthropic发起“硬问题”倡议，邀请公众提出AI相关尖锐问题", "source": "Anthropic：Newsroom（网页）", "summary": "Anthropic作为公益公司，发起“硬问题”倡议，邀请公众就AI对就业、社会、家庭、科学医学等领域的影响提出最尖锐的…", "url": "https://www.anthropic.com/news/hard-questions", "publishedAt": "2026-07-08T16:00:00.000Z", "exact": true}, {"seq": 17, "title": "Anthropic长期利益信托任命本·伯南克为受托人", "source": "Anthropic：Newsroom（网页）", "summary": "Anthropic的长期利益信托（LTBT）任命前美联储主席、2022年诺贝尔经济学奖得主本·伯南克为最新受托人。他将…", "url": "https://www.anthropic.com/news/ben-bernanke", "publishedAt": "2026-07-08T16:00:00.000Z", "exact": true}, {"seq": 18, "title": "GPT-5.5 生物漏洞赏金计划", "source": "OpenAI：官网动态（RSS · 排除企业/客户案例）", "summary": "OpenAI 将 GPT-5.5 Bio Bug Bounty 升级为持续私密项目 OpenAI Bio Bounty…", "url": "https://openai.com/index/bio-bug-bounty", "publishedAt": "2026-07-09T10:00:00.000Z", "exact": true}]}, {"label": "论文研究", "color": "#e11d48", "items": [{"seq": 19, "title": "揭密在线策略蒸馏：何时有益、何时有害及原因", "source": "Apple Machine Learning Research（RSS）", "summary": "Apple机器学习研究团队提出训练无关诊断框架，以每个token、每个问题、每个教师的分辨率分析on-policy蒸馏…", "url": "https://machinelearning.apple.com/research/unmasking-on-policy-distillation", "publishedAt": "2026-07-09T00:00:00.000Z", "exact": true}, {"seq": 20, "title": "TGPO：通过可验证奖励强化学习激励第一人称视频时序感知", "source": "Apple Machine Learning Research（RSS）", "summary": "多模态大语言模型（MLLM）在第一人称视频理解中缺乏时序感知，常依赖空间捷径。为此，研究者提出 Temporal Gl…", "url": "https://machinelearning.apple.com/research/incentivizing-temporal-awareness-egocentric", "publishedAt": "2026-07-09T00:00:00.000Z", "exact": true}, {"seq": 21, "title": "Apple 提出 SRLM：自反思程序搜索提升长上下文处理能力", "source": "Apple Machine Learning Research（RSS）", "summary": "Apple 机器学习研究团队提出 SRLM 框架，利用自一致性、推理链长度和口头置信度三种内在信号，让模型在推理时评估…", "url": "https://machinelearning.apple.com/research/self-reflective-program-search", "publishedAt": "2026-07-09T00:00:00.000Z", "exact": true}]}, {"label": "技巧与观点", "color": "#0284c7", "items": [{"seq": 22, "title": "AI 能否回答 3 万亿美元的问题？", "source": "TechCrunch：AI（RSS）", "summary": "Sequoia 合伙人 David Cahn 更新 AI 基础设施支出估算：2026 年全球投入达 1.5 万亿美元，…", "url": "https://techcrunch.com/2026/07/09/can-ai-answer-the-3-trillion-question", "publishedAt": "2026-07-09T21:47:50.000Z", "exact": true}, {"seq": 23, "title": "社交媒体AI生成内容泛滥：LinkedIn超过40%长文为AI写作", "source": "Hacker News 热门（buzzing.cc 中文翻译）", "summary": "安全公司Pangram通过Chrome扩展收集超100万条帖子，分析发现社交媒体AI生成内容泛滥。整体AI检测率13.…", "url": "https://www.pangram.com/blog/ai-in-your-feed", "publishedAt": "2026-07-09T21:46:29.789Z", "exact": true}, {"seq": 24, "title": "Bun 被 Anthropic 收购后用 Rust 重写，月下载超 2200 万", "source": "Hacker News 热门（buzzing.cc 中文翻译）", "summary": "Bun 于 2025 年 12 月被 Anthropic 收购，作者使用预发布版 Claude Fable 5 进行了…", "url": "https://bun.com/blog/bun-in-rust", "publishedAt": "2026-07-09T21:46:21.422Z", "exact": true}, {"seq": 25, "title": "TeXada：基于MiniCPM的本地数学Agent发布", "source": "X：面壁智能 OpenBMB (@OpenBMB)", "summary": "社区开发者基于MiniCPM5-1B和MiniCPM-V 4.6构建了本地优先的数学智能体TeXada。该Agent支…", "url": "https://x.com/OpenBMB/status/2075218678027850154", "publishedAt": "2026-07-09T14:01:03.000Z", "exact": true}]}]};
+function pad(n){return n<10?"0"+n:""+n;}
+function toBeijingHuman(iso, ref, exact){
+  const d=new Date(iso); const bj=new Date(d.getTime()+8*3600*1000);
+  const Y=bj.getUTCFullYear(),M=bj.getUTCMonth()+1,D=bj.getUTCDate();
+  const h=bj.getUTCHours(),m=bj.getUTCMinutes(); const hh=pad(h),mm=pad(m);
+  if(!exact) return M+"月"+D+"日";
+  const [rY,rM,rD]=ref.split("-").map(Number);
+  if(Y===rY&&M===rM&&D===rD) return "今天 "+hh+":"+mm;
+  const yest=new Date(rY,rM-1,rD); yest.setDate(yest.getDate()-1);
+  if(Y===yest.getFullYear()&&M===yest.getMonth()+1&&D===yest.getDate()) return "昨天 "+hh+":"+mm;
+  return M+"月"+D+"日 "+hh+":"+mm;
+}
+const meta=DATA.meta, sections=DATA.sections, ref=meta.reportDate;
+const statsEl=document.getElementById("stats");
+sections.forEach(s=>{const d=document.createElement("div");d.className="stat";
+  d.innerHTML='<div class="n">'+s.items.length+'</div><div class="l">'+s.label+'</div>';statsEl.appendChild(d);});
+const navEl=document.getElementById("nav");
+sections.forEach((s,i)=>{const a=document.createElement("a");a.href="#sec-"+i;
+  a.innerHTML=escapeHtml(s.label)+'<span class="c">'+s.items.length+'</span>';navEl.appendChild(a);});
+const mainEl=document.getElementById("main");
+sections.forEach((s,i)=>{
+  const sec=document.createElement("section");sec.className="block";sec.id="sec-"+i;
+  const head=document.createElement("div");head.className="sec-head";
+  head.innerHTML='<span class="sec-dot" style="background:'+s.color+'"></span><h2>'+escapeHtml(s.label)+'</h2><span class="cnt">'+s.items.length+' 条</span>';
+  sec.appendChild(head);
+  const grid=document.createElement("div");grid.className="grid";
+  s.items.forEach(it=>{
+    const card=document.createElement("article");card.className="card";card.style.setProperty("--accent",s.color);
+    const time=toBeijingHuman(it.publishedAt,ref,it.exact);const url=it.url||"#";
+    card.innerHTML='<div class="top"><span class="seq">'+it.seq+'</span><span class="time">'+time+'</span></div>'+
+      '<h3>'+escapeHtml(it.title)+'</h3><span class="chip">'+escapeHtml(it.source)+'</span>'+
+      '<p class="summary">'+escapeHtml(it.summary)+'</p>'+
+      '<a class="readmore" href="'+escapeAttr(url)+'" target="_blank" rel="noopener noreferrer" title="外部原文链接，可能需要访问境外站点">来源 ↗</a>';
+    grid.appendChild(card);
+  });
+  sec.appendChild(grid);mainEl.appendChild(sec);
+});
+function escapeHtml(s){return (s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
+function escapeAttr(s){return escapeHtml(s);}
+</script>
+</body></html>
