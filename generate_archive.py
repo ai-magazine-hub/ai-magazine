@@ -798,6 +798,19 @@ if not RENDER_ONLY:
             print(f"    + {date}: {arch[date]['meta']['total']} 条")
         except Exception as e:
             print(f"    ! {date} 拉取失败: {e}")
+    # 竞态兜底：若日报列表尚未包含「今天」（AI HOT 生成晚于抓取时刻），
+    # 直接按日期探测 daily 接口，确保当天日报不被漏抓（如 cron 抢跑场景）。
+    if today not in arch:
+        try:
+            probe = http_get_json(f"{BASE}/daily/{today}")
+            if probe.get("sections"):
+                arch[today] = build_day_record(today)
+                new_added += 1
+                print(f"    + {today}（直接补抓）: {arch[today]['meta']['total']} 条")
+            else:
+                print(f"    · 今天({today})日报接口暂无内容，跳过")
+        except Exception as e:
+            print(f"    ! 今天({today})补抓失败: {e}")
     save_archive(arch)
     print(f"    新增 {new_added} 期；累计 {len(arch)} 期")
 
@@ -1112,7 +1125,7 @@ INDEX_TPL = r"""<!DOCTYPE html>
   .month-cnt{font-size:12px;font-weight:700;color:#4f46e5;background:#eef0fe;padding:3px 0;border-radius:999px;text-align:center}
   .month-carousel{flex:1;min-width:0}
   .month-track{display:flex;gap:12px;overflow-x:auto;scroll-behavior:smooth;
-    scrollbar-width:none;-ms-overflow-style:none;padding-bottom:4px}
+    scrollbar-width:none;-ms-overflow-style:none;padding:16px 2px 4px}
   .month-track::-webkit-scrollbar{display:none}
   .day-mini{flex:0 0 212px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:13px 15px;
     text-decoration:none;color:inherit;display:flex;flex-direction:column;gap:8px;transition:border-color .15s,box-shadow .15s;cursor:pointer}
