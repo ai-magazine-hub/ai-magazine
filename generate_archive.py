@@ -1087,7 +1087,7 @@ INDEX_TPL = r"""<!DOCTYPE html>
   #ganttChart .gev:hover{filter:drop-shadow(0 0 5px rgba(79,70,229,.6))}
   #ganttChart .grow{transition:fill .12s}
   #ganttChart .grow:hover{fill:#eef3ff}
-  #ganttChart .gtoday{font-size:9px;font-weight:800;fill:#f97316}
+  #ganttChart .gtoday{font-size:9px;font-weight:800;fill:#fff}
   #ganttTip{position:absolute;display:none;pointer-events:none;background:#1f2430;color:#fff;
     font-size:12px;line-height:1.55;padding:8px 10px;border-radius:10px;box-shadow:0 6px 18px rgba(16,24,40,.25);
     z-index:5;max-width:300px}
@@ -1495,12 +1495,14 @@ function escapeHtml(s){return (s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&
         h+=`<line x1="${x.toFixed(1)}" y1="${T}" x2="${x.toFixed(1)}" y2="${plotBottom.toFixed(1)}" stroke="#e9edf4"/>`;
       }}
     }
-    // “今天”参考线（橙色虚线 + 底部标签），与右边界（统计截止日）同源，作为时间锚点
+    // “今天”参考线（橙色虚线 + 顶部标签），与右边界（统计截止日）同源，作为时间锚点
     {
       const tx=xAtDate(G.range[1]);
       if(tx>=L-0.5 && tx<=W-R+0.5){
         h+=`<line x1="${tx.toFixed(1)}" y1="${T}" x2="${tx.toFixed(1)}" y2="${plotBottom.toFixed(1)}" stroke="#f97316" stroke-width="1.5" stroke-dasharray="4 3" opacity="0.85"/>`;
-        h+=`<text class="gtoday" x="${tx.toFixed(1)}" y="${(plotBottom+14).toFixed(1)}" text-anchor="middle">今天</text>`;
+        h+=`<polygon points="${tx.toFixed(1)},${T} ${(tx-4).toFixed(1)},${(T-6).toFixed(1)} ${(tx+4).toFixed(1)},${(T-6).toFixed(1)}" fill="#f97316" opacity="0.9"/>`;
+        h+=`<rect x="${(tx-16).toFixed(1)}" y="2" width="32" height="14" rx="7" fill="#f97316" opacity="0.95"/>`;
+        h+=`<text class="gtoday" x="${tx.toFixed(1)}" y="13" text-anchor="middle">今天</text>`;
       }
     }
     // 3) 事件标记：每个点按真实发布日期（年/月/日）在时间轴上定位，突出发布时间先后
