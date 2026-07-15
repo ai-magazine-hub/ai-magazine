@@ -1339,8 +1339,9 @@ function escapeHtml(s){return (s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&
   const minView=Math.max(2, totalUnits/12);
   function bandOf(y){ for(const b of BANDS){ if(y>=b.y0 && y<=b.y1) return b; } return BANDS[0]; }
   // 事件 → 内容空间坐标：落在其所在分组的 [组起点, 组终点) 区间内按比例定位
+  const todayMs=new Date(G.range[1]+"T00:00:00Z").getTime();
   function posOf(ms){ const dt=new Date(ms); const y=dt.getUTCFullYear(); const b=bandOf(y);
-    const bs=Date.UTC(b.y0,0,1), be=Date.UTC(b.y1+1,0,1);
+    const bs=Date.UTC(b.y0,0,1), be=Math.min(Date.UTC(b.y1+1,0,1), todayMs);
     const frac=(ms-bs)/(be-bs); return cumBeforeB[b.label] + frac*bandUnits[b.label]; }
   function xOfUnits(u){ return L + (u-viewStart)/viewUnits*plotW; }
   function xAt(ms){ return xOfUnits(posOf(ms)); }
@@ -1499,10 +1500,11 @@ function escapeHtml(s){return (s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&
     {
       const tx=xAtDate(G.range[1]);
       if(tx>=L-0.5 && tx<=W-R+0.5){
+        const txc=Math.max(L+18, Math.min(tx, W-R-18));   // 贴边时胶囊左移，避免压到评分栏
         h+=`<line x1="${tx.toFixed(1)}" y1="${T}" x2="${tx.toFixed(1)}" y2="${plotBottom.toFixed(1)}" stroke="#f97316" stroke-width="1.5" stroke-dasharray="4 3" opacity="0.85"/>`;
         h+=`<polygon points="${tx.toFixed(1)},${T} ${(tx-4).toFixed(1)},${(T-6).toFixed(1)} ${(tx+4).toFixed(1)},${(T-6).toFixed(1)}" fill="#f97316" opacity="0.9"/>`;
-        h+=`<rect x="${(tx-16).toFixed(1)}" y="2" width="32" height="14" rx="7" fill="#f97316" opacity="0.95"/>`;
-        h+=`<text class="gtoday" x="${tx.toFixed(1)}" y="13" text-anchor="middle">今天</text>`;
+        h+=`<rect x="${(txc-16).toFixed(1)}" y="2" width="32" height="14" rx="7" fill="#f97316" opacity="0.95"/>`;
+        h+=`<text class="gtoday" x="${txc.toFixed(1)}" y="13" text-anchor="middle">今天</text>`;
       }
     }
     // 3) 事件标记：每个点按真实发布日期（年/月/日）在时间轴上定位，突出发布时间先后
