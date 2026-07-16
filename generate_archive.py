@@ -86,7 +86,7 @@ MODELS = [
     ("ABot-Earth","阿里",       ["abot-earth", "abot"]),
     ("混元",      "腾讯",       ["混元", "hunyuan", "元宝"]),
     ("Hy-MT",     "腾讯",       ["hy-mt", "hy mt"]),
-    ("豆包",      "字节",       ["豆包", "doubao"]),
+    ("Seed",      "字节",       ["豆包", "doubao", "seed"]),
     ("即梦",      "字节",       ["即梦", "jimeng"]),
     ("Seedance",  "字节",       ["seedance"]),   # 文生视频，单独成行 + 重大更新红色高亮
     ("Coze 扣子", "字节",       ["coze", "扣子"]),
@@ -105,7 +105,6 @@ MODELS = [
     ("Cosmos",     "NVIDIA",    ["cosmos"]),
     ("SANA",       "NVIDIA",    ["sana"]),
     # ── 其它实验室基础 / 生成模型（daily-feed 归类用）──
-    ("Seed",       "字节",       ["seed"]),
     ("Muse",       "Meta",      ["muse"]),
     ("MAI",        "Microsoft", ["mai-thinking", "mai "]),
 ]
@@ -141,7 +140,7 @@ FAMILY = {
     # 腾讯
     "混元": "混元", "Hy-MT": "Hy-MT",
     # 字节
-    "豆包": "豆包", "即梦": "即梦", "Seedance": "Seedance", "Coze 扣子": "Coze 扣子",
+    "豆包": "Seed", "即梦": "即梦", "Seedance": "Seedance", "Coze 扣子": "Coze 扣子",
     # 智谱
     "智谱 GLM": "智谱 GLM",
     # 月之暗面
@@ -170,7 +169,7 @@ FAMILY = {
 # 数值取自 LMArena（原 LMSYS Chatbot Arena）公开 Arena Elo 排行榜 2026 年 7 月快照，
 # 代表该模型系列当前最强公开版本的盲测偏好分（100 Elo ≈ 头部对战胜率差约 64%）。
 # 仅收录「有公开可比文本 Arena 分数」的模型；视频/图像/语音类或未公开独立评分的
-# 产品类（如 Copilot、豆包、混元、即梦、Seedance、Coze、Nova、Titan、Apple、百川、MiniMax、星火）
+# 产品类（如 Copilot、Seed、混元、即梦、Seedance、Coze、Nova、Titan、Apple、百川、MiniMax、星火）
 # 记为 None，时间线中显示「—」，并统一排在各公司评分模型之后。
 RATINGS = {
     # OpenAI
@@ -199,7 +198,7 @@ RATINGS = {
     # 腾讯
     "混元": None,
     # 字节
-    "豆包": None, "即梦": None, "Seedance": None, "Coze 扣子": None,
+    "Seed": 1455, "即梦": None, "Seedance": None, "Coze 扣子": None,
     # 智谱
     "智谱 GLM": 1470,       # GLM-5.2
     # 月之暗面
@@ -235,7 +234,7 @@ FAM_TYPE = {
     "Gemma": "文本", "Llama": "文本", "Grok": "文本", "DeepSeek 系列": "文本",
     "文心 ERNIE": "文本", "通义千问 Qwen": "文本", "混元": "文本", "智谱 GLM": "文本",
     "Kimi": "文本", "Mistral 系列": "文本", "MiniMax 系列": "文本", "星火": "文本",
-    "Baichuan": "文本", "豆包": "文本", "Coze 扣子": "文本", "Copilot": "文本",
+    "Baichuan": "文本", "Seed": "文本", "Coze 扣子": "文本", "Copilot": "文本",
     "Nova": "文本", "Titan": "文本", "Apple 基础模型": "文本",
     # 生成式媒体（无文本 Arena 分）
     "Sora": "视频", "Veo": "视频", "Seedance": "视频", "即梦": "图像", "DALL·E": "图像",
@@ -255,7 +254,7 @@ LM_MAP = [
     ("通义千问 Qwen",      ["qwen"],                 [],            []),
     ("智谱 GLM",          ["glm"],                  [],            []),
     ("混元",              ["hunyuan"],              [],            []),
-    ("豆包",              ["doubao", "seed"],        [],            ["seedance", "seedream"]),
+    ("Seed",              ["doubao", "seed"],        [],            ["seedance", "seedream"]),
     ("Coze 扣子",          ["coze"],                 [],            []),
     ("Kimi",             ["kimi"],                 [],            []),
     ("Mistral 系列",       ["mistral"],              [],            []),
@@ -287,7 +286,7 @@ CAPS = {
     "Copilot": ["Agent", "Chat"], "Orca 系列": ["Chat"], "Phi 系列": ["Chat"],
     # 阿里 / 百度 / 腾讯 / 智谱 / 月之暗面 / Mistral / 百川 / 字节 / 讯飞 / 苹果 / 亚马逊 / NVIDIA
     "文心 ERNIE": ["Chat", "Vision"], "通义千问 Qwen": ["Chat", "Vision", "Agent"],
-    "混元": ["Chat", "Vision"], "Hy-MT": ["Audio"], "豆包": ["Chat", "Agent"],
+    "混元": ["Chat", "Vision"], "Hy-MT": ["Audio"], "Seed": ["Chat", "Agent"],
     "即梦": ["Image", "Video"], "Seedance": ["Video"], "Coze 扣子": ["Agent"],
     "智谱 GLM": ["Chat", "Vision"], "Kimi": ["Chat", "LongContext"], "Mistral 系列": ["Chat"],
     "Nova": ["Chat"], "Titan": ["Chat"], "Apple 基础模型": ["Chat"], "Baichuan": ["Chat"],
@@ -531,11 +530,11 @@ MILESTONES = [
     {"d":"2026-01-27","c":"月之暗面","m":"Kimi","k":"model","t":"Kimi K2.5 开源多模态代理大模型发布","major":True,"src":"月之暗面"},
     {"d":"2026-04-20","c":"月之暗面","m":"Kimi","k":"model","t":"Kimi K2.6 发布","major":True,"src":"月之暗面"},
     # ── 字节（中国）──
-    {"d":"2023-08-17","c":"字节","m":"豆包","k":"product","t":"豆包（云雀）AI 对话产品公测","major":False,"src":"字节"},
-    {"d":"2024-05-15","c":"字节","m":"豆包","k":"model","t":"豆包大模型正式发布","major":False,"src":"字节"},
-    {"d":"2025-06-11","c":"字节","m":"豆包","k":"model","t":"豆包大模型 1.6 / Seedance 1.0 发布","major":False,"src":"字节"},
+    {"d":"2023-08-17","c":"字节","m":"Seed","k":"product","t":"Seed（云雀）AI 对话产品公测","major":False,"src":"字节"},
+    {"d":"2024-05-15","c":"字节","m":"Seed","k":"model","t":"Seed 大模型正式发布","major":False,"src":"字节"},
+    {"d":"2025-06-11","c":"字节","m":"Seed","k":"model","t":"Seed 大模型 1.6 / Seedance 1.0 发布","major":False,"src":"字节"},
     {"d":"2026-02-12","c":"字节","m":"Seedance","k":"model","t":"Seedance 2.0 视频生成大模型发布","major":True,"src":"字节"},
-    {"d":"2026-02-14","c":"字节","m":"豆包","k":"model","t":"豆包大模型 2.0 全系列发布","major":True,"src":"字节"},
+    {"d":"2026-02-14","c":"字节","m":"Seed","k":"model","t":"Seed 大模型 2.0 全系列发布","major":True,"src":"字节"},
     # ── 腾讯（中国）──
     {"d":"2023-09-07","c":"腾讯","m":"混元","k":"model","t":"腾讯混元大模型正式亮相","major":False,"src":"腾讯"},
     {"d":"2024-05-30","c":"腾讯","m":"混元","k":"product","t":"腾讯元宝 App 上线","major":False,"src":"腾讯"},
@@ -1709,14 +1708,14 @@ function escapeHtml(s){return (s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&
     const flushRegion=(endY)=>{
       if(curRegion && endY>regStartY+0.5){
         const rc=REGION_COLOR[curRegion]||"#6b7280";
-        overlay+=`<rect x="0" y="${regStartY.toFixed(1)}" width="6" height="${(endY-regStartY).toFixed(1)}" fill="${rc}"/>`;
+        overlay+=`<rect x="0" y="${regStartY.toFixed(1)}" width="4" height="${(endY-regStartY).toFixed(1)}" rx="2" fill="${rc}" opacity="0.5"/>`;
         overlay+=`<line x1="0" y1="${endY.toFixed(1)}" x2="${W}" y2="${endY.toFixed(1)}" stroke="${rc}" stroke-width="1" opacity="0.35"/>`;
       }
     };
     const flushCompany=(endY)=>{
       if(curCompany && endY>compStartY+0.5){
-        overlay+=`<rect x="6" y="${compStartY.toFixed(1)}" width="3" height="${(endY-compStartY).toFixed(1)}" fill="${compColor}" opacity="0.9"/>`;
-        overlay+=`<line x1="9" y1="${endY.toFixed(1)}" x2="${W}" y2="${endY.toFixed(1)}" stroke="#eceef3" stroke-width="1"/>`;
+        overlay+=`<rect x="11" y="${compStartY.toFixed(1)}" width="3" height="${(endY-compStartY).toFixed(1)}" fill="${compColor}" opacity="0.9"/>`;
+        overlay+=`<line x1="11" y1="${endY.toFixed(1)}" x2="${W}" y2="${endY.toFixed(1)}" stroke="#eceef3" stroke-width="1"/>`;
       }
     };
     rows.forEach(r=>{
