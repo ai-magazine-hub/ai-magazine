@@ -1548,13 +1548,16 @@ function escapeHtml(s){return (s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&
     flushRegion(y);
     const plotBottom=y;
     h+=overlay;
-    // 左侧标签栏与绘图区分隔线
+    // 左侧标签栏与绘图区分隔线（外框左）
     h+=`<line x1="${L.toFixed(1)}" y1="${T}" x2="${L.toFixed(1)}" y2="${plotBottom.toFixed(1)}" stroke="#e4e7ef" stroke-width="1"/>`;
-    // 绘图区外框（右 / 上 / 下），与左边框同款，使左右对称、整体闭合
-    const fx=(W-R);
-    h+=`<line x1="${fx.toFixed(1)}" y1="${T}" x2="${fx.toFixed(1)}" y2="${plotBottom.toFixed(1)}" stroke="#e4e7ef" stroke-width="1"/>`;
-    h+=`<line x1="${L.toFixed(1)}" y1="${T}" x2="${fx.toFixed(1)}" y2="${T}" stroke="#e4e7ef" stroke-width="1"/>`;
-    h+=`<line x1="${L.toFixed(1)}" y1="${plotBottom.toFixed(1)}" x2="${fx.toFixed(1)}" y2="${plotBottom.toFixed(1)}" stroke="#e4e7ef" stroke-width="1"/>`;
+    // 绘图区与右侧 LMArena Elo 评分栏的内部分隔线
+    const ex=(W-R);
+    h+=`<line x1="${ex.toFixed(1)}" y1="${T}" x2="${ex.toFixed(1)}" y2="${plotBottom.toFixed(1)}" stroke="#e4e7ef" stroke-width="1"/>`;
+    // 整体外框（右 / 上 / 下）：右边界包住 Elo 栏于最外围 W 处，左右对称、整体闭合
+    const ox=W;
+    h+=`<line x1="${ox.toFixed(1)}" y1="${T}" x2="${ox.toFixed(1)}" y2="${plotBottom.toFixed(1)}" stroke="#e4e7ef" stroke-width="1"/>`;
+    h+=`<line x1="${L.toFixed(1)}" y1="${T}" x2="${ox.toFixed(1)}" y2="${T}" stroke="#e4e7ef" stroke-width="1"/>`;
+    h+=`<line x1="${L.toFixed(1)}" y1="${plotBottom.toFixed(1)}" x2="${ox.toFixed(1)}" y2="${plotBottom.toFixed(1)}" stroke="#e4e7ef" stroke-width="1"/>`;
     // 年份仅用细网格线区分（无列填充）；背景统一表达「阵营」
 
     // 2) 时间轴：内容加权列宽（稀疏年细、密集年宽）+ 顶部年份标签
