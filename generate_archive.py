@@ -1704,6 +1704,7 @@ function escapeHtml(s){return (s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&
   const CAP_ORDER=(G.caps_defs||[]).map(c=>c.key);
   const CAP_MAP={}; (G.caps_defs||[]).forEach(c=>CAP_MAP[c.key]=c);
   const ACCENT="#4f46e5";                      // 统一品牌蓝（Hover / 选中 / 筛选激活 / 能力标签 Hover）
+  __COMPANY_LOGO__
   function eloSort(a,b){ return ((b.rating==null?-1:b.rating)-(a.rating==null?-1:a.rating)) || a.name.localeCompare(b.name); }
   const rows=[];
   G.regions.forEach(reg=>{
@@ -1878,11 +1879,22 @@ function escapeHtml(s){return (s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&
         if(capActive && !compHasVis[r.company]){ curCompany=null; return; }
         curCompany=r.company; compStartY=y; compColor=r.color;
         const comp=r.company;
-        // 公司视觉锚点：右侧 16px 虚线 Logo 占位（品牌色描边 + 首字母）+ 公司名（品牌色）
-        const lx=W-34, ly=(y+compH/2-8).toFixed(1);
-        h+=`<rect x="${lx}" y="${ly}" width="16" height="16" rx="5" fill="#ffffff" stroke="${r.color}" stroke-width="1.25" stroke-dasharray="2.5 2"/>`;
-        h+=`<text x="${(lx+8).toFixed(1)}" y="${(y+compH/2+4).toFixed(1)}" text-anchor="middle" font-size="9.5" font-weight="800" fill="${r.color}">${escapeHtml(comp.slice(0,1))}</text>`;
-        h+=`<text class="ccname" x="16" y="${(y+compH/2+5).toFixed(1)}" font-size="15" font-weight="800" fill="${r.color}">${escapeHtml(comp)}</text>`;
+        // 公司视觉锚点：左侧统一 Logo 容器（22×22 白底 + 极浅灰描边）+ 真实品牌商标 / 中性占位 ◇
+        const cw=22, ch=22, cx=16, cy=(y+(compH-ch)/2).toFixed(1);
+        h+=`<rect x="${cx}" y="${cy}" width="${cw}" height="${ch}" rx="6" fill="#ffffff" stroke="rgba(15,23,42,0.08)" stroke-width="1"/>`;
+        const L2=COMPANY_LOGO[comp];
+        if(L2){
+          // 真实品牌商标：正方形 15×15 / 横向字标 17×10，均居中于容器、不被裁切
+          const lw=L2.wide?17:15, lh=L2.wide?10:15;
+          const lx=(cx+(cw-lw)/2).toFixed(1), ly=(parseFloat(cy)+(ch-lh)/2).toFixed(1);
+          h+=`<svg x="${lx}" y="${ly}" width="${lw}" height="${lh}" viewBox="0 0 24 24" preserveAspectRatio="xMidYMid meet">${L2.svg}</svg>`;
+        } else {
+          // 中性占位 ◇（灰色，非品牌色）：表示 Logo 暂缺，非正式品牌图标
+          const dx=cx+cw/2, dy=parseFloat(cy)+ch/2;
+          h+=`<path d="M ${dx} ${(dy-4.5).toFixed(1)} L ${(dx+4.5).toFixed(1)} ${dy} L ${dx} ${(dy+4.5).toFixed(1)} L ${(dx-4.5).toFixed(1)} ${dy} Z" fill="#9aa1b1"/>`;
+        }
+        // 公司名（品牌色），右移避让 Logo 容器
+        h+=`<text class="ccname" x="44" y="${(y+compH/2+5).toFixed(1)}" font-size="15" font-weight="800" fill="${r.color}">${escapeHtml(comp)}</text>`;
         y+=compH;
       } else {
         const m=r.m, y0=y;
@@ -1890,7 +1902,7 @@ function escapeHtml(s){return (s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&
         h+=`<rect class="grow" style="--mc:${m.color}" x="0" y="${y0.toFixed(1)}" width="${W}" height="${rowH}" fill="#ffffff"/>`;
         const vis=visibleEvents(m);
         // 模型名（左）+ Arena Elo（同行靠右，品牌色；无评分显示「—」）
-        h+=`<text x="16" y="${(y0+17).toFixed(1)}" font-size="13" font-weight="600" fill="#1f2430">${escapeHtml(m.name)}</text>`;
+        h+=`<text x="44" y="${(y0+17).toFixed(1)}" font-size="13" font-weight="600" fill="#1f2430">${escapeHtml(m.name)}</text>`;
         h+=`<text x="${(L-12).toFixed(1)}" y="${(y0+17).toFixed(1)}" text-anchor="end" font-size="13" font-weight="800" fill="${m.color}">${m.rating==null?'—':m.rating}</text>`;
         // 能力标签：统一浅灰胶囊（第二行），Hover 变深灰；最多 2 个
         let _tx=16;
@@ -2309,6 +2321,52 @@ def compute_gantt(arch=None, top_n=GANTT_TOP_N):
     alld = sorted(set(mdates + list(arch.keys())))
     return {"range": [alld[0], max(alld[-1], today)], "regions": regions, "caps_defs": caps_defs}
 
+# ---------- 公司品牌 Logo（真实商标 SVG，统一缩微容器）----------
+# 资源来源：Simple Icons 官方品牌图形（monochrome 实色版，按各公司项目品牌色着色），
+# 存放于 assets/brands/。找不到可靠官方 Logo 的公司（智谱 / 月之暗面 / 百川 / 讯飞星火 /
+# Thinking Machines）不在下表中，前端回退为中性灰色 ◇ 占位（非品牌色），表示「Logo 暂缺」。
+# 说明：Simple Icons 仅提供官方「单色实底」商标图形（Google 的 G、Microsoft 四方块等均为此类），
+# 已按各公司品牌色着色，使 Logo + 品牌色竖线 + 公司名 + 同色 Arena Elo 构成统一识别单元。
+_BRAND_FILES = {
+    "OpenAI": ("openai", False),
+    "Anthropic": ("anthropic", False),
+    "Google": ("google", False),
+    "Meta": ("meta", False),
+    "xAI": ("x", False),
+    "Microsoft": ("microsoft", False),
+    "Amazon": ("amazon", True),    # 横向字标 → 17×10
+    "NVIDIA": ("nvidia", False),
+    "深度求索": ("deepseek", False),
+    "百度": ("baidu", False),
+    "阿里": ("alibabacloud", False),
+    "腾讯": ("tencentqq", False),
+    "字节": ("bytedance", False),
+    "稀宇科技": ("minimax", False),
+    "Mistral": ("mistralai", False),
+    "Apple": ("apple", False),
+    "ElevenLabs": ("elevenlabs", False),
+    "Kuaishou 快手": ("kuaishou", False),
+}
+def build_company_logo_js():
+    """读取 assets/brands/*.svg，提取内部路径并内联为 JS 常量（自包含，无需运行时外链）。"""
+    import re as _re
+    base = os.path.join(os.path.dirname(os.path.abspath(__file__)), "assets", "brands")
+    out = {}
+    for comp, (slug, wide) in _BRAND_FILES.items():
+        fp = os.path.join(base, f"{slug}.svg")
+        if not os.path.exists(fp):
+            continue
+        try:
+            txt = open(fp, "r", encoding="utf-8").read()
+            m = _re.search(r"<svg[^>]*>(.*)</svg>", txt, _re.S)
+            if not m:
+                continue
+            inner = m.group(1).strip()
+            out[comp] = {"svg": inner, "wide": bool(wide)}
+        except Exception:
+            continue
+    return "const COMPANY_LOGO = " + json.dumps(out, ensure_ascii=False) + ";"
+
 def render_index(days):
     idx_days = []
     for d in days:
@@ -2338,6 +2396,7 @@ def render_index(days):
         .replace("__DAYS__", json.dumps(idx_days, ensure_ascii=False).replace("<","\\u003c").replace(">","\\u003e"))
         .replace("__GROUPS__", json.dumps(groups, ensure_ascii=False).replace("<","\\u003c").replace(">","\\u003e"))
         .replace("__GANTT__", json.dumps(gantt, ensure_ascii=False).replace("<","\\u003c").replace(">","\\u003e"))
+        .replace("__COMPANY_LOGO__", build_company_logo_js())
         .replace("__GANTT_BANDS__", json.dumps(GANTT_YEAR_BANDS, ensure_ascii=False))
         .replace("__RANGE__", f"{oldest} – {newest}")
         .replace("__NDAYS__", str(len(days)))
