@@ -49,7 +49,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add archive.json index.html ai-daily.html
+          git add archive.json index.html ai-daily.html ratings_cache.json
           # 同时纳入可能新增的日报页
           git add "ai-daily-*.html" 2>/dev/null || true
           if git diff --cached --quiet; then

@@ -218,6 +218,121 @@ RATINGS = {
     "星火": None,
 }
 
+# ── LMArena Elo 评分：每日自动刷新（文本综合榜）──────────────────────────────
+# 数据源：社区每日快照（LMArena 官方无公开 API）。免费、无需鉴权：
+#   主：https://api.wulong.dev/arena-ai-leaderboards/v1/leaderboard?name=text
+#   备：https://raw.githubusercontent.com/oolong-tea-2026/arena-ai-leaderboards/main/data/latest.json
+# 拉取结果缓存到 ratings_cache.json（带时间戳并提交），任何失败都回退到上方静态 RATINGS。
+RATINGS_CACHE_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "ratings_cache.json")
+RATINGS_API_PRIMARY = "https://api.wulong.dev/arena-ai-leaderboards/v1/leaderboard?name=text"
+RATINGS_API_SECONDARY = "https://raw.githubusercontent.com/oolong-tea-2026/arena-ai-leaderboards/main/data/latest.json"
+# 家族 → LMArena 模型名匹配规则：(家族key, [名称子串], [厂商子串(可空)], [排除子串])
+# 评分取该家族所有命中模型中的最高 Elo（即旗舰），与上方静态字典“区间顶端”意图一致。
+# 注：图像/视频模型（Sora/DALL·E/Veo/Seedance/即梦 等）在文本榜无 Elo，保持 None（显示「—」）。
+LM_MAP = [
+    ("GPT",              ["gpt"],                  [],            []),
+    ("OpenAI o 系列",     ["o1", "o3", "o4", "o2"],  [],            ["gpt"]),
+    ("Claude",           ["claude"],               [],            []),
+    ("Gemini",           ["gemini"],               [],            []),
+    ("Gemma",            ["gemma"],                [],            []),
+    ("Llama",            ["llama"],                [],            []),
+    ("Grok",             ["grok"],                 [],            []),
+    ("DeepSeek 系列",     ["deepseek"],             [],            []),
+    ("文心 ERNIE",        ["ernie"],                [],            []),
+    ("通义千问 Qwen",      ["qwen"],                 [],            []),
+    ("智谱 GLM",          ["glm"],                  [],            []),
+    ("混元",              ["hunyuan"],              [],            []),
+    ("豆包",              ["doubao"],               [],            []),
+    ("Coze 扣子",          ["coze"],                 [],            []),
+    ("Kimi",             ["kimi"],                 [],            []),
+    ("Mistral 系列",       ["mistral"],              [],            []),
+    ("Baichuan",         ["baichuan"],             [],            []),
+    ("MiniMax 系列",       ["minimax", "minmax", "abab"], [],       []),
+    ("星火",              ["spark", "iflytek"],     [],            []),
+]
+
+def _fetch_text_leaderboard():
+    """返回 LMArena 文本榜模型列表（list[dict]），失败返回 []。"""
+    for url in (RATINGS_API_PRIMARY, RATINGS_API_SECONDARY):
+        try:
+            data = http_get_json(url)
+        except Exception:
+            continue
+        models = data.get("models") if isinstance(data, dict) else None
+        if models:
+            return models
+    return []
+
+def fetch_live_ratings():
+    """从 LMArena 文本榜解析出 {家族key: 最高Elo}，失败返回 {}。"""
+    models = _fetch_text_leaderboard()
+    if not models:
+        return {}
+    out = {}
+    for fam, name_pats, vend_pats, excl_pats in LM_MAP:
+        best = None
+        for m in models:
+            name = (m.get("model") or "").lower()
+            vendor = (m.get("vendor") or "").lower()
+            if not any(p in name for p in name_pats):
+                continue
+            if excl_pats and any(p in name for p in excl_pats):
+                continue
+            if vend_pats and not any(v in vendor for v in vend_pats):
+                continue
+            sc = m.get("score")
+            if not isinstance(sc, (int, float)):
+                continue
+            sc = int(sc)
+            if sc < 1000 or sc > 1800:   # 合理性过滤，丢弃异常值
+                continue
+            if best is None or sc > best:
+                best = sc
+        if best is not None:
+            out[fam] = best
+    return out
+
+def load_ratings_cache():
+    try:
+        with open(RATINGS_CACHE_FILE, "r", encoding="utf-8") as f:
+            d = json.load(f)
+        return d.get("ratings", {}) if isinstance(d, dict) else {}
+    except Exception:
+        return {}
+
+def save_ratings_cache(ratings):
+    try:
+        with open(RATINGS_CACHE_FILE, "w", encoding="utf-8") as f:
+            json.dump({"updated_at": int(time.time()), "ratings": ratings},
+                      f, ensure_ascii=False, indent=2)
+    except Exception:
+        pass
+
+_LIVE_RATINGS = {}   # 运行时评分表（缓存 + 本次拉取合并），由 init_live_ratings 填充
+
+def init_live_ratings():
+    """构建前调用：载入缓存；非 --render-only 时尝试联网刷新并落盘。永不抛异常。"""
+    global _LIVE_RATINGS
+    cache = load_ratings_cache()
+    _LIVE_RATINGS = cache
+    if RENDER_ONLY:
+        return
+    try:
+        live = fetch_live_ratings()
+        if live:
+            merged = {**cache, **live}
+            save_ratings_cache(merged)
+            _LIVE_RATINGS = merged
+    except Exception:
+        pass
+
+def resolve_rating(fam):
+    """评分解析：优先用每日刷新的 live 值，缺失/失败回退静态 RATINGS。"""
+    v = _LIVE_RATINGS.get(fam)
+    if v is not None:
+        return v
+    return RATINGS.get(fam)
+
 # ── 历史里程碑（2020–2026 模型发布 / 重大产品版本更新）───────────────────────
 # 经网络核实的主要 AI 模型与产品发布时间线；仅收录「模型发布」与「产品版本更新」，
 # 不收录融资 / 合作 / 研究论文（技术报告）/ 模型登陆平台 / 榜单等非发布类事件。
@@ -747,6 +862,7 @@ def save_archive(arch):
 
 # ---------- 1. 取全部可用日期列表（含头条标题） ----------
 arch = load_archive()
+init_live_ratings()   # 载入/刷新 LMArena Elo 评分缓存（--render-only 仅载入，不联网）
 if RENDER_ONLY:
     print(f"[1] 仅渲染模式：跳过列表抓取，直接使用本地归档（共 {len(arch)} 期）")
     all_dates = sorted(arch.keys(), reverse=True)
@@ -1458,7 +1574,7 @@ function escapeHtml(s){return (s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&
   const rangeLabel=document.getElementById("ganttRange");
   const stickyYears=document.getElementById("ganttStickyYears");
   const stickyYearsSvg=document.getElementById("ganttYearsSvg");
-  const RATE_MIN=1250, RATE_MAX=1530;   // 评分条色阶范围（LMArena Elo）
+  const RATE_MIN=1250, RATE_MAX=1580;   // 评分条色阶范围（LMArena Elo，每日自动刷新）
   function bestRating(arr){ let r=-1; arr.forEach(m=>{ if(m.rating!=null && m.rating>r) r=m.rating; }); return r; }
 
   function visibleEvents(c){
@@ -1559,7 +1675,7 @@ function escapeHtml(s){return (s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&
     // 2) 时间轴：内容加权列宽（稀疏年细、密集年宽）+ 顶部年份标签
     h+=`<rect x="0" y="0" width="${W}" height="${T}" fill="#ffffff"/>`;
     h+=`<line x1="0" y1="${T}" x2="${W}" y2="${T}" stroke="#e4e7ef" stroke-width="1"/>`;
-    h+=`<text x="${(W-4)}" y="${(T-4).toFixed(1)}" text-anchor="end" font-size="9.5" font-weight="800" fill="#9aa1b1">LMArena Elo ↓</text>`;
+    h+=`<text x="${(W-4)}" y="${(T-4).toFixed(1)}" text-anchor="end" font-size="9.5" font-weight="800" fill="#9aa1b1">LMArena Elo（每日更新）↓</text>`;
     BANDS.forEach((b,i)=>{
       const x0=xOfUnits(cumBeforeB[b.label]);            // 该分组列左边界
       const x1=xOfUnits(cumBeforeB[b.label]+bandUnits[b.label]); // 右边界
@@ -1648,7 +1764,7 @@ function escapeHtml(s){return (s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&
     if(stickyYearsSvg){
       let yh=`<rect x="0" y="0" width="${W}" height="${T}" fill="#ffffff"/>`;
       yh+=`<line x1="0" y1="${T}" x2="${W}" y2="${T}" stroke="#e4e7ef" stroke-width="1"/>`;
-      yh+=`<text x="${(W-4)}" y="${(T-4).toFixed(1)}" text-anchor="end" font-size="9.5" font-weight="800" fill="#9aa1b1">LMArena Elo ↓</text>`;
+      yh+=`<text x="${(W-4)}" y="${(T-4).toFixed(1)}" text-anchor="end" font-size="9.5" font-weight="800" fill="#9aa1b1">LMArena Elo（每日更新）↓</text>`;
       BANDS.forEach((b,i)=>{
         const x0=xOfUnits(cumBeforeB[b.label]);
         const x1=xOfUnits(cumBeforeB[b.label]+bandUnits[b.label]);
@@ -1835,7 +1951,7 @@ def compute_gantt(arch=None, top_n=GANTT_TOP_N):
         g = groups.get(key)
         if not g:
             g = {"company": comp, "name": fam, "color": ccolor,
-                 "region": cregion, "events": [], "rating": RATINGS.get(fam)}
+                 "region": cregion, "events": [], "rating": resolve_rating(fam)}
             groups[key] = g
         g["events"].append({
             "date": date, "kind": kind, "title": title,

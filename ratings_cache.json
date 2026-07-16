@@ -1,0 +1,13 @@
+{
+  "updated_at": 1784220979,
+  "ratings": {
+    "GPT": 1484,
+    "Claude": 1508,
+    "Gemini": 1486,
+    "Grok": 1474,
+    "通义千问 Qwen": 1475,
+    "星火": 1491
+  },
+  "source": "arena-ai-leaderboards(text)",
+  "models_total": 20
+}
