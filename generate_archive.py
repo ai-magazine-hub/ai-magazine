@@ -573,11 +573,12 @@ _MIN_INTERVAL = 1.0   # 相邻请求最小间隔(秒)
 
 def _gtrans_one(text):
     """调用免费 Google 翻译端点翻译一段文本；失败回退原文。
-    改进(B)：全局限速 + 指数退避(封顶8s) + 双镜像容错(clients5/googleapis)，
-    大幅降低被限流/拦截概率，配合 translate_archive 的断点续传逐步补齐。"""
+    关键约束：单条必须快速返回——超时仅 6s、每镜像重试 1 次，
+    避免在 CI runner 上因端点不可达而长时间挂起（会拖死整条流水线）。
+    总体调度由 translate_archive 的墙钟预算控制。"""
     body = urllib.parse.urlencode({"client": "gtx", "sl": "auto", "tl": "zh-CN", "dt": "t", "q": text}).encode()
     for host in ("translate.googleapis.com", "clients5.google.com"):
-        for attempt in range(4):
+        for attempt in range(2):
             try:
                 with _trans_lock:
                     now = time.time()
@@ -588,13 +589,13 @@ def _gtrans_one(text):
                 req = urllib.request.Request(
                     f"https://{host}/translate_a/single", data=body,
                     headers={"User-Agent": UA, "Content-Type": "application/x-www-form-urlencoded"})
-                with urllib.request.urlopen(req, timeout=25) as r:
+                with urllib.request.urlopen(req, timeout=6) as r:
                     data = json.loads(r.read().decode("utf-8"))
                 out = "".join(seg[0] for seg in data[0] if seg and seg[0])
                 if out.strip():
                     return out
             except Exception:
-                time.sleep(min(2 ** attempt, 8))
+                time.sleep(min(2 ** attempt, 4))
     return text  # 彻底失败：回退原文（保持 zh=False 待重试语义）
 
 def _gtrans(text):
@@ -647,8 +648,12 @@ def _translate_item(it):
     else:
         it["zh"] = False
 
-def translate_archive(arch, workers=3):
-    """将英文为主的全文翻译为中文（保留专有名词）。已翻译(it['zh'])或纯中文跳过。增量落盘、可续传。"""
+def translate_archive(arch, wall=180):
+    """将英文为主的全文翻译为中文（保留专有名词）。已翻译(it['zh'])或纯中文跳过。
+
+    关键设计（防卡死）：串行执行 + 硬墙钟预算(wall 秒)。无论翻译端点多慢/是否可用，
+    到达预算后立刻停止并返回，绝不阻塞后续「渲染 + 提交」——保证定时任务一定能完成更新。
+    若连续失败达到阈值，判定端点不可用，直接放弃本轮（已译内容已落盘，下次续传）。"""
     todos = []
     for d, rec in arch.items():
         for s in rec.get("sections", []):
@@ -663,27 +668,30 @@ def translate_archive(arch, workers=3):
     if not todos:
         print("[3.6] 翻译：无待处理条目")
         return 0
-    print(f"[3.6] 英文全文→中文：{len(todos)} 条（并发 {workers}）...")
+    print(f"[3.6] 英文全文→中文：{len(todos)} 条待处理；本轮预算 {wall}s（到点即停，可续传）")
+    deadline = time.time() + wall
     done = 0
-    ex = ThreadPoolExecutor(max_workers=workers)
-    futs = {ex.submit(_translate_item, it): it for it in todos}
-    try:
-        for f in as_completed(futs, timeout=900):
-            try:
-                f.result()
-            except Exception:
-                pass
+    consecutive_fail = 0
+    for it in todos:
+        if time.time() > deadline:
+            print(f"    ! 翻译墙钟预算用尽，本轮完成 {done} 条，剩余留待下次续传")
+            break
+        if consecutive_fail >= 8:
+            print(f"    ! 连续 {consecutive_fail} 条翻译失败，判定翻译端点不可用，放弃本轮（已存 {done} 条）")
+            break
+        try:
+            _translate_item(it)
+        except Exception:
+            pass
+        if it.get("zh") is True:
             done += 1
-            if done % 100 == 0:
-                save_archive(arch)
-                print(f"     {done}/{len(todos)}（已落盘）")
-    except _FTimeout:
-        print(f"    ! 翻译超时（{done}/{len(todos)}），进度已落盘，重跑可续传")
-    except Exception as e:
-        print(f"    ! 翻译异常({e})，进度已落盘")
+            consecutive_fail = 0
+        else:
+            consecutive_fail += 1
+        if (done + consecutive_fail) % 50 == 0:
+            save_archive(arch)
     save_archive(arch)
-    ex.shutdown(wait=False)
-    print(f"     完成：{done}/{len(todos)}")
+    print(f"     本轮完成：{done}/{len(todos)}（其余 zh=False，下次续传）")
     return done
 
 def beijing_now():
@@ -834,9 +842,9 @@ if not RENDER_ONLY:
 if not RENDER_ONLY and not NO_BACKFILL:
     backfill_content(arch)
 
-# ---------- 3.6 英文全文→中文翻译（保留专有名词；断点续传） ----------
+# ---------- 3.6 英文全文→中文翻译（保留专有名词；断点续传，硬预算防卡死） ----------
 if not RENDER_ONLY and not NO_TRANSLATE:
-    translate_archive(arch, workers=3)
+    translate_archive(arch)
 
 # ---------- 4. 渲染每份日报（仅写缺失/新文件，不重写旧档） ----------
 DAY_TPL = r"""<!DOCTYPE html>

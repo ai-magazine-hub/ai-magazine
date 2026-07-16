@@ -19,6 +19,7 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 30        # 防御：即使翻译端点异常，也最多跑 30 分钟，避免占满 6h 超时拖死更新
     steps:
       - name: Checkout
         uses: actions/checkout@v4
