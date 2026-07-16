@@ -264,7 +264,46 @@ LM_MAP = [
     ("星火",              ["spark", "iflytek"],     [],            []),
 ]
 
-def _fetch_cherry_leaderboard():
+# ── 模型能力分类（三级分组 / 顶部筛选维度）──────────────────────────────────
+# 每个能力：(key, emoji, 中文标签, 主题色)。顺序即「顶部筛选」与「三级分组」的展示顺序。
+# Long Context（长文本）为可选维度，仍纳入。
+CAP_DEFS = [
+    ("Chat",        "🧠", "对话",   "#4f46e5"),
+    ("Reasoning",   "🧩", "推理",   "#7c3aed"),
+    ("Coding",      "💻", "代码",   "#0ea5e9"),
+    ("Vision",      "👁", "视觉",   "#059669"),
+    ("Image",       "🎨", "图像",   "#db2777"),
+    ("Video",       "🎥", "视频",   "#e11d48"),
+    ("Audio",       "🔊", "语音",   "#f59e0b"),
+    ("Agent",       "🤖", "智能体", "#0891b2"),
+    ("LongContext", "📚", "长文本", "#64748b"),
+]
+# 家族 → 能力列表（首项 = 主能力，决定三级分组归属；其余为模型行展示的副能力标签）
+CAPS = {
+    # OpenAI
+    "GPT": ["Chat"], "OpenAI o 系列": ["Reasoning"], "Claude": ["Chat", "Reasoning", "Agent"],
+    "Gemini": ["Chat", "Vision", "LongContext", "Agent"], "Gemma": ["Chat"], "Llama": ["Chat"],
+    "Grok": ["Chat", "Agent"], "DeepSeek 系列": ["Chat", "Reasoning", "Coding"],
+    "Copilot": ["Agent", "Chat"], "Orca 系列": ["Chat"], "Phi 系列": ["Chat"],
+    # 阿里 / 百度 / 腾讯 / 智谱 / 月之暗面 / Mistral / 百川 / 字节 / 讯飞 / 苹果 / 亚马逊 / NVIDIA
+    "文心 ERNIE": ["Chat", "Vision"], "通义千问 Qwen": ["Chat", "Vision", "Agent"],
+    "混元": ["Chat", "Vision"], "Hy-MT": ["Audio"], "豆包": ["Chat", "Agent"],
+    "即梦": ["Image", "Video"], "Seedance": ["Video"], "Coze 扣子": ["Agent"],
+    "智谱 GLM": ["Chat", "Vision"], "Kimi": ["Chat", "LongContext"], "Mistral 系列": ["Chat"],
+    "Nova": ["Chat"], "Titan": ["Chat"], "Apple 基础模型": ["Chat"], "Baichuan": ["Chat"],
+    "MiniMax 系列": ["Chat"], "星火": ["Chat"], "Nemotron 系列": ["Chat"],
+    # 生成式媒体（无文本 Arena 分）
+    "Sora": ["Video"], "Veo": ["Video"], "DALL·E": ["Image"], "Magenta": ["Audio"],
+    "Cosmos": ["Video"], "SANA": ["Image"], "Muse": ["Image"],
+    # 其它
+    "Seed": ["Chat"], "MAI": ["Reasoning", "Chat"], "Bidi": ["Agent", "Chat"],
+    "GPT-Live": ["Chat", "Audio"], "GPT-Realtime": ["Audio", "Chat"],
+    "HappyHorse": ["Chat", "Agent"], "ABot-Earth": ["Agent", "Chat"],
+    # 兜底：未知家族归入对话
+}
+
+def _caps_of(fam):
+    return CAPS.get(fam, ["Chat"])
     """拉取 Cherry AI 全量榜单 Markdown，返回 [(模型名串, Elo整数)]；失败返回 []。"""
     try:
         req = urllib.request.Request(RATINGS_API, headers={"User-Agent": "Mozilla/5.0"})
@@ -1310,6 +1349,11 @@ INDEX_TPL = r"""<!DOCTYPE html>
   .glegend.dim{opacity:.35}
   .glegend .lg-dot{width:8px;height:8px;border-radius:2px;display:inline-block;background:currentColor}
   .gsep{width:1px;background:var(--line);margin:3px 4px}
+  .gcap-wrap{display:inline-flex;gap:6px;flex-wrap:wrap;align-items:center}
+  .gcap{font-size:12.5px;font-weight:700;color:#4b5161;border:1px solid var(--line);background:#fff;
+    padding:6px 12px;border-radius:999px;cursor:pointer;user-select:none;transition:.15s}
+  .gcap:hover{border-color:#c9cdfb}
+  .gcap.active{color:#fff;background:#4f46e5;border-color:#4f46e5}
   #ganttChart{width:100%;height:auto;display:block;cursor:grab;border-radius:12px;overflow:hidden;box-shadow:0 2px 12px rgba(16,24,40,.05)}
   #ganttChart:active{cursor:grabbing}
   #ganttChart .gev{cursor:pointer}
@@ -1370,7 +1414,7 @@ INDEX_TPL = r"""<!DOCTYPE html>
   <section class="gantt wrap">
     <div class="trend-head">
       <h2>🗓️ 主要 AI 公司 模型发布 / 版本更新 时间线</h2>
-      <p class="trend-sub">🇺🇸美国 / 🇨🇳中国 / 🇫🇷法国 三阵营分块，每个模型单独成行，横向为日期。🔵蓝=模型版本发布，🟢绿=模型产品更新，🔴红=模型重磅更新；<b>纯模型视角</b>——仅收录模型发布 / 版本更新，不含产品 App、技术报告、登陆平台等非发布类事件。模型行按 LMArena 评分降序排列，行尾「评分条 + Arena Elo」为该系列最强公开版本分数（无公开分数者显示「—」）；行首数字为该模型事件数。历史基线（2020–2024）经网络核实，2025 起自动同步 AI HOT 每日日报「模型发布/更新」版块，新模型发布即自动入图。</p>
+      <p class="trend-sub">五维信息体系：<b>国家 → 公司 → 能力赛道 → 模型 → 时间事件</b>。🇺🇸美国 / 🇨🇳中国 / 🇫🇷法国 三阵营分块（一级），其下按公司分组的二级标题含<b>国旗 + 品牌色</b>（Logo 位预留），公司内再按<b>模型能力</b>（🧠对话 / 🧩推理 / 💻代码 / 👁视觉 / 🎨图像 / 🎥视频 / 🔊语音 / 🤖智能体 / 📚长文本）三级分组，同一能力内按 Arena Elo 降序。横向为日期，🔵蓝=模型版本发布，🟢绿=模型产品更新，🔴红=模型重磅更新；<b>纯模型视角</b>——仅收录模型发布 / 版本更新。顶部「能力」筛选可只看某一赛道。模型行尾「评分条 + Arena Elo」为该系列最强公开版本分数（无公开分数者显示「—」）。历史基线（2020–2024）经网络核实，2025 起自动同步 AI HOT 每日日报「模型发布/更新」版块。</p>
     </div>
     <div class="gantt-ctrl">
       <span class="glegend" data-legend="blue" style="--lc:#4f46e5" title="点击仅显示模型版本发布">
@@ -1379,6 +1423,8 @@ INDEX_TPL = r"""<!DOCTYPE html>
         <i class="lg-dot"></i>模型产品更新</span>
       <span class="glegend" data-legend="red" style="--lc:#ef4444" title="点击仅显示模型重磅更新">
         <i class="lg-dot"></i>模型重磅更新</span>
+      <span class="gsep"></span>
+      <span class="gcap-wrap" id="capFilters"></span>
       <span class="gsep"></span>
       <span style="align-self:center;font-size:12.5px;color:var(--muted)">标记：</span>
       <button class="gbtn active" data-mode="block">▮ 方块</button>
@@ -1504,21 +1550,34 @@ function escapeHtml(s){return (s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&
                 cn:{label:"🇨🇳 中国公司",tint:"#fff1f3",head:"#ffe4e6",txt:"#9f1239",tag:"#e11d48"}};
   const headerH=22;
   const compH=20;
+  // 能力维度（三级分组 + 顶部筛选）
+  const CAP_ORDER=(G.caps_defs||[]).map(c=>c.key);
+  const CAP_MAP={}; (G.caps_defs||[]).forEach(c=>CAP_MAP[c.key]=c);
+  const FLAG={us:"🇺🇸",cn:"🇨🇳",eu:"🇫🇷"};
+  const REGION_LABEL={us:"🇺🇸 美国公司",cn:"🇨🇳 中国公司",eu:"🇫🇷 法国公司"};
+  const capH=18;                                       // 能力子分组头高度
+  function eloSort(a,b){ return ((b.rating==null?-1:b.rating)-(a.rating==null?-1:a.rating)) || a.name.localeCompare(b.name); }
   const rows=[];
   G.regions.forEach(reg=>{
     rows.push({type:"h",region:reg.region});
     const byComp={};
     reg.models.forEach(m=>{ (byComp[m.company]=byComp[m.company]||[]).push(m); });
-    // 公司按「最强模型评分」降序；同公司内模型按评分降序（无评分者置底）→ 实现「模型评分降序」呈现
+    // 公司按「最强模型评分」降序
     const compNames=Object.keys(byComp).sort((a,b)=> bestRating(byComp[b]) - bestRating(byComp[a]));
     compNames.forEach(comp=>{
-      const all=byComp[comp].slice().sort((x,y)=>
-        ((y.rating==null?-1:y.rating) - (x.rating==null?-1:x.rating)) || x.name.localeCompare(y.name));
+      const all=byComp[comp].slice().sort(eloSort);
       rows.push({type:"c",company:comp,color:(all[0]||{}).color||"#888",all:all,models:all,region:(all[0]||{}).region});
-      all.forEach(m=> rows.push({type:"m",m}));
+      // 三级分组：按主能力归组（仅展示该公司拥有的能力，按 CAP_ORDER 顺序）
+      const byCap={};
+      all.forEach(m=>{ const c=m.main_cap||(m.caps&&m.caps[0])||"Chat"; (byCap[c]=byCap[c]||[]).push(m); });
+      CAP_ORDER.filter(c=>byCap[c]).forEach(cap=>{
+        const ms=byCap[cap].slice().sort(eloSort);     // 同一能力内按 Elo 从高到低
+        rows.push({type:"t",cap:cap,company:comp,models:ms,region:reg.region});
+        ms.forEach(m=> rows.push({type:"m",m}));
+      });
     });
   });
-  let plotH=T; rows.forEach(r=> plotH += (r.type==="h"?headerH:(r.type==="c"?compH:rowH)));
+  let plotH=T; rows.forEach(r=> plotH += (r.type==="h"?headerH:(r.type==="c"?compH:(r.type==="t"?capH:rowH))));
   const H=plotH+B;
   svg.setAttribute("viewBox",`0 0 ${W} ${H}`);
   const full0=new Date(G.range[0]+"T00:00:00Z").getTime();
@@ -1587,6 +1646,7 @@ function escapeHtml(s){return (s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&
     if(tier==="minor") return "green"; return MILESTONE_FAMS.has(m.name) ? "red" : "blue"; }
   const LEGEND_COLOR={blue:"#4f46e5",green:"#059669",red:"#ef4444"};
   let legendFilter=null;    // null=全部；"blue"/"green"/"red"=仅显示该图例对应事件与所在模型行
+  let capFilter=null;       // null=全部；能力 key（如 "Chat"）= 仅显示具备该能力的模型
   const kindText={model:"模型发布",product:"产品更新"};
   const show={model:true,product:true};
   let markerMode="block";   // block（方块）| dot（圆点）| bar（竖条）
@@ -1600,7 +1660,8 @@ function escapeHtml(s){return (s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&
 
   function visibleEvents(c){
     return c.events.filter(e=> show[e.kind] && !(majorOnly && e.minor)
-      && (!legendFilter || eventColorKey(e,c)===legendFilter));
+      && (!legendFilter || eventColorKey(e,c)===legendFilter)
+      && (!capFilter || (c.caps||[]).includes(capFilter)));
   }
 
   function monthTicks(){
@@ -1618,13 +1679,14 @@ function escapeHtml(s){return (s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&
     clampView();
     let h=""; const rowY={}; let y=T;
     // 图例筛选：预扫描出「在当前筛选下仍有事件」的模型 / 公司 / 阵营，用于隐藏空行
-    const filtering=!!legendFilter;
-    const modelHasVis={}, compHasVis={}, regHasVis={};
+    const filtering=!!(legendFilter || capFilter);
+    const modelHasVis={}, compHasVis={}, regHasVis={}, capHasVis={};
     if(filtering){
       rows.forEach(r=>{ if(r.type!=="m") return;
         const has=visibleEvents(r.m).length>0;
         modelHasVis[r.m.company+"|"+r.m.name]=has;
-        if(has){ compHasVis[r.m.company]=true; regHasVis[r.m.region]=true; }
+        if(has){ compHasVis[r.m.company]=true; regHasVis[r.m.region]=true;
+          capHasVis[r.m.region+"|"+r.m.company+"|"+r.m.main_cap]=true; }
       });
     }
     // 1) 区域带 + 公司分组头 + 模型行（每公司下展开各自模型）
@@ -1650,14 +1712,26 @@ function escapeHtml(s){return (s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&
       } else if(r.type==="c"){
         if(filtering && !compHasVis[r.company]) return;
         const comp=r.company;
-        h+=`<rect x="${L}" y="${y.toFixed(1)}" width="${W-L-R}" height="${compH}" fill="${REGION[r.region]?REGION[r.region].tint:"#f6f7fb"}"/>`;
-        h+=`<line x1="${L}" y1="${(y+compH).toFixed(1)}" x2="${(W-R).toFixed(1)}" y2="${(y+compH).toFixed(1)}" stroke="#eceef4"/>`;
-        h+=`<circle cx="16" cy="${(y+compH/2).toFixed(1)}" r="4" fill="${r.color}"/>`;
-        h+=`<text x="26" y="${(y+compH/2+4).toFixed(1)}" font-size="11.5" font-weight="800" fill="#1f2430">${escapeHtml(comp)}</text>`;
+        const flag=FLAG[r.region]||"🌐";
+        // 公司分组头：品牌色淡底 + 左侧品牌色竖条；Logo 预留位置（虚线圆角框，后续可接入 SVG）
+        h+=`<rect x="${L}" y="${y.toFixed(1)}" width="${W-L-R}" height="${compH}" fill="${r.color}" opacity="0.10"/>`;
+        h+=`<rect x="${L}" y="${y.toFixed(1)}" width="4" height="${compH}" fill="${r.color}"/>`;
+        h+=`<rect x="14" y="${(y+compH/2-7).toFixed(1)}" width="14" height="14" rx="4" fill="#ffffff" stroke="${r.color}" stroke-width="1" stroke-dasharray="2.5 2"/>`;
+        h+=`<text x="21" y="${(y+compH/2+4).toFixed(1)}" text-anchor="middle" font-size="9" font-weight="800" fill="${r.color}">${(escapeHtml(comp.slice(0,1)))}</text>`;
+        h+=`<text x="36" y="${(y+compH/2+4).toFixed(1)}" font-size="12" font-weight="800" fill="${r.color}">${flag} ${escapeHtml(comp)}</text>`;
         const tot=r.all.reduce((a,m)=>a+visibleEvents(m).length,0);
         const countText=r.models.length?`${r.models.length} 个模型 · ${tot} 次`:`${tot} 次`;
         h+=`<text x="${L-12}" y="${(y+compH/2+4).toFixed(1)}" text-anchor="end" font-size="10.5" fill="#9aa1b1">${countText}</text>`;
         y+=compH;
+      } else if(r.type==="t"){
+        if(filtering && !capHasVis[r.region+"|"+r.company+"|"+r.cap]) return;
+        const cd=CAP_MAP[r.cap]||{emoji:"🧠",label:r.cap,color:"#6b7280"};
+        const cnt=r.models.reduce((a,m)=>a+visibleEvents(m).length,0);
+        h+=`<rect x="${L}" y="${y.toFixed(1)}" width="${W-L-R}" height="${capH}" fill="${cd.color}" opacity="0.08"/>`;
+        h+=`<rect x="${L}" y="${y.toFixed(1)}" width="3" height="${capH}" fill="${cd.color}" opacity="0.55"/>`;
+        h+=`<text x="${L+10}" y="${(y+capH/2+4).toFixed(1)}" font-size="11" font-weight="800" fill="${cd.color}">${cd.emoji} ${cd.label}</text>`;
+        h+=`<text x="${L-12}" y="${(y+capH/2+4).toFixed(1)}" text-anchor="end" font-size="10" fill="#9aa1b1">${cnt} 次</text>`;
+        y+=capH;
       } else {
         const m=r.m, y0=y;
         if(filtering && !modelHasVis[m.company+"|"+m.name]) return;
@@ -1666,13 +1740,19 @@ function escapeHtml(s){return (s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&
         const vis=visibleEvents(m);
         h+=`<circle cx="29" cy="${(y0+rowH/2).toFixed(1)}" r="4" fill="${m.color}"/>`;
         h+=`<text x="41" y="${(y0+rowH/2+4).toFixed(1)}" font-size="11.5" font-weight="600" fill="#3a3f4b">${escapeHtml(m.name)}</text>`;
-        // 类型标签：文本 / 图像 / 视频（图像、视频生成模型不在综合对话榜，评分栏显示「—」）
-        const MTYPE={"文本":["文本","#eef2ff","#4f46e5"],"图像":["图像","#f3e8ff","#7c3aed"],"视频":["视频","#ffeef3","#db2777"]};
-        const mt=MTYPE[m.mtype]||MTYPE["文本"];
-        let _nx=41; for(const _ch of m.name){ _nx += (_ch.charCodeAt(0)>255?12:7); }
-        const _PW=30, _px=Math.min(_nx+6, L-_PW-32), _py=(y0+rowH/2-8).toFixed(1);
-        h+=`<rect x="${_px.toFixed(1)}" y="${_py}" width="${_PW}" height="16" rx="8" fill="${mt[1]}"/>`;
-        h+=`<text x="${(_px+_PW/2).toFixed(1)}" y="${(y0+rowH/2+4).toFixed(1)}" text-anchor="middle" font-size="10" font-weight="700" fill="${mt[2]}">${mt[0]}</text>`;
+        // 能力标签（主能力 + 次级能力，最多 3 个）：模型名后显示，如「Chat · Vision · Agent」
+        const _caps=(m.caps||["Chat"]).slice(0,3);
+        let _tx=41; for(const _ch of m.name){ _tx += (_ch.charCodeAt(0)>255?12:7); }
+        _tx += 7;
+        _caps.forEach(cap=>{
+          const cd=CAP_MAP[cap]||{emoji:"🧠",label:cap,color:"#6b7280"};
+          const _lab=cd.emoji+" "+cd.label;
+          const _w=_lab.length*7.6+10;
+          if(_tx+_w > L-30) return;          // 防止溢出事件计数区
+          h+=`<rect x="${_tx.toFixed(1)}" y="${(y0+rowH/2-7).toFixed(1)}" width="${_w.toFixed(1)}" height="14" rx="7" fill="${cd.color}" opacity="0.13"/>`;
+          h+=`<text x="${(_tx+_w/2).toFixed(1)}" y="${(y0+rowH/2+4).toFixed(1)}" text-anchor="middle" font-size="9.5" font-weight="700" fill="${cd.color}">${_lab}</text>`;
+          _tx += _w+5;
+        });
         h+=`<text x="${L-26}" y="${(y0+rowH/2+4).toFixed(1)}" text-anchor="end" font-size="10.5" fill="#9aa1b1">${vis.length}</text>`;
         // 右侧评分栏：色条 + 分数（无公开可比分数显示「—」）
         if(m.rating!=null){
@@ -1760,7 +1840,8 @@ function escapeHtml(s){return (s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&
         if(x<L-8 || x>W-R+8) return;               // 视野外跳过
         const tier = versionTier(e.title);
         const col = tier==="minor" ? GREEN : (MILESTONE_FAMS.has(m.name) ? MAJOR : BLUE);
-        const j=JSON.stringify({t:e.title,d:e.date,k:e.kind,s:e.source,f:e.file})
+        const j=JSON.stringify({t:e.title,d:e.date,k:e.kind,s:e.source,f:e.file,
+          comp:m.company, mcap:m.main_cap, melo:(m.rating==null?'—':m.rating), mreg:m.region, major:!!e.major})
           .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
         if(markerMode==="dot"){
           h+=`<g class="gev" data-j="${j}" style="cursor:pointer">`+
@@ -1813,9 +1894,20 @@ function escapeHtml(s){return (s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&
       const j=JSON.parse(g.getAttribute("data-j"));
       g.addEventListener("mouseenter",()=>{
         if(dragging) return;
-        tip.innerHTML=`<div style="font-weight:700;margin-bottom:3px">${escapeHtml(j.t)}</div>`+
-          `<div style="opacity:.82">${kindText[j.k]}${j.k==='model'&&j.major?' · 🔴重大更新':''} · ${j.d}</div>`+
+        const capLbl=(G.caps_defs||[]).find(c=>c.key===j.mcap);
+        const capTxt = capLbl ? (capLbl.emoji+" "+capLbl.label) : (j.mcap||"—");
+        const regLbl = REGION_LABEL[j.mreg]||j.mreg||"—";
+        const kindLbl = (kindText[j.k]||j.k) + (j.major?' · 🔴重大更新':'');
+        tip.innerHTML=
+          `<div style="font-weight:700;margin-bottom:3px">${escapeHtml(j.t)}</div>`+
+          `<div style="opacity:.82">${kindLbl} · 📅 ${j.d}</div>`+
           `<div style="opacity:.82;margin-top:2px">来源：${escapeHtml(j.s)}</div>`+
+          `<div style="margin-top:6px;display:flex;flex-wrap:wrap;gap:4px 12px;font-size:11.5px">`+
+            `<span>🌐 ${escapeHtml(regLbl)}</span>`+
+            `<span>🏢 ${escapeHtml(j.comp)}</span>`+
+            `<span>🎯 ${escapeHtml(capTxt)}</span>`+
+            `<span>📊 Arena Elo ${j.melo==='—'?'—':j.melo}</span>`+
+          `</div>`+
           `<div style="margin-top:5px;color:#a5b4fc">点击查看当日日报 →</div>`;
         tip.style.display="block";
       });
@@ -1903,9 +1995,31 @@ function escapeHtml(s){return (s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&
       syncLegend(); render();
     });
   });
-  // 重置视图（同时清除图例筛选）
+  // 能力筛选：顶部按钮（全部 / 各能力），点击仅显示具备该能力的模型
+  const capWrap=document.getElementById("capFilters");
+  let capAllBtn=null;
+  if(capWrap){
+    capAllBtn=document.createElement("button");
+    capAllBtn.className="gcap active"; capAllBtn.dataset.cap=""; capAllBtn.textContent="全部";
+    capWrap.appendChild(capAllBtn);
+    (G.caps_defs||[]).forEach(c=>{
+      const b=document.createElement("button");
+      b.className="gcap"; b.dataset.cap=c.key; b.textContent=c.emoji+" "+c.label;
+      capWrap.appendChild(b);
+    });
+    capWrap.querySelectorAll(".gcap").forEach(b=>{
+      b.addEventListener("click",()=>{
+        capFilter = b.dataset.cap || null;
+        capWrap.querySelectorAll(".gcap").forEach(x=>x.classList.remove("active"));
+        b.classList.add("active");
+        render();
+      });
+    });
+  }
+  function syncCapFilter(){ if(capWrap) capWrap.querySelectorAll(".gcap").forEach(x=>x.classList.toggle("active", (x.dataset.cap||"")===(capFilter||""))); }
+  // 重置视图（同时清除图例与能力筛选）
   const rb=document.getElementById("ganttReset");
-  if(rb) rb.addEventListener("click",()=>{ viewStart=0; viewUnits=totalUnits; legendFilter=null; syncLegend(); render(); });
+  if(rb) rb.addEventListener("click",()=>{ viewStart=0; viewUnits=totalUnits; legendFilter=null; capFilter=null; syncLegend(); syncCapFilter(); render(); });
   render();
   updateStickyYears();
 })();
@@ -1980,7 +2094,8 @@ def compute_gantt(arch=None, top_n=GANTT_TOP_N):
         if not g:
             g = {"company": comp, "name": fam, "color": ccolor,
                  "region": cregion, "events": [], "rating": resolve_rating(fam),
-                 "mtype": FAM_TYPE.get(fam, "文本")}
+                 "mtype": FAM_TYPE.get(fam, "文本"),
+                 "caps": _caps_of(fam), "main_cap": _caps_of(fam)[0]}
             groups[key] = g
         g["events"].append({
             "date": date, "kind": kind, "title": title,
@@ -2051,10 +2166,11 @@ def compute_gantt(arch=None, top_n=GANTT_TOP_N):
             "tag": tag,
             "models": models,
         })
+    caps_defs = [{"key": k, "emoji": e, "label": l, "color": c} for (k, e, l, c) in CAP_DEFS]
     # 时间线范围：左=最早里程碑/日报，右=当天日期（每天更新自动延伸到今天，作为坐标最右端）
     mdates = [m["d"] for m in MILESTONES if m.get("k") == "model" and m["c"] in COMP_MAP]
     alld = sorted(set(mdates + list(arch.keys())))
-    return {"range": [alld[0], max(alld[-1], today)], "regions": regions}
+    return {"range": [alld[0], max(alld[-1], today)], "regions": regions, "caps_defs": caps_defs}
 
 def render_index(days):
     idx_days = []
