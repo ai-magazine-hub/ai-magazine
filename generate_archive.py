@@ -33,6 +33,25 @@ SECTIONS = [
     ("技巧与观点",   "#0284c7"),
 ]
 
+# ── BrandConfig：每家公司唯一官方品牌色（公司视觉识别唯一来源）──────────────────
+# 公司左侧竖线 / 公司名 / Arena Elo / Hover / Tooltip 标题 全部引用此色；
+# Logo 保持官方配色（不强制单色）。整个公司视觉统一采用官方品牌色体系，
+# 不再使用随机颜色或通用主题色（原 #4f46e5 仅保留为「事件类型语义色」，与公司识别解耦）。
+BRAND_CONFIG = {
+    # 美国
+    "OpenAI": "#10a37f", "Anthropic": "#d97706", "Google": "#4285f4", "Meta": "#0866ff",
+    "Microsoft": "#7c3aed", "xAI": "#111827", "NVIDIA": "#76b900", "Amazon": "#ff9900",
+    "Apple": "#555555", "Mistral": "#ff7000", "Thinking Machines": "#6d28d9",
+    # 中国
+    "深度求索": "#e11d48", "百度": "#2932e1", "阿里": "#ff6a00", "腾讯": "#12b7f5",
+    "字节": "#fe2c55", "智谱": "#0ea5e9", "月之暗面": "#8b5cf6", "百川": "#c2185b",
+    "讯飞星火": "#0d9488", "稀宇科技": "#00bcd4",
+    # V4 新增模型公司（与 _V4_COMPANIES 对齐；颜色取各自官方/代表色，确保唯一不重复）
+    "Midjourney": "#ff4d4d", "Black Forest Labs": "#ec4899", "Ideogram": "#6366f1",
+    "Kuaishou 快手": "#ff4500", "Shengshu 生数": "#22d3ee", "Runway": "#14b8a6",
+    "Luma": "#a855f7", "ElevenLabs": "#0f172a", "Cartesia": "#f97316", "StepFun 阶跃": "#06b6d4",
+}
+
 # 主要 AI 公司 → (别名关键词, 阵营)。阵营 region: "us"=美国 / "cn"=中国 / "eu"=欧洲公司（当前仅法国 Mistral，标题按其所属国家显示🇫🇷法国）；甘特图按阵营分块呈现，欧洲置底。
 COMPANIES = [
     # ── 易在别家新闻中被提及、需优先识别的具体品牌（放前，降低被宽别名公司抢命中）──
@@ -59,6 +78,8 @@ COMPANIES = [
     ("NVIDIA",  "#76b900", ["nvidia", "英伟达"], "us"),
     ("Amazon",   "#ff9900", ["amazon", "亚马逊", "bedrock", "nova", "titan"], "us"),
 ]
+# 颜色统一引用 BrandConfig（官方品牌色唯一来源）；COMPANIES 内联色仅作回退
+COMPANIES = [(n, BRAND_CONFIG.get(n, c), kws, r) for (n, c, kws, r) in COMPANIES]
 # 主要模型清单：时间线「按模型分行」用。匹配顺序自上而下；未命中则退化为按公司聚合。
 # (模型名, 所属公司, [关键词小写])
 MODELS = [
@@ -324,7 +345,7 @@ _V4_COMPANIES = [
     ("StepFun 阶跃", "#06b6d4", ["stepfun", "step", "阶跃"], "cn"),
 ]
 COMPANIES.extend(_V4_COMPANIES)
-COMP_MAP.update({c[0]: (c[1], c[3]) for c in _V4_COMPANIES})
+COMP_MAP.update({c[0]: (BRAND_CONFIG.get(c[0], c[1]), c[3]) for c in _V4_COMPANIES})
 
 _V4_FAMILY = {
     "Codex": "Codex", "Qwen Coder": "Qwen Coder", "CodeGemma": "CodeGemma",
@@ -1693,7 +1714,7 @@ function escapeHtml(s){return (s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&
 (function(){
   const G=GANTT; if(!G.regions || !G.regions.length) return;
   const svg=document.getElementById("ganttChart");
-  const W=960,L=200,R=12,T=18,B=12,rowH=40;   // R 收敛为右侧留白；行高加大以容纳「模型名+Elo」与「能力标签」两行
+  const W=960,L=200,R=12,T=18,B=12,rowH=56;   // R 收敛为右侧留白；行高加大以容纳「模型名+Elo」与「能力标签（最多两行）」
   // 国家仅作章节（弱化），公司才是视觉锚点；品牌色只点缀（3px 竖线 / Hover / Logo 描边）
   const REGION_LABEL={us:"🇺🇸 美国",cn:"🇨🇳 中国",eu:"🇫🇷 法国"};
   const FLAG={us:"🇺🇸",cn:"🇨🇳",eu:"🇫🇷"};
@@ -1887,7 +1908,13 @@ function escapeHtml(s){return (s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&
           // 真实品牌商标：正方形 15×15 / 横向字标 17×10，均居中于容器、不被裁切
           const lw=L2.wide?17:15, lh=L2.wide?10:15;
           const lx=(cx+(cw-lw)/2).toFixed(1), ly=(parseFloat(cy)+(ch-lh)/2).toFixed(1);
-          h+=`<svg x="${lx}" y="${ly}" width="${lw}" height="${lh}" viewBox="0 0 24 24" preserveAspectRatio="xMidYMid meet">${L2.svg}</svg>`;
+          if(L2.kind==="png"){
+            // 官方透明 PNG favicon（base64 内联）：<image> 等比居中
+            h+=`<image href="${L2.data}" xlink:href="${L2.data}" x="${lx}" y="${ly}" width="${lw}" height="${lh}" preserveAspectRatio="xMidYMid meet"/>`;
+          } else {
+            // 官方 SVG 商标（Simple Icons 单色实底，按品牌色着色）
+            h+=`<svg x="${lx}" y="${ly}" width="${lw}" height="${lh}" viewBox="0 0 24 24" preserveAspectRatio="xMidYMid meet">${L2.svg}</svg>`;
+          }
         } else {
           // 中性占位 ◇（灰色，非品牌色）：表示 Logo 暂缺，非正式品牌图标
           const dx=cx+cw/2, dy=parseFloat(cy)+ch/2;
@@ -1904,20 +1931,30 @@ function escapeHtml(s){return (s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&
         // 模型名（左）+ Arena Elo（同行靠右，品牌色；无评分显示「—」）
         h+=`<text x="44" y="${(y0+17).toFixed(1)}" font-size="13" font-weight="600" fill="#1f2430">${escapeHtml(m.name)}</text>`;
         h+=`<text x="${(L-12).toFixed(1)}" y="${(y0+17).toFixed(1)}" text-anchor="end" font-size="13" font-weight="800" fill="${m.color}">${m.rating==null?'—':m.rating}</text>`;
-        // 能力标签：统一浅灰胶囊（第二行），Hover 变深灰；最多 2 个
-        let _tx=16;
-        // 可见标签：按能力优先级（代码>智能体>推理>视觉>图像>视频>语音>长文本>对话）取最多 2 个，
-        // 让「最具区分度」的能力优先展示（如 Claude 显示 Coding · Agent），底层 caps 仍完整用于筛选。
-        const _P={"Coding":1,"Agent":2,"Reasoning":3,"Vision":4,"Image":5,"Video":6,"Audio":7,"LongContext":8,"Chat":9};
-        (m.caps||["Chat"]).slice().sort((a,b)=>(_P[a]||9)-(_P[b]||9)).slice(0,2).forEach(cap=>{
+        // 能力标签：显示全部（取消最多 2 个限制），按固定顺序 Chat→Reasoning→Coding→Vision→Image→Video→Audio→Agent→LongContext；
+        // main_cap 用公司品牌色轻量高亮（浅色底 + 品牌色描边 + 品牌色字），其余统一中性灰胶囊；一行放不下自动换行到第二行。
+        let _tx=16, _trow=0;
+        const _tRectY = r => (r===0 ? (y0+22).toFixed(1) : (y0+39).toFixed(1));
+        const _tTxtY  = r => (r===0 ? (y0+32).toFixed(1) : (y0+49).toFixed(1));
+        const _order = cap => (CAP_ORDER.indexOf(cap) >= 0 ? CAP_ORDER.indexOf(cap) : 99);
+        (m.caps||["Chat"]).slice().sort((a,b)=> _order(a)-_order(b)).forEach(cap=>{
           const cd=CAP_MAP[cap]||{label:cap};
           const _lab=cd.label;
           const _w=_lab.length*7.2+14;
-          if(_tx+_w > L-14) return;
-          h+=`<g class="gtag">`+
-             `<rect x="${_tx.toFixed(1)}" y="${(y0+24).toFixed(1)}" width="${_w.toFixed(1)}" height="15" rx="7.5" fill="#f1f3f7"/>`+
-             `<text x="${(_tx+_w/2).toFixed(1)}" y="${(y0+35).toFixed(1)}" text-anchor="middle" font-size="10" font-weight="600" fill="#6b7280">${escapeHtml(_lab)}</text>`+
-             `</g>`;
+          if(_tx+_w > L-14){
+            if(_trow===0){ _trow=1; _tx=16; } else { return; }   // 仅两行，超出部分丢弃（极少见）
+          }
+          if(cap===m.main_cap){
+            h+=`<g class="gtag gtag-main">`+
+               `<rect x="${_tx.toFixed(1)}" y="${_tRectY(_trow)}" width="${_w.toFixed(1)}" height="14" rx="7" fill="${m.color}" fill-opacity="0.10" stroke="${m.color}" stroke-width="1"/>`+
+               `<text x="${(_tx+_w/2).toFixed(1)}" y="${_tTxtY(_trow)}" text-anchor="middle" font-size="10" font-weight="700" fill="${m.color}">${escapeHtml(_lab)}</text>`+
+               `</g>`;
+          } else {
+            h+=`<g class="gtag">`+
+               `<rect x="${_tx.toFixed(1)}" y="${_tRectY(_trow)}" width="${_w.toFixed(1)}" height="14" rx="7" fill="#f1f3f7"/>`+
+               `<text x="${(_tx+_w/2).toFixed(1)}" y="${_tTxtY(_trow)}" text-anchor="middle" font-size="10" font-weight="600" fill="#6b7280">${escapeHtml(_lab)}</text>`+
+               `</g>`;
+          }
           _tx += _w+6;
         });
         rowY[m.company+"|"+m.name]=y0;
@@ -2035,6 +2072,16 @@ function escapeHtml(s){return (s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&
           yh+=`<text x="${xc.toFixed(1)}" y="${(T-4).toFixed(1)}" text-anchor="${anchor}" font-size="${fs}" font-weight="800" fill="#6b7280">${b.label}</text>`;
         }
       });
+      // “今天”标识跟随：滚动时主 SVG 年份轴滚出视口，浮层顶栏同步显示橙色“今天”胶囊，标记统计截止日（与年份数字同一跟随机制）
+      {
+        const stx=xAtDate(G.range[1]);
+        if(stx>=L-0.5 && stx<=W-R+0.5){
+          const stxc=Math.max(L+18, Math.min(stx, W-R-18));
+          yh+=`<line x1="${stx.toFixed(1)}" y1="0" x2="${stx.toFixed(1)}" y2="${T}" stroke="#f97316" stroke-width="1.5" stroke-dasharray="4 3" opacity="0.55"/>`;
+          yh+=`<rect x="${(stxc-16).toFixed(1)}" y="2" width="32" height="14" rx="7" fill="#f97316" opacity="0.95"/>`;
+          yh+=`<text class="gtoday" x="${stxc.toFixed(1)}" y="13" text-anchor="middle">今天</text>`;
+        }
+      }
       stickyYearsSvg.setAttribute("viewBox",`0 0 ${W} ${T}`);
       stickyYearsSvg.innerHTML=yh;
     }
@@ -2321,50 +2368,80 @@ def compute_gantt(arch=None, top_n=GANTT_TOP_N):
     alld = sorted(set(mdates + list(arch.keys())))
     return {"range": [alld[0], max(alld[-1], today)], "regions": regions, "caps_defs": caps_defs}
 
-# ---------- 公司品牌 Logo（真实商标 SVG，统一缩微容器）----------
-# 资源来源：Simple Icons 官方品牌图形（monochrome 实色版，按各公司项目品牌色着色），
-# 存放于 assets/brands/。找不到可靠官方 Logo 的公司（智谱 / 月之暗面 / 百川 / 讯飞星火 /
-# Thinking Machines）不在下表中，前端回退为中性灰色 ◇ 占位（非品牌色），表示「Logo 暂缺」。
-# 说明：Simple Icons 仅提供官方「单色实底」商标图形（Google 的 G、Microsoft 四方块等均为此类），
-# 已按各公司品牌色着色，使 Logo + 品牌色竖线 + 公司名 + 同色 Arena Elo 构成统一识别单元。
+# ---------- 公司品牌 Logo（真实商标，统一缩微容器）----------
+# 资源来源（按优先级，均为各公司「官方声明」的商标资源，未伪造、未用首字母/汉字占位）：
+#   1) 官方 SVG：Simple Icons 官方品牌图形（monochrome 实色版，按各公司品牌色着色）
+#   2) 官方透明 PNG favicon：各公司官网声明图标（Google favicon 服务抓取其官方 favicon），
+#      白/浅底在白色容器内自然融合、透明底直接使用；均经尺寸/透明/背景校验。
+# 找不到可靠官方 Logo 的公司（Ideogram 仅有深色背景 favicon，无透明/浅底可用）不在下表中，
+# 前端回退为中性灰色 ◇ 占位（非品牌色），表示「Logo 暂缺」。
+# 元组: (slug, wide, fmt)  ——  fmt ∈ {"svg","png"}；wide=横向字标(17×10)。
 _BRAND_FILES = {
-    "OpenAI": ("openai", False),
-    "Anthropic": ("anthropic", False),
-    "Google": ("google", False),
-    "Meta": ("meta", False),
-    "xAI": ("x", False),
-    "Microsoft": ("microsoft", False),
-    "Amazon": ("amazon", True),    # 横向字标 → 17×10
-    "NVIDIA": ("nvidia", False),
-    "深度求索": ("deepseek", False),
-    "百度": ("baidu", False),
-    "阿里": ("alibabacloud", False),
-    "腾讯": ("tencentqq", False),
-    "字节": ("bytedance", False),
-    "稀宇科技": ("minimax", False),
-    "Mistral": ("mistralai", False),
-    "Apple": ("apple", False),
-    "ElevenLabs": ("elevenlabs", False),
-    "Kuaishou 快手": ("kuaishou", False),
+    # —— 官方 SVG（Simple Icons 单色实底，按品牌色着色）——
+    "OpenAI": ("openai", False, "svg"),
+    "Anthropic": ("anthropic", False, "svg"),
+    "Google": ("google", False, "svg"),
+    "Meta": ("meta", False, "svg"),
+    "xAI": ("x", False, "svg"),
+    "Microsoft": ("microsoft", False, "svg"),
+    "Amazon": ("amazon", True, "svg"),
+    "NVIDIA": ("nvidia", False, "svg"),
+    "深度求索": ("deepseek", False, "svg"),
+    "百度": ("baidu", False, "svg"),
+    "阿里": ("alibabacloud", False, "svg"),
+    "腾讯": ("tencentqq", False, "svg"),
+    "字节": ("bytedance", False, "svg"),
+    "稀宇科技": ("minimax", False, "svg"),
+    "Mistral": ("mistralai", False, "svg"),
+    "Apple": ("apple", False, "svg"),
+    "ElevenLabs": ("elevenlabs", False, "svg"),
+    "Kuaishou 快手": ("kuaishou", False, "svg"),
+    # —— 官方透明 PNG favicon（官网声明图标；白/浅底融合、透明底直用）——
+    "Midjourney": ("midjourney", False, "png"),
+    "Runway": ("runway", False, "png"),
+    "StepFun 阶跃": ("stepfun", False, "png"),
+    "Black Forest Labs": ("blackforest", False, "png"),
+    "百川": ("baichuan", False, "png"),
+    "Thinking Machines": ("thinking", False, "png"),
+    "讯飞星火": ("iflytek", False, "png"),
+    "Luma": ("luma", False, "png"),
+    "Cartesia": ("cartesia", False, "png"),
+    "Shengshu 生数": ("shengshu", False, "png"),
+    "月之暗面": ("moonshot", False, "png"),
+    "智谱": ("zhipu", False, "png"),
 }
 def build_company_logo_js():
-    """读取 assets/brands/*.svg，提取内部路径并内联为 JS 常量（自包含，无需运行时外链）。"""
-    import re as _re
+    """读取 assets/brands/ 下的 SVG / PNG，内联为 JS 常量（自包含，无需运行时外链）。
+    SVG 提取内部 <svg> 路径；PNG 以 base64 data URI 嵌入，保证 file:// 与 Pages 均可渲染。"""
+    import re as _re, base64 as _b64
     base = os.path.join(os.path.dirname(os.path.abspath(__file__)), "assets", "brands")
     out = {}
-    for comp, (slug, wide) in _BRAND_FILES.items():
-        fp = os.path.join(base, f"{slug}.svg")
-        if not os.path.exists(fp):
-            continue
-        try:
-            txt = open(fp, "r", encoding="utf-8").read()
-            m = _re.search(r"<svg[^>]*>(.*)</svg>", txt, _re.S)
-            if not m:
+    for comp, spec in _BRAND_FILES.items():
+        slug, wide, fmt = (list(spec) + ["svg"])[:3] if isinstance(spec, (list, tuple)) else (spec, False, "svg")
+        if fmt == "png":
+            fp = os.path.join(base, f"{slug}.png")
+            if not os.path.exists(fp):
                 continue
-            inner = m.group(1).strip()
-            out[comp] = {"svg": inner, "wide": bool(wide)}
-        except Exception:
-            continue
+            try:
+                with open(fp, "rb") as f:
+                    data = _b64.b64encode(f.read()).decode("ascii")
+                out[comp] = {"kind": "png", "wide": bool(wide),
+                             "data": f"data:image/png;base64,{data}"}
+            except Exception:
+                continue
+        else:
+            fp = os.path.join(base, f"{slug}.svg")
+            if not os.path.exists(fp):
+                continue
+            try:
+                txt = open(fp, "r", encoding="utf-8").read()
+                m = _re.search(r"<svg[^>]*>(.*)</svg>", txt, _re.S)
+                if not m:
+                    continue
+                inner = m.group(1).strip()
+                out[comp] = {"kind": "svg", "wide": bool(wide), "svg": inner}
+            except Exception:
+                continue
     return "const COMPANY_LOGO = " + json.dumps(out, ensure_ascii=False) + ";"
 
 def render_index(days):
