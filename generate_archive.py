@@ -1359,7 +1359,14 @@ INDEX_TPL = r"""<!DOCTYPE html>
   #ganttChart .gev{cursor:pointer}
   #ganttChart .gev:hover{filter:drop-shadow(0 0 5px rgba(79,70,229,.6))}
   #ganttChart .grow{transition:filter .12s}
-  #ganttChart .grow:hover{filter:brightness(0.95)}
+  #ganttChart .grow:hover{filter:brightness(0.965)}
+  #ganttChart .gtag{cursor:default}
+  #ganttChart .gtag rect{transition:fill .12s}
+  #ganttChart .gtag text{transition:fill .12s}
+  #ganttChart .gtag:hover rect{fill:#4f46e5}
+  #ganttChart .gtag:hover text{fill:#fff}
+  #ganttChart .ccname{transition:fill .12s}
+  #ganttChart .ccname:hover{fill:#4f46e5}
   #ganttChart .gtoday{font-size:9px;font-weight:800;fill:#fff}
   #ganttTip{position:absolute;display:none;pointer-events:none;background:#1f2430;color:#fff;
     font-size:12px;line-height:1.55;padding:8px 10px;border-radius:10px;box-shadow:0 6px 18px rgba(16,24,40,.25);
@@ -1414,7 +1421,7 @@ INDEX_TPL = r"""<!DOCTYPE html>
   <section class="gantt wrap">
     <div class="trend-head">
       <h2>🗓️ 主要 AI 公司 模型发布 / 版本更新 时间线</h2>
-      <p class="trend-sub">五维信息体系：<b>国家 → 公司 → 能力赛道 → 模型 → 时间事件</b>。🇺🇸美国 / 🇨🇳中国 / 🇫🇷法国 三阵营分块（一级），其下按公司分组的二级标题含<b>国旗 + 品牌色</b>（Logo 位预留），公司内再按<b>模型能力</b>（🧠对话 / 🧩推理 / 💻代码 / 👁视觉 / 🎨图像 / 🎥视频 / 🔊语音 / 🤖智能体 / 📚长文本）三级分组，同一能力内按 Arena Elo 降序。横向为日期，🔵蓝=模型版本发布，🟢绿=模型产品更新，🔴红=模型重磅更新；<b>纯模型视角</b>——仅收录模型发布 / 版本更新。顶部「能力」筛选可只看某一赛道。模型行尾「评分条 + Arena Elo」为该系列最强公开版本分数（无公开分数者显示「—」）。历史基线（2020–2024）经网络核实，2025 起自动同步 AI HOT 每日日报「模型发布/更新」版块。</p>
+      <p class="trend-sub">信息层级（参照 Apple / Linear 风格）：<b>国家为章节（弱化）→ 公司为视觉锚点（左侧品牌色竖线 + Logo 预留）→ 模型为浏览对象</b>。每个模型显示「名称 + Arena Elo + 能力标签」，能力仅作标签、不再设分组标题，阅读更连续。🇺🇸美国 / 🇨🇳中国 / 🇫🇷法国 三阵营分章；横向为日期，🔵蓝=模型版本发布，🟢绿=模型产品更新，🔴红=模型重磅更新（<b>纯模型视角</b>，仅收录模型发布 / 版本更新）。顶部「能力」筛选可只看某一赛道。Arena Elo 为该系列最强公开版本分数（无公开分数者显示「—」），每日自动同步。</p>
     </div>
     <div class="gantt-ctrl">
       <span class="glegend" data-legend="blue" style="--lc:#4f46e5" title="点击仅显示模型版本发布">
@@ -1544,22 +1551,21 @@ function escapeHtml(s){return (s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&
 (function(){
   const G=GANTT; if(!G.regions || !G.regions.length) return;
   const svg=document.getElementById("ganttChart");
-  const W=960,L=200,R=78,T=18,B=12,rowH=30;   // R 加宽至 78：右侧预留「评分栏」；B 收紧底部留白
-  const REGION={us:{label:"🇺🇸 美国公司",tint:"#eef2ff",head:"#e0e7ff",txt:"#3730a3",tag:"#4f46e5"},
-                eu:{label:"🇫🇷 法国公司",tint:"#ecfdf3",head:"#d1fae5",txt:"#065f46",tag:"#059669"},
-                cn:{label:"🇨🇳 中国公司",tint:"#fff1f3",head:"#ffe4e6",txt:"#9f1239",tag:"#e11d48"}};
-  const headerH=22;
-  const compH=20;
-  // 能力维度（三级分组 + 顶部筛选）
+  const W=960,L=200,R=12,T=18,B=12,rowH=40;   // R 收敛为右侧留白；行高加大以容纳「模型名+Elo」与「能力标签」两行
+  // 国家仅作章节（弱化），公司才是视觉锚点；品牌色只点缀（3px 竖线 / Hover / Logo 描边）
+  const REGION_LABEL={us:"🇺🇸 美国",cn:"🇨🇳 中国",eu:"🇫🇷 法国"};
+  const FLAG={us:"🇺🇸",cn:"🇨🇳",eu:"🇫🇷"};
+  const headerH=44;                            // 国家章节头：标题(18px) + 浅灰副标题(模型/公司数)
+  const compH=28;                              // 公司头：品牌色 3px 竖线 + 16px Logo 占位 + 名称 + 极细分割线
+  // 能力维度：仅作为「模型标签」+ 顶部筛选，不再作为分组标题（避免打断阅读节奏）
   const CAP_ORDER=(G.caps_defs||[]).map(c=>c.key);
   const CAP_MAP={}; (G.caps_defs||[]).forEach(c=>CAP_MAP[c.key]=c);
-  const FLAG={us:"🇺🇸",cn:"🇨🇳",eu:"🇫🇷"};
-  const REGION_LABEL={us:"🇺🇸 美国公司",cn:"🇨🇳 中国公司",eu:"🇫🇷 法国公司"};
-  const capH=18;                                       // 能力子分组头高度
+  const ACCENT="#4f46e5";                      // 统一品牌蓝（Hover / 选中 / 筛选激活 / 能力标签 Hover）
   function eloSort(a,b){ return ((b.rating==null?-1:b.rating)-(a.rating==null?-1:a.rating)) || a.name.localeCompare(b.name); }
   const rows=[];
   G.regions.forEach(reg=>{
-    rows.push({type:"h",region:reg.region});
+    const nComp=new Set(reg.models.map(m=>m.company)).size;
+    rows.push({type:"h",region:reg.region,nModels:reg.models.length,nCompanies:nComp});
     const byComp={};
     reg.models.forEach(m=>{ (byComp[m.company]=byComp[m.company]||[]).push(m); });
     // 公司按「最强模型评分」降序
@@ -1567,17 +1573,16 @@ function escapeHtml(s){return (s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&
     compNames.forEach(comp=>{
       const all=byComp[comp].slice().sort(eloSort);
       rows.push({type:"c",company:comp,color:(all[0]||{}).color||"#888",all:all,models:all,region:(all[0]||{}).region});
-      // 三级分组：按主能力归组（仅展示该公司拥有的能力，按 CAP_ORDER 顺序）
+      // 模型直接挂在公司下（不再渲染能力标题）；仍按主能力聚类、组内按 Elo 降序，
+      // 使同类模型相邻、阅读连续，能力仅作为模型标签出现。
       const byCap={};
       all.forEach(m=>{ const c=m.main_cap||(m.caps&&m.caps[0])||"Chat"; (byCap[c]=byCap[c]||[]).push(m); });
       CAP_ORDER.filter(c=>byCap[c]).forEach(cap=>{
-        const ms=byCap[cap].slice().sort(eloSort);     // 同一能力内按 Elo 从高到低
-        rows.push({type:"t",cap:cap,company:comp,models:ms,region:reg.region});
-        ms.forEach(m=> rows.push({type:"m",m}));
+        byCap[cap].slice().sort(eloSort).forEach(m=> rows.push({type:"m",m}));
       });
     });
   });
-  let plotH=T; rows.forEach(r=> plotH += (r.type==="h"?headerH:(r.type==="c"?compH:(r.type==="t"?capH:rowH))));
+  let plotH=T; rows.forEach(r=> plotH += (r.type==="h"?headerH:(r.type==="c"?compH:rowH)));
   const H=plotH+B;
   svg.setAttribute("viewBox",`0 0 ${W} ${H}`);
   const full0=new Date(G.range[0]+"T00:00:00Z").getTime();
@@ -1680,110 +1685,83 @@ function escapeHtml(s){return (s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&
     let h=""; const rowY={}; let y=T;
     // 图例筛选：预扫描出「在当前筛选下仍有事件」的模型 / 公司 / 阵营，用于隐藏空行
     const filtering=!!(legendFilter || capFilter);
-    const modelHasVis={}, compHasVis={}, regHasVis={}, capHasVis={};
+    const modelHasVis={}, compHasVis={}, regHasVis={};
     if(filtering){
       rows.forEach(r=>{ if(r.type!=="m") return;
         const has=visibleEvents(r.m).length>0;
         modelHasVis[r.m.company+"|"+r.m.name]=has;
-        if(has){ compHasVis[r.m.company]=true; regHasVis[r.m.region]=true;
-          capHasVis[r.m.region+"|"+r.m.company+"|"+r.m.main_cap]=true; }
+        if(has){ compHasVis[r.m.company]=true; regHasVis[r.m.region]=true; }
       });
     }
     // 1) 区域带 + 公司分组头 + 模型行（每公司下展开各自模型）
     //    国家板块视觉增强：阵营头=国家色实底白字条；左侧粗竖色条贯穿整个板块；圆点/文字右移避让竖条
     let overlay="";                 // 板块装饰层（竖色条），最后叠加到最上层确保可见
-    let curRegion=null, regStartY=T;
-    const flushRegion=(endY)=>{
-      if(curRegion && endY>regStartY+0.5){
-        const reg=REGION[curRegion];
-        overlay+=`<rect x="0" y="${regStartY.toFixed(1)}" width="6" height="${(endY-regStartY).toFixed(1)}" fill="${reg.tag}" opacity="0.45"/>`;
-        overlay+=`<line x1="${L}" y1="${endY.toFixed(1)}" x2="${(W-R).toFixed(1)}" y2="${endY.toFixed(1)}" stroke="#eef0f6" stroke-width="1"/>`;
+    let curCompany=null, compStartY=T, compColor="#888";
+    const flushCompany=(endY)=>{
+      if(curCompany && endY>compStartY+0.5){
+        overlay+=`<rect x="0" y="${compStartY.toFixed(1)}" width="3" height="${(endY-compStartY).toFixed(1)}" fill="${compColor}" opacity="0.9"/>`;
+        overlay+=`<line x1="0" y1="${endY.toFixed(1)}" x2="${W}" y2="${endY.toFixed(1)}" stroke="#eceef3" stroke-width="1"/>`;
       }
     };
     rows.forEach(r=>{
       if(r.type==="h"){
-        flushRegion(y);
-        if(filtering && !regHasVis[r.region]) { curRegion=null; return; }
-        curRegion=r.region; regStartY=y;
-        const reg=REGION[r.region];
-        h+=`<rect x="0" y="${y.toFixed(1)}" width="${W}" height="${headerH}" fill="${reg.head}"/>`;
-        h+=`<text x="14" y="${(y+headerH/2+4).toFixed(1)}" font-size="12" font-weight="800" fill="${reg.txt}">${reg.label}</text>`;
+        flushCompany(y); curCompany=null;
+        if(filtering && !regHasVis[r.region]) return;
+        // 国家章节头：弱化显示（18px 近黑 + 浅灰副标题），无背景色块
+        const lbl=REGION_LABEL[r.region]||r.region;
+        h+=`<text x="14" y="${(y+22).toFixed(1)}" font-size="18" font-weight="700" fill="#374151">${escapeHtml(lbl)}</text>`;
+        h+=`<text x="14" y="${(y+40).toFixed(1)}" font-size="11.5" font-weight="500" fill="#9aa1b1">${r.nModels} 个模型 · ${r.nCompanies} 家公司</text>`;
+        h+=`<line x1="0" y1="${(y+headerH).toFixed(1)}" x2="${W}" y2="${(y+headerH).toFixed(1)}" stroke="#eceef3" stroke-width="1"/>`;
         y+=headerH;
       } else if(r.type==="c"){
-        if(filtering && !compHasVis[r.company]) return;
+        flushCompany(y);
+        if(filtering && !compHasVis[r.company]){ curCompany=null; return; }
+        curCompany=r.company; compStartY=y; compColor=r.color;
         const comp=r.company;
-        const flag=FLAG[r.region]||"🌐";
-        // 公司分组头：品牌色淡底 + 左侧品牌色竖条；Logo 预留位置（虚线圆角框，后续可接入 SVG）
-        h+=`<rect x="${L}" y="${y.toFixed(1)}" width="${W-L-R}" height="${compH}" fill="${r.color}" opacity="0.10"/>`;
-        h+=`<rect x="${L}" y="${y.toFixed(1)}" width="4" height="${compH}" fill="${r.color}"/>`;
-        h+=`<rect x="14" y="${(y+compH/2-7).toFixed(1)}" width="14" height="14" rx="4" fill="#ffffff" stroke="${r.color}" stroke-width="1" stroke-dasharray="2.5 2"/>`;
-        h+=`<text x="21" y="${(y+compH/2+4).toFixed(1)}" text-anchor="middle" font-size="9" font-weight="800" fill="${r.color}">${(escapeHtml(comp.slice(0,1)))}</text>`;
-        h+=`<text x="36" y="${(y+compH/2+4).toFixed(1)}" font-size="12" font-weight="800" fill="${r.color}">${flag} ${escapeHtml(comp)}</text>`;
-        const tot=r.all.reduce((a,m)=>a+visibleEvents(m).length,0);
-        const countText=r.models.length?`${r.models.length} 个模型 · ${tot} 次`:`${tot} 次`;
-        h+=`<text x="${L-12}" y="${(y+compH/2+4).toFixed(1)}" text-anchor="end" font-size="10.5" fill="#9aa1b1">${countText}</text>`;
+        // 公司视觉锚点：右侧 16px 虚线 Logo 占位（品牌色描边 + 首字母）+ 公司名（近黑，不铺色）
+        const lx=W-34, ly=(y+compH/2-8).toFixed(1);
+        h+=`<rect x="${lx}" y="${ly}" width="16" height="16" rx="5" fill="#ffffff" stroke="${r.color}" stroke-width="1.25" stroke-dasharray="2.5 2"/>`;
+        h+=`<text x="${(lx+8).toFixed(1)}" y="${(y+compH/2+4).toFixed(1)}" text-anchor="middle" font-size="9.5" font-weight="800" fill="${r.color}">${escapeHtml(comp.slice(0,1))}</text>`;
+        h+=`<text class="ccname" x="16" y="${(y+compH/2+5).toFixed(1)}" font-size="14.5" font-weight="800" fill="#1f2430">${FLAG[r.region]||"🌐"} ${escapeHtml(comp)}</text>`;
         y+=compH;
-      } else if(r.type==="t"){
-        if(filtering && !capHasVis[r.region+"|"+r.company+"|"+r.cap]) return;
-        const cd=CAP_MAP[r.cap]||{emoji:"🧠",label:r.cap,color:"#6b7280"};
-        const cnt=r.models.reduce((a,m)=>a+visibleEvents(m).length,0);
-        h+=`<rect x="${L}" y="${y.toFixed(1)}" width="${W-L-R}" height="${capH}" fill="${cd.color}" opacity="0.08"/>`;
-        h+=`<rect x="${L}" y="${y.toFixed(1)}" width="3" height="${capH}" fill="${cd.color}" opacity="0.55"/>`;
-        h+=`<text x="${L+10}" y="${(y+capH/2+4).toFixed(1)}" font-size="11" font-weight="800" fill="${cd.color}">${cd.emoji} ${cd.label}</text>`;
-        h+=`<text x="${L-12}" y="${(y+capH/2+4).toFixed(1)}" text-anchor="end" font-size="10" fill="#9aa1b1">${cnt} 次</text>`;
-        y+=capH;
       } else {
         const m=r.m, y0=y;
         if(filtering && !modelHasVis[m.company+"|"+m.name]) return;
-        const regTint=REGION[curRegion]?REGION[curRegion].tint:"#ffffff";
-        h+=`<rect class="grow" x="${L}" y="${y0.toFixed(1)}" width="${W-L-R}" height="${rowH}" fill="${regTint}"/>`;
+        h+=`<rect class="grow" x="0" y="${y0.toFixed(1)}" width="${W}" height="${rowH}" fill="#ffffff"/>`;
         const vis=visibleEvents(m);
-        h+=`<circle cx="29" cy="${(y0+rowH/2).toFixed(1)}" r="4" fill="${m.color}"/>`;
-        h+=`<text x="41" y="${(y0+rowH/2+4).toFixed(1)}" font-size="11.5" font-weight="600" fill="#3a3f4b">${escapeHtml(m.name)}</text>`;
-        // 能力标签（主能力 + 次级能力，最多 3 个）：模型名后显示，如「Chat · Vision · Agent」
-        const _caps=(m.caps||["Chat"]).slice(0,3);
-        let _tx=41; for(const _ch of m.name){ _tx += (_ch.charCodeAt(0)>255?12:7); }
-        _tx += 7;
-        _caps.forEach(cap=>{
-          const cd=CAP_MAP[cap]||{emoji:"🧠",label:cap,color:"#6b7280"};
-          const _lab=cd.emoji+" "+cd.label;
-          const _w=_lab.length*7.6+10;
-          if(_tx+_w > L-30) return;          // 防止溢出事件计数区
-          h+=`<rect x="${_tx.toFixed(1)}" y="${(y0+rowH/2-7).toFixed(1)}" width="${_w.toFixed(1)}" height="14" rx="7" fill="${cd.color}" opacity="0.13"/>`;
-          h+=`<text x="${(_tx+_w/2).toFixed(1)}" y="${(y0+rowH/2+4).toFixed(1)}" text-anchor="middle" font-size="9.5" font-weight="700" fill="${cd.color}">${_lab}</text>`;
-          _tx += _w+5;
-        });
-        h+=`<text x="${L-26}" y="${(y0+rowH/2+4).toFixed(1)}" text-anchor="end" font-size="10.5" fill="#9aa1b1">${vis.length}</text>`;
-        // 右侧评分栏：色条 + 分数（无公开可比分数显示「—」）
+        // 模型名（左）+ Arena Elo（同行靠右，不再置于最右评分栏）
+        h+=`<text x="16" y="${(y0+17).toFixed(1)}" font-size="13" font-weight="600" fill="#1f2430">${escapeHtml(m.name)}</text>`;
         if(m.rating!=null){
-          const rv=m.rating;
-          const frac=Math.max(0,Math.min(1,(rv-RATE_MIN)/(RATE_MAX-RATE_MIN)));
-          const bx=W-R+6, bw=R-40, fy=(y0+rowH/2-3).toFixed(1);
-          h+=`<rect x="${bx}" y="${fy}" width="${bw}" height="6" rx="3" fill="#eef0f6"/>`;
-          h+=`<rect x="${bx}" y="${fy}" width="${(bw*frac).toFixed(1)}" height="6" rx="3" fill="${m.color}"/>`;
-          h+=`<text x="${(W-4)}" y="${(y0+rowH/2+4).toFixed(1)}" text-anchor="end" font-size="10.5" font-weight="700" fill="#3a3f4b">${rv}</text>`;
+          h+=`<text x="${(L-12).toFixed(1)}" y="${(y0+17).toFixed(1)}" text-anchor="end" font-size="12.5" font-weight="700" fill="#4b5161">${m.rating}</text>`;
         } else {
-          h+=`<text x="${(W-4)}" y="${(y0+rowH/2+4).toFixed(1)}" text-anchor="end" font-size="10" fill="#b7bcc8">—</text>`;
+          h+=`<text x="${(L-12).toFixed(1)}" y="${(y0+17).toFixed(1)}" text-anchor="end" font-size="11.5" fill="#b7bcc8">—</text>`;
         }
+        // 能力标签：统一浅灰胶囊（第二行），Hover 变品牌蓝；最多 3 个
+        let _tx=16;
+        (m.caps||["Chat"]).slice(0,3).forEach(cap=>{
+          const cd=CAP_MAP[cap]||{label:cap};
+          const _lab=cd.label;
+          const _w=_lab.length*7.2+14;
+          if(_tx+_w > L-14) return;
+          h+=`<g class="gtag">`+
+             `<rect x="${_tx.toFixed(1)}" y="${(y0+24).toFixed(1)}" width="${_w.toFixed(1)}" height="15" rx="7.5" fill="#f1f3f7"/>`+
+             `<text x="${(_tx+_w/2).toFixed(1)}" y="${(y0+35).toFixed(1)}" text-anchor="middle" font-size="10" font-weight="600" fill="#6b7280">${escapeHtml(_lab)}</text>`+
+             `</g>`;
+          _tx += _w+6;
+        });
         rowY[m.company+"|"+m.name]=y0;
         y+=rowH;
       }
     });
-    flushRegion(y);
+    flushCompany(y);
     const plotBottom=y;
     h+=overlay;
-    // 左侧标签栏与绘图区分隔线（外框左）
-    h+=`<line x1="${L.toFixed(1)}" y1="${T}" x2="${L.toFixed(1)}" y2="${plotBottom.toFixed(1)}" stroke="#e4e7ef" stroke-width="1"/>`;
-    // 绘图区与右侧 LMArena Elo 评分栏的内部分隔线
-    const ex=(W-R);
-    h+=`<line x1="${ex.toFixed(1)}" y1="${T}" x2="${ex.toFixed(1)}" y2="${plotBottom.toFixed(1)}" stroke="#e4e7ef" stroke-width="1"/>`;
-    // 整体外框改为下方统一的圆角矩形（包住年份轴 + 全部国家板块 + 评分栏），此处仅保留左侧标签/绘图区、绘图区/评分栏两条内部分隔线
-    // 年份仅用细网格线区分（无列填充）；背景统一表达「阵营」
+    // 左侧标签栏与绘图区分隔线（极淡）
+    h+=`<line x1="${L.toFixed(1)}" y1="${T}" x2="${L.toFixed(1)}" y2="${plotBottom.toFixed(1)}" stroke="#e9ebf1" stroke-width="1"/>`;
 
     // 2) 时间轴：内容加权列宽（稀疏年细、密集年宽）+ 顶部年份标签
     h+=`<rect x="0" y="0" width="${W}" height="${T}" fill="#ffffff"/>`;
     h+=`<line x1="0" y1="${T}" x2="${W}" y2="${T}" stroke="#e4e7ef" stroke-width="1"/>`;
-    h+=`<text x="${(W-4)}" y="${(T-4).toFixed(1)}" text-anchor="end" font-size="9.5" font-weight="800" fill="#9aa1b1">LMArena Elo·综合对话↓</text>`;
     BANDS.forEach((b,i)=>{
       const x0=xOfUnits(cumBeforeB[b.label]);            // 该分组列左边界
       const x1=xOfUnits(cumBeforeB[b.label]+bandUnits[b.label]); // 右边界
@@ -1873,7 +1851,6 @@ function escapeHtml(s){return (s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&
     if(stickyYearsSvg){
       let yh=`<rect x="0" y="0" width="${W}" height="${T}" fill="#ffffff"/>`;
       yh+=`<line x1="0" y1="${T}" x2="${W}" y2="${T}" stroke="#e4e7ef" stroke-width="1"/>`;
-      yh+=`<text x="${(W-4)}" y="${(T-4).toFixed(1)}" text-anchor="end" font-size="9.5" font-weight="800" fill="#9aa1b1">LMArena Elo·综合对话↓</text>`;
       BANDS.forEach((b,i)=>{
         const x0=xOfUnits(cumBeforeB[b.label]);
         const x1=xOfUnits(cumBeforeB[b.label]+bandUnits[b.label]);
@@ -2004,7 +1981,7 @@ function escapeHtml(s){return (s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&
     capWrap.appendChild(capAllBtn);
     (G.caps_defs||[]).forEach(c=>{
       const b=document.createElement("button");
-      b.className="gcap"; b.dataset.cap=c.key; b.textContent=c.emoji+" "+c.label;
+      b.className="gcap"; b.dataset.cap=c.key; b.textContent=c.label;
       capWrap.appendChild(b);
     });
     capWrap.querySelectorAll(".gcap").forEach(b=>{
