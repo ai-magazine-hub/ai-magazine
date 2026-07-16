@@ -1173,7 +1173,7 @@ INDEX_TPL = r"""<!DOCTYPE html>
   .glegend.dim{opacity:.35}
   .glegend .lg-dot{width:8px;height:8px;border-radius:2px;display:inline-block;background:currentColor}
   .gsep{width:1px;background:var(--line);margin:3px 4px}
-  #ganttChart{width:100%;height:auto;display:block;cursor:grab}
+  #ganttChart{width:100%;height:auto;display:block;cursor:grab;border:1px solid var(--line);border-radius:12px;box-shadow:0 2px 12px rgba(16,24,40,.05)}
   #ganttChart:active{cursor:grabbing}
   #ganttChart .gev{cursor:pointer}
   #ganttChart .gev:hover{filter:drop-shadow(0 0 5px rgba(79,70,229,.6))}
@@ -1361,10 +1361,10 @@ function escapeHtml(s){return (s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&
 (function(){
   const G=GANTT; if(!G.regions || !G.regions.length) return;
   const svg=document.getElementById("ganttChart");
-  const W=960,L=200,R=78,T=18,B=20,rowH=30;   // R 加宽至 78：右侧预留「评分栏」；B=20 收紧底部留白
-  const REGION={us:{label:"🇺🇸 美国公司",tint:"#e9f0fe",tag:"#4f46e5"},
-                eu:{label:"🇫🇷 法国公司",tint:"#e9faf0",tag:"#059669"},
-                cn:{label:"🇨🇳 中国公司",tint:"#fdeef0",tag:"#e11d48"}};
+  const W=960,L=200,R=78,T=18,B=12,rowH=30;   // R 加宽至 78：右侧预留「评分栏」；B 收紧底部留白
+  const REGION={us:{label:"🇺🇸 美国公司",tint:"#f9fbfd",tag:"#4f46e5"},
+                eu:{label:"🇫🇷 法国公司",tint:"#f9fcfa",tag:"#059669"},
+                cn:{label:"🇨🇳 中国公司",tint:"#fff9fa",tag:"#e11d48"}};
   const headerH=22;
   const compH=20;
   const rows=[];
@@ -1497,8 +1497,8 @@ function escapeHtml(s){return (s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&
     const flushRegion=(endY)=>{
       if(curRegion && endY>regStartY+0.5){
         const reg=REGION[curRegion];
-        overlay+=`<rect x="0" y="${regStartY.toFixed(1)}" width="6" height="${(endY-regStartY).toFixed(1)}" fill="${reg.tag}"/>`;
-        overlay+=`<line x1="${L}" y1="${endY.toFixed(1)}" x2="${(W-R).toFixed(1)}" y2="${endY.toFixed(1)}" stroke="${reg.tag}" stroke-width="1.5" opacity="0.3"/>`;
+        overlay+=`<rect x="0" y="${regStartY.toFixed(1)}" width="4" height="${(endY-regStartY).toFixed(1)}" fill="${reg.tag}" opacity="0.25"/>`;
+        overlay+=`<line x1="${L}" y1="${endY.toFixed(1)}" x2="${(W-R).toFixed(1)}" y2="${endY.toFixed(1)}" stroke="#eef0f6" stroke-width="1"/>`;
       }
     };
     rows.forEach(r=>{
@@ -1507,8 +1507,9 @@ function escapeHtml(s){return (s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&
         if(filtering && !regHasVis[r.region]) { curRegion=null; return; }
         curRegion=r.region; regStartY=y;
         const reg=REGION[r.region];
-        h+=`<rect x="0" y="${y.toFixed(1)}" width="${W}" height="${headerH}" fill="${reg.tag}"/>`;
-        h+=`<text x="16" y="${(y+headerH/2+4).toFixed(1)}" font-size="12" font-weight="800" fill="#ffffff">${reg.label}</text>`;
+        h+=`<rect x="0" y="${y.toFixed(1)}" width="${W}" height="${headerH}" fill="#ffffff" stroke="#e4e7ef" stroke-width="1"/>`;
+        h+=`<rect x="0" y="${y.toFixed(1)}" width="4" height="${headerH}" fill="${reg.tag}"/>`;
+        h+=`<text x="16" y="${(y+headerH/2+4).toFixed(1)}" font-size="12" font-weight="800" fill="${reg.tag}">${reg.label}</text>`;
         y+=headerH;
       } else if(r.type==="c"){
         if(filtering && !compHasVis[r.company]) return;
@@ -1547,9 +1548,6 @@ function escapeHtml(s){return (s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&
     });
     flushRegion(y);
     const plotBottom=y;
-    // 左侧标签栏与右侧 LMArena Elo 评分栏统一淡色背景条（与最左边对称一致）
-    h+=`<rect x="0" y="${T}" width="${L}" height="${(plotBottom-T).toFixed(1)}" fill="#f8f9fc"/>`;
-    h+=`<rect x="${W-R}" y="${T}" width="${R}" height="${(plotBottom-T).toFixed(1)}" fill="#f8f9fc"/>`;
     h+=overlay;
     // 左侧标签栏与绘图区分隔线（外框左）
     h+=`<line x1="${L.toFixed(1)}" y1="${T}" x2="${L.toFixed(1)}" y2="${plotBottom.toFixed(1)}" stroke="#e4e7ef" stroke-width="1"/>`;
@@ -1564,9 +1562,8 @@ function escapeHtml(s){return (s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&
     // 年份仅用细网格线区分（无列填充）；背景统一表达「阵营」
 
     // 2) 时间轴：内容加权列宽（稀疏年细、密集年宽）+ 顶部年份标签
-    h+=`<rect x="0" y="0" width="${L}" height="${T}" fill="#f8f9fc"/>`;
-    h+=`<rect x="${L}" y="0" width="${W-L-R}" height="${T}" fill="#ffffff"/>`;
-    h+=`<rect x="${W-R}" y="0" width="${R}" height="${T}" fill="#f8f9fc"/>`;
+    h+=`<rect x="0" y="0" width="${W}" height="${T}" fill="#ffffff"/>`;
+    h+=`<line x1="0" y1="${T}" x2="${W}" y2="${T}" stroke="#e4e7ef" stroke-width="1"/>`;
     h+=`<text x="${(W-4)}" y="${(T-4).toFixed(1)}" text-anchor="end" font-size="9.5" font-weight="800" fill="#9aa1b1">LMArena Elo ↓</text>`;
     BANDS.forEach((b,i)=>{
       const x0=xOfUnits(cumBeforeB[b.label]);            // 该分组列左边界
@@ -1651,10 +1648,8 @@ function escapeHtml(s){return (s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&
     svg.innerHTML=h;
     // 同步渲染 sticky 年份浮层（与主 SVG 年份标签完全一致，pan/zoom 时跟随更新）
     if(stickyYearsSvg){
-      let yh=`<rect x="0" y="0" width="${L}" height="${T}" fill="#f8f9fc"/>`;
-      yh+=`<rect x="${L}" y="0" width="${W-L-R}" height="${T}" fill="#fff"/>`;
-      yh+=`<rect x="${W-R}" y="0" width="${R}" height="${T}" fill="#f8f9fc"/>`;
-      yh+=`<line x1="${L}" y1="0" x2="${L}" y2="${T}" stroke="#e4e7ef" stroke-width="1"/>`;
+      let yh=`<rect x="0" y="0" width="${W}" height="${T}" fill="#ffffff"/>`;
+      yh+=`<line x1="0" y1="${T}" x2="${W}" y2="${T}" stroke="#e4e7ef" stroke-width="1"/>`;
       yh+=`<text x="${(W-4)}" y="${(T-4).toFixed(1)}" text-anchor="end" font-size="9.5" font-weight="800" fill="#9aa1b1">LMArena Elo ↓</text>`;
       BANDS.forEach((b,i)=>{
         const x0=xOfUnits(cumBeforeB[b.label]);
