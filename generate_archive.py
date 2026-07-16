@@ -1173,7 +1173,7 @@ INDEX_TPL = r"""<!DOCTYPE html>
   .glegend.dim{opacity:.35}
   .glegend .lg-dot{width:8px;height:8px;border-radius:2px;display:inline-block;background:currentColor}
   .gsep{width:1px;background:var(--line);margin:3px 4px}
-  #ganttChart{width:100%;height:auto;display:block;cursor:grab;border:1px solid var(--line);border-radius:12px;box-shadow:0 2px 12px rgba(16,24,40,.05)}
+  #ganttChart{width:100%;height:auto;display:block;cursor:grab;border-radius:12px;overflow:hidden;box-shadow:0 2px 12px rgba(16,24,40,.05)}
   #ganttChart:active{cursor:grabbing}
   #ganttChart .gev{cursor:pointer}
   #ganttChart .gev:hover{filter:drop-shadow(0 0 5px rgba(79,70,229,.6))}
@@ -1362,9 +1362,9 @@ function escapeHtml(s){return (s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&
   const G=GANTT; if(!G.regions || !G.regions.length) return;
   const svg=document.getElementById("ganttChart");
   const W=960,L=200,R=78,T=18,B=12,rowH=30;   // R 加宽至 78：右侧预留「评分栏」；B 收紧底部留白
-  const REGION={us:{label:"🇺🇸 美国公司",tint:"#f9fbfd",tag:"#4f46e5"},
-                eu:{label:"🇫🇷 法国公司",tint:"#f9fcfa",tag:"#059669"},
-                cn:{label:"🇨🇳 中国公司",tint:"#fff9fa",tag:"#e11d48"}};
+  const REGION={us:{label:"🇺🇸 美国公司",tint:"#eef2ff",head:"#e0e7ff",txt:"#3730a3",tag:"#4f46e5"},
+                eu:{label:"🇫🇷 法国公司",tint:"#ecfdf3",head:"#d1fae5",txt:"#065f46",tag:"#059669"},
+                cn:{label:"🇨🇳 中国公司",tint:"#fff1f3",head:"#ffe4e6",txt:"#9f1239",tag:"#e11d48"}};
   const headerH=22;
   const compH=20;
   const rows=[];
@@ -1497,7 +1497,7 @@ function escapeHtml(s){return (s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&
     const flushRegion=(endY)=>{
       if(curRegion && endY>regStartY+0.5){
         const reg=REGION[curRegion];
-        overlay+=`<rect x="0" y="${regStartY.toFixed(1)}" width="4" height="${(endY-regStartY).toFixed(1)}" fill="${reg.tag}" opacity="0.25"/>`;
+        overlay+=`<rect x="0" y="${regStartY.toFixed(1)}" width="6" height="${(endY-regStartY).toFixed(1)}" fill="${reg.tag}" opacity="0.45"/>`;
         overlay+=`<line x1="${L}" y1="${endY.toFixed(1)}" x2="${(W-R).toFixed(1)}" y2="${endY.toFixed(1)}" stroke="#eef0f6" stroke-width="1"/>`;
       }
     };
@@ -1507,9 +1507,8 @@ function escapeHtml(s){return (s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&
         if(filtering && !regHasVis[r.region]) { curRegion=null; return; }
         curRegion=r.region; regStartY=y;
         const reg=REGION[r.region];
-        h+=`<rect x="0" y="${y.toFixed(1)}" width="${W}" height="${headerH}" fill="#ffffff" stroke="#e4e7ef" stroke-width="1"/>`;
-        h+=`<rect x="0" y="${y.toFixed(1)}" width="4" height="${headerH}" fill="${reg.tag}"/>`;
-        h+=`<text x="16" y="${(y+headerH/2+4).toFixed(1)}" font-size="12" font-weight="800" fill="${reg.tag}">${reg.label}</text>`;
+        h+=`<rect x="0" y="${y.toFixed(1)}" width="${W}" height="${headerH}" fill="${reg.head}"/>`;
+        h+=`<text x="14" y="${(y+headerH/2+4).toFixed(1)}" font-size="12" font-weight="800" fill="${reg.txt}">${reg.label}</text>`;
         y+=headerH;
       } else if(r.type==="c"){
         if(filtering && !compHasVis[r.company]) return;
@@ -1554,11 +1553,7 @@ function escapeHtml(s){return (s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&
     // 绘图区与右侧 LMArena Elo 评分栏的内部分隔线
     const ex=(W-R);
     h+=`<line x1="${ex.toFixed(1)}" y1="${T}" x2="${ex.toFixed(1)}" y2="${plotBottom.toFixed(1)}" stroke="#e4e7ef" stroke-width="1"/>`;
-    // 整体外框（右 / 上 / 下）：右边界包住 Elo 栏于最外围 W 处，左右对称、整体闭合
-    const ox=W;
-    h+=`<line x1="${ox.toFixed(1)}" y1="${T}" x2="${ox.toFixed(1)}" y2="${plotBottom.toFixed(1)}" stroke="#e4e7ef" stroke-width="1"/>`;
-    h+=`<line x1="${L.toFixed(1)}" y1="${T}" x2="${ox.toFixed(1)}" y2="${T}" stroke="#e4e7ef" stroke-width="1"/>`;
-    h+=`<line x1="${L.toFixed(1)}" y1="${plotBottom.toFixed(1)}" x2="${ox.toFixed(1)}" y2="${plotBottom.toFixed(1)}" stroke="#e4e7ef" stroke-width="1"/>`;
+    // 整体外框改为下方统一的圆角矩形（包住年份轴 + 全部国家板块 + 评分栏），此处仅保留左侧标签/绘图区、绘图区/评分栏两条内部分隔线
     // 年份仅用细网格线区分（无列填充）；背景统一表达「阵营」
 
     // 2) 时间轴：内容加权列宽（稀疏年细、密集年宽）+ 顶部年份标签
@@ -1645,6 +1640,9 @@ function escapeHtml(s){return (s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&
     });
     // 筛选时行数变化，按实际内容高度更新画布，避免底部留白
     svg.setAttribute("viewBox",`0 0 ${W} ${(plotBottom+B).toFixed(1)}`);
+    // 整体外框：圆角矩形包住「年份轴 + 全部国家板块 + 右侧评分栏」，作为统一视觉边界（最后绘制，确保压在内容边缘之上）
+    const fH=plotBottom+B;
+    h+=`<rect x="0.75" y="0.75" width="${(W-1.5).toFixed(1)}" height="${(fH-1.5).toFixed(1)}" rx="10" fill="none" stroke="#c2cadb" stroke-width="1.5"/>`;
     svg.innerHTML=h;
     // 同步渲染 sticky 年份浮层（与主 SVG 年份标签完全一致，pan/zoom 时跟随更新）
     if(stickyYearsSvg){
