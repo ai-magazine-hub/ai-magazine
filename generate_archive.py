@@ -1541,7 +1541,8 @@ INDEX_TPL = r"""<!DOCTYPE html>
   #ganttChart .gtag:hover text{fill:#374151}
   #ganttChart .ccname{transition:filter .12s}
   #ganttChart .ccname:hover{filter:brightness(0.82)}
-  #ganttChart .gtoday{font-size:9px;font-weight:800;fill:#fff}
+  .gtoday{font-size:9px;font-weight:800;fill:#fff}
+  #ganttChart,#ganttYearsSvg{font-family:inherit}
   /* Tooltip 固定深色浮层（不跟随系统深浅色，与浅色主体形成稳定对比） */
   :root{
     --tooltip-bg: rgba(24, 28, 38, 0.97);
