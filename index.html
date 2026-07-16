@@ -67,8 +67,8 @@
   #ganttChart:active{cursor:grabbing}
   #ganttChart .gev{cursor:pointer}
   #ganttChart .gev:hover{filter:drop-shadow(0 0 5px rgba(79,70,229,.6))}
-  #ganttChart .grow{transition:fill .12s}
-  #ganttChart .grow:hover{fill:#eef3ff}
+  #ganttChart .grow{transition:filter .12s}
+  #ganttChart .grow:hover{filter:brightness(0.95)}
   #ganttChart .gtoday{font-size:9px;font-weight:800;fill:#fff}
   #ganttTip{position:absolute;display:none;pointer-events:none;background:#1f2430;color:#fff;
     font-size:12px;line-height:1.55;padding:8px 10px;border-radius:10px;box-shadow:0 6px 18px rgba(16,24,40,.25);
@@ -160,7 +160,7 @@
     <div id="archive"></div>
   </main>
   <footer>
-    <div>数据来源：<a href="https://aihot.virxact.com" target="_blank" rel="noopener noreferrer">AI HOT（aihot.virxact.com）</a> · 生成于 2026年07月16日 20:21</div>
+    <div>数据来源：<a href="https://aihot.virxact.com" target="_blank" rel="noopener noreferrer">AI HOT（aihot.virxact.com）</a> · 生成于 2026年07月16日 21:45</div>
     <div style="margin-top:6px">点击任意一期查看当日完整日报（含五版块与原文跳转）</div>
     <div style="margin-top:8px;opacity:.85">说明：本页已把每条新闻的标题、摘要、来源、日期<b>镜像保存到本地</b>；外部「原文」链接仅作溯源，即使链接失效或无法访问境外站点，已存档内容仍可正常查看。</div>
   </footer>
@@ -252,9 +252,9 @@ function escapeHtml(s){return (s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&
   const G=GANTT; if(!G.regions || !G.regions.length) return;
   const svg=document.getElementById("ganttChart");
   const W=960,L=200,R=78,T=18,B=44,rowH=30;   // R 加宽至 78：右侧预留「评分栏」
-  const REGION={us:{label:"🇺🇸 美国公司",tint:"#f3f5ff",tag:"#4f46e5"},
-                eu:{label:"🇫🇷 法国公司",tint:"#f0fff4",tag:"#059669"},
-                cn:{label:"🇨🇳 中国公司",tint:"#fff5f6",tag:"#e11d48"}};
+  const REGION={us:{label:"🇺🇸 美国公司",tint:"#e9f0fe",tag:"#4f46e5"},
+                eu:{label:"🇫🇷 法国公司",tint:"#e9faf0",tag:"#059669"},
+                cn:{label:"🇨🇳 中国公司",tint:"#fdeef0",tag:"#e11d48"}};
   const headerH=22;
   const compH=20;
   const rows=[];
@@ -369,7 +369,7 @@ function escapeHtml(s){return (s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&
   }
   function render(){
     clampView();
-    let h=""; const rowY={}; let band=0; let y=T;
+    let h=""; const rowY={}; let y=T;
     // 图例筛选：预扫描出「在当前筛选下仍有事件」的模型 / 公司 / 阵营，用于隐藏空行
     const filtering=!!legendFilter;
     const modelHasVis={}, compHasVis={}, regHasVis={};
@@ -403,7 +403,7 @@ function escapeHtml(s){return (s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&
       } else if(r.type==="c"){
         if(filtering && !compHasVis[r.company]) return;
         const comp=r.company;
-        h+=`<rect x="0" y="${y.toFixed(1)}" width="${W}" height="${compH}" fill="#f6f7fb"/>`;
+        h+=`<rect x="0" y="${y.toFixed(1)}" width="${W}" height="${compH}" fill="${REGION[r.region]?REGION[r.region].tint:"#f6f7fb"}"/>`;
         h+=`<line x1="0" y1="${(y+compH).toFixed(1)}" x2="${W}" y2="${(y+compH).toFixed(1)}" stroke="#eceef4"/>`;
         h+=`<circle cx="16" cy="${(y+compH/2).toFixed(1)}" r="4" fill="${r.color}"/>`;
         h+=`<text x="26" y="${(y+compH/2+4).toFixed(1)}" font-size="11.5" font-weight="800" fill="#1f2430">${escapeHtml(comp)}</text>`;
@@ -414,8 +414,8 @@ function escapeHtml(s){return (s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&
       } else {
         const m=r.m, y0=y;
         if(filtering && !modelHasVis[m.company+"|"+m.name]) return;
-        h+=`<rect class="grow" x="0" y="${y0.toFixed(1)}" width="${W}" height="${rowH}" fill="${band%2?'#fafbff':'#fff'}"/>`;
-        band++;
+        const regTint=REGION[curRegion]?REGION[curRegion].tint:"#ffffff";
+        h+=`<rect class="grow" x="0" y="${y0.toFixed(1)}" width="${W}" height="${rowH}" fill="${regTint}"/>`;
         const vis=visibleEvents(m);
         h+=`<circle cx="29" cy="${(y0+rowH/2).toFixed(1)}" r="4" fill="${m.color}"/>`;
         h+=`<text x="41" y="${(y0+rowH/2+4).toFixed(1)}" font-size="11.5" font-weight="600" fill="#3a3f4b">${escapeHtml(m.name)}</text>`;
@@ -440,14 +440,8 @@ function escapeHtml(s){return (s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&
     h+=overlay;
     // 左侧标签栏与绘图区分隔线
     h+=`<line x1="${L.toFixed(1)}" y1="${T}" x2="${L.toFixed(1)}" y2="${plotBottom.toFixed(1)}" stroke="#e4e7ef" stroke-width="1"/>`;
-    // 年份分组背景交替（极淡），帮助区分不同时间段
-    BANDS.forEach((b,i)=>{
-      if(i%2!==0) return;
-      const x0=xOfUnits(cumBeforeB[b.label]);
-      const x1=xOfUnits(cumBeforeB[b.label]+bandUnits[b.label]);
-      const bx=Math.max(x0,L), bw=Math.min(x1,W-R)-Math.max(x0,L);
-      if(bw>0.5) h+=`<rect x="${bx.toFixed(1)}" y="${T}" width="${bw.toFixed(1)}" height="${(plotBottom-T).toFixed(1)}" fill="#f6f8fc" opacity="0.66"/>`;
-    });
+    // 年份仅用细网格线区分（无列填充）；背景统一表达「阵营」
+
     // 2) 时间轴：内容加权列宽（稀疏年细、密集年宽）+ 顶部年份标签
     h+=`<rect x="${L}" y="0" width="${W-L-R}" height="${T}" fill="#ffffff"/>`;
     h+=`<text x="${(W-4)}" y="${(T-4).toFixed(1)}" text-anchor="end" font-size="9.5" font-weight="800" fill="#9aa1b1">LMArena Elo ↓</text>`;
