@@ -808,7 +808,7 @@ def build_day_record(date):
                 "seq": seq,
                 "title": it.get("title", "").strip(),
                 "source": it.get("sourceName", "").strip() or "AI HOT",
-                "summary": truncate(it.get("summary", ""), 60),
+                "summary": truncate(it.get("summary", ""), 220),
                 "url": it.get("sourceUrl") or it.get("permalink") or "",
                 "publishedAt": pub or (date + "T00:00:00.000Z"),
                 "exact": exact,
@@ -935,7 +935,7 @@ DAY_TPL = r"""<!DOCTYPE html>
   .chip{display:inline-block;align-self:flex-start;font-size:12px;font-weight:600;color:var(--accent,#4f46e5);
     background:color-mix(in srgb,var(--accent,#4f46e5) 10%,#fff);border:1px solid color-mix(in srgb,var(--accent,#4f46e5) 22%,#fff);
     padding:3px 10px;border-radius:999px}
-  .summary{margin:0;font-size:14px;color:#3b4252}
+  .summary{margin:0;font-size:14px;color:#3b4252;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
   .readmore{margin-top:auto;display:inline-flex;align-items:center;gap:5px;align-self:flex-start;text-decoration:none;
     font-size:13.5px;font-weight:700;color:var(--accent,#4f46e5)}
   .readmore:hover{text-decoration:underline}
@@ -961,6 +961,10 @@ DAY_TPL = r"""<!DOCTYPE html>
   .reader-body p{margin:0 0 14px}
   .reader-body .r-img-cap{display:inline-block;margin:6px 0;padding:4px 10px;border-radius:8px;background:#f1f3f9;color:#8a93a6;font-size:13px;font-style:italic;border:1px dashed #d7dce8}
   .reader-body .r-empty{color:#6b7280;font-style:italic}
+  .reader-body .r-summary{margin:0 0 14px;white-space:pre-wrap}
+  .reader-body .r-fallback{background:#f5f3ff;border:1px solid #e4defb;color:#5b21b6;border-radius:10px;
+    padding:10px 14px;font-size:13px;line-height:1.7;margin:0 0 16px}
+  .reader-body .r-fallback b{color:#6d28d9}
   .reader-foot{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;
     padding:14px 24px 18px;border-top:1px solid var(--line);background:#fafbff}
   .reader-foot .r-note{font-size:12.5px;color:var(--muted);max-width:62%}
@@ -1066,7 +1070,14 @@ function openReader(it){
   if(content.length>0){
     body.innerHTML=renderRich(content);
   }else{
-    body.innerHTML='<p class="r-empty">暂未获取到该条新闻的全文镜像。'+(it.url?'可点击右下角「查看原文 ↗」前往原始报道。':'')+'</p>';
+    const sum=(it.summary||"").trim();
+    if(sum){
+      // 来源站点多为付费墙 / 登录墙 / 反爬限制，无法镜像全文；展示已本地存档的中文摘要兜底
+      body.innerHTML='<div class="r-fallback">⚠️ 该条新闻的<b>全文镜像暂不可用</b>（来源站点可能为付费墙 / 登录墙 / 反爬限制，或原文已失效）。下方为已<b>本地存档的中文摘要</b>，可正常查看；完整原文请点击右下角「查看原文 ↗」。</div>'+
+        '<p class="r-summary">'+escapeHtml(sum)+'</p>';
+    }else{
+      body.innerHTML='<p class="r-empty">暂未获取到该条新闻的全文镜像与摘要。'+(it.url?'可点击右下角「查看原文 ↗」前往原始报道。':'')+'</p>';
+    }
   }
   document.getElementById("readerTitle").textContent=it.title;
   document.getElementById("readerSource").textContent=it.source;
