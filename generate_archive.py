@@ -280,26 +280,163 @@ CAP_DEFS = [
 # 家族 → 能力列表（首项 = 主能力，决定三级分组归属；其余为模型行展示的副能力标签）
 CAPS = {
     # OpenAI
-    "GPT": ["Chat"], "OpenAI o 系列": ["Reasoning"], "Claude": ["Chat", "Reasoning", "Agent"],
-    "Gemini": ["Chat", "Vision", "LongContext", "Agent"], "Gemma": ["Chat"], "Llama": ["Chat"],
-    "Grok": ["Chat", "Agent"], "DeepSeek 系列": ["Chat", "Reasoning", "Coding"],
-    "Copilot": ["Agent", "Chat"], "Orca 系列": ["Chat"], "Phi 系列": ["Chat"],
+    "GPT": ["Chat", "Reasoning", "Coding", "Vision", "Agent"],
+    "OpenAI o 系列": ["Reasoning"],
+    "Claude": ["Chat", "Reasoning", "Coding", "Agent", "Vision", "LongContext"],
+    "Gemini": ["Chat", "Reasoning", "Coding", "Vision", "Agent", "LongContext"],
+    "Gemma": ["Chat", "Coding"],
+    "Llama": ["Chat", "Reasoning", "Coding"],
+    "Grok": ["Chat", "Reasoning", "Coding", "Vision", "Agent"],
+    "DeepSeek 系列": ["Reasoning", "Chat", "Coding", "Agent", "LongContext"],
+    "Copilot": ["Agent", "Chat"], "Orca 系列": ["Chat"], "Phi 系列": ["Chat", "Reasoning", "Coding"],
     # 阿里 / 百度 / 腾讯 / 智谱 / 月之暗面 / Mistral / 百川 / 字节 / 讯飞 / 苹果 / 亚马逊 / NVIDIA
-    "文心 ERNIE": ["Chat", "Vision"], "通义千问 Qwen": ["Chat", "Vision", "Agent"],
+    "文心 ERNIE": ["Chat", "Vision"], "通义千问 Qwen": ["Chat", "Reasoning", "Coding", "Vision", "Agent", "LongContext"],
     "混元": ["Chat", "Vision"], "Hy-MT": ["Audio"], "Seed": ["Chat", "Agent"],
     "即梦": ["Image", "Video"], "Seedance": ["Video"], "Coze 扣子": ["Agent"],
-    "智谱 GLM": ["Chat", "Vision"], "Kimi": ["Chat", "LongContext"], "Mistral 系列": ["Chat"],
+    "智谱 GLM": ["Chat", "Reasoning", "Coding", "Vision", "Agent", "LongContext"],
+    "Kimi": ["Chat", "Reasoning", "Coding", "Vision", "Agent", "LongContext"],
+    "Mistral 系列": ["Chat", "Reasoning", "Coding", "Agent"],
     "Nova": ["Chat"], "Titan": ["Chat"], "Apple 基础模型": ["Chat"], "Baichuan": ["Chat"],
-    "MiniMax 系列": ["Chat"], "星火": ["Chat"], "Nemotron 系列": ["Chat"],
+    "MiniMax 系列": ["Chat", "Reasoning", "Coding", "Agent", "LongContext"], "星火": ["Chat"], "Nemotron 系列": ["Chat"],
     # 生成式媒体（无文本 Arena 分）
     "Sora": ["Video"], "Veo": ["Video"], "DALL·E": ["Image"], "Magenta": ["Audio"],
     "Cosmos": ["Video"], "SANA": ["Image"], "Muse": ["Image"],
     # 其它
-    "Seed": ["Chat"], "MAI": ["Reasoning", "Chat"], "Bidi": ["Agent", "Chat"],
     "GPT-Live": ["Chat", "Audio"], "GPT-Realtime": ["Audio", "Chat"],
     "HappyHorse": ["Chat", "Agent"], "ABot-Earth": ["Agent", "Chat"],
+    "MAI": ["Reasoning", "Chat"], "Bidi": ["Agent", "Chat"],
     # 兜底：未知家族归入对话
 }
+
+# ── V4 数据补全：新增独立模型系列 + 公司（模型数据 / 能力标签 / 筛选）────────────
+# 新增「独立编程/代码模型系列」与「图像/视频/语音生成模型家族」，并修正既有能力数据。
+# 这些模型多为无文本 Arena 分（图像/视频/语音）或暂无公开分（Codex），时间线显示「—」。
+_V4_COMPANIES = [
+    ("Midjourney", "#d97706", ["midjourney", "mj"], "us"),
+    ("Black Forest Labs", "#ec4899", ["black forest", "flux"], "eu"),
+    ("Ideogram", "#6366f1", ["ideogram"], "us"),
+    ("Kuaishou 快手", "#ff4500", ["kuaishou", "可灵", "kling"], "cn"),
+    ("Shengshu 生数", "#22d3ee", ["shengshu", "vidu", "生数"], "cn"),
+    ("Runway", "#14b8a6", ["runway"], "us"),
+    ("Luma", "#a855f7", ["luma"], "us"),
+    ("ElevenLabs", "#111827", ["elevenlabs", "eleven"], "us"),
+    ("Cartesia", "#f97316", ["cartesia", "sonic"], "us"),
+    ("StepFun 阶跃", "#06b6d4", ["stepfun", "step", "阶跃"], "cn"),
+]
+COMPANIES.extend(_V4_COMPANIES)
+COMP_MAP.update({c[0]: (c[1], c[3]) for c in _V4_COMPANIES})
+
+_V4_FAMILY = {
+    "Codex": "Codex", "Qwen Coder": "Qwen Coder", "CodeGemma": "CodeGemma",
+    "Codestral": "Codestral", "GPT Image": "GPT Image", "Imagen": "Imagen",
+    "Nano Banana": "Imagen", "FLUX": "FLUX", "Midjourney": "Midjourney",
+    "Ideogram": "Ideogram", "Qwen-Image": "Qwen-Image", "Seedream": "Seedream",
+    "Kling": "Kling", "Wan": "Wan", "HunyuanVideo": "HunyuanVideo", "Hailuo": "Hailuo",
+    "Vidu": "Vidu", "Runway Gen": "Runway Gen", "Luma Ray": "Luma Ray",
+    "ElevenLabs": "ElevenLabs", "Cartesia Sonic": "Cartesia Sonic",
+    "Qwen-Audio": "Qwen-Audio", "MiniMax Speech": "MiniMax Speech",
+    "Seed-TTS": "Seed-TTS", "Step-Audio": "Step-Audio",
+}
+FAMILY.update(_V4_FAMILY)
+
+_V4_CAPS = {
+    "Codex": ["Coding", "Agent", "Reasoning"],
+    "Qwen Coder": ["Coding", "Agent", "Reasoning", "LongContext"],
+    "CodeGemma": ["Coding"], "Codestral": ["Coding", "Agent"],
+    "GPT Image": ["Image"], "Imagen": ["Image"], "FLUX": ["Image"],
+    "Midjourney": ["Image"], "Ideogram": ["Image"], "Qwen-Image": ["Image"], "Seedream": ["Image"],
+    "Kling": ["Video"], "Wan": ["Video"], "HunyuanVideo": ["Video"], "Hailuo": ["Video"],
+    "Vidu": ["Video"], "Runway Gen": ["Video"], "Luma Ray": ["Video"],
+    "ElevenLabs": ["Audio"], "Cartesia Sonic": ["Audio"], "Qwen-Audio": ["Audio"],
+    "MiniMax Speech": ["Audio"], "Seed-TTS": ["Audio"], "Step-Audio": ["Audio"],
+}
+CAPS.update(_V4_CAPS)
+
+_V4_FAM_TYPE = {
+    "Codex": "文本", "Qwen Coder": "文本", "CodeGemma": "文本", "Codestral": "文本",
+    "GPT Image": "图像", "Imagen": "图像", "FLUX": "图像", "Midjourney": "图像",
+    "Ideogram": "图像", "Qwen-Image": "图像", "Seedream": "图像",
+    "Kling": "视频", "Wan": "视频", "HunyuanVideo": "视频", "Hailuo": "视频",
+    "Vidu": "视频", "Runway Gen": "视频", "Luma Ray": "视频",
+    "ElevenLabs": "语音", "Cartesia Sonic": "语音", "Qwen-Audio": "语音",
+    "MiniMax Speech": "语音", "Seed-TTS": "语音", "Step-Audio": "语音",
+}
+FAM_TYPE.update(_V4_FAM_TYPE)
+
+_V4_MODELS = [
+    ("Codex", "OpenAI", ["codex"]),
+    ("Qwen Coder", "阿里", ["qwen coder", "qwen-coder"]),
+    ("CodeGemma", "Google", ["codegemma"]),
+    ("Codestral", "Mistral", ["codestral"]),
+    ("GPT Image", "OpenAI", ["gpt image", "gpt-image"]),
+    ("Imagen", "Google", ["imagen", "nano banana", "nano-banana"]),
+    ("FLUX", "Black Forest Labs", ["flux"]),
+    ("Midjourney", "Midjourney", ["midjourney"]),
+    ("Ideogram", "Ideogram", ["ideogram"]),
+    ("Qwen-Image", "阿里", ["qwen-image", "qwen image"]),
+    ("Seedream", "字节", ["seedream"]),
+    ("Kling", "Kuaishou 快手", ["kling", "可灵"]),
+    ("Wan", "阿里", ["wan", "万相"]),
+    ("HunyuanVideo", "腾讯", ["hunyuanvideo", "hunyuan-video"]),
+    ("Hailuo", "稀宇科技", ["hailuo", "海螺"]),
+    ("Vidu", "Shengshu 生数", ["vidu"]),
+    ("Runway Gen", "Runway", ["runway"]),
+    ("Luma Ray", "Luma", ["luma ray", "luma-ray", "ray2", "ray 2"]),
+    ("ElevenLabs", "ElevenLabs", ["elevenlabs"]),
+    ("Cartesia Sonic", "Cartesia", ["cartesia", "sonic"]),
+    ("Qwen-Audio", "阿里", ["qwen-audio", "qwen audio"]),
+    ("MiniMax Speech", "稀宇科技", ["minimax speech", "minimax-speech"]),
+    ("Seed-TTS", "字节", ["seed-tts", "seed tts"]),
+    ("Step-Audio", "StepFun 阶跃", ["step-audio", "step audio"]),
+]
+MODELS.extend(_V4_MODELS)
+
+# V4 新增里程碑（模型发布类），与既有 MILESTONES 合并渲染
+MILESTONES_EXTRA = [
+    # ── OpenAI Codex（独立编程智能体模型系列，不并入 GPT）──
+    {"d": "2025-02-01", "c": "OpenAI", "m": "Codex", "k": "model", "t": "Codex（AI 编程智能体）研究预览发布", "major": False, "src": "OpenAI"},
+    {"d": "2025-09-15", "c": "OpenAI", "m": "Codex", "k": "model", "t": "GPT-5-Codex 发布", "major": True, "src": "OpenAI"},
+    {"d": "2025-12-18", "c": "OpenAI", "m": "Codex", "k": "model", "t": "GPT-5.2-Codex 发布", "major": False, "src": "OpenAI"},
+    {"d": "2026-02-05", "c": "OpenAI", "m": "Codex", "k": "model", "t": "GPT-5.3-Codex 发布", "major": False, "src": "OpenAI"},
+    {"d": "2026-02-12", "c": "OpenAI", "m": "Codex", "k": "model", "t": "GPT-5.3-Codex-Spark 发布", "major": False, "src": "OpenAI"},
+    # ── 阿里 Qwen Coder（独立代码模型系列）──
+    {"d": "2024-11-12", "c": "阿里", "m": "Qwen Coder", "k": "model", "t": "Qwen2.5-Coder 发布", "major": False, "src": "阿里"},
+    {"d": "2025-04-29", "c": "阿里", "m": "Qwen Coder", "k": "model", "t": "Qwen3-Coder 发布", "major": True, "src": "阿里"},
+    {"d": "2025-09-15", "c": "阿里", "m": "Qwen Coder", "k": "model", "t": "Qwen3-Coder-Plus / Next 发布", "major": False, "src": "阿里"},
+    # ── Google CodeGemma（独立代码模型，不并入 Gemma 通用行）──
+    {"d": "2024-05-14", "c": "Google", "m": "CodeGemma", "k": "model", "t": "CodeGemma 开源发布", "major": False, "src": "Google"},
+    # ── Mistral Codestral（独立代码模型）──
+    {"d": "2024-05-29", "c": "Mistral", "m": "Codestral", "k": "model", "t": "Codestral 编程模型发布", "major": True, "src": "Mistral"},
+    {"d": "2025-09-15", "c": "Mistral", "m": "Codestral", "k": "model", "t": "Codestral 2 发布", "major": False, "src": "Mistral"},
+    # ── DeepSeek Coder 历史事件并入 DeepSeek 系列（不另建行）──
+    {"d": "2023-11-01", "c": "深度求索", "m": "DeepSeek", "k": "model", "t": "DeepSeek-Coder-V1 开源", "major": False, "src": "DeepSeek"},
+    {"d": "2024-05-01", "c": "深度求索", "m": "DeepSeek", "k": "model", "t": "DeepSeek-Coder-V2 发布", "major": False, "src": "DeepSeek"},
+    # ── 图像生成 ──
+    {"d": "2025-04-23", "c": "OpenAI", "m": "GPT Image", "k": "model", "t": "GPT Image 1（原生图像生成）发布", "major": True, "src": "OpenAI"},
+    {"d": "2024-08-13", "c": "Google", "m": "Imagen", "k": "model", "t": "Imagen 3 发布", "major": True, "src": "Google"},
+    {"d": "2025-08-26", "c": "Google", "m": "Imagen", "k": "model", "t": "Nano Banana（Gemini 2.5 Flash Image）发布", "major": True, "src": "Google"},
+    {"d": "2024-08-01", "c": "Black Forest Labs", "m": "FLUX", "k": "model", "t": "FLUX.1 图像模型发布", "major": True, "src": "Black Forest Labs"},
+    {"d": "2023-03-15", "c": "Midjourney", "m": "Midjourney", "k": "model", "t": "Midjourney v5 发布", "major": False, "src": "Midjourney"},
+    {"d": "2025-06-01", "c": "Midjourney", "m": "Midjourney", "k": "model", "t": "Midjourney v7 发布", "major": True, "src": "Midjourney"},
+    {"d": "2024-03-26", "c": "Ideogram", "m": "Ideogram", "k": "model", "t": "Ideogram 2 发布", "major": False, "src": "Ideogram"},
+    {"d": "2025-04-03", "c": "阿里", "m": "Qwen-Image", "k": "model", "t": "Qwen-Image 发布", "major": True, "src": "阿里"},
+    {"d": "2025-04-15", "c": "字节", "m": "Seedream", "k": "model", "t": "Seedream 2.0 图像模型发布", "major": True, "src": "字节"},
+    # ── 视频生成 ──
+    {"d": "2024-06-06", "c": "Kuaishou 快手", "m": "Kling", "k": "model", "t": "可灵 Kling 视频生成发布", "major": True, "src": "快手"},
+    {"d": "2025-02-25", "c": "阿里", "m": "Wan", "k": "model", "t": "万相 Wan2.1 开源", "major": True, "src": "阿里"},
+    {"d": "2024-12-03", "c": "腾讯", "m": "HunyuanVideo", "k": "model", "t": "混元视频 HunyuanVideo 开源", "major": True, "src": "腾讯"},
+    {"d": "2024-11-01", "c": "稀宇科技", "m": "Hailuo", "k": "model", "t": "海螺 Hailuo 视频生成发布", "major": False, "src": "MiniMax"},
+    {"d": "2024-07-31", "c": "Shengshu 生数", "m": "Vidu", "k": "model", "t": "Vidu 视频模型发布", "major": True, "src": "生数科技"},
+    {"d": "2024-06-17", "c": "Runway", "m": "Runway Gen", "k": "model", "t": "Runway Gen-3 Alpha 发布", "major": True, "src": "Runway"},
+    {"d": "2025-01-15", "c": "Luma", "m": "Luma Ray", "k": "model", "t": "Luma Ray 2 视频模型发布", "major": True, "src": "Luma"},
+    # ── 语音生成 ──
+    {"d": "2025-02-10", "c": "ElevenLabs", "m": "ElevenLabs", "k": "model", "t": "ElevenLabs v3 语音模型发布", "major": True, "src": "ElevenLabs"},
+    {"d": "2024-08-15", "c": "Cartesia", "m": "Cartesia Sonic", "k": "model", "t": "Cartesia Sonic 实时语音发布", "major": False, "src": "Cartesia"},
+    {"d": "2023-11-30", "c": "阿里", "m": "Qwen-Audio", "k": "model", "t": "Qwen-Audio 音频模型发布", "major": False, "src": "阿里"},
+    {"d": "2024-10-15", "c": "稀宇科技", "m": "MiniMax Speech", "k": "model", "t": "MiniMax Speech-02 发布", "major": False, "src": "MiniMax"},
+    {"d": "2024-06-06", "c": "字节", "m": "Seed-TTS", "k": "model", "t": "Seed-TTS 语音合成发布", "major": False, "src": "字节"},
+    {"d": "2025-01-20", "c": "StepFun 阶跃", "m": "Step-Audio", "k": "model", "t": "Step-Audio 语音模型发布", "major": True, "src": "阶跃星辰"},
+]
 
 def _caps_of(fam):
     return CAPS.get(fam, ["Chat"])
@@ -1670,9 +1807,10 @@ function escapeHtml(s){return (s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&
   function bestRating(arr){ let r=-1; arr.forEach(m=>{ if(m.rating!=null && m.rating>r) r=m.rating; }); return r; }
 
   function visibleEvents(c){
+    // 仅按「日期窗口 + 事件图例」过滤节点；能力筛选(capFilter)不再影响节点级可见性，
+    // 只决定模型行是否显示（见下方预扫描），二者解耦。
     return c.events.filter(e=> show[e.kind] && !(majorOnly && e.minor)
-      && (!legendFilter || eventColorKey(e,c)===legendFilter)
-      && (!capFilter || (c.caps||[]).includes(capFilter)));
+      && (!legendFilter || eventColorKey(e,c)===legendFilter));
   }
 
   function monthTicks(){
@@ -1689,14 +1827,16 @@ function escapeHtml(s){return (s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&
   function render(){
     clampView();
     let h=""; const rowY={}; let y=T;
-    // 图例筛选：预扫描出「在当前筛选下仍有事件」的模型 / 公司 / 阵营，用于隐藏空行
-    const filtering=!!(legendFilter || capFilter);
-    const modelHasVis={}, compHasVis={}, regHasVis={};
-    if(filtering){
+    // 能力筛选：只要模型 caps 包含所选能力就保留模型行（与「是否有可见事件」解耦，
+    // 即使当前时间窗口/事件图例下没有可见事件也保留）；事件图例只过滤节点、不删行。
+    const capActive=!!capFilter;
+    const modelShown={}, compHasVis={}, regHasVis={};
+    if(capActive){
       rows.forEach(r=>{ if(r.type!=="m") return;
-        const has=visibleEvents(r.m).length>0;
-        modelHasVis[r.m.company+"|"+r.m.name]=has;
-        if(has){ compHasVis[r.m.company]=true; regHasVis[r.m.region]=true; }
+        if((r.m.caps||[]).includes(capFilter)){
+          modelShown[r.m.company+"|"+r.m.name]=true;
+          compHasVis[r.m.company]=true; regHasVis[r.m.region]=true;
+        }
       });
     }
     // 1) 区域带 + 公司分组头 + 模型行（每公司下展开各自模型）
@@ -1722,7 +1862,7 @@ function escapeHtml(s){return (s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&
       if(r.type==="h"){
         flushCompany(y); curCompany=null;
         flushRegion(y);
-        if(filtering && !regHasVis[r.region]) { curRegion=null; return; }
+        if(capActive && !regHasVis[r.region]) { curRegion=null; return; }
         curRegion=r.region; regStartY=y;
         const rc=REGION_COLOR[r.region]||"#6b7280";
         const lbl=REGION_LABEL[r.region]||r.region;
@@ -1735,7 +1875,7 @@ function escapeHtml(s){return (s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&
         y+=headerH;
       } else if(r.type==="c"){
         flushCompany(y);
-        if(filtering && !compHasVis[r.company]){ curCompany=null; return; }
+        if(capActive && !compHasVis[r.company]){ curCompany=null; return; }
         curCompany=r.company; compStartY=y; compColor=r.color;
         const comp=r.company;
         // 公司视觉锚点：右侧 16px 虚线 Logo 占位（品牌色描边 + 首字母）+ 公司名（品牌色）
@@ -1746,7 +1886,7 @@ function escapeHtml(s){return (s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&
         y+=compH;
       } else {
         const m=r.m, y0=y;
-        if(filtering && !modelHasVis[m.company+"|"+m.name]) return;
+        if(capActive && !modelShown[m.company+"|"+m.name]) return;
         h+=`<rect class="grow" style="--mc:${m.color}" x="0" y="${y0.toFixed(1)}" width="${W}" height="${rowH}" fill="#ffffff"/>`;
         const vis=visibleEvents(m);
         // 模型名（左）+ Arena Elo（同行靠右，品牌色；无评分显示「—」）
@@ -1754,7 +1894,10 @@ function escapeHtml(s){return (s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&
         h+=`<text x="${(L-12).toFixed(1)}" y="${(y0+17).toFixed(1)}" text-anchor="end" font-size="13" font-weight="800" fill="${m.color}">${m.rating==null?'—':m.rating}</text>`;
         // 能力标签：统一浅灰胶囊（第二行），Hover 变深灰；最多 2 个
         let _tx=16;
-        (m.caps||["Chat"]).slice(0,2).forEach(cap=>{
+        // 可见标签：按能力优先级（代码>智能体>推理>视觉>图像>视频>语音>长文本>对话）取最多 2 个，
+        // 让「最具区分度」的能力优先展示（如 Claude 显示 Coding · Agent），底层 caps 仍完整用于筛选。
+        const _P={"Coding":1,"Agent":2,"Reasoning":3,"Vision":4,"Image":5,"Video":6,"Audio":7,"LongContext":8,"Chat":9};
+        (m.caps||["Chat"]).slice().sort((a,b)=>(_P[a]||9)-(_P[b]||9)).slice(0,2).forEach(cap=>{
           const cd=CAP_MAP[cap]||{label:cap};
           const _lab=cd.label;
           const _w=_lab.length*7.2+14;
@@ -2096,7 +2239,7 @@ def compute_gantt(arch=None, top_n=GANTT_TOP_N):
             "source": source, "file": file_, "minor": minor, "major": bool(major),
         })
     # ── 来源一：人工核实的历史里程碑（仅「模型发布」类型，剔除产品 App）──
-    for mst in MILESTONES:
+    for mst in MILESTONES + MILESTONES_EXTRA:
         if mst.get("k") != "model":
             continue
         comp = mst["c"]
@@ -2162,7 +2305,7 @@ def compute_gantt(arch=None, top_n=GANTT_TOP_N):
         })
     caps_defs = [{"key": k, "emoji": e, "label": l, "color": c} for (k, e, l, c) in CAP_DEFS]
     # 时间线范围：左=最早里程碑/日报，右=当天日期（每天更新自动延伸到今天，作为坐标最右端）
-    mdates = [m["d"] for m in MILESTONES if m.get("k") == "model" and m["c"] in COMP_MAP]
+    mdates = [m["d"] for m in MILESTONES + MILESTONES_EXTRA if m.get("k") == "model" and m["c"] in COMP_MAP]
     alld = sorted(set(mdates + list(arch.keys())))
     return {"range": [alld[0], max(alld[-1], today)], "regions": regions, "caps_defs": caps_defs}
 
