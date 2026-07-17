@@ -39,7 +39,7 @@ SECTIONS = [
 # 不再使用随机颜色或通用主题色（原 #4f46e5 仅保留为「事件类型语义色」，与公司识别解耦）。
 BRAND_CONFIG = {
     # 美国（颜色 = 各公司官方真实品牌色；允许撞色，不再为"唯一不重复"而编造）
-    "OpenAI": "#10a37f", "Anthropic": "#CC785C", "Google": "#4285f4", "Meta": "#0866ff",
+    "OpenAI": "#10a37f", "Anthropic": "#C15F3C", "Google": "#4285f4", "Meta": "#0866ff",
     "Microsoft": "#0078D4", "xAI": "#111827", "NVIDIA": "#76b900", "Amazon": "#ff9900",
     "Apple": "#555555", "Mistral": "#ff7000", "Thinking Machines": "#6d28d9",
     # 中国（颜色 = 官网/主流产品真实品牌色）
@@ -70,7 +70,7 @@ COMPANIES = [
     ("Mistral",  "#ff7000", ["mistral"], "eu"),
     # ── 宽别名公司放后，减少误命中 ──
     ("OpenAI",  "#10a37f", ["openai", "chatgpt", "sora"], "us"),
-    ("Anthropic","#d97706", ["anthropic", "claude"], "us"),
+    ("Anthropic","#C15F3C", ["anthropic", "claude"], "us"),
     ("Google",  "#4285f4", ["google", "deepmind", "gemini", "gemma"], "us"),
     ("Meta",    "#0866ff", ["meta", "llama", "llama 3", "llama3"], "us"),
     ("Microsoft","#7c3aed", ["microsoft", "微软", "copilot", "bing"], "us"),
