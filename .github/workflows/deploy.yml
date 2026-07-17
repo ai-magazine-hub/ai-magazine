@@ -35,6 +35,8 @@ jobs:
         run: pip install trafilatura
 
       - name: Generate / update archive
+        env:
+          DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
         run: |
           if [ "${{ github.event_name }}" = "push" ]; then
             python generate_archive.py --render-only

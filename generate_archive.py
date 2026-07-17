@@ -991,7 +991,85 @@ def translate_en_zh(text):
         out.append(_gtrans(p))
     return "\n".join(out)
 
-def _translate_item(it):
+def _load_ds_key():
+    """优先读环境变量 DEEPSEEK_API_KEY，否则回退本地 /tmp/dskey（不入库）。"""
+    env = os.environ.get("DEEPSEEK_API_KEY")
+    if env and env.strip():
+        return env.strip()
+    for p in ("/tmp/dskey", os.path.expanduser("~/.dskey")):
+        if os.path.exists(p):
+            try:
+                return open(p, encoding="utf-8").read().strip()
+            except Exception:
+                pass
+    return None
+
+_DS_API = "https://api.deepseek.com/chat/completions"
+_DS_MODEL = "deepseek-chat"
+
+def _chunk_for_llm(text, limit=3500):
+    paras = [p for p in text.split("\n") if p.strip()]
+    if not paras:
+        return [text] if text.strip() else []
+    chunks, cur = [], ""
+    for p in paras:
+        if len(cur) + len(p) + 1 <= limit:
+            cur = (cur + "\n" + p) if cur else p
+        else:
+            if cur:
+                chunks.append(cur)
+            if len(p) > limit:
+                for i in range(0, len(p), limit):
+                    chunks.append(p[i:i+limit])
+                cur = ""
+            else:
+                cur = p
+    if cur:
+        chunks.append(cur)
+    return chunks
+
+def translate_deepseek_text(text, key):
+    """用 DeepSeek 将英文为主的全文译为中文（保留专有名词）。失败回退原文。"""
+    if not key:
+        return None
+    chunks = _chunk_for_llm(text)
+    out_parts = []
+    for ch in chunks:
+        if not ch.strip():
+            continue
+        body = json.dumps({
+            "model": _DS_MODEL,
+            "messages": [
+                {"role": "system", "content":
+                 "You are a professional Chinese translator for AI and technology news. "
+                 "Translate the user's English text into fluent Simplified Chinese. "
+                 "Keep all brand names, model names, product names, technical terms, code, "
+                 "URLs, and numbers exactly as in the original. Preserve paragraph breaks. "
+                 "Output only the translated text, with no extra commentary."},
+                {"role": "user", "content": ch}
+            ],
+            "temperature": 0.3,
+            "max_tokens": 4096,
+        }).encode("utf-8")
+        last_err = None
+        for attempt in range(5):
+            try:
+                req = urllib.request.Request(
+                    _DS_API, data=body,
+                    headers={"Authorization": f"Bearer {key}",
+                             "Content-Type": "application/json"})
+                with urllib.request.urlopen(req, timeout=60) as r:
+                    d = json.loads(r.read().decode("utf-8"))
+                out_parts.append(d["choices"][0]["message"]["content"])
+                break
+            except Exception as e:
+                last_err = e
+                time.sleep(min(2 ** attempt, 30) + 1)
+        else:
+            out_parts.append(ch)  # 全失败保留原文该段，避免丢内容
+    return "\n\n".join(out_parts).strip()
+
+def _translate_item(it, ds_key=None):
     c = it.get("content") or ""
     if len(c) < 120:
         it["zh"] = True
@@ -999,22 +1077,36 @@ def _translate_item(it):
     if ratio_en(c) <= 0.45:   # 已是中文为主，标记跳过
         it["zh"] = True
         return
-    new = translate_en_zh(c)
-    # 仅当确实翻出中文才标记完成；否则保留未完成，便于后续重试（避免假完成）
-    if new and ratio_en(new) <= 0.45:
-        it["content"] = new
-        it["zh"] = True
+    # 优先 DeepSeek（质量高、稳定）；无 key 时回退 Google 免费端点
+    if ds_key:
+        new = translate_deepseek_text(c, ds_key)
+        # 接受条件：非空 且 含中文 且 与原文不同（确为翻译，而非端点原样返回）
+        if new and new != c and any('\u4e00' <= ch <= '\u9fff' for ch in new):
+            it["content"] = new
+            it["zh"] = True
+        else:
+            it["zh"] = False
     else:
-        it["zh"] = False
+        new = translate_en_zh(c)
+        if new and ratio_en(new) <= 0.45:
+            it["content"] = new
+            it["zh"] = True
+        else:
+            it["zh"] = False
 
-def translate_archive(arch, wall=180):
+def translate_archive(arch, wall=600):
     """将英文为主的全文翻译为中文（保留专有名词）。已翻译(it['zh'])或纯中文跳过。
+    优先 DeepSeek（DEEPSEEK_API_KEY 或 /tmp/dskey），无 key 时回退 Google 免费端点。
 
     关键设计（防卡死）：串行执行 + 硬墙钟预算(wall 秒)。无论翻译端点多慢/是否可用，
     到达预算后立刻停止并返回，绝不阻塞后续「渲染 + 提交」——保证定时任务一定能完成更新。
+    按日期【倒序（最新在前）】遍历，确保最新一期日报永远优先译完、不被历史积压饿死。
     若连续失败达到阈值，判定端点不可用，直接放弃本轮（已译内容已落盘，下次续传）。"""
+    ds_key = _load_ds_key()
+    engine = "DeepSeek" if ds_key else "Google(免费端点)"
     todos = []
-    for d, rec in arch.items():
+    for d in sorted(arch.keys(), reverse=True):   # 最新日期优先，避免新日报被饿死
+        rec = arch[d]
         for s in rec.get("sections", []):
             for it in s.get("items", []):
                 if it.get("zh"):
@@ -1027,7 +1119,7 @@ def translate_archive(arch, wall=180):
     if not todos:
         print("[3.6] 翻译：无待处理条目")
         return 0
-    print(f"[3.6] 英文全文→中文：{len(todos)} 条待处理；本轮预算 {wall}s（到点即停，可续传）")
+    print(f"[3.6] 英文全文→中文({engine})：{len(todos)} 条待处理；本轮预算 {wall}s（到点即停，可续传）")
     deadline = time.time() + wall
     done = 0
     consecutive_fail = 0
@@ -1039,7 +1131,7 @@ def translate_archive(arch, wall=180):
             print(f"    ! 连续 {consecutive_fail} 条翻译失败，判定翻译端点不可用，放弃本轮（已存 {done} 条）")
             break
         try:
-            _translate_item(it)
+            _translate_item(it, ds_key)
         except Exception:
             pass
         if it.get("zh") is True:
