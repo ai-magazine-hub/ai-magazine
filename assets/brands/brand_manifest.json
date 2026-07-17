@@ -26,12 +26,12 @@
     {
       "company": "Google",
       "official_website": "https://google.com",
-      "logo_source_url": "https://simpleicons.org/?q=google",
-      "source_type": "simple_icons",
+      "logo_source_url": "https://commons.wikimedia.org/wiki/File:Google_%22G%22_logo.svg",
+      "source_type": "official_multicolor",
       "local_file": "assets/brands/google.svg",
       "verified": true,
       "last_checked": "2026-07-17",
-      "notes": "Simple Icons 官方单色向量"
+      "notes": "官方四色 G 标志（蓝#4285F4/红#EA4335/黄#FBBC05/绿#34A853），viewBox 24x24，真实原色"
     },
     {
       "company": "Meta",
@@ -56,12 +56,12 @@
     {
       "company": "Microsoft",
       "official_website": "https://microsoft.com",
-      "logo_source_url": "https://simpleicons.org/?q=microsoft",
-      "source_type": "simple_icons",
+      "logo_source_url": "https://learn.microsoft.com/brand/en-us/microsoft",
+      "source_type": "official_multicolor",
       "local_file": "assets/brands/microsoft.svg",
       "verified": true,
       "last_checked": "2026-07-17",
-      "notes": "Simple Icons 官方单色向量"
+      "notes": "官方四色方块（红#F25022/绿#7FBA00/蓝#00A4EF/黄#FFB900），真实原色"
     },
     {
       "company": "Amazon",
