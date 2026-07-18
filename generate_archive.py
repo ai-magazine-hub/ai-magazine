@@ -1490,6 +1490,50 @@ def _strip_news_chrome(s):
     return s.strip()
 
 
+# ---- 官网/产品博客页眉：顶部产品矩阵导航菜单（如 Moonshot Kimi Blog）----
+# 强触发信号：前 600 字内出现重复分类标签（"产品 产品" / "功能 功能" 等），
+# 正常正文几乎不可能出现，误伤风险极低。
+_HEADER_REPEAT_CATEGORIES = re.compile(
+    r'(?:产品|功能|研究|资源|定价|帮助|解决方案|服务|案例|博客)\s+(?:产品|功能|研究|资源|定价|帮助|解决方案|服务|案例|博客)',
+    re.I)
+
+
+def _strip_header_product_matrix(s):
+    """剥离官网/产品博客页面顶部的产品矩阵导航 chrome。
+    当检测到前部出现重复分类标签（如"产品 产品"）且句子标点极少时，
+    从首个正文锚点（"今天，我们推出..." / "我们发布了..." / "作者 X 概述"）截断，
+    保留正文内容。幂等安全。"""
+    if not s or len(s) < 800:
+        return s
+    head = s[:600]
+    # 触发信号：重复分类标签 + 前 600 字几乎无完整句子
+    if not _HEADER_REPEAT_CATEGORIES.search(head):
+        return s
+    if len(re.findall(r'[。！？]', head)) >= 2:
+        return s
+    # 寻找正文锚点：优先 "今天/我们/本文..." 引导的真实正文
+    m = re.search(
+        r'(?:今天[，,]?\s*)?'
+        r'(?:我们(?:很高兴|正式|推出|发布|发布了|测试了|引入|展示|将|也|还)?'
+        r'|本文(?:介绍|将|探讨|从))',
+        s)
+    if m:
+        pos = m.start()
+        if pos > 80:
+            return s[pos:].strip()
+    # 页面 meta：作者/团队 + 概述，概述之后才是正文，去掉 meta 本身
+    m = re.search(r'(?:作者|团队)\s+\S+\s+概述\s+', s)
+    if m:
+        return s[m.end():].strip()
+    # 兜底：从首个完整长句开始（≥25 CJK，含主谓或发布类动词）
+    fallback = re.search(
+        r'[\u4e00-\u9fff][\u4e00-\u9fff，、；：""''（）%\d\-/\s]{24,}(?:。|——|！|？)',
+        s)
+    if fallback:
+        return s[fallback.start():].strip()
+    return s
+
+
 def _split_para_into_chunks(para):
     """把单个过长段落按句子聚合为每段约 ≤350 字、最多 3 句的短段列表。"""
     sents = re.split(r'(?<=[。！？])\s+', para)
@@ -1517,10 +1561,141 @@ def _split_para_into_chunks(para):
     return out
 
 
+def _split_by_bold_headings(para):
+    """按 Markdown 粗体标题（**标题**）拆分段落，让标题引导的独立主题各成一段。
+    标题与其紧跟的一句话合并为一段，避免标题单独成段过碎。"""
+    if not para or '**' not in para:
+        return [para]
+    # 保留标题标记，把标题和紧跟的正文合并
+    parts = re.split(r'(\*\*[^*]+\*\*)\s*', para)
+    # parts: [pre-text, marker1, post1, marker2, post2, ...]
+    result = [parts[0].strip()] if parts[0].strip() else []
+    i = 1
+    while i < len(parts):
+        marker = parts[i].strip()
+        post = parts[i + 1].strip() if i + 1 < len(parts) else ''
+        if post:
+            result.append(marker + ' ' + post)
+        else:
+            result.append(marker)
+        i += 2
+    return result
+
+
+def _strip_formula_noise(s):
+    """去除网页中抓取的公式/图表/架构符号噪声行（如 Moonshot 页面中的 α w KDA ... 行）。
+    这些行通常是图片 OCR 或 SVG 文本提取，全是符号和短英文词，无可读中文句子。"""
+    if not s:
+        return s
+
+    def _is_noise_fragment(t):
+        t = t.strip()
+        if not t or len(t) < 40:
+            return False
+        cjk = len(re.findall(r'[\u4e00-\u9fff]', t))
+        if cjk / len(t) > 0.08:
+            return False
+        units = t.split()
+        if len(units) < 10:
+            return False
+        short_units = sum(1 for u in units if 1 <= len(u) <= 12)
+        if short_units / len(units) < 0.7:
+            return False
+        # 必须含希腊字母或核心数学符号（避免 URL 中的 / 误触发）
+        if not re.search(r'[αβγδεσΔ×∗∑∏√∞≈≡±°−]', t):
+            return False
+        # 保护：若存在完整英文句子（大写开头、小写主体、句点结束），则是真实正文而非噪声
+        if re.search(r'[A-Z][a-zA-Z\s]{10,}?[.!?](?:\s|$)', t):
+            return False
+        return True
+
+    # 混合行：公式/符号/短英文前缀 + 中文正文，且前缀含希腊字母，则只保留中文
+    _MIXED_NOISE_PREFIX = re.compile(
+        r'^([A-Za-z0-9\.\s\-_αβγδεσΔ×∗∑∏√∞≈≡±°−]{80,})\s+(?=[\u4e00-\u9fff])')
+
+    result = []
+    for line in s.split('\n'):
+        if _is_noise_fragment(line):
+            continue
+        m = _MIXED_NOISE_PREFIX.search(line)
+        if m and re.search(r'[αβγδεσΔ×−∗∑∏√∞≈≡±°]', m.group(1)):
+            line = line[m.end():].strip()
+        result.append(line)
+    return '\n'.join(result)
+
+
+def _truncate_benchmark_table_tail(s):
+    """如果文章尾部是未经格式化的原始 benchmark 表格（大量基准名+数字空格），
+    则截断并替换为一句话说明，避免一坨数字破坏阅读体验。保留 Markdown 表格格式。
+    仅当置信度高（含大量已知 benchmark 名且非 Markdown 表格）时才截断。"""
+    if not s or len(s) < 1500:
+        return s
+    # 已知 benchmark 关键词集合
+    bench_names = [
+        'GPQA', 'HLE', 'MMMU', 'MATH', 'CharXiv', 'LiveBench', 'SWE', 'DeepSWE',
+        'Codeforces', 'HumanEval', 'MMLU', 'MMLU-Pro', 'GSM8K', 'BBH', 'ARC',
+        'DROP', 'TruthfulQA', 'WinoGrande', 'HellaSwag', 'PIQA', 'SIQA',
+        'C-Eval', 'CMMLU', 'GAOKAO', 'Kimi Code', 'FrontierSWE', 'PostTrain',
+        'Terminal', 'BrowseComp', 'Toolathlon', 'DECK-Bench', 'Office QA',
+        'SpreadsheetBench', 'AA-Briefcase', 'APEX', 'MCP Atlas', 'Job Bench'
+    ]
+    # 检测尾部 25% 是否包含大量 benchmark 名
+    tail_start = int(len(s) * 0.75)
+    tail = s[tail_start:]
+    bench_count = sum(1 for b in bench_names if re.search(r'\b' + re.escape(b) + r'\b', tail, re.I))
+    if bench_count < 6:
+        return s
+    # 必须不是 Markdown 表格（Markdown 表格有 | 分隔）
+    if '|' in tail and tail.count('|') >= 5:
+        return s
+    # 找到尾部表格的起点：往前找 "完整基准测试表" / "Benchmark" / 首个 benchmark 名段落起点
+    start = -1
+    for marker in ['完整基准测试表', 'Benchmark', '基准测试']:
+        idx = s.rfind(marker)
+        if idx >= 0 and idx >= len(s) * 0.55:
+            start = idx
+            break
+    if start < 0:
+        # 用首个出现 4+ 个 benchmark 名的位置作为起点
+        for m in re.finditer(r'(?:' + '|'.join(re.escape(b) for b in bench_names) + r')', s, re.I):
+            seg = s[m.start():m.start()+400]
+            cnt = sum(1 for b in bench_names if re.search(r'\b' + re.escape(b) + r'\b', seg, re.I))
+            if cnt >= 4 and m.start() >= len(s) * 0.55:
+                start = m.start()
+                break
+    if start < 0:
+        return s
+    return s[:start].rstrip() + '\n\n（详细基准测试数据见原文链接。）'
+
+
+def _split_plain_text_heading(para):
+    """识别段落开头的纯文本小标题（如"架构与基础设施 Kimi K3 基于..."），
+    将其后的内容拆分为独立段落，使主题更清晰。"""
+    if not para or len(para) < 200:
+        return [para]
+    # 常见标题词
+    heading_keywords = (
+        r'架构|基础设施|可用性|定价|结论|引言|总结|方法|实验|结果|讨论|附录|'
+        r'背景|概述|介绍|特性|功能|性能|评估|训练|推理|部署|安全|局限|未来|'
+        r'参考|致谢|关于|产品|技术|细节|应用|案例|示例|使用|安装|配置|'
+        r'快速开始|指南|文档|资源|支持|联系|许可|版权|隐私|条款|订阅|关注'
+    )
+    # 标题：最多 8 个 CJK 字符（可含连接词）+ 关键词 + 最多 6 个 CJK 后缀，
+    # 后跟空格，再跟正文
+    m = re.match(
+        r'^([\u4e00-\u9fff]{0,6}(?:与|及|和|的|级|型|化|性)?(?:' + heading_keywords + r')'
+        r'[\u4e00-\u9fff]{0,6})\s+(?=[A-Za-z0-9]|Kimi|Claude|GPT|Gemini|Qwen|我们|'
+        r'基于|采用|使用|通过|该|这|它|此|在|下载|访问|支持|提供|可以|适用于)',
+        para)
+    if m:
+        return [m.group(1).strip(), para[m.end():].strip()]
+    return [para]
+
+
 def _reformat_paragraphs(s):
     """把过长的段落按句子切分为 2-3 句一段的短段落，提升报刊阅读体验。
-    逐段独立处理：仅拆分"过长且多句"的段落，短段落 / 含列表项的段落原样保留。
-    因每个产出子段都 ≤350 字（下次不再触发拆分），本函数幂等稳定，不会与
+    逐段独立处理：先按 Markdown 粗体标题拆分，再对无标题的过长段落按句子聚合。
+    每个产出子段都 ≤350 字（下次不再触发拆分），本函数幂等稳定，不会与
     tidy_zh_content 的段内合并互相抵消而反复震荡。"""
     if not s or len(s) < 300:
         return s
@@ -1532,7 +1707,23 @@ def _reformat_paragraphs(s):
         # 段内含换行（列表项等）保留原结构，不参与句子重排
         if '\n' in para:
             result.append(para); continue
-        # 仅对过长段落做句子级重排
+        # 按纯文本小标题拆分（如"架构与基础设施 Kimi K3 基于..."）
+        plain_parts = _split_plain_text_heading(para)
+        # 再按粗体标题拆分
+        all_parts = []
+        for pp in plain_parts:
+            all_parts.extend(_split_by_bold_headings(pp))
+        if len(all_parts) > 1 or (len(all_parts) == 1 and all_parts[0] != para):
+            for part in all_parts:
+                part = part.strip()
+                if not part:
+                    continue
+                if len(part) > 400:
+                    result.extend(_split_para_into_chunks(part))
+                else:
+                    result.append(part)
+            continue
+        # 无标题段落：仅对过长段落做句子级重排
         if len(para) <= 400:
             result.append(para); continue
         result.extend(_split_para_into_chunks(para))
@@ -1555,6 +1746,10 @@ def reformat_content(s):
     s = _strip_github_chrome(s)
     # 1.45 剥离新闻/媒体站点页眉（跳至内容+导航菜单）与页脚导航 chrome
     s = _strip_news_chrome(s)
+    # 1.46 剥离官网/产品博客页面顶部产品矩阵导航 chrome（如 Moonshot Kimi Blog）
+    s = _strip_header_product_matrix(s)
+    # 1.47 去除网页抓取的公式/图表/架构符号噪声行
+    s = _strip_formula_noise(s)
     # 1.5 剥离 X/Twitter 嵌入推文平台 chrome 与文末订阅 CTA
     s = _strip_trailing_chrome(s)
     # 2. 清理 X/Twitter 嵌入推文中的 UI 与重复推文
@@ -1576,6 +1771,8 @@ def reformat_content(s):
     s = "\n\n".join(out)
     # 4. 再次清理菜单噪声（处理新暴露的 chrome 行）
     s = clean_menu_noise(s)
+    # 4.5 截断尾部未格式化的原始 benchmark 数字表格，避免一坨数据破坏阅读
+    s = _truncate_benchmark_table_tail(s)
     # 5. 段落重排：把过长单段拆分为 2-3 句一段，提升阅读体验
     s = _reformat_paragraphs(s)
     return s.strip()
