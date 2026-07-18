@@ -1189,8 +1189,8 @@ def clean_menu_noise(text):
             return True                       # E. 分隔符密集行
         return False
 
-    # 先删除所有高置信度平台噪声行
-    lines = [ln for ln in lines if not _high_confidence_chrome(ln)]
+    # 先删除所有高置信度平台噪声行（保留空行，以维持段落分隔 \n\n，避免段落结构被压平）
+    lines = [ln for ln in lines if ln.strip() == "" or not _high_confidence_chrome(ln)]
     # 再删除首尾通用 chrome
     i = 0
     while i < len(lines) and _general_chrome(lines[i]):
@@ -1307,6 +1307,57 @@ _WECHAT_TAIL = re.compile(
     r'(预览时标签不可点|微信扫一扫\s*关注该公众号|视频\s*小程序\s*赞|'
     r'阅读原文|使用完整服务)', re.I)
 
+# ---- GitHub 页面 chrome（顶部导航/仓库统计/页脚/反应/加载提示）----
+# 检测内容是否来自 GitHub 页面（防止误伤非 GitHub 来源）
+_GITHUB_CHROME = re.compile(
+    r'(?:'
+    r'GitHub\s+跳至内容\s+导航菜单|'
+    r'GitHub,\s*Inc\.|'
+    r'页脚\s+导航\s+条款\s+隐私|'
+    r'您必须登录才能更改通知设置|'
+    r'Fork\s+[\d.,]+\s*(?:k|千|万)?\s*Star\s+[\d.,]+\s*(?:k|千|万)?\s*代码\s+Issues'
+    r')', re.I)
+# 去头部：从开头到真实发布内容（"发布 vX.Y.Z vX.Y.Z 比较 选择标签进行比较"）之间的导航/统计/搜索 UI 都是 chrome
+_GITHUB_HEADER = re.compile(
+    r'^.*?'
+    r'(?:发布\s+v\d+\.\d+\.\d+\s+v\d+\.\d+\.\d+\s+比较\s+选择标签进行比较|'
+    r'(?:^|\s)[\w.\-]+\s+发布于\s+\d{1,2}月\d{1,2}日\s+\d{2}:\d{2}\s+v\d+\.\d+\.\d+)',
+    re.S | re.I)
+# 去尾部：从资源/反应/页脚/错误提示开始
+_GITHUB_FOOTER = re.compile(
+    r'(?:'
+    r'资源\s+\d+\s+加载中|'
+    r'👍\s+\d+|'
+    r'😄\s+\d+|'
+    r'🎉\s+\d+|'
+    r'❤️\s+\d+|'
+    r'🚀\s+\d+|'
+    r'👀\s+\d+|'
+    r'页脚\s+©\s*\d{4}\s*GitHub|'
+    r'您无法执行该操作\s+此时采取行动'
+    r').*$',
+    re.S)
+# 内嵌 UI 噪声（加载失败、会话提示、搜索反馈等）
+_GITHUB_UI_NOISE = re.compile(
+    r'(?:'
+    r'哎呀！加载时出错。请重新加载此页面。|'
+    r'抱歉，出了点问题。|'
+    r'未找到结果|'
+    r'筛选\s+加载中|'
+    r'关闭提示\s*\{\{\s*message\s*\}\}|'
+    r'您已在另一个标签页或窗口中(?:登录|登出|切换了账户)。重新加载以刷新会话。|'
+    r'您必须登录才能更改通知设置|'
+    r'重新加载以刷新会话。|'
+    r'您无法执行该操作。?|'
+    r'此时采取行动|'
+    r'包含我的邮箱地址以便联系\s+取消\s+提交反馈|'
+    r'已保存搜索.*?筛选结果|'
+    r'搜索或跳转.*?-->'
+    r')',
+    re.I)
+# GitHub release 页面残留的 UI 标签（查看所有标签、变更内容）
+_GITHUB_RELEASE_UI = re.compile(r'(?:^|(?<=\s))(?:查看所有标签|变更内容)(?=\s|$)', re.I)
+
 def _strip_trailing_chrome(s):
     """剥离正文末尾/开头的 X/Twitter 嵌入推文平台 chrome 与文末订阅 CTA。幂等。
 
@@ -1373,6 +1424,121 @@ def _strip_trailing_chrome(s):
         return ""
     return s
 
+def _strip_github_chrome(s):
+    """剥离 GitHub 页面顶部导航、仓库统计、页脚、反应、加载提示等 chrome。
+    仅当内容包含明显 GitHub 标识时才处理，避免误伤非 GitHub 来源。"""
+    if not s:
+        return s
+    if not _GITHUB_CHROME.search(s):
+        return s
+    # 1. 去头部：从开头到真实发布内容之间的导航/统计/搜索 UI 都是 chrome
+    hm = _GITHUB_HEADER.search(s)
+    if hm:
+        s = s[hm.end():].strip()
+    # 2. 去尾部：从 "资源 N 加载中" / 反应表情 / 页脚 / 错误提示 开始截断
+    fm = _GITHUB_FOOTER.search(s)
+    if fm:
+        s = s[:fm.start()].rstrip()
+    # 3. 去除内嵌的 GitHub UI 噪声（加载失败、会话提示、搜索反馈等）
+    s = _GITHUB_UI_NOISE.sub(' ', s).strip()
+    # 3.5 去除 release 页面残留标签（"查看所有标签"、"变更内容"）
+    s = _GITHUB_RELEASE_UI.sub('', s)
+    # 4. 合并因去噪声产生的多余空格
+    s = re.sub(r'\s{2,}', ' ', s)
+    return s.strip()
+
+
+# ---- 通用新闻/媒体站点 chrome（"跳至内容"跳转链接+导航菜单 / 站点页脚导航）----
+# 触发信号极强、误伤风险低：均为新闻站页眉/页脚固定结构，正文中几乎不会出现。
+_NEWS_FOOTER = re.compile(
+    r'(?:'
+    r'\*{0,2}\s*热门链接\s*\*{0,2}\s*关于我们|'
+    r'关于我们\s*\|\s*(?:发展历程|联系我们|隐私政策)|'
+    r'订阅[:：]\s*购买、赠送礼品|'
+    r'关注[:：]\s*facebook、\s*instagram'
+    r')', re.I)
+_NEWS_SITEINFO_TAIL = re.compile(r'\*{0,2}\s*网站信息\s*\*{0,2}\s*$')
+
+def _strip_news_chrome(s):
+    """剥离新闻/媒体站点（如经 buzzing.cc 翻译抓取的整页文章）的页眉导航与页脚导航 chrome。
+    - 页眉：以"跳至内容"（skip-to-content 无障碍跳转链接）为强标记，其后紧跟一长串站点导航菜单，
+            正文从"编者按："或首个成句的长句开始。
+    - 页脚：以"热门链接/关于我们|/订阅：购买/关注：facebook"等站点页脚导航为强标记，从此截断到结尾。
+    仅当出现"跳至内容"或页脚强标记时才处理，避免误伤正常文章。幂等安全。"""
+    if not s:
+        return s
+    # 1. 页眉：skip-to-content + 导航菜单
+    if '跳至内容' in s[:150]:
+        pos = -1
+        # 首选锚点：编者按（其后为正文），出现在前 800 字内才认为是页眉后的正文起点
+        p = s.find('编者按：')
+        if 0 <= p <= 800:
+            pos = p
+        if pos < 0:
+            # 兜底：跳过"跳至内容 + 导航菜单"后，首个 ≥30 CJK 字符且以句号结束的成句
+            m = re.search(r'跳至内容.*?([\u4e00-\u9fff][\u4e00-\u9fff，、；：""''（）%\d]{29,}?。)', s, re.S)
+            if m:
+                pos = m.start(1)
+        if pos > 0:
+            s = s[pos:].strip()
+    # 2. 页脚：站点导航/订阅/社交关注
+    fm = _NEWS_FOOTER.search(s)
+    if fm:
+        s = s[:fm.start()].rstrip()
+    # 3. 文末"网站信息"残留标记
+    s = _NEWS_SITEINFO_TAIL.sub('', s).rstrip()
+    return s.strip()
+
+
+def _split_para_into_chunks(para):
+    """把单个过长段落按句子聚合为每段约 ≤350 字、最多 3 句的短段列表。"""
+    sents = re.split(r'(?<=[。！？])\s+', para)
+    sents = [x.strip() for x in sents if x.strip()]
+    if len(sents) <= 2:
+        return [para]
+    # 超长句再按中文分号 '；' 拆分为短句（保留分号，避免破坏句间关系）
+    clauses = []
+    for sen in sents:
+        if len(sen) > 300 and '；' in sen:
+            parts = [c.strip() for c in sen.split('；') if c.strip()]
+            for i, c in enumerate(parts):
+                if i < len(parts) - 1:
+                    c = c + '；'
+                clauses.append(c)
+        else:
+            clauses.append(sen)
+    out, buf, buf_len = [], [], 0
+    for c in clauses:
+        if buf and (buf_len + len(c) > 350 or len(buf) >= 3):
+            out.append(''.join(buf)); buf, buf_len = [], 0
+        buf.append(c); buf_len += len(c)
+    if buf:
+        out.append(''.join(buf))
+    return out
+
+
+def _reformat_paragraphs(s):
+    """把过长的段落按句子切分为 2-3 句一段的短段落，提升报刊阅读体验。
+    逐段独立处理：仅拆分"过长且多句"的段落，短段落 / 含列表项的段落原样保留。
+    因每个产出子段都 ≤350 字（下次不再触发拆分），本函数幂等稳定，不会与
+    tidy_zh_content 的段内合并互相抵消而反复震荡。"""
+    if not s or len(s) < 300:
+        return s
+    paras = [p.strip() for p in re.split(r'\n[ \t]*\n', s) if p.strip()]
+    if not paras:
+        return s
+    result = []
+    for para in paras:
+        # 段内含换行（列表项等）保留原结构，不参与句子重排
+        if '\n' in para:
+            result.append(para); continue
+        # 仅对过长段落做句子级重排
+        if len(para) <= 400:
+            result.append(para); continue
+        result.extend(_split_para_into_chunks(para))
+    return '\n\n'.join(result)
+
+
 def reformat_content(s):
     """内容重排版：深度清理平台噪声、去重复、规范化段落结构。幂等安全。
     - HTML entity 解码（&gt; / &nbsp; 等）
@@ -1385,6 +1551,10 @@ def reformat_content(s):
         return s
     # 1. 解码 HTML entity
     s = html.unescape(s)
+    # 1.4 剥离 GitHub 页面顶部导航/页脚/反应/加载提示等 chrome
+    s = _strip_github_chrome(s)
+    # 1.45 剥离新闻/媒体站点页眉（跳至内容+导航菜单）与页脚导航 chrome
+    s = _strip_news_chrome(s)
     # 1.5 剥离 X/Twitter 嵌入推文平台 chrome 与文末订阅 CTA
     s = _strip_trailing_chrome(s)
     # 2. 清理 X/Twitter 嵌入推文中的 UI 与重复推文
@@ -1406,6 +1576,8 @@ def reformat_content(s):
     s = "\n\n".join(out)
     # 4. 再次清理菜单噪声（处理新暴露的 chrome 行）
     s = clean_menu_noise(s)
+    # 5. 段落重排：把过长单段拆分为 2-3 句一段，提升阅读体验
+    s = _reformat_paragraphs(s)
     return s.strip()
 
 
