@@ -71,7 +71,7 @@ jobs:
           echo "dates_before=${{ steps.before.outputs.dates }} dates_after=$DATES_AFTER items_before=${{ steps.before.outputs.items }} items_after=$ITEMS_AFTER"
           if [ "$DATES_AFTER" -gt "${{ steps.before.outputs.dates }}" ] || [ "$ITEMS_AFTER" -gt "${{ steps.before.outputs.items }}" ]; then
             git pull --rebase --autostash
-            git add archive.json index.html ai-daily.html "ai-daily-*.html" ratings_cache.json
+            git add archive.json index.html ai-daily.html "ai-daily-*.html" ratings_cache.json ratings_code_cache.json
             git commit -m "chore: 自动同步 AI HOT 日报（$(date -u +%Y-%m-%dT%H:%M:%SZ)）"
             git push
           else

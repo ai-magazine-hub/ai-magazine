@@ -300,6 +300,24 @@ LM_MAP = [
     ("星火",              ["spark", "iflytek"],     [],            []),
 ]
 
+# ── 编码榜 Elo（Arena.ai Code Arena / Frontend Code Arena，2026-07 快照）──────
+# 与上方综合对话榜「同源不同榜」：Arena.ai 的 Code 分榜专门评测前端/代码生成盲测偏好，
+# 标尺独立于综合榜，二者不可直接比较（如 Kimi K3 综合 1486、编码 1679）。
+# 数据源：第三方每日自动归档仓库（github.com/oolong-tea-2026/arena-ai-leaderboards）把 Arena.ai
+# 各分榜抓成结构化 JSON 并提供免鉴权 API；我们取 code 分榜（即 Frontend Code Arena）。
+# 原始数据：https://arena.ai/leaderboard/code ；归档：raw.githubusercontent.com/.../main/data/<date>/code.json
+# 每日自动刷新（与综合榜同机制，复用下方 LM_MAP 匹配规则）；任何失败回退到下方静态 RATINGS_CODE。
+RATINGS_CODE = {
+    "Kimi": 1679,       # Kimi K3（Code Arena 1679，2026-07 登顶 Frontend Code Arena）
+    "Claude": 1631,     # Claude Fable 5
+    "GPT": 1618,        # GPT-5.6 Sol (codex-harness)
+    "智谱 GLM": 1587,   # GLM-5.2 (max)
+    "Grok": 1558,       # Grok 4.5
+}
+CODE_LATEST_URL = "https://raw.githubusercontent.com/oolong-tea-2026/arena-ai-leaderboards/main/data/latest.json"
+CODE_API_URL = "https://api.wulong.dev/arena-ai-leaderboards/v1/leaderboard?name=code"  # 兜底
+CODE_CACHE_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "ratings_code_cache.json")
+
 # ── 模型能力分类（三级分组 / 顶部筛选维度）──────────────────────────────────
 # 每个能力：(key, emoji, 中文标签, 主题色)。顺序即「顶部筛选」与「三级分组」的展示顺序。
 # Long Context（长文本）为可选维度，仍纳入。
@@ -567,6 +585,103 @@ def resolve_rating(fam):
     if v is not None:
         return v
     return RATINGS.get(fam)
+
+# ── 编码榜（Arena.ai Code / Frontend Code Arena）─────────────────────────────
+def _fetch_code_arena():
+    """拉取 Arena.ai Code 分榜结构化 JSON，返回 [(模型名, Elo整数)]；失败返回 []。"""
+    rows = []
+    # 主路径：raw GitHub 归档（latest.json -> <date>/code.json），免鉴权、无频限、stdlib 友好
+    try:
+        req = urllib.request.Request(CODE_LATEST_URL, headers={"User-Agent": "Mozilla/5.0"})
+        with urllib.request.urlopen(req, timeout=25) as r:
+            latest = json.loads(r.read().decode("utf-8", "replace"))
+        date = latest.get("date")
+        if date:
+            url = f"https://raw.githubusercontent.com/oolong-tea-2026/arena-ai-leaderboards/main/data/{date}/code.json"
+            req2 = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
+            with urllib.request.urlopen(req2, timeout=25) as r2:
+                data = json.loads(r2.read().decode("utf-8", "replace"))
+            for m in data.get("models", []):
+                sc = m.get("score")
+                if isinstance(sc, (int, float)) and 1000 <= sc <= 1900:
+                    rows.append((str(m.get("model", "")), int(sc)))
+    except Exception:
+        rows = []
+    # 兜底：第三方 REST API（单次请求）
+    if not rows:
+        try:
+            req = urllib.request.Request(CODE_API_URL, headers={"User-Agent": "Mozilla/5.0"})
+            with urllib.request.urlopen(req, timeout=25) as r:
+                data = json.loads(r.read().decode("utf-8", "replace"))
+            for m in data.get("models", []):
+                sc = m.get("score")
+                if isinstance(sc, (int, float)) and 1000 <= sc <= 1900:
+                    rows.append((str(m.get("model", "")), int(sc)))
+        except Exception:
+            pass
+    return rows
+
+def fetch_live_code_ratings():
+    """从 Code 分榜解析出 {家族key: 最高Elo}，失败返回 {}。复用 LM_MAP 匹配规则。"""
+    rows = _fetch_code_arena()
+    if not rows:
+        return {}
+    out = {}
+    for fam, name_pats, vend_pats, excl_pats in LM_MAP:
+        best = None
+        for model, elo in rows:
+            ml = model.lower()
+            if not any(p in ml for p in name_pats):
+                continue
+            if excl_pats and any(p in ml for p in excl_pats):
+                continue
+            if vend_pats and not any(v in ml for v in vend_pats):
+                continue
+            if best is None or elo > best:
+                best = elo
+        if best is not None:
+            out[fam] = best
+    return out
+
+def load_code_cache():
+    try:
+        with open(CODE_CACHE_FILE, "r", encoding="utf-8") as f:
+            d = json.load(f)
+        return d.get("ratings", {}) if isinstance(d, dict) else {}
+    except Exception:
+        return {}
+
+def save_code_cache(ratings):
+    try:
+        with open(CODE_CACHE_FILE, "w", encoding="utf-8") as f:
+            json.dump({"updated_at": int(time.time()), "ratings": ratings}, f, ensure_ascii=False, indent=2)
+    except Exception:
+        pass
+
+_LIVE_RATINGS_CODE = {}   # 运行时编码榜评分表，由 init_live_code_ratings 填充
+
+def init_live_code_ratings():
+    """构建前调用：载入缓存；非 --render-only 时尝试联网刷新并落盘。永不抛异常。"""
+    global _LIVE_RATINGS_CODE
+    cache = load_code_cache()
+    _LIVE_RATINGS_CODE = cache
+    if RENDER_ONLY:
+        return
+    try:
+        live = fetch_live_code_ratings()
+        if live:
+            merged = {**cache, **live}
+            save_code_cache(merged)
+            _LIVE_RATINGS_CODE = merged
+    except Exception:
+        pass
+
+def resolve_rating_code(fam):
+    """编码榜评分解析：优先 live，缺失回退静态 RATINGS_CODE。"""
+    v = _LIVE_RATINGS_CODE.get(fam)
+    if v is not None:
+        return v
+    return RATINGS_CODE.get(fam)
 
 # ── 历史里程碑（2020–2026 模型发布 / 重大产品版本更新）───────────────────────
 # 经网络核实的主要 AI 模型与产品发布时间线；仅收录「模型发布」与「产品版本更新」，
@@ -2329,6 +2444,7 @@ def save_archive(arch):
 arch = load_archive()
 purge_blocked_content(arch, save=True)   # 所有模式：先清理已入库的爬虫墙/登录墙正文
 init_live_ratings()   # 载入/刷新 LMArena Elo 评分缓存（--render-only 仅载入，不联网）
+init_live_code_ratings()  # 载入/刷新编码榜（Arena.ai Code / Frontend Code Arena）评分缓存
 if RENDER_ONLY:
     print(f"[1] 仅渲染模式：跳过列表抓取，直接使用本地归档（共 {len(arch)} 期）")
     all_dates = sorted(arch.keys(), reverse=True)
@@ -3279,7 +3395,8 @@ function escapeHtml(s){return (s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&
   const stickyYears=document.getElementById("ganttStickyYears");
   const stickyYearsSvg=document.getElementById("ganttYearsSvg");
   const RATE_MIN=1250, RATE_MAX=1580;   // 评分条色阶范围（LMArena Elo，每日自动刷新）
-  const RATING_SOURCE_LABEL="LMArena · Arena Elo";  // 评分列顶部灰色标题：评分来源说明（LMArena 综合对话榜 Arena Elo，每日自动刷新）
+  const RATING_SOURCE_LABEL="LMArena · 综合/编码 Elo";  // 评分列顶部灰色标题：综合对话榜 + Code/Frontend Code Arena 编码榜，均每日自动刷新
+  const RATE_CODE_COLOR="#0ea5e9";      // 编码榜 Elo 数字颜色（与 Coding 能力标签同色 #0ea5e9）
   function bestRating(arr){ let r=-1; arr.forEach(m=>{ if(m.rating!=null && m.rating>r) r=m.rating; }); return r; }
 
   function visibleEvents(c){
@@ -3386,6 +3503,9 @@ function escapeHtml(s){return (s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&
         // 模型名（左）+ Arena Elo（同行靠右，品牌色；无评分显示「—」）
         h+=`<text x="44" y="${(y0+17).toFixed(1)}" font-size="13" font-weight="600" fill="#1f2430">${escapeHtml(m.name)}</text>`;
         h+=`<text x="${(L-12).toFixed(1)}" y="${(y0+17).toFixed(1)}" text-anchor="end" font-size="13" font-weight="800" fill="${m.color}">${m.rating==null?'—':m.rating}</text>`;
+        // 编码榜 Elo（综合行下方次级行，Coding 同色 #0ea5e9；无编码分显示「—」）
+        const _rc = m.ratingCode;
+        h+=`<text x="${(L-12).toFixed(1)}" y="${(y0+33).toFixed(1)}" text-anchor="end" font-size="10" font-weight="700" fill="${_rc==null?'#c2c7d0':RATE_CODE_COLOR}">${_rc==null?'—':('码'+_rc)}</text>`;
         // 能力标签：显示全部（取消最多 2 个限制），按固定顺序 Chat→Reasoning→Coding→Vision→Image→Video→Audio→Agent→LongContext；
         // main_cap 用公司品牌色轻量高亮（浅色底 + 品牌色描边 + 品牌色字），其余统一中性灰胶囊；一行放不下自动换行到第二行。
         let _tx=16, _trow=0;
@@ -3774,6 +3894,7 @@ def compute_gantt(arch=None, top_n=GANTT_TOP_N):
         if not g:
             g = {"company": comp, "name": fam, "color": ccolor,
                  "region": cregion, "events": [], "rating": resolve_rating(fam),
+                 "ratingCode": resolve_rating_code(fam),
                  "mtype": FAM_TYPE.get(fam, "文本"),
                  "caps": _caps_of(fam), "main_cap": _caps_of(fam)[0]}
             groups[key] = g
