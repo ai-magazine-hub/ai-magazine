@@ -239,7 +239,7 @@ RATINGS = {
     # 智谱
     "智谱 GLM": 1470,       # GLM-5.2
     # 月之暗面
-    "Kimi": 1466,           # Kimi K2.6
+    "Kimi": 1486,           # Kimi K3（LMArena 1486，2026-07 顶级梯队，与 Gemini3/Qwen3.7-Max 并列；仅次于 GPT/Claude 1508）
     # Mistral（欧洲）
     "Mistral 系列": 1352,   # Mistral Large 3
     # Amazon
