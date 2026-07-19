@@ -2460,14 +2460,32 @@ def _sec_color(label):
     return next((c for l, c in SECTIONS if l == label), "#64748b")
 
 
-def merge_today_feed(arch, date=None):
-    """对齐 AI HOT 首页实时流：把『今天(北京)』发布的实时 feed 条目，按主题归入官方分栏。
+def merge_today_feed(arch, dates=None):
+    """对齐 AI HOT 首页实时流：把『今天(北京)及昨天』发布的实时 feed 条目，按主题归入官方分栏。
+    - 窗口 = [今天, 昨天]：即使 23:59 收尾扫描被 GitHub Actions 延迟到次日才跑，次日首轮仍会把
+      "昨天深夜"的条目按 publishedAt 归回正确的日期，彻底免疫 Actions 定时延迟造成的深夜漏抓。
     - 绝不新建『今日精选』之类外来板块；官方分栏不足时按标签新建官方分栏（如『论文研究』）。
-    - 一次性清理：若当天存在非官方分栏（历史误加的），其条目按标题/标签重新归类后删除该分栏。
+    - 一次性清理：若某天存在非官方分栏（历史误加的），其条目按标题/标签重新归类后删除该分栏。
     - 幂等：按 title/permalink 去重，重复运行不增不减。仅在 not RENDER_ONLY 时调用。"""
-    today = date or beijing_today_str()
-    if today not in arch:
+    if dates is None:
+        today = beijing_today_str()
+        base = datetime.datetime.strptime(today, "%Y-%m-%d")
+        dates = [(base - datetime.timedelta(days=i)).strftime("%Y-%m-%d") for i in (0, 1)]
+    # feed 只拉一次，供多日期复用
+    try:
+        feed = http_get_json(f"{BASE}/feed?take=100")
+    except Exception as e:
+        print(f"    ! 实时 feed 拉取失败({e})，跳过补充")
         return 0
+    total = 0
+    for d in dates:
+        if d not in arch:
+            continue
+        total += _merge_feed_into_date(arch, d, feed)
+    return total
+
+
+def _merge_feed_into_date(arch, today, feed):
     rec = arch[today]
 
     # 0) 清理非官方分栏（历史误加），将其条目重新归类进官方分栏
@@ -2495,13 +2513,6 @@ def merge_today_feed(arch, date=None):
                 existing_pids.add(pid)
             if it.get("title"):
                 existing_titles.add(_norm_title(it.get("title")))
-
-    # 2) 拉实时 feed
-    try:
-        feed = http_get_json(f"{BASE}/feed?take=100")
-    except Exception as e:
-        print(f"    ! 今日 feed 拉取失败({e})，跳过补充")
-        return 0
 
     added = 0
     for it in feed.get("items", []):
@@ -2547,10 +2558,10 @@ def merge_today_feed(arch, date=None):
             existing_pids.add(pid)
         existing_titles.add(_norm_title(title))
         added += 1
-        print(f"    + 今日补充[{label}] {title[:36]}")
+        print(f"    + 补充[{today}/{label}] {title[:36]}")
     rec["meta"]["total"] = sum(len(s["items"]) for s in rec["sections"])
     if added:
-        print(f"    · 今日({today}) 实时流补充 {added} 条")
+        print(f"    · {today} 实时流补充 {added} 条")
     return added
 
 
