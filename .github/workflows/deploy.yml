@@ -7,6 +7,9 @@ on:
     # 关键背景：GitHub Actions 定时任务跑在共享基础设施上，实测常延迟 6–9 小时甚至被跳过；
     # 高频触发可自愈，配合 generate_archive.py 内置的「近 10 天缺口补抓」，保证不漏任何一天。
     - cron: '7 */2 * * *'
+    # 23:59 北京收尾扫描（UTC 15:59）：在日期翻面前最后一扫，把当天 22:07–24:00 发布的
+    # 实时流条目归回当天，闭合「深夜边界」漏抓窗口。
+    - cron: '59 15 * * *'
   workflow_dispatch:       # 也支持手动触发（Actions 页面 → Run workflow），用于即时补抓/重部署
 
 permissions:
@@ -38,10 +41,15 @@ jobs:
       - name: Install dependencies
         run: pip install trafilatura
 
-      # 记录抓取前的期数，用于判断本次是否真正「新增了日期」
-      - name: 记录抓取前期数
+      # 记录抓取前的期数与条目总数：
+      # - 期数用于判断「是否新增了日期」；
+      # - 条目总数用于判断「是否往已存在的当天补抓了实时流条目」。
+      # 二者任一增长即提交，确保 merge_today_feed 的当日补抓被持久化（否则下一轮 checkout 会冲掉）。
+      - name: 记录抓取前基线
         id: before
-        run: echo "count=$(python -c "import json;print(len(json.load(open('archive.json'))))")" >> "$GITHUB_OUTPUT"
+        run: |
+          echo "dates=$(python -c "import json;print(len(json.load(open('archive.json'))))")" >> "$GITHUB_OUTPUT"
+          echo "items=$(python -c "import json;print(sum(len(s.get('items',[])) for d in json.load(open('archive.json')).values() for s in d.get('sections',[])))")" >> "$GITHUB_OUTPUT"
 
       # 统一跑完整模式（增量抓取：已生成的天跳过，只补最近缺失的天；自动翻译+排版+渲染）。
       # push 也走完整模式 -> 任何时候推送代码都会顺带自愈补抓缺失的最近几天。
@@ -50,21 +58,24 @@ jobs:
           DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
         run: python generate_archive.py
 
-      # 仅当「真正新增了日期」才提交并回推，避免渲染时间戳变化导致的无限循环：
-      # 新增当天 -> 提交一次 -> 触发的新一轮 run 看到日期已存在 -> 期数不变 -> 跳过提交 -> 循环自然终止。
-      - name: 统计新增期数并提交（如有）
+      # 当「新增了日期」或「条目总数增加」时提交并回推：
+      # - 新增日期 -> 提交一次 -> 下一轮看到日期已存在 -> 期数不变 -> 跳过提交 -> 循环终止；
+      # - 往已存在当天补抓实时流条目（merge_today_feed）-> 条目数增长 -> 同样提交持久化，避免被下一轮冲掉；
+      #   因 merge 按 title/permalink 幂等去重，下一轮补抓数为 0 -> 条目数不变 -> 跳过提交 -> 循环终止。
+      - name: 统计新增并提交（如有）
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          AFTER=$(python -c "import json;print(len(json.load(open('archive.json'))))")
-          echo "before=${{ steps.before.outputs.count }} after=$AFTER"
-          if [ "$AFTER" -gt "${{ steps.before.outputs.count }}" ]; then
+          DATES_AFTER=$(python -c "import json;print(len(json.load(open('archive.json'))))")
+          ITEMS_AFTER=$(python -c "import json;print(sum(len(s.get('items',[])) for d in json.load(open('archive.json')).values() for s in d.get('sections',[])))")
+          echo "dates_before=${{ steps.before.outputs.dates }} dates_after=$DATES_AFTER items_before=${{ steps.before.outputs.items }} items_after=$ITEMS_AFTER"
+          if [ "$DATES_AFTER" -gt "${{ steps.before.outputs.dates }}" ] || [ "$ITEMS_AFTER" -gt "${{ steps.before.outputs.items }}" ]; then
             git pull --rebase --autostash
             git add archive.json index.html ai-daily.html "ai-daily-*.html" ratings_cache.json
             git commit -m "chore: 自动同步 AI HOT 日报（$(date -u +%Y-%m-%dT%H:%M:%SZ)）"
             git push
           else
-            echo "无新增日期，跳过提交"
+            echo "无新增日期/条目，跳过提交"
           fi
 
       - name: Setup Pages
