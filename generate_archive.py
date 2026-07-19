@@ -324,7 +324,7 @@ CODE_CACHE_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "rati
 CAP_DEFS = [
     ("Chat",        "🧠", "对话",   "#4f46e5"),
     ("Reasoning",   "🧩", "推理",   "#7c3aed"),
-    ("Coding",      "💻", "代码",   "#0ea5e9"),
+    ("Coding",      "💻", "代码",   "#f59e0b"),
     ("Vision",      "👁", "视觉",   "#059669"),
     ("Image",       "🎨", "图像",   "#db2777"),
     ("Video",       "🎥", "视频",   "#e11d48"),
@@ -3092,7 +3092,7 @@ INDEX_TPL = r"""<!DOCTYPE html>
   .tt-sep{color:var(--tooltip-muted);margin:0 3px}
   .tt-mname{color:var(--tooltip-text);font-weight:600}
   .tt-rating{margin-left:auto;font-weight:800;font-size:13px}
-  .tt-rating-code{margin-left:8px;font-weight:800;font-size:13px;color:#0ea5e9}
+  .tt-rating-code{margin-left:8px;font-weight:800;font-size:13px;color:#f59e0b}
   .tt-caps{display:flex;flex-wrap:wrap;gap:5px;margin-top:9px}
   .tt-cap{padding:2px 7px;border-radius:6px;color:#cbd5e1;background:rgba(148,163,184,.12);
     font-size:11px;border:1px solid transparent}
@@ -3149,7 +3149,7 @@ INDEX_TPL = r"""<!DOCTYPE html>
     <div class="trend-head">
       <h2>🗓️ 主要 AI 公司 模型发布 / 版本更新 时间线</h2>
       <p class="trend-sub">这张图追踪主要 AI 公司的模型发布与版本更新。横向是时间，纵向按美国、中国、法国分组，同一公司的不同模型系列排在一起，便于对比节奏。点状事件里，蓝色代表模型版本发布，绿色是产品更新，红色是较重磅的更新；可在上方按能力标签筛选，只看感兴趣的赛道。</p>
-      <p class="trend-sub">每个模型名称右侧并排标注两个 <b>Arena Elo</b> 评分（均来自盲测对战、每日自动同步，未进对应榜单则显示「—」）：<b style="color:#5b616e">综合</b>（左列，以各模型<b>品牌色</b>显示）取自 <b>LMArena 综合对话榜</b>，衡量聊天、推理、写作等<b>通用能力</b>；<b style="color:#0ea5e9">编码</b>（右列，统一<b>青色</b>）取自 <b>Arena.ai Code / 前端代码竞技场</b>，专测<b>前端代码生成</b>的盲测偏好。两者是<b>各自独立的标尺</b>（不同模型池与投票人），只宜各看各的相对高低，<b>不能直接横向比大小</b>。</p>
+      <p class="trend-sub">每个模型名称右侧并排标注两个 <b>Arena Elo</b> 评分（均来自盲测对战、每日自动同步，未进对应榜单则显示「—」）：<b style="color:#5b616e">综合</b>（左列，以各模型<b>品牌色</b>显示）取自 <b>LMArena 综合对话榜</b>，衡量聊天、推理、写作等<b>通用能力</b>；<b style="color:#f59e0b">编码</b>（右列，统一<b>琥珀色</b>）取自 <b>Arena.ai Code / 前端代码竞技场</b>，专测<b>前端代码生成</b>的盲测偏好。两者是<b>各自独立的标尺</b>（不同模型池与投票人），只宜各看各的相对高低，<b>不能直接横向比大小</b>。</p>
       <p class="trend-sub">模型下方的能力标签标注它擅长的方向，包括对话、推理、代码、视觉、图像、视频、语音、智能体、长文本等；其中<b>带高亮颜色的那一项是该模型的主要能力</b>，其余为辅助能力。</p>
     </div>
     <div class="gantt-ctrl">
@@ -3397,7 +3397,7 @@ function escapeHtml(s){return (s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&
   const stickyYears=document.getElementById("ganttStickyYears");
   const stickyYearsSvg=document.getElementById("ganttYearsSvg");
   const RATE_MIN=1250, RATE_MAX=1580;   // 评分条色阶范围（LMArena Elo，每日自动刷新）
-  const RATE_CODE_COLOR="#0ea5e9";      // 编码榜 Elo 数字颜色（与 Coding 能力标签同色 #0ea5e9）
+  const RATE_CODE_COLOR="#f59e0b";      // 编码榜 Elo 数字颜色（与 Coding 能力标签同色 #f59e0b；琥珀=强调「当前最重要能力」）
   const RATE_OVR_COLOR="#6b7280";       // 综合榜列标题颜色（中性灰；行内数字用各模型品牌色）
   // 两个评分「并排双列」的右边界 x（数字右对齐于此）：编码列在最右(L-10)，综合列在其左(L-56)。
   // 行内只显示两个色彩区分的数字，「综合/编码」的含义交给列顶标题说明，避免行内文字拥挤。
@@ -3516,7 +3516,7 @@ function escapeHtml(s){return (s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&
         }
         h+=`<text x="44" y="${(y0+17).toFixed(1)}" font-size="13" font-weight="600" fill="#1f2430">${escapeHtml(_dn)}`+
            (_truncated?`<title>${escapeHtml(m.name)}</title>`:``)+`</text>`;
-        // 综合 / 编码 双评分「并排」：同在模型名一行、靠右两列（综合=品牌色、编码=青色），
+        // 综合 / 编码 双评分「并排」：同在模型名一行、靠右两列（综合=品牌色、编码=琥珀色），
         // 从而彻底避开下方能力标签行（原编码分放在标签行上易被遮挡）。含义由列顶标题标注。
         const _rc = m.ratingCode;
         h+=`<text x="${RX_OVR.toFixed(1)}" y="${(y0+17).toFixed(1)}" text-anchor="end" font-size="13" font-weight="800" fill="${m.rating==null?'#c2c7d0':m.color}">${m.rating==null?'—':m.rating}</text>`;
