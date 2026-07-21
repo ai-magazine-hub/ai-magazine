@@ -50,6 +50,9 @@ jobs:
         run: |
           echo "dates=$(python -c "import json;print(len(json.load(open('archive.json'))))")" >> "$GITHUB_OUTPUT"
           echo "items=$(python -c "import json;print(sum(len(s.get('items',[])) for d in json.load(open('archive.json')).values() for s in d.get('sections',[])))")" >> "$GITHUB_OUTPUT"
+          # archive.json 内容哈希：用于捕获「仅翻译改动（不改数量）」的情况，
+          # 否则已存在日期的翻译永远不被提交（实测 07-21 因此残留英文正文）。
+          echo "arch_hash=$(md5sum archive.json | cut -d' ' -f1)" >> "$GITHUB_OUTPUT"
 
       # 统一跑完整模式（增量抓取：已生成的天跳过，只补最近缺失的天；自动翻译+排版+渲染）。
       # push 也走完整模式 -> 任何时候推送代码都会顺带自愈补抓缺失的最近几天。
@@ -68,8 +71,10 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
           DATES_AFTER=$(python -c "import json;print(len(json.load(open('archive.json'))))")
           ITEMS_AFTER=$(python -c "import json;print(sum(len(s.get('items',[])) for d in json.load(open('archive.json')).values() for s in d.get('sections',[])))")
-          echo "dates_before=${{ steps.before.outputs.dates }} dates_after=$DATES_AFTER items_before=${{ steps.before.outputs.items }} items_after=$ITEMS_AFTER"
-          if [ "$DATES_AFTER" -gt "${{ steps.before.outputs.dates }}" ] || [ "$ITEMS_AFTER" -gt "${{ steps.before.outputs.items }}" ]; then
+          ARCH_HASH_AFTER=$(md5sum archive.json | cut -d' ' -f1)
+          echo "dates_before=${{ steps.before.outputs.dates }} dates_after=$DATES_AFTER items_before=${{ steps.before.outputs.items }} items_after=$ITEMS_AFTER arch_before=${{ steps.before.outputs.arch_hash }} arch_after=$ARCH_HASH_AFTER"
+          # 提交条件：新增日期 / 条目数增长 / archive.json 内容变化（翻译等改动不改数量，必须靠哈希捕获）
+          if [ "$DATES_AFTER" -gt "${{ steps.before.outputs.dates }}" ] || [ "$ITEMS_AFTER" -gt "${{ steps.before.outputs.items }}" ] || [ "$ARCH_HASH_AFTER" != "${{ steps.before.outputs.arch_hash }}" ]; then
             git pull --rebase --autostash
             git add archive.json index.html ai-daily.html "ai-daily-*.html" ratings_cache.json ratings_code_cache.json
             git commit -m "chore: 自动同步 AI HOT 日报（$(date -u +%Y-%m-%dT%H:%M:%SZ)）"
