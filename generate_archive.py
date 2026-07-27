@@ -2354,12 +2354,15 @@ def translate_archive(arch, wall=600):
 
     关键设计（防卡死）：串行执行 + 硬墙钟预算(wall 秒)。无论翻译端点多慢/是否可用，
     到达预算后立刻停止并返回，绝不阻塞后续「渲染 + 提交」——保证定时任务一定能完成更新。
-    按日期【倒序（最新在前）】遍历，确保最新一期日报永远优先译完、不被历史积压饿死。
+    按日期【轮转(round-robin)】遍历：每个有积压的日期每轮都推进一条，避免旧日期被
+    「最新优先」策略长期饿死（此前 07-22/07-23 等旧期英文正文持续堆积、CI 每轮都先服务
+    最新期而永远排不到）。新日期仍排在轮转前列（每轮先服务最新），但所有旧期每轮至少推进一条。
     若连续失败达到阈值，判定端点不可用，直接放弃本轮（已译内容已落盘，下次续传）。"""
     ds_key = _load_ds_key()
     engine = "DeepSeek" if ds_key else "Google(免费端点)"
-    todos = []
-    for d in sorted(arch.keys(), reverse=True):   # 最新日期优先，避免新日报被饿死
+    # 先按日期分组收集待译条目
+    todos_by_date = {}
+    for d in sorted(arch.keys(), reverse=True):
         rec = arch[d]
         for s in rec.get("sections", []):
             for it in s.get("items", []):
@@ -2369,7 +2372,17 @@ def translate_archive(arch, wall=600):
                 if len(c) < 120 or ratio_en(c) <= 0.45:
                     it["zh"] = True
                     continue
-                todos.append(it)
+                todos_by_date.setdefault(d, []).append(it)
+    # 轮转合并：新日期排在前（每轮先服务最新），但每个有积压的日期每轮至少推进一条，杜绝饿死
+    todos = []
+    queues = [list(todos_by_date[d]) for d in sorted(todos_by_date.keys(), reverse=True)]
+    if queues:
+        i = 0
+        while any(queues):
+            q = queues[i % len(queues)]
+            if q:
+                todos.append(q.pop(0))
+            i += 1
     if not todos:
         print("[3.6] 翻译：无待处理条目")
         return 0
