@@ -1,13 +1,5 @@
 {
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-  "updated_at": 1785164838,
-=======
-  "updated_at": 1785164013,
->>>>>>> Stashed changes
-=======
-  "updated_at": 1785164999,
->>>>>>> Stashed changes
+  "updated_at": 1785168945,
   "ratings": {
     "GPT": 1625,
     "Claude": 1673,
