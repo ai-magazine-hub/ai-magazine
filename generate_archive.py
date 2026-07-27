@@ -932,18 +932,19 @@ _BLOCK_HTML = [
 _BLOCK_TEXT_STRONG = [
     "您已在另一个标签页或窗口中登录", "请重新加载以刷新会话",
     "请启用 javascript 和 cookie", "请输入验证码", "安全验证", "请完成安全验证",
+    # GitHub 登录墙（英文挑战页，trafilatura 抽正文时会混入这些驻留提示）
+    "you signed in with another tab or window",
+    "reload to refresh your session",
+    "you signed out in another tab or window",
 ]
 # 低置信文本标记：正常长文中偶现（如讨论 CAPTCHA/权限的报道），仅在正文很短时判废
 _BLOCK_TEXT_WEAK = [
     "confirm you are human", "checking your browser",
     "enable javascript and cookies", "access denied", "verify you are human",
 ]
-def _is_blocked_page(text, html):
-    """命中反爬挑战/登录墙/空页 → True（这类不应作为正文入库）。"""
-    low = (html or "").lower()
-    for m in _BLOCK_HTML:
-        if m.lower() in low:
-            return True
+def _is_blocked_text(text):
+    """文本级反爬/登录墙判定（恒生效，不依赖 trafilatura 是否成功）。
+    强标记(含中文登录墙与 GitHub 英文登录墙)无视长度直接判废；弱标记仅在正文偏短时判废。"""
     t = (text or "").strip()
     tl = t.lower()
     for m in _BLOCK_TEXT_STRONG:
@@ -954,9 +955,17 @@ def _is_blocked_page(text, html):
         for m in _BLOCK_TEXT_WEAK:
             if m.lower() in tl:
                 return True
-    # 结构判断：原始页很大但抽出的正文极少（典型挑战页/登录墙）
-    if t and len(t) < 60 and len(html or "") > 3000:
-        return True
+    return False
+
+
+def _html_has_block_marker(html):
+    """原始 HTML 级反爬标记（仅当 trafilatura 失败、走正则降级时使用）。
+    真实文章页 <head> 常嵌 bot 防护脚本含 captcha/cf-chl 字样，trafilatura 已正确抽出
+    <body> 正文；故该原始 HTML 判定不可在 trafilatura 成功时使用，否则会误杀干净正文。"""
+    low = (html or "").lower()
+    for m in _BLOCK_HTML:
+        if m.lower() in low:
+            return True
     return False
 
 # AI HOT 反爬挑战 cookie（由其条目页 JS 挑战脚本确定性计算，固定值；用于服务端绕过墙直接取已清洗正文）
@@ -1042,12 +1051,14 @@ def fetch_content(url, permalink=None, cap=15000):
         return ""
     # 优先 trafilatura 正文抽取
     text = ""
+    traf_ok = False
     if _HAVE_TRAF:
         try:
             res = trafilatura.extract(html, output_format="json", include_images=False, url=url)
             if res:
                 d = json.loads(res)
                 text = d.get("text") or ""
+                traf_ok = bool(text)
         except Exception:
             text = ""
     # 降级：粗滤 script/style 后去标签（trafilatura 缺失或抽取为空时仍可用）
@@ -1057,7 +1068,9 @@ def fetch_content(url, permalink=None, cap=15000):
         text = re.sub(r"\s+", " ", text).strip()
     if not text:
         return ""
-    if _is_blocked_page(text, html):
+    # 文本级强标记(含 GitHub 登录墙)恒判废；raw-HTML 标记仅在 trafilatura 失败(走正则降级)时判废，
+    # 避免真实文章页 <head> 的 bot 防护脚本(captcha 等)误杀 trafilatura 已抽出的干净正文。
+    if _is_blocked_text(text) or (not traf_ok and _html_has_block_marker(html)):
         return ""
     return reformat_content(clean_menu_noise(text))[:cap]
 
@@ -1070,7 +1083,7 @@ def purge_blocked_content(arch, save=False):
         for sec in d.get("sections", []) or []:
             for it in sec.get("items", []) or []:
                 c = (it.get("content") or "")
-                if c and _is_blocked_page(c, ""):
+                if c and _is_blocked_text(c):
                     print(f"    · 清理爬虫墙正文: {it.get('title', '')[:42]}")
                     it["content"] = ""
                     n += 1
