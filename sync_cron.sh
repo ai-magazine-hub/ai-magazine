@@ -59,8 +59,9 @@ if [ "$BEFORE" != "$AFTER" ]; then
   fi
   echo "$(date) synced (archive changed)" >> "$LOG"
 else
-  # 工作区可能残留 html 重渲染的相对时间 diff，丢弃以保持干净（代码改动走 push 触发 CI 重渲染）
-  git checkout -- "ai-daily-*.html" index.html ai-daily.html 2>/dev/null || true
+  # 工作区可能残留 html/archive/ratings 重渲染 diff，全部丢弃以保持干净
+  # （否则这些整文件重写的残留改动会在下次 pull 时与 origin 冲突，重演 rebase 卡死）
+  git checkout -- "ai-daily-*.html" index.html ai-daily.html archive.json ratings_cache.json ratings_code_cache.json 2>/dev/null || true
   echo "$(date) no change, skip push" >> "$LOG"
 fi
 echo "$(date) === sync done ===" >> "$LOG"
