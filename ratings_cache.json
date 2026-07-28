@@ -1,12 +1,12 @@
 {
-  "updated_at": 1785233229,
+  "updated_at": 1785244030,
   "ratings": {
     "GPT": 1485,
     "OpenAI o 系列": 1431,
     "Claude": 1508,
     "Gemini": 1486,
     "Gemma": 1451,
-    "Llama": 1347,
+    "Llama": 1348,
     "Grok": 1474,
     "DeepSeek 系列": 1457,
     "文心 ERNIE": 1468,
@@ -14,9 +14,9 @@
     "智谱 GLM": 1469,
     "混元": 1412,
     "Seed": 1456,
-    "Kimi": 1485,
+    "Kimi": 1486,
     "Mistral 系列": 1427,
-    "MiniMax 系列": 1445,
-    "星火": 1493
+    "MiniMax 系列": 1444,
+    "星火": 1491
   }
 }
