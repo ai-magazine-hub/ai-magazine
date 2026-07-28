@@ -35,7 +35,11 @@ fi
 
 echo "$(date) === sync start ===" >> "$LOG"
 
-# 1) 先拉最新，避免长期落后导致 rebase 冲突
+# 1) 先丢弃本地生成产物的未提交改动。archive.json/HTML/ratings 都是整文件重写，
+#    若带着 diff 进 autostash，rebase 弹出时必与 origin 整文件重写冲突而卡死（已踩坑）。
+#    远端 CI 与本地都会重新生成，丢弃本地 diff 不影响最终内容，仅用于对齐 origin。
+git checkout -- archive.json index.html ai-daily.html "ai-daily-*.html" ratings_cache.json ratings_code_cache.json 2>/dev/null || true
+# 2) 再拉最新（此时工作区干净，autostash 无可暂存 -> rebase 直接 fast-forward，不再冲突）
 git pull --rebase --autostash origin main >> "$LOG" 2>&1 || true
 
 # 2) 记录 archive 内容基线（hash-object 只看内容，不受工作区其他 diff 干扰）
