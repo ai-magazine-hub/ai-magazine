@@ -142,7 +142,10 @@ MODELS = [
     ("SANA",       "NVIDIA",    ["sana"]),
     # ── 其它实验室基础 / 生成模型（daily-feed 归类用）──
     ("Muse",       "Meta",      ["muse"]),
-    ("MAI",        "Microsoft", ["mai-thinking", "mai "]),
+    ("MAI",        "Microsoft", ["mai-thinking", "mai ", "mai-cyber"]),
+    # ── 新模型（2026-07 经 WebSearch 核实）──
+    ("Lyria 3.5",  "Google",    ["lyria 3.5", "lyria3.5", "lyria"]),  # 音乐生成（重大更新）
+    ("GPT-5.6",    "OpenAI",    ["gpt-5.6", "gpt5.6", "gpt 5.6"]),    # 2026-07-09 GA（重大）
 ]
 COMP_MAP = {name: (color, region) for name, color, _, region in COMPANIES}
 
@@ -199,6 +202,7 @@ FAMILY = {
     "Nemotron": "Nemotron 系列", "Cosmos": "Cosmos", "SANA": "SANA",
     # 其它实验室
     "Seed": "Seed", "Muse": "Muse", "MAI": "MAI",
+    "MAI-Cyber-1-Flash": "MAI-Cyber-1-Flash",  # 微软首款安全专用模型，独立成行
 }
 
 # ── 模型评分（LMArena 文本榜 Arena Elo，2026-07 公开快照）──────────────────────
@@ -834,6 +838,13 @@ MILESTONES = [
     {"d":"2024-04-23","c":"Microsoft","m":"Phi","k":"model","t":"微软发布 Phi-3 系列小语言模型（端侧 3.8B 参数达 SOTA）","major":True,"src":"Microsoft"},
     {"d":"2023-03-16","c":"Microsoft","m":"Copilot","k":"product","t":"Microsoft 365 Copilot 发布","major":False,"src":"Microsoft"},
     {"d":"2024-05-21","c":"Microsoft","m":"Copilot","k":"product","t":"Copilot+ PC / Copilot Studio 发布","major":False,"src":"Microsoft"},
+    # ── 2026-07 新模型 / 版本更新（经 WebSearch 核实，2026-07-30 补登）──
+    # 注：GPT-5.6 的发布里程碑已于 2026-07-09 在 OpenAI 段登记，此处不再重复。
+    {"d":"2026-07-16","c":"月之暗面","m":"Kimi","k":"model","t":"Kimi K3 发布（2.8T 参数开源基础模型，全球最大开放权重）","major":True,"src":"Moonshot / 各家媒体"},
+    {"d":"2026-07-28","c":"月之暗面","m":"Kimi","k":"model","t":"Kimi K3 模型权重 / 技术报告 / 训练 Infra 全栈开源","major":False,"src":"Moonshot"},
+    {"d":"2026-07-29","c":"Google","m":"Lyria 3.5","k":"model","t":"Lyria 3.5 音乐生成模型发布（Google Flow Music）","major":True,"src":"Google DeepMind"},
+    {"d":"2026-07-21","c":"Google","m":"Gemini","k":"model","t":"Gemini 3.6 Flash / 3.5 Flash-Lite / 3.5 Flash Cyber 发布","major":False,"src":"Google"},
+    {"d":"2026-07-27","c":"Microsoft","m":"MAI-Cyber-1-Flash","k":"model","t":"微软首款自研网络安全专用模型 MAI-Cyber-1-Flash 发布（集成 MDASH）","major":True,"src":"Microsoft"},
 ]
 GANTT_TOP_N = 12  # 时间线甘特图展示事件数最多的 N 家公司
 
