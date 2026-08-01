@@ -1261,11 +1261,11 @@ def translate_en_zh(text):
     return "\n".join(out)
 
 def _load_ds_key():
-    """优先读环境变量 DEEPSEEK_API_KEY，否则回退本地 /tmp/dskey（不入库）。"""
+    """优先读环境变量 DEEPSEEK_API_KEY，否则回退本地 ~/.dskey（持久）/tmp/dskey（不入库）。"""
     env = os.environ.get("DEEPSEEK_API_KEY")
     if env and env.strip():
         return env.strip()
-    for p in ("/tmp/dskey", os.path.expanduser("~/.dskey")):
+    for p in (os.path.expanduser("~/.dskey"), "/tmp/dskey"):
         if os.path.exists(p):
             try:
                 return open(p, encoding="utf-8").read().strip()
@@ -2465,12 +2465,34 @@ OUT_DIR = os.path.dirname(os.path.abspath(__file__))
 ARCHIVE_PATH = os.path.join(OUT_DIR, "archive.json")
 
 def load_archive():
+    """加载已有归档。若文件损坏（如被 git 冲突标记包裹），尝试修复而非静默清空，
+    避免「只重建最近几天、丢失全部旧日期」的事故（2026-08-01 复盘）。"""
     if os.path.exists(ARCHIVE_PATH):
         try:
             with open(ARCHIVE_PATH, "r", encoding="utf-8") as f:
                 return json.load(f)
         except Exception:
             pass
+        # 解析失败：尝试从冲突标记包裹的坏文件里提取首段有效 JSON
+        try:
+            raw = open(ARCHIVE_PATH, "r", encoding="utf-8").read()
+            if "<<<<<<<" in raw:
+                start = raw.find('{"')
+                end = raw.find("\n=======", start)
+                if end == -1:
+                    end = raw.find("=======", start)
+                if start != -1 and end != -1:
+                    return json.loads(raw[start:end])
+        except Exception:
+            pass
+        # 再试备份
+        bak = ARCHIVE_PATH + ".bak"
+        if os.path.exists(bak):
+            try:
+                with open(bak, "r", encoding="utf-8") as f:
+                    return json.load(f)
+            except Exception:
+                pass
     return {}
 
 def save_archive(arch):

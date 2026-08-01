@@ -25,8 +25,12 @@ if ! mkdir "$LOCKDIR" 2>/dev/null; then
 fi
 trap 'rmdir "$LOCKDIR" 2>/dev/null' EXIT INT TERM
 
-# 翻译 key：优先 /tmp/dskey；macOS 重启后 /tmp 会被清空 -> 退化为不翻译（CI 会补全）
-if [ -f /tmp/dskey ]; then
+# 翻译 key：优先 ~/.dskey（持久，家目录不会被系统清理）；回退 /tmp/dskey（可能已被 /tmp 清理机制删除）；
+# 两者皆无 -> 退化为不翻译（CI 会用 GitHub secret 补全）。
+if [ -f "$HOME/.dskey" ]; then
+  export DEEPSEEK_API_KEY="$(cat "$HOME/.dskey" 2>/dev/null)"
+  TRANS_ARGS=""
+elif [ -f /tmp/dskey ]; then
   export DEEPSEEK_API_KEY="$(cat /tmp/dskey 2>/dev/null)"
   TRANS_ARGS=""
 else
@@ -35,12 +39,22 @@ fi
 
 echo "$(date) === sync start ===" >> "$LOG"
 
-# 1) 先丢弃本地生成产物的未提交改动。archive.json/HTML/ratings 都是整文件重写，
-#    若带着 diff 进 autostash，rebase 弹出时必与 origin 整文件重写冲突而卡死（已踩坑）。
-#    远端 CI 与本地都会重新生成，丢弃本地 diff 不影响最终内容，仅用于对齐 origin。
-git checkout -- archive.json index.html ai-daily.html "ai-daily-*.html" ratings_cache.json ratings_code_cache.json 2>/dev/null || true
-# 2) 再拉最新（此时工作区干净，autostash 无可暂存 -> rebase 直接 fast-forward，不再冲突）
+# 0) 清理上次可能遗留的 autostash（rebase 卡死的根因：autostash 把冲突标记写进 archive.json 并随 commit 入库）
+git stash drop 2>/dev/null || true
+# 1) 直接对齐干净远端，丢弃任何本地独有提交/未提交 diff（根治「本地偏离 origin 导致 rebase 冲突」）。
+#    远端 CI 与本机会重新生成，丢弃本地内容不影响最终数据，仅用于彻底对齐 origin。
+git reset --hard origin/main >> "$LOG" 2>&1 || true
+# 2) 再拉最新（此时本地已等于 origin，fast-forward，不再冲突）
 git pull --rebase --autostash origin main >> "$LOG" 2>&1 || true
+
+# 2b) 安全护栏：若 archive.json 期数异常偏少（疑为加载损坏被静默重建），从 .bak 恢复并跳过本轮推送，避免冲掉历史
+BEFORE_N=$(grep -o '"2026' archive.json 2>/dev/null | wc -l | tr -d ' ')
+if [ "$BEFORE_N" -lt 30 ] && [ -f archive.json.bak ]; then
+  cp archive.json.bak archive.json 2>/dev/null
+  echo "$(date) archive 期数异常($BEFORE_N)，已从 .bak 恢复，跳过本轮" >> "$LOG"
+  echo "$(date) === sync done (recovered) ===" >> "$LOG"
+  exit 0
+fi
 
 # 2) 记录 archive 内容基线（hash-object 只看内容，不受工作区其他 diff 干扰）
 BEFORE=$(git hash-object archive.json 2>/dev/null)

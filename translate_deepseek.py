@@ -2,12 +2,12 @@
 # -*- coding: utf-8 -*-
 """本地用 DeepSeek API 把英文详情页全文翻译为简体中文。
 断点续传：已 zh=True 的条目跳过；每 20 条落盘一次；顺序调用 + 429/5xx 退避重试。
-key 从 /tmp/dskey 读取（不写入仓库）。
+key 优先从 ~/.dskey 读取（家目录，持久，不会被系统清理），回退 /tmp/dskey（不写入仓库）。
 """
 import json, os, time, sys, ssl, urllib.request, urllib.parse
 
 ARCHIVE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "archive.json")
-KEY_FILE = "/tmp/dskey"
+KEY_FILE = os.path.expanduser("~/.dskey")   # 持久路径，避免被 /tmp 清理机制删除
 LOG = "/tmp/deepseek_translate.log"
 API = "https://api.deepseek.com/chat/completions"
 MODEL = "deepseek-chat"
@@ -27,8 +27,17 @@ def ratio_en(s):
     return len(L) / max(1, len(s))
 
 def load_key():
-    with open(KEY_FILE, encoding="utf-8") as f:
-        return f.read().strip()
+    """优先 ~/.dskey，回退 /tmp/dskey。"""
+    for p in (KEY_FILE, "/tmp/dskey"):
+        if os.path.exists(p):
+            try:
+                with open(p, encoding="utf-8") as f:
+                    v = f.read().strip()
+                if v:
+                    return v
+            except Exception:
+                pass
+    raise SystemExit("未找到 DeepSeek key：请写入 ~/.dskey")
 
 def chunk_text(text, limit=3500):
     """按段落切分，尽量凑满 limit 字符，避免单条过长导致截断。"""
