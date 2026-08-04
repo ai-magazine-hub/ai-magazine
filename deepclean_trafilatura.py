@@ -378,6 +378,65 @@ def _normalize_text(s):
     return s.strip()
 
 
+# ───────────────────────── 增补规则（通用站点 chrome，原规则偏 OpenAI/Anthropic 英文）──
+_INLINE_OPEN = re.compile(r'\s*\(opens in a new window\)', re.I)
+
+def _strip_inline_opens(s):
+    """删除正文里散落的内联引用标签 '(opens in a new window)'（非内容，OpenAI/DeepMind
+    等博客几乎每条外链都带，密集出现时严重影响阅读）。仅删标签本身，保留前后正文。"""
+    if not s:
+        return s
+    return _INLINE_OPEN.sub('', s)
+
+
+# 中文「订阅/博客 footer」锚点（Databricks 等站点文末整块订阅+站点导航墙）
+_SUB_FOOTER_ANCHORS = [
+    "订阅我们的博客", "订阅我们的邮件", "查看所有博客",
+    "将最新文章发送至", "获取最新文章到您的", "在您的收件箱中获取最新文章",
+    "在您的收件箱获取最新文章",
+]
+
+def _strip_subscribe_footer(s):
+    """剥离文末「订阅我们的博客…查看所有博客 为什么选择X 发现 面向…」中文 footer 墙。
+    保守：仅当锚点出现在后半部分时才截断（footer 特征），且配合 50% 回退护栏防误伤。"""
+    if not s:
+        return s
+    L = len(s)
+    region_start = int(L * 0.45)
+    region = s[region_start:]
+    for a in _SUB_FOOTER_ANCHORS:
+        idx = region.find(a)
+        if idx != -1:
+            cut = region_start + idx
+            s = s[:cut].rstrip()
+            s = re.sub(r'[ \t]*\|[ \t]*$', '', s)
+            s = s.rstrip()
+            return s
+    return s
+
+
+_WIDGET_LABELS = re.compile(
+    r'(?i)(keep reading|related stories|more stories|more from|you may also like|'
+    r'read more|see all|view all)')
+
+def _strip_related_tail(s):
+    """剥离文末『Keep reading / Related Stories / More Stories …』相关阅读 widget。
+    保守：仅当标签出现在后 40% 才截断到文末（相关阅读几乎都在文末），配合 50% 回退护栏。"""
+    if not s:
+        return s
+    L = len(s)
+    region_start = int(L * 0.6)
+    region = s[region_start:]
+    m = _WIDGET_LABELS.search(region)
+    if m:
+        cut = region_start + m.start()
+        s = s[:cut].rstrip()
+        s = re.sub(r'[ \t]*\|[ \t]*$', '', s)
+        s = s.rstrip()
+        return s
+    return s
+
+
 def deep_clean_extra(s):
     """对 trafilatura 残留正文做更强清理（站点页脚/导航墙、图片署名、广告/Markdown 图片行、零宽字符）。
     幂等、保守；删除后若正文长度 < 原长 50% 且原长 > 200，则回退保留原文以防误伤。"""
@@ -389,6 +448,9 @@ def deep_clean_extra(s):
     s = _strip_related_stories(s)
     s = _strip_image_credit(s)
     s = _strip_junk_lines(s)
+    s = _strip_inline_opens(s)
+    s = _strip_subscribe_footer(s)
+    s = _strip_related_tail(s)
     s = _normalize_text(s)
     if len(orig) > 200 and len(s) < 0.5 * len(orig):
         return orig   # 疑似误伤，回退保留原文
