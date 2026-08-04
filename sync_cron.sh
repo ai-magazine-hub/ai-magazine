@@ -59,6 +59,18 @@ fi
 # 2) 记录 archive 内容基线（hash-object 只看内容，不受工作区其他 diff 干扰）
 BEFORE=$(git hash-object archive.json 2>/dev/null)
 
+# 2.5) 每日一次「完善」最近日期（回填缺失正文 + 清理网页残留噪声）。
+#      放在增量生成之前：新回填的英文正文会被下面的 translate 步骤翻译、被 render 重排版。
+#      用 .last_polish_date 节流，保证每天只在首个同步轮次跑一次（避免每小时重抓 AI HOT）。
+POLISH_STATE="$REPO/.last_polish_date"
+TODAY=$(date +%Y-%m-%d)
+if [ ! -f "$POLISH_STATE" ] || [ "$(cat "$POLISH_STATE" 2>/dev/null)" != "$TODAY" ]; then
+  echo "$(date) === daily polish start (--since 15) ===" >> "$LOG"
+  "$PY" polish_recent.py --since 15 >> "$LOG" 2>&1 || true
+  echo "$TODAY" > "$POLISH_STATE"
+  echo "$(date) === daily polish done ===" >> "$LOG"
+fi
+
 # 3) 增量生成（已生成的日期跳过；无 key 时自动跳过翻译）
 "$PY" generate_archive.py $TRANS_ARGS >> "$LOG" 2>&1 || true
 

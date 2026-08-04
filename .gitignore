@@ -8,6 +8,7 @@ assets/img/
 
 # launchd 同步锁目录（运行时生成，勿提交）
 .sync.lock
+.last_polish_date
 
 # 本地补抓/回填/同步产物（勿提交）
 *.bak
