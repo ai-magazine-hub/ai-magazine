@@ -380,6 +380,8 @@ def _normalize_text(s):
 
 # ───────────────────────── 增补规则（通用站点 chrome，原规则偏 OpenAI/Anthropic 英文）──
 _INLINE_OPEN = re.compile(r'\s*\(opens in a new window\)', re.I)
+_COPYRIGHT_RE = re.compile(r'©\s*20\d\d\s+[A-Za-z]', re.I)
+_FOOTER_TAIL = re.compile(r'(使用条款|隐私政策|简体中文|日本語|繁體中文|Français|Español|Portuguese|SOC 2|↗|Language|Region|All rights reserved|保留所有权利)', re.I)
 
 def _strip_inline_opens(s):
     """删除正文里散落的内联引用标签 '(opens in a new window)'（非内容，OpenAI/DeepMind
@@ -437,6 +439,25 @@ def _strip_related_tail(s):
     return s
 
 
+def _strip_copyright_footer(s):
+    """剥离文末「© 2026 <Company> … 使用条款 / 隐私政策 / 语言切换 …」版权页脚墙
+    （Anthropic/Anysphere/Apple/OpenRouter/Runway 等博客 trafilatura 常把整块页脚带进来）。
+    判定：找到 © 20NN 后，若 (a) 其后尾段含页脚信号（语言切换/条款/社交链接/SOC 2 等），
+    或 (b) 尾段很短（<140 字，即仅「© 2026 X Inc. 保留所有权利」之类），则从此处截断。
+    保守：© 太靠前（尾段 > 全文 50%）且不像页脚时不动；图片说明 ©1993 等 19xx 不在 20\\d\\d 范围，天然安全。"""
+    if not s:
+        return s
+    m = _COPYRIGHT_RE.search(s)
+    if not m:
+        return s
+    tail = s[m.start():]
+    if len(tail) > 0.5 * len(s):
+        return s  # © 太靠前，不像页脚，保守不动
+    if _FOOTER_TAIL.search(tail) or len(tail) < 140:
+        return s[:m.start()].rstrip()
+    return s
+
+
 def deep_clean_extra(s):
     """对 trafilatura 残留正文做更强清理（站点页脚/导航墙、图片署名、广告/Markdown 图片行、零宽字符）。
     幂等、保守；删除后若正文长度 < 原长 50% 且原长 > 200，则回退保留原文以防误伤。"""
@@ -451,6 +472,7 @@ def deep_clean_extra(s):
     s = _strip_inline_opens(s)
     s = _strip_subscribe_footer(s)
     s = _strip_related_tail(s)
+    s = _strip_copyright_footer(s)
     s = _normalize_text(s)
     if len(orig) > 200 and len(s) < 0.5 * len(orig):
         return orig   # 疑似误伤，回退保留原文

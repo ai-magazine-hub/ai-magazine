@@ -73,11 +73,28 @@ fi
 
 # 3) 增量生成（已生成的日期跳过；无 key 时自动跳过翻译）
 "$PY" generate_archive.py $TRANS_ARGS >> "$LOG" 2>&1 || true
+GEN_AFTER=$(git hash-object archive.json 2>/dev/null)
+
+# 3.5) 跨日期同源重复去重（AI HOT 快照与实时 feed 重叠，导致同一报道在相邻两天都出现）。
+#      幂等：无重复时 no-op。保留最早日期那条，并把组内最优正文（已译/更长）升级过去。
+"$PY" dedup_archive.py >> "$LOG" 2>&1 || true
+
+# 3.6) 全局网页残留噪声清洗（© 20NN 公司页脚墙、订阅 footer 等 trafilatura 漏网项）。
+#      幂等：已干净时 no-op；删除量受 50% 回退护栏保护，不误伤正文。
+"$PY" deepclean_trafilatura.py >> "$LOG" 2>&1 || true
+
+# 3.7) 若去重/清洗改动了 archive.json，重渲染 HTML 使其与数据一致（不再重抓/重译）。
+CLEAN_AFTER=$(git hash-object archive.json 2>/dev/null)
+if [ "$GEN_AFTER" != "$CLEAN_AFTER" ]; then
+  "$PY" generate_archive.py --render-only >> "$LOG" 2>&1 || true
+fi
 
 # 4) 仅当 archive 真变化才提交推送（避免 html 里相对时间字段造成无意义 diff 刷屏）
+#    注意 BEFORE 在生成前已捕获；此处对比的是「生成+去重+清洗+重渲染」之后的最终 archive。
 AFTER=$(git hash-object archive.json 2>/dev/null)
 if [ "$BEFORE" != "$AFTER" ]; then
-  git add archive.json index.html ai-daily.html "ai-daily-*.html" ratings_cache.json ratings_code_cache.json
+  git add archive.json index.html ai-daily.html "ai-daily-*.html" ratings_cache.json ratings_code_cache.json \
+          dedup_archive.py deepclean_trafilatura.py polish_recent.py
   git commit -m "chore: 定时同步 AI HOT 日报（$(date -u +%Y-%m-%dT%H:%M:%SZ)）" >> "$LOG" 2>&1 || true
   if ! git push origin main >> "$LOG" 2>&1; then
     git pull --rebase --autostash origin main >> "$LOG" 2>&1
