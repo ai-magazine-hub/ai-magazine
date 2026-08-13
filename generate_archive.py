@@ -2585,7 +2585,9 @@ def build_day_record(date):
         "generatedAt": beijing_now().strftime("%Y年%m月%d日 %H:%M"),
     }
     lead = lead_map.get(date, "") or fallback_lead(present)
-    return {"meta": meta, "sections": present, "lead": lead}
+    rec = {"meta": meta, "sections": present, "lead": lead}
+    reroute_model_release_items(rec)
+    return rec
 
 
 # ---------- 3.05 今日实时 feed 补充（对齐 AI HOT 首页实时流） ----------
@@ -2734,9 +2736,13 @@ def _merge_feed_into_date(arch, today, feed):
         existing_titles.add(_norm_title(title))
         added += 1
         print(f"    + 补充[{today}/{label}] {title[:36]}")
+    # 重分类：把被 AI HOT 误归它栏的纯基础模型发布纠正回「模型发布/更新」（覆盖今天+昨天）
+    n_reroute = reroute_model_release_items(rec)
     rec["meta"]["total"] = sum(len(s["items"]) for s in rec["sections"])
     if added:
         print(f"    · {today} 实时流补充 {added} 条")
+    if n_reroute:
+        print(f"    · {today} 重分类基础模型发布 {n_reroute} 条 → 模型发布/更新")
     return added
 
 
@@ -3955,6 +3961,92 @@ def is_pure_model_release(title):
     has_type = any(k in tl for k in _MODEL_TYPE_KW)
     comp_hit = any(k in tl for _, _, kws, _ in COMPANIES for k in kws)
     return has_ver or has_type or comp_hit
+
+
+# ── 重分类：把被 AI HOT 误归到其它栏目的「纯基础模型发布」纠正回「模型发布/更新」──
+# 背景：AI HOT 日报 API 自带分栏标签，会把明显是模型发布的头条（如公众号
+# 「DeepSeek V4 Pro 与 Grok 4.6 同日发布」）误分到「技巧与观点 / 行业动态」，
+# 导致模型发布栏目与甘特图漏收。规则：is_pure_model_release 严格判真 +
+# 不在产品/工具/研究黑名单 → 强制归入「模型发布/更新」。
+# 通过 build_day_record（新日期）与 merge_today_feed（今天+昨天）调用实现未来自愈。
+_PRODUCT_TOOL_KW = [
+    "code", "cli", "app", "桌面端", "平台", "插件", "版本说明", "mcp", "gateway",
+    "功能上新", "框架", "sdk", "插件市场", "office", "玩法", "盘点", "教程",
+    "研究", "agent platform", "api gateway", "市场通配符", "机器人",
+]
+
+# 仅匹配「模型族前缀 + 版本」（如 deepseek v4 / grok 4.6 / gemini 3.6 / wan3.0 / seedance 2.5），
+# 不含裸版本号（v0.0.55 / 2026.5.19 / OpenClaw 2.0 等工具版本），避免把产品/工具版本误判为模型发布。
+_MODEL_FAM_VER_RE = re.compile(
+    r"(?:gpt|claude|gemini|llama|grok|glm|kimi|qwen|ernie|mixtral|mistral|nova|titan|"
+    r"abab|baichuan|spark|deepseek|seedance|veo|imagen|flux|midjourney|nemotron|mimo|"
+    r"sensenova|hunyuan|kling|wan|runway|luma|hailuo|vidu|elevenlabs|cartesia|yi|step)"
+    r"[- ]?v?\d", re.I)
+# 显式「模型」类词（不含裸露的「模型」二字，避免「开源与闭源模型…」这类泛论误判）
+_MODEL_RELEASE_TYPE_STRICT = ["大模型", "moE", "moe", "基座", "多模态模型", "推理模型",
+                              "语言模型", "视频模型", "图像模型", "语音模型", "开源模型",
+                              "文生", "图生"]
+# 非发布信号：标题含这些词一律不是「基础模型发布」（技术/infra/研究/观点/监管/产品特性）
+_RELEASE_NOT_KW = [
+    "支持", "提供", "训练", "技术", "算子", "分词", "优化", "整合", "框架", "引擎",
+    "基础设施", "数据库", "协议", "范式", "方案", "方法", "修复", "基准", "排行榜", "bench",
+    "阐述", "游说", "面临", "考验", "路径", "助力", "课程", "指南", "访谈", "周年",
+    "复盘", "展望", "预测", "分析", "解读", "评论", "思考", "市场", "功能",
+    "计划", "批准", "暂缓", "延缓", "限制", "监管", "曝", "下月", "研讨会", "峰会",
+]
+# 重分类专用动作词：宁可漏判也不误判，故去掉歧义极大的「开源」（「开源模型」名词也含「开源」）
+_REROUTE_ACT = ["发布", "推出", "上线", "首发", "正式可用", "ga", "release"]
+
+
+def is_base_model_release(title):
+    """高精度判定：标题是否真的是「基础模型发布/版本更新」。
+    信号 = 发布类动作 + (模型族前缀版本 | 显式模型类词)，且不命中产品/工具/研究/融资/监管等黑名单。
+    刻意不使用 is_pure_model_release 的「公司名兜底」，因为它用于过滤已入库的模型栏目条目，
+    拿来扫产品/行业栏目会因公司名+动词产生大量误判（如 OpenAI 推出 DeployCo、CEO 访谈）。"""
+    t = title or ""
+    tl = t.lower()
+    if not any(a in tl for a in _REROUTE_ACT):
+        return False
+    if any(k in tl for k in _RELEASE_NOT_KW):
+        return False
+    if any(k in tl for k in _PRODUCT_TOOL_KW):
+        return False
+    if _MODEL_FAM_VER_RE.search(tl):
+        return True
+    if any(k in tl for k in _MODEL_RELEASE_TYPE_STRICT):
+        return True
+    return False
+
+
+def reroute_model_release_items(rec):
+    """就地把某日中误归它栏的纯基础模型发布条目，移动到「模型发布/更新」栏目。返回移动条数。"""
+    MODEL_LABEL = "模型发布/更新"
+    if not rec or "sections" not in rec:
+        return 0
+    moved = 0
+    for sec in list(rec.get("sections", [])):
+        if sec.get("label") == MODEL_LABEL:
+            continue
+        keep = []
+        for it in sec.get("items", []):
+            if isinstance(it, dict) and is_base_model_release(it.get("title") or ""):
+                target = next((s for s in rec["sections"] if s.get("label") == MODEL_LABEL), None)
+                if target is None:
+                    target = {"label": MODEL_LABEL, "color": _sec_color(MODEL_LABEL), "items": []}
+                    rec["sections"].append(target)
+                target["items"].append(it)
+                moved += 1
+            else:
+                keep.append(it)
+        sec["items"] = keep
+    # 重排 seq 并保持 total 准确
+    for sec in rec.get("sections", []):
+        for i, it in enumerate(sec.get("items", []), 1):
+            if isinstance(it, dict):
+                it["seq"] = i
+    if rec.get("meta") is not None:
+        rec["meta"]["total"] = sum(len(s.get("items", [])) for s in rec.get("sections", []))
+    return moved
 
 
 def compute_gantt(arch=None, top_n=GANTT_TOP_N):
