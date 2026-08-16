@@ -266,7 +266,9 @@ RATINGS = {
 #   比原社区镜像（仅 top-20）覆盖更全，且能自动补上此前为 None 的中国模型。
 # 拉取结果缓存到 ratings_cache.json（带时间戳并提交）；任何失败都回退到上方静态 RATINGS。
 RATINGS_CACHE_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "ratings_cache.json")
-RATINGS_API = "https://docs.cherryai.com.cn/other/lmarena.md"
+# 2026-08-16 上游迁移：原 lmarena.md 已 404，全量榜移至 model_rank/text.md（文本榜单，约 top-30）。
+# 解析逻辑不变（模型名在 cells[2]、分数在 cells[3]，与旧版同列）。
+RATINGS_API = "https://docs.cherryai.com.cn/other/model_rank/text.md"
 # 模型类型分类：决定评分栏如何呈现（综合对话榜 Elo 仅对文本/多模态对话模型有效；
 # 图像/视频生成模型不在该榜，保持「—」并在行内以类型标签说明）。
 FAM_TYPE = {
@@ -301,7 +303,8 @@ LM_MAP = [
     ("Mistral 系列",       ["mistral"],              [],            []),
     ("Baichuan",         ["baichuan"],             [],            []),
     ("MiniMax 系列",       ["minimax", "minmax", "abab"], [],       []),
-    ("星火",              ["spark", "iflytek"],     [],            []),
+    # 星火：仅匹配 iflytek / spark，但排除 Meta 的 muse-spark 系列（误命中会污染评分）
+    ("星火",              ["iflytek", "spark"],     [],            ["muse"]),
 ]
 
 # ── 编码榜 Elo（Arena.ai Code Arena / Frontend Code Arena，2026-07 快照）──────
@@ -528,8 +531,10 @@ def _fetch_cherry_leaderboard():
     return out
 
 def fetch_live_ratings():
-    """从 Cherry 全量榜单解析出 {家族key: 最高Elo}，失败返回 {}。"""
+    """从 Cherry 文本榜解析出 {家族key: 最高Elo}；Cherry 失效时回退 oolong text.json。失败返回 {}。"""
     rows = _fetch_cherry_leaderboard()
+    if not rows:
+        rows = _fetch_text_arena()
     if not rows:
         return {}
     out = {}
@@ -548,6 +553,27 @@ def fetch_live_ratings():
         if best is not None:
             out[fam] = best
     return out
+
+def _fetch_text_arena():
+    """兜底：从 oolong-tea 归档的 Arena.ai 文本榜（text.json）取 {模型名, Elo}；失败返回 []。"""
+    rows = []
+    try:
+        req = urllib.request.Request(CODE_LATEST_URL, headers={"User-Agent": "Mozilla/5.0"})
+        with urllib.request.urlopen(req, timeout=25) as r:
+            latest = json.loads(r.read().decode("utf-8", "replace"))
+        date = latest.get("date")
+        if date:
+            url = f"https://raw.githubusercontent.com/oolong-tea-2026/arena-ai-leaderboards/main/data/{date}/text.json"
+            req2 = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
+            with urllib.request.urlopen(req2, timeout=25) as r2:
+                data = json.loads(r2.read().decode("utf-8", "replace"))
+            for m in data.get("models", []):
+                sc = m.get("score")
+                if isinstance(sc, (int, float)) and 1000 <= sc <= 1900:
+                    rows.append((str(m.get("model", "")), int(sc)))
+    except Exception:
+        pass
+    return rows
 
 def load_ratings_cache():
     try:
