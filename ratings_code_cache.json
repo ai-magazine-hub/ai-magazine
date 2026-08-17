@@ -1,24 +1,19 @@
 {
-<<<<<<< Updated upstream
-  "updated_at": 1786936137,
-=======
-  "updated_at": 1786936171,
->>>>>>> Stashed changes
+  "updated_at": 1786939718,
   "ratings": {
     "GPT": 1622,
+    "OpenAI o 系列": 1371,
     "Claude": 1692,
     "Gemini": 1587,
+    "Gemma": 1364,
     "Grok": 1631,
     "DeepSeek 系列": 1584,
     "通义千问 Qwen": 1667,
     "智谱 GLM": 1585,
+    "混元": 1356,
     "Seed": 1522,
     "Kimi": 1674,
-    "MiniMax 系列": 1490,
-    "星火": 1538,
-    "OpenAI o 系列": 1371,
-    "Gemma": 1364,
-    "混元": 1356,
-    "Mistral 系列": 1265
+    "Mistral 系列": 1265,
+    "MiniMax 系列": 1490
   }
 }
