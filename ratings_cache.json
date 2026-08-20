@@ -1,20 +1,12 @@
 {
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-  "updated_at": 1787231236,
-=======
-  "updated_at": 1787231246,
->>>>>>> Stashed changes
-=======
-  "updated_at": 1787231340,
->>>>>>> Stashed changes
+  "updated_at": 1787235791,
   "ratings": {
     "GPT": 1482,
     "Claude": 1507,
     "Gemini": 1490,
     "Grok": 1475,
     "通义千问 Qwen": 1482,
-    "Kimi": 1490,
-    "智谱 GLM": 1484
+    "智谱 GLM": 1484,
+    "Kimi": 1490
   }
 }
