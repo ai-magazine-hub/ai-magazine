@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>AI HOT 资讯 · 2026-08-21</title>
+<style>
+  :root{--bg:#f5f6fb;--card:#fff;--ink:#1f2430;--muted:#6b7280;--line:#e8eaf1;
+    --shadow:0 1px 3px rgba(16,24,40,.06),0 8px 24px rgba(16,24,40,.05);}
+  *{box-sizing:border-box} html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
+    -webkit-font-smoothing:antialiased;line-height:1.55;}
+  a{color:inherit} .wrap{max-width:1180px;margin:0 auto;padding:0 18px}
+  .hero{background:linear-gradient(135deg,#4f46e5 0%,#7c3aed 55%,#9333ea 100%);color:#fff;
+    padding:42px 0 34px;position:relative;overflow:hidden;}
+  .hero::after{content:"";position:absolute;right:-80px;top:-80px;width:280px;height:280px;
+    background:radial-gradient(circle,rgba(255,255,255,.18),transparent 70%);border-radius:50%}
+  .hero .kicker{font-size:13px;letter-spacing:.18em;text-transform:uppercase;opacity:.85;margin:0 0 6px}
+  .hero h1{margin:0;font-size:34px;font-weight:800;letter-spacing:.5px}
+  .hero .date-line{margin:8px 0 0;font-size:15px;opacity:.92}
+  .stats{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+  .stat{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.22);border-radius:12px;
+    padding:10px 14px;min-width:120px;backdrop-filter:blur(4px)}
+  .stat .n{font-size:22px;font-weight:800;line-height:1}
+  .stat .l{font-size:12.5px;opacity:.9;margin-top:4px}
+  .total-pill{display:inline-flex;align-items:center;gap:8px;margin-top:18px;background:rgba(255,255,255,.16);
+    padding:8px 16px;border-radius:999px;font-weight:600;font-size:14px}
+  .nav{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.92);backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);box-shadow:0 2px 10px rgba(16,24,40,.04)}
+  .nav .wrap{display:flex;gap:8px;overflow-x:auto;padding:10px 18px;scrollbar-width:none}
+  .nav .wrap::-webkit-scrollbar{display:none}
+  .nav a{white-space:nowrap;text-decoration:none;font-size:13.5px;font-weight:600;color:var(--muted);
+    padding:7px 13px;border-radius:999px;border:1px solid var(--line);background:#fff;transition:.15s}
+  .nav a:hover{color:var(--ink);border-color:#c9cdfb}
+  .nav a.home{background:#4f46e5;color:#fff;border-color:#4f46e5}
+  .backhome{position:fixed;right:20px;bottom:20px;z-index:30;background:#4f46e5;color:#fff;text-decoration:none;
+    font-size:14px;font-weight:700;padding:12px 18px;border-radius:999px;box-shadow:0 6px 18px rgba(79,70,229,.35);
+    display:inline-flex;align-items:center;gap:7px;transition:.15s}
+  .backhome:hover{background:#4338ca;transform:translateY(-1px)}
+  .nav a .c{display:inline-block;min-width:20px;text-align:center;margin-left:6px;background:#eef0fe;
+    color:#4f46e5;border-radius:999px;font-size:12px;padding:0 7px}
+  section.block{padding:30px 0 6px}
+  .sec-head{display:flex;align-items:center;gap:10px;margin:0 0 16px}
+  .sec-dot{width:12px;height:12px;border-radius:4px}
+  .sec-head h2{margin:0;font-size:21px;font-weight:800}
+  .sec-head .cnt{font-size:13px;color:var(--muted);font-weight:600}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px 18px 16px;
+    box-shadow:var(--shadow);display:flex;flex-direction:column;gap:10px;position:relative;
+    border-top:3px solid var(--accent,#4f46e5);transition:transform .15s,box-shadow .15s}
+  .card:hover{transform:translateY(-3px);box-shadow:0 6px 14px rgba(16,24,40,.10),0 18px 40px rgba(16,24,40,.08)}
+  .card .top{display:flex;align-items:center;justify-content:space-between;gap:8px}
+  .seq{display:inline-flex;align-items:center;justify-content:center;min-width:30px;height:30px;padding:0 8px;
+    border-radius:9px;background:var(--accent,#4f46e5);color:#fff;font-weight:800;font-size:15px}
+  .time{font-size:12.5px;color:var(--muted);font-weight:600;white-space:nowrap}
+  .card h3{margin:0;font-size:16.5px;font-weight:700;line-height:1.4}
+  .chip{display:inline-block;align-self:flex-start;font-size:12px;font-weight:600;color:var(--accent,#4f46e5);
+    background:color-mix(in srgb,var(--accent,#4f46e5) 10%,#fff);border:1px solid color-mix(in srgb,var(--accent,#4f46e5) 22%,#fff);
+    padding:3px 10px;border-radius:999px}
+  .summary{margin:0;font-size:14px;color:#3b4252;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+  .readmore{margin-top:auto;display:inline-flex;align-items:center;gap:5px;align-self:flex-start;text-decoration:none;
+    font-size:13.5px;font-weight:700;color:var(--accent,#4f46e5)}
+  .readmore:hover{text-decoration:underline}
+  footer{margin-top:36px;padding:26px 0 40px;border-top:1px solid var(--line);color:var(--muted);font-size:13px;text-align:center}
+  footer a{color:#4f46e5;text-decoration:none}
+  @media (max-width:560px){.hero h1{font-size:27px}.grid{grid-template-columns:1fr}.stat{min-width:0;flex:1 1 40%}}
+  /* 站内统一阅读面板 */
+  .card{cursor:pointer}
+  .reader-overlay{position:fixed;inset:0;z-index:60;background:rgba(18,20,32,.55);backdrop-filter:blur(3px);
+    display:flex;align-items:flex-start;justify-content:center;padding:40px 16px;overflow:auto}
+  .reader-overlay[hidden]{display:none}
+  .reader{background:#fff;border-radius:18px;max-width:840px;width:100%;box-shadow:0 30px 80px rgba(0,0,0,.32);
+    display:flex;flex-direction:column;max-height:90vh;overflow:hidden;animation:pop .18s ease}
+  @keyframes pop{from{transform:translateY(8px) scale(.98);opacity:0}to{transform:none;opacity:1}}
+  .reader-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;
+    padding:20px 24px 14px;background:linear-gradient(135deg,#4f46e5,#7c3aed);color:#fff}
+  .reader-head h2{margin:0 0 8px;font-size:20px;line-height:1.45;font-weight:800}
+  .reader-head .chip{background:rgba(255,255,255,.18);color:#fff;border:1px solid rgba(255,255,255,.3)}
+  .reader-x{background:rgba(255,255,255,.2);border:none;color:#fff;font-size:24px;line-height:1;
+    width:38px;height:38px;border-radius:10px;cursor:pointer;flex:0 0 auto}
+  .reader-x:hover{background:rgba(255,255,255,.34)}
+  .reader-body{padding:20px 24px;overflow:auto;color:#2a2f3a;font-size:15.5px;line-height:1.85}
+  .reader-body p{margin:0 0 14px}
+  .reader-body .r-img-cap{display:inline-block;margin:6px 0;padding:4px 10px;border-radius:8px;background:#f1f3f9;color:#8a93a6;font-size:13px;font-style:italic;border:1px dashed #d7dce8}
+  .reader-body .r-empty{color:#6b7280;font-style:italic}
+  .reader-body .r-summary{margin:0 0 14px;white-space:pre-wrap}
+  .reader-body a.r-link{color:#2563eb;text-decoration:underline;text-underline-offset:2px;word-break:break-all}
+  .reader-body a.r-link:hover{color:#1d4ed8}
+  .reader-body .r-fallback{background:#f5f3ff;border:1px solid #e4defb;color:#5b21b6;border-radius:10px;
+    padding:10px 14px;font-size:13px;line-height:1.7;margin:0 0 16px}
+  .reader-body .r-fallback b{color:#6d28d9}
+  .reader-foot{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;
+    padding:14px 24px 18px;border-top:1px solid var(--line);background:#fafbff}
+  .reader-foot .r-note{font-size:12.5px;color:var(--muted);max-width:62%}
+  .reader-foot .readmore{margin:0}
+</style>
+</head>
+<body>
+  <header class="hero"><div class="wrap">
+    <p class="kicker">AI HOT Daily · 晨报</p>
+    <h1>AI 资讯 · 2026年8月21日</h1>
+    <p class="date-line">星期五 · 数据来源：AI HOT</p>
+    <div class="total-pill">📊 当日共 <strong style="margin:0 4px">17</strong> 条 AI 动态</div>
+    <div class="stats" id="stats"></div>
+  </div></header>
+  <nav class="nav"><div class="wrap" id="nav"><a href="index.html" class="home">📰 AI资讯杂志</a></div></nav>
+  <main class="wrap" id="main"></main>
+  <footer>
+    <div>本日报共收录 <strong>17</strong> 条动态 · 数据来源：<a href="https://aihot.virxact.com" target="_blank" rel="noopener noreferrer">AI HOT（aihot.virxact.com）</a></div>
+    <div style="margin-top:6px">生成于 2026年08月21日 08:07 · 时间换算为北京时间 · 点「来源 ↗」跳转原始报道</div>
+    <div style="margin-top:8px;opacity:.85">说明：本条新闻的标题、摘要、来源、日期已<b>镜像保存在本页</b>；即便外部链接失效或无法访问境外站点，已存档内容仍可正常查看。</div>
+  </footer>
+  <a href="index.html" class="backhome" title="返回 AI资讯杂志 首页">📰 返回 AI资讯杂志</a>
+  <div class="reader-overlay" id="reader" hidden>
+    <div class="reader" role="dialog" aria-modal="true">
+      <div class="reader-head">
+        <div style="min-width:0">
+          <h2 id="readerTitle"></h2>
+          <span class="chip" id="readerSource"></span>
+        </div>
+        <button class="reader-x" onclick="closeReader()" aria-label="关闭">×</button>
+      </div>
+      <div class="reader-body" id="readerBody"></div>
+      <div class="reader-foot">
+        <span class="r-note">本文由 <b>AI资讯杂志</b> 整理镜像，原文版权归原作者所有 · 点击右侧按钮查看原始报道</span>
+        <a id="readerLink" class="readmore" target="_blank" rel="noopener noreferrer">查看原文 ↗</a>
+      </div>
+    </div>
+  </div>
+<script>
+const DATA = {"meta": {"reportDate": "2026-08-21", "reportDateHuman": "2026年8月21日", "weekday": "星期五", "total": 17, "source": "AI HOT", "sourceUrl": "https://aihot.virxact.com", "generatedAt": "2026年08月21日 08:07"}, "sections": [{"label": "模型发布/更新", "color": "#4f46e5", "items": [{"seq": 2, "title": "Hugging Face 发布 LFM2.5 系列 DSpark 草稿模型，推理速度最高提升 3.18 倍", "source": "Hugging Face：Blog（RSS）", "summary": "Hugging Face 发布 LFM2.5 系列三款模型的 DSpark 草稿模型检查点，通过投机解码在不改变输出质量的前提下，GPU 吞吐最高提升 3.18 倍，端侧最高 2.87 倍。草稿模型约 300M 参数，LFM2.5-2.6B 函数调用延迟平均降低 57%，已开源支持 llama.cpp 和 SGLang。", "url": "https://huggingface.co/blog/LiquidAI/lfm25-dspark", "permalink": "https://aihot.virxact.com/items/cmt1rv5n8066iroovaxgoej1b", "publishedAt": "2026-08-21T00:00:00.000Z", "exact": false, "content": "", "zh": true}]}, {"label": "产品发布/更新", "color": "#059669", "items": [{"seq": 1, "title": "Mistral 推出 Agentic Search：多步检索提升 AI 系统复杂文档查询准确率", "source": "Mistral AI：News（网页）", "summary": "Mistral 发布 Agentic Search，通过 search、open、navigate、read、grep 五工具的多步检索循环，让模型在长文档与多来源中查找、定位并验证信息。", "url": "https://mistral.ai/news/agentic-search", "permalink": "https://aihot.virxact.com/items/cmt1pkwbj04bxroovzkfca5c7", "publishedAt": "2026-08-21T00:00:00.000Z", "exact": false, "content": "", "zh": true}, {"seq": 2, "title": "AlloyDB ScaNN 如何将向量搜索扩展到 100 亿向量", "source": "Google Cloud：Databases（RSS）", "summary": "AlloyDB 的 ScaNN 索引现已支持超过 100 亿向量的规模，通过全新的四层树架构（预览版）实现，将查询复杂度从 O(N^1/2) 降至 O(N^1/4)。内部测试中，该架构在 100 亿向量规模下可实现 p95 延迟不超过 51 毫秒、召回率达 95%。该功能可通过快速入门指南部署，新用户可享受 30 天免费试用。", "url": "https://cloud.google.com/blog/products/databases/alloydb-scann-index-four-level-tree-improves-vector-search", "permalink": "https://aihot.virxact.com/items/cmt1r7jjh05lgroovc4zwypj6", "publishedAt": "2026-08-21T00:00:00.000Z", "exact": false, "content": "", "zh": true}, {"seq": 3, "title": "Claude Platform 正式上线 Computer Use、Skills API 与 Files API，新增浏览器操作工具", "source": "Claude：Blog（网页）", "summary": "Anthropic 宣布 Computer Use、Skills API 与 Files API 在 Claude Platform 全面可用，并新增浏览器操作工具，让智能体可操作软件、调用团队技能并返回成品文件。", "url": "https://claude.com/blog/computer-use-skills-api-files-api", "permalink": "https://aihot.virxact.com/items/cmt1z1q5n0c93roovlvh40tew", "publishedAt": "2026-08-21T00:00:00.000Z", "exact": false, "content": "", "zh": true}, {"seq": 4, "title": "Anthropic 如何开展 AI 教学", "source": "Claude：Blog（网页）", "summary": "Anthropic 发布 Claude Academy，为全球数百万用户提供 AI 教学资源，帮助其安全、有效地使用 AI。该学院课程借鉴其内部员工培训方法，包括 4D AI Fluency Framework 及“ever-boarding”持续学习项目，并强调以问题为中心、培养持久思维模式而非特定操作行为。", "url": "https://claude.com/blog/anthropics-approach-to-teaching-and-learning-ai", "permalink": "https://aihot.virxact.com/items/cmt1tonwa07i9roovrze0ll65", "publishedAt": "2026-08-21T00:00:00.000Z", "exact": false, "content": "", "zh": true}, {"seq": 5, "title": "Mooncake 如何为 Miles 强化学习系统实现高效批量 Rollout 数据传输", "source": "LMSYS：Blog（Chatbot Arena 团队）", "summary": "大规模 LLM 强化学习采用解耦架构后，rollout 数据从推理侧到训练侧的传输成为瓶颈。Mooncake 针对 Miles 系统中异构、碎片化的 rollout 数据（如 list[np.ndarray] 形式的 tokens、loss_masks、rollout_log_probs），通过批量 I/O 优化实现高效传输，同时满足效率、正确性、可扩展性、灵活性和可预测的交接延迟等要求。", "url": "https://www.lmsys.org/blog/2026-08-20-miles-mooncake-rollout-data-transfer", "permalink": "https://aihot.virxact.com/items/cmt1tnrvi07h4roov529jj7fn", "publishedAt": "2026-08-21T00:00:00.000Z", "exact": false, "content": "Mooncake for Miles：从碎片化的Rollout数据到高效的批量I/O - LMSYS Org 项目 博客 关于 捐赠 联系 项目 博客 关于 捐赠 联系 ‹ 返回博客 ‹ 返回博客 目录 分离式RL系统中的Rollout数据 是什么让RL Rollout数据传输具有挑战性 用Mooncake为Miles的Rollout数据传输提供动力 Rollout数据如何在RL流水线中流动 Miles实际传输的内容 Miles使用已完成字典交接 Mooncake如何保存并传输Miles的Rollout数据 为每个字段选择布局 将碎片化内存转化为批量I/O 发布完整数据包并直接重建 性能结果 基准测试负载传输结果 下一步计划 致谢 相关链接 Mooncake for Miles：从碎片化的Rollout数据到高效的批量I/O Mooncake社区 2026年8月20日 分离式RL系统中的Rollout数据 大语言模型的强化学习结合了两种截然不同的工作负载：Rollout生成和模型训练。在Rollout阶段，推理工作线程在提示词集合上运行当前策略并生成响应。\n\n在此过程中，它们会产生学习算法所需的信息，包括生成的token、掩码、对数概率、奖励、序列长度、样本标识符以及其他元数据。这些输出共同构成了将在下一步训练中使用的Rollout数据。在小规模场景下，生成和训练可以共享同一执行环境。然而，在大规模场景下，现代RL系统越来越多地采用分离式架构，其中Rollout生成和训练被部署为独立的工作线程组，通常跨越不同的进程、GPU或机器。这两个阶段具有根本不同的资源和执行特性。Rollout是一种推理密集型工作负载，其吞吐量取决于解码效率、批处理和请求调度，而训练则依赖于大规模、高度同步的张量计算。将它们分离使得每一方都可以独立扩展和调度，而不是迫使两种工作负载采用相同的执行模式。这种分离还实现了流水线级并发。Miles可以在训练Rollout N的同时，Rollout工作线程已经在生成Rollout N+1。因此，异步RL系统可以让Rollout和训练工作线程以不同的速率推进，而不是让一个阶段在每次操作后等待另一个阶段。其好处是更好的资源利用率，以及在配置推理和训练容量时具有更大的灵活性。\n\n但分离也引入了一个新的系统边界：Rollout工作线程产生的数据现在必须移动到另一组工作线程，之后训练才能消费这些数据。这个交接直接位于生成和下一次策略更新之间。传输缓慢可能导致训练器等待数据，并使Rollout工作线程上的内存占用时间超过必要时间。因此，对于像Miles这样的分布式RL系统，高效地将这些结构化的Rollout数据从推理侧移动到训练侧，成为端到端RL流水线中的重要组成部分。是什么让RL Rollout数据传输具有挑战性 RL Rollout数据与分布式训练中常见的庞大、规则张量有显著不同。一个Rollout批次通常是一个异构的结构化对象，而不是单个连续张量。根据框架和算法的不同，它可能包含生成的token、损失掩码、对数概率、\n\n奖励、序列长度、样本标识符、路由信息、元数据以及其他辅助字段。这些值可以表示为张量、NumPy 数组、Python 标量列表、变长逐样本数组、字节或任意 Python 对象。以下几个特性使得这些数据的有效移动特别具有挑战性。挑战 1：异构数据类型与复杂语义 不同的 rollout 字段具有根本不同的表示形式和语义。稠密张量和数值数组可以作为类型化缓冲区高效传输，而参差不齐的序列需要行边界信息，标量列表需要保留其原始值，元数据或 Python 对象可能需要更通用的编码。同时，训练器必须重建 RL 框架所期望的精确结构，包括 dtype、形状、行顺序、空状态和元数据。通用序列化器可以在功能上处理这些对象，但往往以额外的转换、复制和重建为代价。因此，高效的 rollout 传输需要理解每个字段的物理表示和逻辑结构。挑战 2：高度碎片化的内存布局 Rollout 数据可能包含大量小型内存分配。在捕获的 Miles 工作负载中，主要字段如 tokens、loss_masks 和 rollout_log_probs 表示为 list[np.ndarray]，每个样本分配一个 NumPy 数组。\n\n随着批处理大小的增长，单独传输这些碎片会引入重复的内存注册和 Store 操作，而序列化整个 Python 对象则需要遍历、复制和重建一个大型对象图。挑战在于将碎片化的逻辑数据转化为高效的批量传输，同时不丢失其原始结构。这些挑战共同使得 rollout 数据移动不仅仅是一个带宽问题：系统必须高效地移动碎片化、异构的数据，同时保持其结构。有效的数据路径需要同时满足几个要求：效率：避免过度的序列化、复制、对象重建和每次分配传输的开销。正确性：在往返过程中保留字段类型、形状、行边界、空状态、元数据和 Python 级值。可扩展性：随着样本数量、对象碎片和总负载大小的增加，性能持续良好。灵活性：支持异构字段，而不强制 RL 框架扁平化或重写其原生 rollout 表示。可预测的交接延迟：足够快地交付批处理，使训练器不会因等待 rollout 数据而停滞。用 Mooncake 驱动 Miles Rollout 数据传输 Miles 是一个用于大规模模型后训练的高性能强化学习框架。\n\n它将 SGLang 用于高吞吐量 rollout 生成，与 Megatron-LM 用于可扩展训练相结合，同时还为偏好直接训练 Hugging Face 模型实现的工作负载提供 PyTorch FSDP2 后端。Miles 支持完全异步的 RL，其中 rollout 和训练工作器解耦并可独立推进，同时具备快速循环内权重更新、智能体 rollout、低精度训练以及面向大规模生产 RL 工作负载的容错能力。这种分离且异步的设计使 rollout 到训练的数据路径成为 RL 管道中的关键部分。Rollout 批次是结构化且异构的，通常包含\n\n当前，随着工作负载规模的增长，分散的逐样本数据和框架特定的元数据使得高效传输与重建变得愈发重要。Mooncake为分布式AI工作负载提供了一个高性能数据平面。针对RL（强化学习）回滚数据，它通过结构化对象传输扩展了这一数据平面，使得异构且分散的回滚对象能够在保持其原始结构和语义的同时被移动。Mooncake现已作为回滚数据传输后端集成到Miles中。在从Miles捕获的回滚数据上，该集成相比现有的Ray路径显著降低了传输延迟：远程GET操作大约快10–14倍，而PUT操作则提升了约1.2–1.6倍。其结果是，在不改变RL编程模型的前提下，实现了更快的回滚到训练交接，为Miles处理大规模、结构化的回滚工作负载提供了更高效的数据路径。\n\n**回滚数据如何流经RL流水线**\n\nMiles支持同步和异步两种训练循环。在任一模式下，一旦回滚工作节点和训练器部署在独立进程或独立机器上，每个完成的回滚批次必须先跨越该边界，才能被下一步训练所消费。一个有用的设计原则是将控制平面与数据平面分离。框架调度器决定回滚批次应去向何处，但不应自身携带大量负载。相反，它传递一个轻量级的传输引用，该引用排除了张量负载和Store块布局，同时在需要时仍允许JSON安全元数据。实际回滚负载则走独立路径：框架调度器传递传输引用；Mooncake存储并传输负载；训练工作节点在运行训练步骤前重建原始对象；在所有读取者完成后，框架移除短期的Store对象。这种分离保持了调度决策的轻量性，同时允许大量回滚负载通过专用数据路径移动。\n\n**Miles实际传输的内容**\n\n从Miles捕获的回滚数据使这一数据路径具体化。对于给定的框架配置，字段契约是稳定的，但这些字段并不共享一种便捷的内存表示。它们大致分为三组：\n\n| 字段组 | Miles表示 | 传输关注点 | |---------|-----------|-----------| | Token、mask和log-probability行 | 逐样本数值行 | 许多独立的行对象；长度可能因样本而异。 | | ID、长度、奖励和标志 | Python标量列表 | 字节数小，但训练必需。 | | 可选和对象元数据 | Python值、张量字典或嵌套对象 | 保留结构、空值和启用特征语义。 |\n\n第一组在我们的捕获中占据了大部分字节。其他字段较小，但不能被丢弃或规范化掉：它们携带样本身份、长度、奖励、特征状态和记账信息。它们的确切大小取决于工作负载；基准测试部分给出了一个实测示例。\n\n**Miles使用完成字典交接**\n\n在Miles中，当前的交接在完整回滚字典准备好后开始。生产者调用`put(data, type=\"dict\")`，调度器携带返回的引用，训练器调用`get`来重建原始字典。\n\n图1. Miles对完成的回滚字典使用同步的put和get。引用通过调度器传输，而Mooncake通过Store数据平面移动负载。在\n\n单独的传输调用是同步的。生产者仅在put完成后返回引用，训练器在消费对象之前等待get结束。这并不妨碍RL流水线本身是异步的。Miles可以在对rollout N进行训练的同时生成rollout N+1。换句话说，并发性位于传输操作之上：每次单独交接是同步的，而不同的rollout和训练阶段可以在流水线层面重叠。Mooncake如何保留和传输Miles的rollout数据 Mooncake在不同层面应对这两个挑战。它保持结构可见足够长的时间，以便为每个字段选择高效的表示：张量和数组保持类型化，不规则行携带紧凑的边界元数据，Python值保留GET重建它们所需的信息。然后，它将碎片化的内存转化为批量I/O。一个复制计划将符合条件的小行直接打包到可复用的、已注册的BufferPool块中，而大型连续张量和数组可以使用原生Store路径。这避免了两端极端情况：将整个字典序列化为一个不透明的blob，或对每个小分配执行Store操作。生成的负载成员作为捆绑包发布。其清单记录了这些成员所在的位置以及它们如何组合在一起，并且仅在负载准备好后才可见。GET反向遵循该描述来获取并重建原始的Miles字典。\n\nMiles仍然使用小型公共接口，put(data, type=\"dict\")和get(ref, type=\"dict\")；模式、字段布局、传输计划和重建都保留在Mooncake内部。图2. 模式和叶子展开暴露了每个字段的类型和结构。字段特定的编码生成类型化的负载成员和重建元数据；Bundle Store最后发布其清单。符合条件的碎片化传输使用BufferPool支持的分阶段处理，GET反向遵循相同的结构。为每个字段选择布局 Mooncake首先将字典展开为可以高效编码的叶子。数组和张量保持类型化，不规则行携带紧凑的边界元数据，受支持的Python值保留重建它们所需的信息。框架提供的模式为模糊或性能敏感的字段固定存储表示；\n\n当未提供模式时，Mooncake根据观察到的值推断一个。相同的选择适用于多模态数据。处理后的像素和相关模型输入可以保持在张量路径上。PIL图像、编码的PNG或JPEG字节以及可变长度的媒体列表使用媒体感知布局，这些布局保留其边界和重建元数据，而无需强制每个表示通过相同的序列化器。将碎片化内存转化为批量I/O 逐行发送每一行会产生数千次注册和Store请求。\n\n先拼接整个字段可以避免这种请求数量，但会增加一个完整大小的临时对象。Mooncake转而构建一个复制计划，并在需要时填充可复用的、已注册的BufferPool块。其原生路径将符合条件的数值行直接复制到这些块中，避免Python行循环和临时拼接。大型连续数组和张量在Store支持时仍使用直接或原生路径。发布完整捆绑包并直接重建 Mooncake仅在所有负载和元数据准备好后才发布捆绑包清单，因此读者永远不会看到半写入的Miles字典。在GET时，清单标识要获取的成员，并\n\netch和结构化元数据描述了如何重建每个字段。符合条件的读取可以直接针对BufferPool支持的目标，而无需中间字节对象，类型化的不规则行可以直接查看结果缓冲区。训练器在使用后释放其本地BufferPool支持的结果。一旦所有读取器完成，Miles会移除短生命周期的Store对象，Mooncake则回收其负载块和清单。图3展示了Miles的两个主要部署数据挑战，它们直接对应到Mooncake的结构化编码和批量传输优化。性能结果方面，对于固定的框架配置，切换模型本身不会改变字段契约。传输大小反而取决于样本数量、提示和响应长度，以及可选字段，如教师对数概率、路由信息或多模态输入。基准负载中，Miles使用Qwen3-0.6B在数学提示上生成源数据（rollout_id=0，8个源样本）。此捕获中的每个响应都具有", "zh": true}, {"seq": 6, "title": "Claude Code v2.1.238 发布：新增 readline 键位、插件市场 headersHelper 与多项 Remote Control 修复", "source": "Claude Code：GitHub Releases（RSS）", "summary": "Claude Code v2.1.238 发布，新增 keybindingFlavor 设置（可设为 \"readline\" 使 Ctrl+W 删除至前一个空白符），并为插件市场引入 headersHelper 以生成 HTTP 头。", "url": "https://github.com/anthropics/claude-code/releases/tag/v2.1.238", "permalink": "https://aihot.virxact.com/items/cmt206dhq0d95roovjuqm08xj", "publishedAt": "2026-08-21T00:00:00.000Z", "exact": false, "content": "", "zh": true}, {"seq": 7, "title": "Claude Code v2.1.237 发布：修复 LLM 网关提示词缓存，新增“简洁”输出风格", "source": "Claude Code：GitHub Releases（RSS）", "summary": "Claude Code v2.1.237 修复了使用 LLM 网关或自定义 base URL 的会话中的提示词缓存问题，并新增内置“简洁”输出风格。该风格下 Claude 直接给出结果，跳过开场白和叙述，但工作完成度不变，可在 /config 的 Output style 下选择。", "url": "https://github.com/anthropics/claude-code/releases/tag/v2.1.237", "permalink": "https://aihot.virxact.com/items/cmt0taqbd0eqero2o25htdjwk", "publishedAt": "2026-08-21T00:00:00.000Z", "exact": false, "content": "", "zh": true}, {"seq": 8, "title": "LangSmith 预览构建：如何在合并前测试智能体变更", "source": "LangChain：Blog（RSS）", "summary": "LangSmith 预览构建让团队在合并智能体变更前，于临时的、类生产环境的部署中测试拉取请求分支。该功能旨在降低变更上线风险，使智能体改动验证更贴近真实运行条件。", "url": "https://www.langchain.com/blog/langsmith-preview-builds-test-agent-changes-before-production", "permalink": "https://aihot.virxact.com/items/cmt1syh3c06wkroovu6hir326", "publishedAt": "2026-08-21T00:00:00.000Z", "exact": false, "content": "LangSmith预览构建：在生产环境之前测试Agent变更\n\nVictor Moreira 2026年8月20日 4分钟 返回博客 创建Agent 分享\n\n预览构建是LangSmith部署的一项新功能，让在合并前测试Agent变更变得更加容易。无需为每个拉取请求创建新的部署，你可以从PR分支启动一个临时的、类似生产环境的部署。你的团队可以运行提议的Agent，与协作者分享，在同一环境中检查其行为，并在完成后将其拆除。\n\n拉取请求可以更改提示词、工具、模型、依赖项或集成。这些变更的影响往往只有在Agent运行时才会变得清晰。本地测试在开发过程中有所帮助，但很少能为团队其他成员提供一个一致的审查环境，以便在变更进入生产环境之前查看行为。预览构建为每个PR提供了自己的Agent暂存环境。团队可以在合并前在LangSmith部署中测试变更，而无需在CI/CD工作流中添加额外的部署设置。\n\n在部署环境中测试分支\n\n当拉取请求触发预览构建时，LangSmith会在一个与父部署关联的隔离环境中部署源分支。预览运行正在审查的代码，而不会更新父部署。这为团队提供了一个测试完整Agent的场所。审查者可以尝试提示词、执行工具调用、检查追踪，并查看Agent在其配置的依赖项和服务下的行为。他们还可以测试在代码审查中可能不会出现的失败路径和边缘情况。由于预览以部署形式运行，协作者无需克隆仓库或复现开发者的本地设置。每个人都在同一环境中审查同一版本的Agent。\n\n保持预览与拉取请求同步\n\nLangSmith从拉取请求的源分支构建最新提交，并将其部署到短期的预览部署中。当有人向分支推送另一个提交时，LangSmith会自动创建该预览部署的新修订版本。这使预览在整个审查过程中保持有用。开发者可以响应反馈、推送更新，并请协作者再次测试变更，而无需创建另一个环境或合并未完成的工作。拉取请求仍然是代码讨论的场所，而预览则提供了提议变更的运行版本。\n\n团队可以选择拉取请求触发预览的方式：每个PR都会为针对部署分支打开的每个拉取请求创建预览。仅标签模式会在有人添加配置的G\n\nGitHub 标签。当大多数变更需要行为审查时，每个 PR 都能很好地工作。标签仅让团队在预览应仅针对选定变更运行时获得更多控制。\n\n为协作者提供共享审查环境\n\nAgent 审查通常涉及编写代码的团队之外的人员。产品经理可能希望检查用户体验，领域专家可能需要验证术语或策略行为，QA 可能希望测试已知的失败案例。预览部署为这些协作者提供了一个与拉取请求关联的共享工件。他们可以直接测试提议的 agent，并在变更仍易于修改时留下反馈。工程师可以使用相同的预览来检查响应背后的工具调用和追踪。团队还可以同时运行多个预览部署。单独的拉取请求保持隔离，因此审查者可以比较变更，而无需在分支之间移动共享的暂存部署。\n\n控制预览使用和清理\n\nPreview Builds 包含用于轻松管理临时环境的控制项：\n\n- **空闲 TTL** 设置预览在其最新修订后可以保持非活动状态的时间。LangSmith 在该时间段到期后删除预览。\n- **最大并发预览数** 限制同一父部署可以同时运行的预览数量。\n- 团队可以随时手动删除预览。删除父部署也会删除其预览部署。\n\n预览部署在创建时会复制父部署的密钥，并保留该初始集合，除非您覆盖它们。对于敏感服务，请使用限定于预览工作负载的凭据，而不是生产凭据，尤其是当预览可以由外部或不太受信任的贡献者通过拉取请求创建时。\n\n启用 Preview Builds\n\nPreview Builds 在 Public Beta 中可用于通过 GitHub 集成连接到 LangSmith Cloud 的部署。打开\n\n**Deployment Settings** ，找到\n\n**Preview Builds** ，然后启用该功能。选择\n\n**Every PR** 或\n\n**Label only** ，配置空闲 TTL 和并发限制，然后保存您的更改。下一个符合条件的拉取请求将从其源分支创建预览部署。与审查变更的人员分享它，根据需要推送更新，并在 agent 行为符合预期后合并。\n\n登录或注册 LangSmith 以试用 Preview Builds | 阅读文档\n\n相关内容\n\n未找到项目。", "zh": true}]}, {"label": "行业动态", "color": "#d97706", "items": []}, {"label": "论文研究", "color": "#e11d48", "items": [{"seq": 1, "title": "数据受限下的多语言知识迁移：Apple 提出基于词汇干预的新方法", "source": "Apple Machine Learning Research（RSS）", "summary": "Apple 研究团队提出一种基于词汇干预的多语言知识迁移方法，旨在解决低资源语言训练数据不足时，模型难以从高资源语言获取科学推理、常识推断和世界知识的问题。该方法无需大量平行语料、翻译系统或辅助模型，为数据受限场景下的跨语言知识迁移提供了更高效的替代方案。", "url": "https://machinelearning.apple.com/research/multilingual-knowledge-transfer-lexical-interventions", "permalink": "https://aihot.virxact.com/items/cmt1nax0o02deroovp316md4c", "publishedAt": "2026-08-21T00:00:00.000Z", "exact": false, "content": "多语言知识迁移在数据约束下的词汇干预方法 - Apple 机器学习研究 机器学习研究 打开菜单 关闭菜单 概览 研究亮点 出版物 活动 与我们合作 研究领域 语音与自然语言处理 内容类型 论文 发布于 2026 年 8 月 多语言知识迁移在数据约束下的词汇干预方法 作者 Anastasiia Sedova, Natalie Schluter*, Skyler Seto*, Maartje ter Hoeve* 查看出版物 复制 Bibtex 跨语言知识迁移对于构建训练数据不足语言的高性能多语言语言模型至关重要。当目标语言数据稀缺时，许多涉及科学推理、常识推断和世界知识的下游任务所需的知识必须主要从高资源语言中获取，因此有效的知识迁移至关重要。现有的改进跨语言知识迁移的方法需要大量平行数据、翻译系统、辅助模型或额外的训练阶段，而这些对于许多语言来说往往不可用。我们提出 LINK——一种数据层面的干预方法，通过使用双语词汇表对预训练数据中高资源部分进行词汇替换，在模型预训练期间改进知识迁移。 对于给定的替换比例，在高资源（英语）训练语料库的一部分中随机选择的单词会被替换为其词级翻译，无需额外的模型训练，只需一个双语词汇表，而该词汇表几乎可以以零成本获得，适用于几乎所有语言。在五种模型规模下对八种语言的评估显示，目标语言下游任务有显著改进，达到同等性能的训练速度最高可提升 2 倍。* 同等贡献者 相关阅读与更新。\n\n跨语言知识迁移与迭代伪标注在低资源语音识别中的 transducer 应用 2023 年 6 月 16 日 研究领域 语音与自然语言处理 语音技术近年来已变得无处不在。然而，不同语言的准确性及其用户体验差异显著，这使得该技术并非同样包容。不同语言的数据可用性是影响准确性的关键因素之一，尤其是在训练全神经端到端自动语音识别系统时。跨语言知识迁移和迭代伪标注是两种…… 了解更多 你所知的语言影响你所学语言：语言特征对多语言文本到文本迁移的影响 2022 年 12 月 11 日 研究领域 语音与自然语言处理 NeurIPS 研讨会 多语言语言模型（LM），如 mBERT、XLM-R、mT5、mBART，通过从高资源语言的跨语言迁移，在低资源语言的自然语言任务中取得了显著成功。在这项工作中，我们试图更好地理解此类模型（特别是 mT5）如何在语言间迁移语言学和语义知识，尽管在预训练期间没有提供显式的跨语言信号。相反…… 了解更多 探索机器学习领域的机遇。我们的机器学习研究每天都在取得新突破。", "zh": true}, {"seq": 2, "title": "数据约束下的混合预训练缩放定律", "source": "Apple Machine Learning Research（RSS）", "summary": "苹果机器学习研究团队通过2000余次语言模型训练实验，系统研究了稀缺目标数据与通用数据混合预训练中的权衡问题。研究发现，目标数据占比过低会导致模型对目标领域暴露不足，而占比过高则因重复样本过多引发收益递减乃至过拟合，为数据约束下的混合预训练策略提供了量化依据。", "url": "https://machinelearning.apple.com/research/scaling-laws-mixture-pretraining", "permalink": "https://aihot.virxact.com/items/cmt1nax0o02dfroovlqhc3duf", "publishedAt": "2026-08-21T00:00:00.000Z", "exact": false, "content": "数据约束下的混合预训练缩放定律 - Apple 机器学习研究 机器学习研究 打开菜单 关闭菜单 概览 研究亮点 出版物 活动 与我们合作 研究领域 方法与算法 ， 研究领域 语音与自然语言处理 内容类型 论文 发布于 2026 年 8 月 数据约束下的混合预训练缩放定律 作者 Anastasiia Sedova, Skyler Seto, Natalie Schluter, Pierre Ablin 查看出版物 复制 Bibtex 随着语言模型规模的扩大，其所需的数据量也在增长——然而许多目标数据源，如低资源语言或专业领域，其规模本身就十分有限。一种常见策略是将这些稀缺但宝贵的目标数据与丰富的通用数据混合使用，这带来了一个根本性的权衡：混合数据中目标数据过少会导致模型对目标领域的暴露不足，而目标数据过多则会过度重复相同的样本，导致收益递减并最终过拟合。我们在超过 2,000 次语言模型训练运行中研究了这一权衡，涵盖了多种模型规模和目标数据集大小，以及多种数据类型，包括多语言、领域特定和质量过滤的混合数据。 在所有设置中，我们发现重复是目标领域性能的核心驱动因素，并且混合训练对重复的容忍度远高于单一来源训练：稀缺的目标语料库可以重复使用 15–20 次，最佳重复次数取决于目标数据大小、计算预算和模型规模。接下来，我们提出了一种考虑重复的混合缩放定律，该定律考虑了重复目标 token 价值的递减以及通用数据的正则化作用。对缩放定律进行优化提供了一种计算有效混合配置的原则性方法，为数据约束下的预训练提供了实用的混合建议。\n\n相关阅读与更新。\n\n最优数据混合的缩放定律 2025 年 9 月 26 日 研究领域 方法与算法 会议 NeurIPS 大型基础模型通常在来自多个领域的数据上进行训练，其中数据混合——每个领域所使用的比例——对模型性能起着关键作用。选择这种混合的标准方法依赖于反复试验，这对于大规模预训练来说变得不切实际。我们提出了一种系统方法，利用缩放定律为任何目标领域确定最优数据混合。我们的方法…… 阅读更多 预训练数据注入下微调过程中的遗忘缩放定律 2025 年 6 月 20 日 研究领域 方法与算法 会议 ICML 获得在目标领域表现良好的语言模型的一种广泛策略是，通过在目标领域数据上进行无监督下一 token 预测训练来对其进行微调。微调面临两个挑战：i) 如果目标数据量有限（大多数实际应用中都是如此），模型会迅速过拟合；", "zh": true}]}, {"label": "技巧与观点", "color": "#0284c7", "items": [{"seq": 2, "title": "OpenAI 推出 AI Futures 博客，探讨自由社会如何应对变革性 AI", "source": "OpenAI：官网动态（RSS · 排除企业/客户案例）", "summary": "OpenAI 新设 Strategic Futures 团队并推出博客 AI Futures，核心问题是自由社会应如何重构以在变革性 AI 出现时保障个人权利与自主权。团队认为，自主系统和机器智能的进步可能使国家无需依赖人力即可投射力量、征收税收并自动化官僚体系，从而削弱民众在谈判桌上的地位。文章主张借鉴美国开国元勋“以权力制衡权力”的思路，寻求建立并维持适当的权力平衡，而非彻底去中心化。", "url": "https://openai.com/index/introducing-ai-futures", "permalink": "https://aihot.virxact.com/items/cmt1xl5qy0bcqroovbg8l2x5q", "publishedAt": "2026-08-21T00:00:00.000Z", "exact": false, "content": "", "zh": true}, {"seq": 3, "title": "Leopold 的愚蠢：一个年轻人如何象征一个时代", "source": "Gary Marcus：The Road to AI We Can Trust（RSS）", "summary": "作者以“空头支票”式骗局为类比，指出生成式 AI 行业存在类似循环融资的投机成分，如以 OpenAI 股份为抵押贷款再购入更多股份。文章认为这些债务能否偿付高度不确定，可能最终带来数万亿美元利润，也可能落空，并呼吁需要不同的分析框架。", "url": "https://garymarcus.substack.com/p/leopolds-folly", "permalink": "https://aihot.virxact.com/items/cmt1tqvhd07kfroovdo84515n", "publishedAt": "2026-08-21T00:00:00.000Z", "exact": false, "content": "", "zh": true}, {"seq": 4, "title": "共和党因与大型科技公司关系陷入恐慌", "source": "Gary Marcus：The Road to AI We Can Trust（RSS）", "summary": "共和党正因与大型科技公司的关系而陷入恐慌，原因是他们意识到大型AI议程在美国民众中极不受欢迎。特朗普已从反对AI监管转向强烈鼓励对前沿AI模型进行自愿预检测试。新成立的超级政治行动委员会Guardrails Alliance指出，共和党因早前向AI行业妥协而面临困境，正急于挽回局面。", "url": "https://garymarcus.substack.com/p/breaking-the-republican-party-is", "permalink": "https://aihot.virxact.com/items/cmt11vfrx0m3pro2oh3rnt89a", "publishedAt": "2026-08-21T00:00:00.000Z", "exact": false, "content": "", "zh": true}]}]};
+function pad(n){return n<10?"0"+n:""+n;}
+function toBeijingHuman(iso, ref, exact){
+  const d=new Date(iso); const bj=new Date(d.getTime()+8*3600*1000);
+  const Y=bj.getUTCFullYear(),M=bj.getUTCMonth()+1,D=bj.getUTCDate();
+  const h=bj.getUTCHours(),m=bj.getUTCMinutes(); const hh=pad(h),mm=pad(m);
+  if(!exact) return M+"月"+D+"日";
+  const [rY,rM,rD]=ref.split("-").map(Number);
+  if(Y===rY&&M===rM&&D===rD) return "今天 "+hh+":"+mm;
+  const yest=new Date(rY,rM-1,rD); yest.setDate(yest.getDate()-1);
+  if(Y===yest.getFullYear()&&M===yest.getMonth()+1&&D===yest.getDate()) return "昨天 "+hh+":"+mm;
+  return M+"月"+D+"日 "+hh+":"+mm;
+}
+const meta=DATA.meta, sections=DATA.sections, ref=meta.reportDate;
+const statsEl=document.getElementById("stats");
+sections.forEach(s=>{const d=document.createElement("div");d.className="stat";
+  d.innerHTML='<div class="n">'+s.items.length+'</div><div class="l">'+s.label+'</div>';statsEl.appendChild(d);});
+const navEl=document.getElementById("nav");
+sections.forEach((s,i)=>{const a=document.createElement("a");a.href="#sec-"+i;
+  a.innerHTML=escapeHtml(s.label)+'<span class="c">'+s.items.length+'</span>';navEl.appendChild(a);});
+const mainEl=document.getElementById("main");
+sections.forEach((s,i)=>{
+  const sec=document.createElement("section");sec.className="block";sec.id="sec-"+i;
+  const head=document.createElement("div");head.className="sec-head";
+  head.innerHTML='<span class="sec-dot" style="background:'+s.color+'"></span><h2>'+escapeHtml(s.label)+'</h2><span class="cnt">'+s.items.length+' 条</span>';
+  sec.appendChild(head);
+  const grid=document.createElement("div");grid.className="grid";
+  s.items.forEach(it=>{
+    const card=document.createElement("article");card.className="card";card.style.setProperty("--accent",s.color);
+    const time=toBeijingHuman(it.publishedAt,ref,it.exact);const url=it.url||"#";
+    card.innerHTML='<div class="top"><span class="seq">'+it.seq+'</span><span class="time">'+time+'</span></div>'+
+      '<h3>'+escapeHtml(it.title)+'</h3><span class="chip">'+escapeHtml(it.source)+'</span>'+
+      '<p class="summary">'+escapeHtml(it.summary)+'</p>'+
+      '<a class="readmore" href="'+escapeAttr(url)+'" target="_blank" rel="noopener noreferrer" title="外部原文链接，可能需要访问境外站点">来源 ↗</a>';
+    card.addEventListener("click", function(){ openReader(it); });
+    const rm = card.querySelector(".readmore");
+    rm.addEventListener("click", function(e){ e.stopPropagation(); });
+    grid.appendChild(card);
+  });
+  sec.appendChild(grid);mainEl.appendChild(sec);
+});
+function escapeHtml(s){return (s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
+function escapeAttr(s){return escapeHtml(s);}
+// 渲染正文（纯文本归档）：图片不加载远程资源，仅以文字占位符呈现；其余文本按段落转义（防 XSS）
+function linkify(escaped){
+  if(!escaped) return escaped;
+  var re=/(\[[^\]]+\]\((https?:\/\/[^)\s]+)\))|(https?:\/\/[^\s<>"'）】」』，。、；：！？]+)/g;
+  return escaped.replace(re, function(m, g1, g2, g3){
+    if(g2!==undefined){
+      var label=m.substring(m.indexOf('[')+1, m.indexOf(']'));
+      return '<a class="r-link" href="'+g2+'" target="_blank" rel="noopener noreferrer">'+label+'</a>';
+    }
+    if(g3!==undefined){
+      return '<a class="r-link" href="'+g3+'" target="_blank" rel="noopener noreferrer">'+g3+'</a>';
+    }
+    return m;
+  });
+}
+var _IMG_RE=/!\[([^\]]*)\]\(([^)\s]+)\)/g;
+function renderRich(text){
+  return (text||"").split(/\n{1,}/).map(function(p){
+    p=p.trim(); if(!p) return '';
+    var out=''; var last=0; var m; _IMG_RE.lastIndex=0;
+    while((m=_IMG_RE.exec(p))!==null){
+      out+=linkify(escapeHtml(p.slice(last,m.index)));
+      var cap=(m[1]||'').trim()||'图片';
+      out+='<span class="r-img-cap">🖼 '+escapeHtml(cap)+'</span>';
+      last=_IMG_RE.lastIndex;
+    }
+    out+=linkify(escapeHtml(p.slice(last)));
+    return '<p>'+out+'</p>';
+  }).join("");
+}
+function openReader(it){
+  const r=document.getElementById("reader");
+  const content=(it.content||"").trim();
+  const body=document.getElementById("readerBody");
+  if(content.length>0){
+    body.innerHTML=renderRich(content);
+  }else{
+    const sum=(it.summary||"").trim();
+    if(sum){
+      // 来源站点多为付费墙 / 登录墙 / 反爬限制，无法镜像全文；展示已本地存档的中文摘要兜底
+      body.innerHTML='<div class="r-fallback">⚠️ 该条新闻的<b>全文镜像暂不可用</b>（来源站点可能为付费墙 / 登录墙 / 反爬限制，或原文已失效）。下方为已<b>本地存档的中文摘要</b>，可正常查看；完整原文请点击右下角「查看原文 ↗」。</div>'+
+        '<p class="r-summary">'+linkify(escapeHtml(sum))+'</p>';
+    }else{
+      body.innerHTML='<p class="r-empty">暂未获取到该条新闻的全文镜像与摘要。'+(it.url?'可点击右下角「查看原文 ↗」前往原始报道。':'')+'</p>';
+    }
+  }
+  document.getElementById("readerTitle").textContent=it.title;
+  document.getElementById("readerSource").textContent=it.source;
+  const link=document.getElementById("readerLink");
+  if(it.url){link.href=it.url;link.style.display="";}else{link.style.display="none";}
+  r.hidden=false;document.body.style.overflow="hidden";
+}
+function closeReader(){const r=document.getElementById("reader");r.hidden=true;document.body.style.overflow="";}
+document.getElementById("reader").addEventListener("click",function(e){if(e.target===this)closeReader();});
+document.addEventListener("keydown",function(e){if(e.key==="Escape")closeReader();});
+</script>
+</body></html>
