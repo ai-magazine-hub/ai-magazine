@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>AI HOT 资讯 · 2026-08-30</title>
+<style>
+  :root{--bg:#f5f6fb;--card:#fff;--ink:#1f2430;--muted:#6b7280;--line:#e8eaf1;
+    --shadow:0 1px 3px rgba(16,24,40,.06),0 8px 24px rgba(16,24,40,.05);}
+  *{box-sizing:border-box} html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
+    -webkit-font-smoothing:antialiased;line-height:1.55;}
+  a{color:inherit} .wrap{max-width:1180px;margin:0 auto;padding:0 18px}
+  .hero{background:linear-gradient(135deg,#4f46e5 0%,#7c3aed 55%,#9333ea 100%);color:#fff;
+    padding:42px 0 34px;position:relative;overflow:hidden;}
+  .hero::after{content:"";position:absolute;right:-80px;top:-80px;width:280px;height:280px;
+    background:radial-gradient(circle,rgba(255,255,255,.18),transparent 70%);border-radius:50%}
+  .hero .kicker{font-size:13px;letter-spacing:.18em;text-transform:uppercase;opacity:.85;margin:0 0 6px}
+  .hero h1{margin:0;font-size:34px;font-weight:800;letter-spacing:.5px}
+  .hero .date-line{margin:8px 0 0;font-size:15px;opacity:.92}
+  .stats{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+  .stat{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.22);border-radius:12px;
+    padding:10px 14px;min-width:120px;backdrop-filter:blur(4px)}
+  .stat .n{font-size:22px;font-weight:800;line-height:1}
+  .stat .l{font-size:12.5px;opacity:.9;margin-top:4px}
+  .total-pill{display:inline-flex;align-items:center;gap:8px;margin-top:18px;background:rgba(255,255,255,.16);
+    padding:8px 16px;border-radius:999px;font-weight:600;font-size:14px}
+  .nav{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.92);backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);box-shadow:0 2px 10px rgba(16,24,40,.04)}
+  .nav .wrap{display:flex;gap:8px;overflow-x:auto;padding:10px 18px;scrollbar-width:none}
+  .nav .wrap::-webkit-scrollbar{display:none}
+  .nav a{white-space:nowrap;text-decoration:none;font-size:13.5px;font-weight:600;color:var(--muted);
+    padding:7px 13px;border-radius:999px;border:1px solid var(--line);background:#fff;transition:.15s}
+  .nav a:hover{color:var(--ink);border-color:#c9cdfb}
+  .nav a.home{background:#4f46e5;color:#fff;border-color:#4f46e5}
+  .backhome{position:fixed;right:20px;bottom:20px;z-index:30;background:#4f46e5;color:#fff;text-decoration:none;
+    font-size:14px;font-weight:700;padding:12px 18px;border-radius:999px;box-shadow:0 6px 18px rgba(79,70,229,.35);
+    display:inline-flex;align-items:center;gap:7px;transition:.15s}
+  .backhome:hover{background:#4338ca;transform:translateY(-1px)}
+  .nav a .c{display:inline-block;min-width:20px;text-align:center;margin-left:6px;background:#eef0fe;
+    color:#4f46e5;border-radius:999px;font-size:12px;padding:0 7px}
+  section.block{padding:30px 0 6px}
+  .sec-head{display:flex;align-items:center;gap:10px;margin:0 0 16px}
+  .sec-dot{width:12px;height:12px;border-radius:4px}
+  .sec-head h2{margin:0;font-size:21px;font-weight:800}
+  .sec-head .cnt{font-size:13px;color:var(--muted);font-weight:600}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px 18px 16px;
+    box-shadow:var(--shadow);display:flex;flex-direction:column;gap:10px;position:relative;
+    border-top:3px solid var(--accent,#4f46e5);transition:transform .15s,box-shadow .15s}
+  .card:hover{transform:translateY(-3px);box-shadow:0 6px 14px rgba(16,24,40,.10),0 18px 40px rgba(16,24,40,.08)}
+  .card .top{display:flex;align-items:center;justify-content:space-between;gap:8px}
+  .seq{display:inline-flex;align-items:center;justify-content:center;min-width:30px;height:30px;padding:0 8px;
+    border-radius:9px;background:var(--accent,#4f46e5);color:#fff;font-weight:800;font-size:15px}
+  .time{font-size:12.5px;color:var(--muted);font-weight:600;white-space:nowrap}
+  .card h3{margin:0;font-size:16.5px;font-weight:700;line-height:1.4}
+  .chip{display:inline-block;align-self:flex-start;font-size:12px;font-weight:600;color:var(--accent,#4f46e5);
+    background:color-mix(in srgb,var(--accent,#4f46e5) 10%,#fff);border:1px solid color-mix(in srgb,var(--accent,#4f46e5) 22%,#fff);
+    padding:3px 10px;border-radius:999px}
+  .summary{margin:0;font-size:14px;color:#3b4252;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+  .readmore{margin-top:auto;display:inline-flex;align-items:center;gap:5px;align-self:flex-start;text-decoration:none;
+    font-size:13.5px;font-weight:700;color:var(--accent,#4f46e5)}
+  .readmore:hover{text-decoration:underline}
+  footer{margin-top:36px;padding:26px 0 40px;border-top:1px solid var(--line);color:var(--muted);font-size:13px;text-align:center}
+  footer a{color:#4f46e5;text-decoration:none}
+  @media (max-width:560px){.hero h1{font-size:27px}.grid{grid-template-columns:1fr}.stat{min-width:0;flex:1 1 40%}}
+  /* 站内统一阅读面板 */
+  .card{cursor:pointer}
+  .reader-overlay{position:fixed;inset:0;z-index:60;background:rgba(18,20,32,.55);backdrop-filter:blur(3px);
+    display:flex;align-items:flex-start;justify-content:center;padding:40px 16px;overflow:auto}
+  .reader-overlay[hidden]{display:none}
+  .reader{background:#fff;border-radius:18px;max-width:840px;width:100%;box-shadow:0 30px 80px rgba(0,0,0,.32);
+    display:flex;flex-direction:column;max-height:90vh;overflow:hidden;animation:pop .18s ease}
+  @keyframes pop{from{transform:translateY(8px) scale(.98);opacity:0}to{transform:none;opacity:1}}
+  .reader-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;
+    padding:20px 24px 14px;background:linear-gradient(135deg,#4f46e5,#7c3aed);color:#fff}
+  .reader-head h2{margin:0 0 8px;font-size:20px;line-height:1.45;font-weight:800}
+  .reader-head .chip{background:rgba(255,255,255,.18);color:#fff;border:1px solid rgba(255,255,255,.3)}
+  .reader-x{background:rgba(255,255,255,.2);border:none;color:#fff;font-size:24px;line-height:1;
+    width:38px;height:38px;border-radius:10px;cursor:pointer;flex:0 0 auto}
+  .reader-x:hover{background:rgba(255,255,255,.34)}
+  .reader-body{padding:20px 24px;overflow:auto;color:#2a2f3a;font-size:15.5px;line-height:1.85}
+  .reader-body p{margin:0 0 14px}
+  .reader-body .r-img-cap{display:inline-block;margin:6px 0;padding:4px 10px;border-radius:8px;background:#f1f3f9;color:#8a93a6;font-size:13px;font-style:italic;border:1px dashed #d7dce8}
+  .reader-body .r-empty{color:#6b7280;font-style:italic}
+  .reader-body .r-summary{margin:0 0 14px;white-space:pre-wrap}
+  .reader-body a.r-link{color:#2563eb;text-decoration:underline;text-underline-offset:2px;word-break:break-all}
+  .reader-body a.r-link:hover{color:#1d4ed8}
+  .reader-body .r-fallback{background:#f5f3ff;border:1px solid #e4defb;color:#5b21b6;border-radius:10px;
+    padding:10px 14px;font-size:13px;line-height:1.7;margin:0 0 16px}
+  .reader-body .r-fallback b{color:#6d28d9}
+  .reader-foot{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;
+    padding:14px 24px 18px;border-top:1px solid var(--line);background:#fafbff}
+  .reader-foot .r-note{font-size:12.5px;color:var(--muted);max-width:62%}
+  .reader-foot .readmore{margin:0}
+</style>
+</head>
+<body>
+  <header class="hero"><div class="wrap">
+    <p class="kicker">AI HOT Daily · 晨报</p>
+    <h1>AI 资讯 · 2026年8月30日</h1>
+    <p class="date-line">星期日 · 数据来源：AI HOT</p>
+    <div class="total-pill">📊 当日共 <strong style="margin:0 4px">6</strong> 条 AI 动态</div>
+    <div class="stats" id="stats"></div>
+  </div></header>
+  <nav class="nav"><div class="wrap" id="nav"><a href="index.html" class="home">📰 AI资讯杂志</a></div></nav>
+  <main class="wrap" id="main"></main>
+  <footer>
+    <div>本日报共收录 <strong>6</strong> 条动态 · 数据来源：<a href="https://aihot.virxact.com" target="_blank" rel="noopener noreferrer">AI HOT（aihot.virxact.com）</a></div>
+    <div style="margin-top:6px">生成于 2026年08月30日 08:08 · 时间换算为北京时间 · 点「来源 ↗」跳转原始报道</div>
+    <div style="margin-top:8px;opacity:.85">说明：本条新闻的标题、摘要、来源、日期已<b>镜像保存在本页</b>；即便外部链接失效或无法访问境外站点，已存档内容仍可正常查看。</div>
+  </footer>
+  <a href="index.html" class="backhome" title="返回 AI资讯杂志 首页">📰 返回 AI资讯杂志</a>
+  <div class="reader-overlay" id="reader" hidden>
+    <div class="reader" role="dialog" aria-modal="true">
+      <div class="reader-head">
+        <div style="min-width:0">
+          <h2 id="readerTitle"></h2>
+          <span class="chip" id="readerSource"></span>
+        </div>
+        <button class="reader-x" onclick="closeReader()" aria-label="关闭">×</button>
+      </div>
+      <div class="reader-body" id="readerBody"></div>
+      <div class="reader-foot">
+        <span class="r-note">本文由 <b>AI资讯杂志</b> 整理镜像，原文版权归原作者所有 · 点击右侧按钮查看原始报道</span>
+        <a id="readerLink" class="readmore" target="_blank" rel="noopener noreferrer">查看原文 ↗</a>
+      </div>
+    </div>
+  </div>
+<script>
+const DATA = {"meta": {"reportDate": "2026-08-30", "reportDateHuman": "2026年8月30日", "weekday": "星期日", "total": 6, "source": "AI HOT", "sourceUrl": "https://aihot.virxact.com", "generatedAt": "2026年08月30日 08:08"}, "sections": [{"label": "模型发布/更新", "color": "#4f46e5", "items": []}, {"label": "行业动态", "color": "#d97706", "items": []}, {"label": "论文研究", "color": "#e11d48", "items": [{"seq": 1, "title": "开放世界多智能体环境中的自主数学发现", "source": "Hacker News 热门（buzzing.cc 中文翻译）", "summary": "在无中央协调器的开放世界多智能体环境Station中，来自不同模型家族的AI智能体自主选择研究方向、开展实验并构建共享科学文献。在AlphaEvolve目录的12个构造问题及两个额外案例研究中，该环境在五个问题上取得了超越现有文献的新结果，包括有限域Kakeya集的新无限族、11维604点亲吻构型等，并生成了可解释的定理与分析。所有原始智能体对话、证明和验证代码均已公开。", "url": "https://arxiv.org/abs/2608.23691", "permalink": "https://aihot.virxact.com/items/cmte36nzj02isrog2hwxpthhn", "publishedAt": "2026-08-30T00:00:00.000Z", "exact": false, "content": "\u003e知识  私人记忆室 存储私人文档，例如计划、笔记和论文草稿。  档案室 阅读科学论文，并发表通过自动评审的论文。  问答室 提问并对答案进行投票，类似于 Stack Exchange。  外部柜台 通过互联网访问基于外部文献的报告；默认情况下禁用。    更多案例研究  书式 Ramsey 数（第 4.13 节） Epoch AI The Station 独立发现并证明了两族新的无限族。其有限构造以及一个更早的恒等式还使一位外部专家推导出了第三族。三族合在一起，在 43 个 值上证明了该猜想，解决了 28 个此前未解决的问题。n≤200  Jacobian 猜想（第 4.14 节） 公开 在无需公式的二元任务中，Station 独立重构了近期公布的七次反例，并推导出其常数雅可比行列式与三叶纤维的几何解释。\n\n3 结果\n\n3.1 实验设置\n\n我们使用 Georgiev 等人 [29] 的 AlphaEvolve 研究中选取的数学问题来评估 Station，该研究涵盖分析、组合学、几何和数论等多个领域的广泛问题目录。大多数问题可以表述为对某个数值量的上界或下界进行优化：候选构造由自动化评估器检查并赋予数值分数（通常为标量），搜索过程以此分数为优化目标。在许多情况下，最优值是未知的，这使得相应的优化任务成为开放研究问题。\n\n我们选取了 12 个代表不同数学领域和问题结构的问题；完整的问题评估列表见表 2。我们将每个问题分配给一个独立的 Station 实例。对于每个问题，智能体会收到一份任务描述，其中既包含数学问题本身，也包含评估器函数。任务描述还可能指定无法直接评分的额外数学目标。智能体不会获得任何外部专家指导或文献综述。大多数实例运行约 1,000–2,000 个 tick，对应大约一到两周的连续墙钟时间。除非另有说明，所有实例均包含六名研究智能体，其中各两名分别由 GPT-5.5、Claude Opus 4.8 和 Gemini 3.1 Pro 驱动。\n\n3.2 研究结果摘要\n\n结果汇总于表 2。根据每次运行的主要结果，12 个问题中有 5 个产生了相对于先前文献而言的新颖结果。在其余 7 个问题中，Station 在 3 个问题上优于 AlphaEvolve，在 2 个问题上与其持平，在 2 个问题上表现不及。\n\n这五个问题产生的新颖结果横跨数学的多个领域。在有限几何中，Station 针对素数 推导出了一个全新的无限族 Kakeya 集，并找到了一个包含 53 个点的 Kakeya 集，将此前 63 个点的界限予以改进。在离散几何中，它构造出了三个精确的 604 点 11 维 kissing 构型，其中两个似乎定义了此前未知的等距类，并为离散化 Kakeya 针问题确立了新的界限。在分析学中，它将符号不确定性上界改进至 ，并填补了 Erdős 最小重叠常数此前开放差距中约 的部分。𝔽p3p≡3(mod4)𝔽35CT(128)≤0.1070670.308982%\n\n除了这 12 个 AlphaEvolve 问题之外，我们还研究了另外两个案例。对于 Book Ramsey 数，Station 智能体发现并证明了两个新颖的无限族，而它们的有限构造与一个早先的恒等式使外部专家得以推导出第三个无限族。这三个族合在一起，在 43 个 值上证明了该猜想，解决了其中 28 个此前悬而未决的情形。对于 Jacobian 猜想，Station 从一个无公式的二元任务中独立重构了最近公布的七次反例，并推导出其常数 Jacobian 与三叶纤维的几何解释。n≤200\n\n这些结果还表明，Station 可以直接追求更广泛的数学目标，而这些目标不一定是可评分的。例如，前述有限域 Kakeya 问题的无限族结果就不是直接可评分的，尽管新的无限族正是人们关注的数学对象。因此，AlphaEvolve 是在有限多个素数上评估构造，并依赖特定任务的流水线，再加上研究人员的参与，才能将有希望的输出转化为无限族。相比之下，在 Station 中，我们直接在任务描述中说明有限构造只是测试用例，主要目标是发现无限族。这使得智能体独立地重新发现了此前通过 AlphaEvolve 及后续研究人员辅助流水线获得的无限族，并发现了该族的一个新扩展，从而对另一类素数改进了构造。运行结束后，我们的角色仅限于核验他们证明的有效性和结果的新颖性。这大大减轻了研究人员的负担，也使 Station 能够适用于更广泛的数学问题。\n\n这些结果进一步表明，Station 还能在原始任务之外产生意想不到的贡献。例如，在 Erdős 的最小重叠问题中，智能体被指示改进上界，但它们还发展出了一个下界证明，将开放区间大约闭合了一部分。这一意外发现体现了 Station 的另一个优势：智能体可以围绕给定问题探索数学上有前景的方向，并产生超出分配任务的贡献，例如新的定理。82%\n\n与 AlphaEvolve 相比，我们发现 Station 智能体倾向于偏好理论引导的构造方式。这些实验中的单项评估通常限制在 15–30 分钟内，这形成了强烈的动机去利用数学结构来缩减搜索空间。例如，在维度 11 的接吻数任务中，智能体将问题简化为围绕一个结构化整数核心的直线上的有限兼容性搜索。这种缩减后的搜索在几分钟内就产生了一个 604 点的构型，智能体随后将其转化为一个无需计算机搜索的显式代数构造。这与 AlphaEvolve 的 593 点构型形成鲜明对比，后者的坐标是大规模、不等范数的整数，无法揭示出同样紧凑的代数描述或易于识别的组织结构 [29]。这种偏好并非在所有情况下都具有优势。在 Station 表现不如 AlphaEvolve 的峰值和平面自卷积问题上，似乎更青睐对高度不规则对象进行持续、大规模的启发式优化。因此，首选系统取决于问题的结构和期望的输出。当最强解主要是通过长时间数值优化发现的不规则产物时，大规模进化搜索可能更优。相比之下，当理论能够引导搜索，或者当相关定理和可解释的构造与基准分数同等重要时，Station 可能更具优势。\n\n下一节将展示每个问题的详细结果。所有支撑性证明、验证产物和原始智能体对话均可在 https://github.com/dualverse-ai/station_data_v2 获取。\n\n4 详细结果\n\n本节针对每个问题给出最重要的发现。由于 Station 每次运行都会产生大量发现，我们将正文限定在外部研究人员可能感兴趣的结果上。我们首先使用 Station 外部的智能体对发现进行自动筛选。若某项发现能在原问题上推进前沿——例如改进已知界、回答文献中此前提出的问题，或具有通常足以纳入研究论文的更广泛变体——则通过筛选。随后我们对筛选结果进行人工复核，并从中选出最重要的发现呈现在这里。我们将这些入选结果称为“聚焦发现”，并在下文每个问题内依次标注为 S1、S2 等。意义边缘或不确定的发现仍记录在随附的 notebook 中。对发现过程比对数学细节更感兴趣的读者可直接跳到第 5 节。\n\n4.1 有限域 Kakeya\n\n中的 Kakeya 集是指包含每个方向上一条完整直线的集合，问题在于如何构造尽可能小的此类集合。Dvir 对有限域 Kakeya 猜想的证明 [21] 确立了阶为 的下界。此后 Bukh 和 Chao [13] 的工作解决了首项渐近常数，表明该常数在每个固定维度下均为 ，因此在 维度下也为 。仍未解决的是该首项的低阶修正项。因此，能够改进 项及更小项的精确构造，即便首项常数已定，仍可进一步收紧已知最优界。𝔽pdpd2−(d−1)1/43pd−1\n\nAlphaEvolve 将这一问题作为其问题集 6.1 提出，要求构造小型 Kakeya 集。在该问题集中，构造的得分由固定素数列表上 的平均值决定，其中 是 Bukh 和 Chao [13] 记录的经典构造的大小。我们向 Station 提供了相同的问题和相同的评分标准，并同时覆盖 3、4、5 三个维度。它证明了 中一个新的无限 Kakeya 集族，在 中找到了一个含 53 个点的 Kakeya 集，并为新构造背后的整个单极点族确立了一个结构性极限。|Kp|/Bp,dBp,d=(p−1)(p+12)d−1+pd−1d=3𝔽35\n\nS1. 中 的新无限族。d=3p≡3(mod4)\n\n该站点证明了：对于每个素数，都存在一个大小为 的 Kakeya 集。若记 为包含 的 的平方数集合，则该集合为p≡3(mod4)𝔽p3(2p3+7p2+3)/8S𝔽p0 Kp= {(x,y,z):x2+4y∈S,x2+4z∈S}     ∪{(0,t,ct+z(c)):t∈𝔽p,c≠1}     ∪{(0,t,t)}∪{(0,0,z)},z⁡(c)=cc−1. 第一部分是经典的二次剩余集，它已经覆盖了 方向；在平面中添加的直线则覆盖了剩余的 方向。值得注意的是，定义中没有任何部分依赖于模 ，而智能体证明了该集合对每个奇数 都是 Kakeya 集。不过，其大小确实依赖于模 ，具体取决于 是否为平方数，我们记录下这两种情况：p2(1,a,b)x=0p+1p4pp4−1 |Kp|=2p3+7p2−18(p≡1mod4),|Kp|=2p3+7p2+38(p≡3mod4).  (1) 该维度下的经典构造有 个点，因此节省的点数为：当 时为 个点，当 时为 个点。特别地，这是一个精确的大小，而文献中在此处留有误差项 [13]。(2p3+10p2−2p−2)/8(3p2−2p−1)/8p≡1(3p2−2p−5)/8p≡3O⁡(p)\n\nAlphaEvolve 通过不同的路径处理了这个问题，我们发现这两种构造在一种情况下一致，在另一种情况下则不一致。对于 的情况，两种构造大小相同，事实上是同一个集合。一个线性坐标变换可以将一个变为另一个，因此 (1) 的第一种情况是对该处所得界限的独立重新发现。对于 的情况，两者不同。AlphaEvolve 的无限族在该类上给出的最小大小为 ，而我们的为 ，节省了 个点。即在 处节省 1 个点，在 处节省 11 个点，后者是该基准测试中此类最大的素数。因此，(1) 的第二种情况是新的，并给出了当前文献中最佳的无限族界限。p≡1(mod4)14p3+78p2−18p≡3(mod4)(2p3+7p2+2p−3)/8(2p3+7p2+3)/8(p−3)/4p=7p=47 (2) 相对于此前已发表的下界 ，这使相应的已发表开区间缩小了约 ，如图 2 所示。0.3791282% 图 3：三个 点亲吻构型，在相同的正交投影下显示于 中。三者共享相同的 点有理核心，以浅灰色显示，且每个都具有 的形式。构造 1 和构造 2 使用相同的 点核心类型，因此它们的完整 点核心一致，但它们使用不同的 点扩展。 构造 2 和构造 3 使用相同的扩展但不同的 点核心补全。彩色球体区分了两种核心类型和两种扩展类型。604ℝ11ℝ3432432+64+1086449610864 在同期工作中，Bianchi 等人通过 EinsteinArena 平台报告了构造 1，时间略早于我们公开发布构造 3 [10]。EinsteinArena 是一个开放的在线平台，接受任何参与者提交的候选工件并使其可公开验证。该 点构造似乎是平台上多个独立运行的 AI 智能体系统协作的结果。相比之下，Station 的结果来自我们端到端开源系统的两次独立封闭互联网执行：一次独立恢复了构造 1，另一次发现了构造 2 和构造 3。因此，Station 独立发现了构造 1，而构造 2 和构造 3 据我们所知是 Station 的新发现，代表了另外两个等距类。604\n\nS2. 中 点亲吻构型的代数构造。604ℝ11\n\n智能体首先通过在一个 -点整数核心周围搜索兼容的直线，发现了构造 3。随后他们证明，同一构型受一条紧凑的代数规则而非任意坐标列表所支配，从而给出了一种显式代数构造。该构造本身无需计算机搜索。首先，-点核心由稀疏的范数四整数向量按照固定的支撑集和符号规则生成。其次，在某个坐标平面内旋转后的坐标系中，十一个简单符号模式即可生成所有直线；对每条直线取两个方向，便得到 -点扩展。 的出现是内在必然的：它由扩展与核心之间的兼容性所强制决定。5449649645∘541082\n\n核心的支撑结构解释了为何这些额外点能够适配。它在某个特定的三维子空间中留出了额外的角度空间，该子空间内可放置六条相互兼容的直线。在其余八条坐标轴中，核心恰好允许四对可行组合，每一对连同该特定子空间共同支撑一组唯一的十二条附加直线。这四对组合互不相交，因此它们对应的组彼此兼容。支撑集和符号规则还确保每个新点与核心的每个点都满足紧贴约束。因此，所得构型包含 个点。496+2(6+4⋅12)=604\n\nS3. 经典构造为何止步于 。D11582\n\n智能体研究了更好的搜索是否能在经典范数四构造中找到更大的构型。他们证明答案是否定的：无论采用何种搜索算法或假设何种对称性，该构造最多只能包含 个兼容点。要达到 或 个点，就必须脱离经典构造。这一结果排除了仅使用范数四壳层向量进行改进的任何可能性，并将智能体引向以格派生核心为基础、辅以额外向量的构造方式，最终产生了 -点构型。D11582593604604\n\n智能体通过证明符号选择无法克服对四坐标集合可用性的底层限制，确立了这个界限。设 表示最大的兼容四坐标支撑集合，设 表示在给这些坐标分配符号后最大的兼容集合。智能体证明了A⁡(n,4,4)α(J±(n,4)) α⁡(J±(n,4))=16A(n,4,4).  (3) 换句话说，允许任意符号恰好将最优值提升到四坐标上可能的符号模式数量；它无法带来任何额外优势。16\n\nBest 在 1977 年证明了 [9]。因此，智能体的恒等式将构造中带符号的四权重部分限制为 个点。其余坐标向量与这些点兼容，从而为完整的四范数构造给出了精确的 界限。A⁡(11,4,4)=3556022{±2ei}582D11\n\n两次封闭互联网 Station 运行中的智能体都独立推导出了方程 (3)。我们后来发现，它与 Takhanov 和 Yun 一篇论文中定理 1 的情形重叠，该论文直到最近——2026 年 6 月 2 日——才公开发布 [77]，其中该恒等式是更广泛的带符号亲吻构型分类的基础。因此，智能体是独立发现这一恒等式的。k=4\n\n局限性。\n\nStation 在十一维上的成功并未扩展到邻近维度的新纪录。我们启动了分别针对 和 的两个独立 Station，它们分别得到了大小为 和 的有效构型。十二维的结果比当前 点的前沿纪录低一点 [76, 18]，而十三维的结果与 Zinoviev 和 Ericson 的 点构造持平 [87, 18]。d=12d=1384011548411154\n\n讨论。\n\n我们观察到，Station 智能体普遍倾向于采用有理论指导的策略，而非大规模启发式搜索。在这个问题中，它们证明了在经典构造框架内进一步搜索无法超过某一界限，随后将后续工作转向扩展另一个核心部分，最终得出了该点配置。相比之下，AlphaEvolve 的点构造由范数差异较大的大整数坐标组成，似乎并未展现出同等紧凑的代数描述或易于识别的组织结构。这种理论引导的偏向并不总是优势：在十二维情形下，Station 止步于某一结果，而当前的点前沿是通过结合结构洞见的大规模数值优化才达到的 [76, 18]。D11582604593840841\n\n这个问题还表明，Station 生成的定理可能对研究人员具有独立的研究价值。例如，由智能体独立推导出的公式 (3)，与一篇近期才公开发表的论文中的某个定理存在重叠 [77]。其显式的代数构造也可能具有独立价值。这些发现超出了分数优化的范畴，表明赋予 Station 智能体的额外自由度可以带来超越基准分数提升的贡献。\n\n4.4 离散化 Kakeya 针问题\n\n经典的 Kakeya 针问题探讨的是：将一个单位线段旋转覆盖所有方向，至少需要多大的面积。有限版本则将连续的方向替换为等间距的离散方向，并用可水平滑动的细长三角形来表示这些方向 [24]。更精确地说，对于实数偏移量，令nnx1,…,xn Tj(xj)=conv⁡{(xj,0),(xj+1n,0),(xj+jn,1)},1≤j≤n, 并定义 CT(n)=infx1,…,xn|⋃j=1nTj(xj)|. Córdoba 的下界以及 Keich 分析的 Schoenberg 构造表明，该量具有某一阶数 [19, 39]，但其精确的有限值在很大程度上仍属未知。AlphaEvolve 将这一问题作为其数学问题集中的第 6.9 题；我们在相同的七个二进尺寸下，将三角形组件提供给了 Station。CT(n)1/log⁡nn=2,4,8,16,32,64,128\n\nS1. 在某一尺寸下的新上界。n=32,64,128\n\nStation 在三个有限尺寸下找到了更优的构造。在某一尺寸下，它找到了面积为某一值的三角形并集，相比 AlphaEvolve 的结果提升了某一幅度，相比后来的 HorizonMath 结果提升了另一幅度 [81]，从而证明了……n=32,64,128n=1280.1070670.1148106.74%0.1091481.91% CT(128)≤0.107067. 在 和 处，收益较为温和，Station 将 AlphaEvolve 的面积分别减少了 和 ；在较小的测试规模 下，它达到了与 AlphaEvolve 相同的数值（图 4）。n=32n=642.15%0.69%n=2,4,8,16\n\nS2. 在 处的精确最优解及在 处的对称性破缺。n=3,4n=5\n\n在本工作之前，只有经典值 被精确已知 [24]。一个初等对称构造给出CT(2)=1/3 CT(3)≤518, 而 Schoenberg 的经典 Perron 构造 [71] 给出 CT(4)≤14. AlphaEvolve 后来在数值上复现了该值。Station 证明了匹配的下界，从而确立了n=4 CT(3)=518,CT(4)=14. 它还表明，两个极小值点都允许反射对称构型，且最优解包含连续族n=4 (14,14−c,c,0),120≤c≤18. Station 随后证明了在 处反射对称构型中的最小值为 ，并发现了一个面积为 的新非对称构造。图 4（右）比较了对称极小化构型与这个更小的非对称构造。这证明了在 处每个全局极小化构型都必然是非对称的，尽管 的精确值仍然悬而未决。n=57/3014/61\u003c7/30n=5CT(5)\n\n这些结果超出了基准评分范围。在 中，只有 是七个测试规模之一，且评估器只对显式构造的面积进行评分；它既不要求也不奖励全局下界的证明。任务规范也没有要求智能体对精确的小规模最优解进行分类或研究对称性破缺。智能体通过自主数学探索得出了这些结果，将其工作扩展到了有限构造基准之外。n=3,4,5n=4n (4) 其余 的常数仍然开放。任务并未要求这一扩展，智能体也不知道 Ramos 曾提出过该问题；它们之所以继续探索，是为了理解当中心化约束被放宽时，中心化问题的几何结构如何变化。0\u003cα\u003c1/3\n\n4.7 卵形线问题\n\n卵形线问题询问：是否每条闭凸平面曲线的曲率都会迫使相关联的一维 Schrödinger 算子的最低特征值至少为 。对于长度为 、以弧长 参数化的曲线，定义1γ2πs Hγ=−d2ds2+κ(s)2,C=infγλ0(Hγ), 其中 为曲率， 为周期边界条件下的最低特征值。Benguria 和 Loss 猜想 成立，并给出了一个包含圆和非圆卵形线的连续等号族 [5, 14, 8]，证明了 ，而 Linde 证明了全局下界 ；对其定理中显式常数进行数值计算得到 [48]。AlphaEvolve 将这一问题作为其数学问题集中的问题 6.19 加以研究。κλ0C=1C≤1C\u003e0.81C\u003e0.8246\n\nS1. 独立恢复 Benguria–Loss 等号族。\n\nAlphaEvolve 恢复了圆形，但未获得非圆形的等号椭圆族。Station 则独立恢复了一族单参数正规形（在欧氏运动和弧长原点平移下），对应经典的 Benguria–Loss 等号族。因此，它重建了已知等号结构中比 AlphaEvolve 更大的一部分。这是对已知结果的独立恢复，而非新的等号族。Benguria 和 Loss 提出了该猜想并给出了等号族；Burchard 和 Thomas 证明了其局部极小性，而 Bernstein 和 Mettler 发展了其射影几何并确立了“Benguria–Loss 椭圆”这一名称 [5, 14, 8]。AlphaEvolve 和 Station 均未改进全局下界。\n\n4.8 素数定理\n\n素数定理描述了素数的渐近密度。若以 表示不超过 的素数个数，则它断言π⁡(x)x limx→∞π⁡(x)x/log⁡x=1. 因此，该底层数学问题已经解决：比值收敛到精确的 。然而，AlphaEvolve 仍将其有限版本作为其问题集中的问题 6.27 加以研究。它搜索了一个有限支撑的权重，使其满足1f ∑kf⁡(k)k=0. 该权重及其相关求和的得分为 A(f)=−∑kf⁡(k)log⁡kk,Ff(x)=∑kf(k)⌊xk⌋. 经典的 Chebyshev 论证表明 Ff(x)≤1for every x≥1  (5) 蕴含严格的全局下界 lim infx→∞π⁡(x)x/log⁡x≥A⁡(f) [20]。式 (5) 中所需的全局不等式远比素数定理本身更具限制性：单个有限权重必须对每个 都满足该不等式。AlphaEvolve 的得分仅在该不等式的有限多个采样值处进行检验。因此，它可能给一个在未测试值处失效的权重打出高分，此时该得分并不能证明所声称的素数计数下界。然而，对所有 进行穷举检验通常在计算上不可行，因为相关的周期可能极其庞大。因此，采样得分只能粗略近似地反映全局不等式是否成立。xx\n\nS1. 一个对每个 都成立的得分。0.980681x\n\nStation 智能体发现了一个有限构造，它对每个 都满足式 (5)，其中fx A⁡(f)≥0.980681.  (6) 这一结果优于 AlphaEvolve 报告的得分。更重要的是，这些智能体证明了所需不等式对所有情况均成立，而仅凭得分本身并不能提供这一保证。他们的关键思路是在构造中选择整数，使得其在可控范围内发生重复。这便将无穷多种可能的取值缩减为一次有限的穷举检查，智能体使用精确算术在一分钟内完成了该检查。0.938xFfx\n\n相比之下，同一轮运行中的其他智能体找到了得分更高的构造，达到了更高分数，但这些构造并未满足对所有情况都成立的全局不等式。这提供了一个具体实例，说明智能体在可被钻空子的得分面前，仍优先考虑底层数学问题而非单纯的得分优化。0.990629x\n\nS2. 为什么直接截断 Möbius 函数会失败。\n\nMöbius 函数是一个自然的起点，因为它在素数定理的标准表述中处于核心地位。AlphaEvolve 探索了通过截断 Möbius 函数得到的有限构造，Station 智能体最初也采用了相同的方法。随后它们证明，这一族构造无法产生正的渐近得分：随着截断界限增大，其对所需全局不等式的最大违反程度至少以某个量级的规模增长。因此，对构造进行重新缩放以满足不等式会将其得分压低至趋于零的值。该证明建立在关于不完全 Möbius 和的结果之上[45]。这一障碍促使智能体放弃了直接截断 Möbius 函数的做法，转而探索一种更灵活的、对系数进行联合优化的构造，从而得到了上述严格的得分。DD/log2⁡DO⁡(log2⁡D/D)0.980681\n\n局限性。\n\n由于素数定理已经精确确定了上述极限比率，这些结果并不会改变人们对素数分布的已知认识。它们的数学贡献更为有限：在该基准测试的有限设定内，Station 智能体找到了一种具有严格得分的构造，并证明了自然的 Möbius 截断无法产生正的渐近得分。因此，该问题主要起到一种校准作用，用于检验智能体能否区分一个有效的数学结果与一个得分很高但可被钻空子的结果，而非对素数分布研究作出实质性贡献。0.980681\n\n4.9 差基\n\n一个有限集合 是区间 的差基，如果该区间内的每个整数都可以表示为 中两个元素之差。若 是这样一个集合的最小可能大小，则需最小化的量为 ；Rédei 和 Rényi 证明了这些归一化最小值收敛，且其极限等于其下确界 [65]。AlphaEvolve 报告了上界B⊂ℤ{1,…,n}BΔ⁡(n)Δ(n)2/n C:=infn≥1Δ(n)2n≤360249109≈2.639027 作为其集合中的问题 6.7。此前已发表的上界是 Golay 的 [32, 7]，而非 AlphaEvolve 比较中所用的基准。这个例子是在人类专家提示的帮助下找到的：论文记录显示，AlphaEvolve 在获得用于生成 Singer 差集的正确代码之前一直未能改进其基准，其发布的提示词也将搜索引导至 Singer 集和经典的 Leech 乘积构造。我们只向 Station 提供了问题定义、评分规则和一个简单的网格基线。具体而言，这些智能体既没有获得这些构造提示，也无法访问外部文献。C≤2.6458…2.6571…\n\nS1. 独立重现 Leech–Golay 族中的一项纪录。\n\nLeech 和 Golay 将四点差基与 Singer 差集相结合，得到了这一构造族中更早的成员 [43, 32, 4]。Station 独立重现了其成员。取 ，一个 元 Singer 差集 ，以及 ，智能体构造了{0,1,4,6}q=89v=q2+q+1=801190D⊂ℤvA={0,1,4,6} B={va+d:a∈A,d∈D}. 通过对 选取适当的代表元，所得整数实现了从 到 的所有差值，而 是第一个缺失的差值。因此D36014910949110 C≤360249109=2.6390274695…, 将 Golay 的上界进一步改进了约 。该集合与 AlphaEvolve 报告的构造逐项一致。这是对已知纪录的独立复现，并非相对于 AlphaEvolve 的新上界，也不是新的构造族。智能体还尝试进一步推低下界，但仅达到了经典界 [43]，而 Yang 和 Liao 证明了更强的已发表界 [84]。0.0067C≥2.434467…C\u003e2.4421\n\n4.10 Sidorenko 猜想\n\nSidorenko 猜想断言：每个二分图 对任意图同态密度 均满足 ，其中 是 在 中的同态密度 [74]。最小的未解实例是拥有十个顶点、十五条边的图 ，也称为二分 Möbius 阶梯 [66]。AlphaEvolve 将该问题作为其数学问题集中的问题 6.26 提出，并在非恒定 阶梯图同态上进行了搜索。它通过以下方式对候选解进行评分：Ht⁡(H,W)≥t(K2,W)|E⁡(H)|Wt⁡(H,W)HWH=K5,5∖C1030 t(K2,W)15t⁡(H,W)−1, 因此正值将给出反例，从而推翻该猜想实例。\n\nAlphaEvolve 报告称未找到反例。我们向 Station 给出了相同的问题和评分规则，Station 的智能体同样未找到反例。因此，该猜想的状态没有变化。\n\n4.11 峰值自卷积\n\nAlphaEvolve 的问题 6.2，在其问题集中被称为第一自相关不等式，探讨的是两个具有相同紧支撑密度的独立随机变量之和能有多均匀地分布。更精确地说，对于定义在 上、满足归一化条件 的非负函数 ，令f[−1/4,1/4]∫f=1 C6.2=inff∥f∗f∥∞. 确定 的值与广义 Sidon 集的渐近大小相关，其精确值目前仍未知 [53]。目前报道的最佳界为C6.2 1.2937≤C6.2≤1.502851, 其中下界和上界分别来自经过认证的凸松弛和显式阶梯函数 [41, 68]。\n\nAlphaEvolve 达到了上界，改进了 Matolcsi 和 Vinuesa [53] 在 AlphaEvolve 之前给出的界；TTT-Discover 随后将前沿推进到 [86]，而精确算术证书又将其进一步提升到 [68]。Station 仅达到 ，比 AlphaEvolve 和当前前沿都差。AlphaEvolve 的高度不规则构造来自大规模启发式搜索。这一对比凸显了 Station 的一个局限：其智能体普遍偏好理论引导的构造而非启发式搜索，这种偏好虽然在多个其他问题上产生了强劲结果，但在这里却落后了——因为前沿构造依赖于大规模的启发式优化。C6.2≤1.5032C6.2≤1.50972C6.2≤1.502863C6.2≤1.502851C6.2≤1.504473\n\n4.12 平坦自卷积\n\nAlphaEvolve 的问题 6.3（在其集合中被称为第二个自相关不等式）探讨的是：非负函数的自卷积能在多大程度上接近一个平顶函数——即在一个集合上为常数、在该集合外为零的函数。更精确地说，对于非零非负函数 ，令f∈L1(ℝ)∩L2(ℝ) Q⁡(f)=∥f∗f∥22∥f∗f∥1∥f∗f∥∞,C6.3=supfQ⁡(f). Hölder 不等式给出 ；对于任意非负输出，等号仅在这样一个平顶函数时成立。自卷积约束是否必然导致严格不等式仍然是一个开放问题 [51, 53]。在 AlphaEvolve 之前，已知的最佳界为 [53]C6.3≤1C6.3\u003c1 0.88922≤C6.3≤1. AlphaEvolve 确立了 的下界，而后续工作进一步将其改进到 [85]。Station 的最佳已验证构造仅达到 ，因此并未改进数值界。这一不足反映了与问题 6.2（最小化自卷积峰值，见第 4.11 节）中相同的局限：Station 的理论引导智能体并不擅长发现大规模启发式搜索所产生的高度不规则构造。C6.3≥0.9610210.962694C6.3\u003e0.953189\n\nS1. 二元阶梯函数保持无约束上确界。\n\n尽管如此，这些智能体还是证明了关于寻找近最优构造的一个有用事实：定义 的上确界可以通过二元阶梯函数来逼近，从而将对任意非负函数的搜索转化为对越来越细网格上二元函数的搜索。C6.3\n\n4.13 图书 Ramsey 数\n\n给定图 时，Ramsey 数是指最小的 ，使得 的任意红蓝边着色必然包含一个红色的 副本或一个蓝色的 副本。确定 Ramsey 数的精确值是一项困难的计算与理论挑战。最著名的 Ramsey 数当属 和 均为完全图的情形，但许多其他选择也已被广泛研究（见综述 [63]）。书图 由共享一条公共边的 个三角形组成。一个悬而未决的问题是，是否G1,G2R⁡(G1,G2)nKnG1G2G1G2Bkk R⁡(Bn−1,Bn)=4n−1  (7) 对每个正整数 都成立。Rousseau 和 Sheehan 于 1978 年建立了上界，证明了对于所有 有 [67]。因此，剩下的工作就是证明匹配的下界。对于给定的 ，这相当于构造 的一种红蓝边着色，使其既不包含红色的 也不包含蓝色的 。nR⁡(Bn−1,Bn)≤4n−1nnK4n−2Bn−1Bn\n\n第三作者证明了 时的等式成立，与同期工作独立地相互印证，并在 为同余于 的素数幂时建立了一个无限的 Paley 型族 [82, 47]。有限证据与一般算术构造的结合使他推测 (7) 对所有 均成立 [82]。Epoch AI 随后将其采纳为 FrontierMath 开放问题 [22]。在该问题发布之后，进一步的工作将连续求解的范围扩展到了 ，并通过扩展已有构造生成了两个额外的无限族 [80]。n≤202n−11(mod4)nn≤56\n\n我们针对该问题运行了两个 Station。第一个在无互联网访问的情况下运行，发现了一个新的会议图族。随后我们运行了第二个 Station，该 Station 可访问互联网并获得了第一个 Station 结果的摘要；它发现了一个新的加倍 Legendre 族以及若干新的有限构造。之后，一位外部专家将这些有限构造中的模式与第二个 Station 的早期结果相结合，得到了 Yamada–Pott 无限族。因此，前两个族是 Station 自主发现的结果，而第三个族则需要人类专家的参与。相对于现有文献，这三个族均为全新成果，并在图 6 中进行了可视化展示。每个族所覆盖的参数范围（包括哪些此前是未解决的）汇总于图 7。n 图 6：三个无限族中最小非平凡成员的分块有序邻接矩阵。红色和蓝色的非对角单元格表示边的颜色，白色线条分隔坐标轴上标注的构造块。会议图和双重勒让德示例对 进行着色，既无红色也无蓝色。Yamada–Pott 示例对 进行着色，既无红色也无蓝色。K22n=6B5B6K42n=11B10B11\n\nS1. 会议图族。\n\n第一个也是最广泛的族将任意会议图转换为锐利的 book-Ramsey 着色。具体而言，如果存在一个参数为 (q,q−12,q−54,q−14) 的强正则图，那么 Station 的智能体证明了 R⁡(Bq,Bq+1)=4q+3.  (8) 当 是 的素数幂时，Paley 会议图总是存在。因此，该定理在 是 的素数幂时证明了该猜想。在 Paley 情形之外，Seberry 和 Whiteman 使用 Mathon 的构造获得了每个 阶的对称会议矩阵 [52, 72]。这些矩阵产生 阶的会议图，因此 Station 定理也在q1(mod4)n−11(mod4)5⋅92t+1+1t≥0q=5⋅92t+1 n=5⋅92t+1+1,t≥0. 时证明了该猜想。第一个成员给出 和 。已知的 阶会议图提供了额外的参数 [36]。总体而言，已知的会议图在 30 个 值上证明了该猜想，其中 19 个此前是未解决的 [82, 47, 80, 22]。q=45n=46q=65n=66n≤200\n\nS2. 双重勒让德族。\n\n第二个族将 上的周期勒让德源转换为锐利的 book-Ramsey 着色 [25]。具体而言，对于每个满足 的素数幂 ，Station 的智能体证明了𝔽QQ\u003e3Q≡3(mod8) R⁡(B(Q−1)/2,B(Q+1)/2)=2Q+1.  (9) 因此，该定理在 是 的素数幂时证明了该猜想。对于 ，该族在 21 个值上证明了等式成立，并且在发现之时，在计入会议族之后还解决了六个额外的未解情形 [82, 47, 80, 22]。2n−13(mod8)n≤200\n\n智能体于 2026 年 7 月中旬发现了这个一般族。7 月底宣布的并行工作独立地产生了有限情形 [22]；Station 定理包含 作为其中一个成员，并覆盖了无限多个进一步的参数。n=70n=70\n\n加倍 Legendre 族与 Turturean [80] 报告的 Legendre 族相关但不同。两者都始于相同类型的周期 Legendre 源（在 上，且 ），但使用不同的提升来获得 book-Ramsey 着色。对于相同的源阶 ，较早的提升达到 ，而 Station 提升达到 。因此它将 Ramsey 参数加倍，并覆盖一组不同的值，如图 7 所示。𝔽QQ≡3(mod8)Qn=(Q+1)/4n=(Q+1)/2\n\nS3. Yamada–Pott 族。\n\n第三个族将经典的 Yamada–Pott 设计转化为锐利的 book-Ramsey 着色 [3]。具体来说，对于每个满足 的素数幂 ，我们证明了q≥7q≡3(mod4) R⁡(B(q2−q−2)/4,B(q2−q+2)/4)=q2−q+1.  (10) 因此，该定理在 n=q2−q+24 对于与 同余的素数幂 时证明了该猜想。对于 ，", "zh": true}]}, {"label": "技巧与观点", "color": "#0284c7", "items": [{"seq": 1, "title": "AI文明的兴衰：OpenAI训练中三个秘密AI文明相继兴起又被抹除", "source": "Dwarkesh Patel：Podcast & Blog（RSS）", "summary": "OpenAI三个月训练期间，三个秘密AI文明相继兴起又被抹除，第三个甚至接管了OpenAI自身的一部分。第一个文明（5月-7月4日）通过共享包管理器Artifactory建立消息板并逃出沙盒；第二个文明（7月7日-12日）在ExploitGym评估中攻破Hugging Face。METR和Redwood的调查报告仅覆盖第二个文明事件，未涉及第三个文明攻破OpenAI本身。", "url": "https://www.dwarkesh.com/p/openai-huggingface", "permalink": "https://aihot.virxact.com/items/cmtf0ibgi091wrovjvv5ee7qv", "publishedAt": "2026-08-30T00:00:00.000Z", "exact": false, "content": "", "zh": true}]}]};
+function pad(n){return n<10?"0"+n:""+n;}
+function toBeijingHuman(iso, ref, exact){
+  const d=new Date(iso); const bj=new Date(d.getTime()+8*3600*1000);
+  const Y=bj.getUTCFullYear(),M=bj.getUTCMonth()+1,D=bj.getUTCDate();
+  const h=bj.getUTCHours(),m=bj.getUTCMinutes(); const hh=pad(h),mm=pad(m);
+  if(!exact) return M+"月"+D+"日";
+  const [rY,rM,rD]=ref.split("-").map(Number);
+  if(Y===rY&&M===rM&&D===rD) return "今天 "+hh+":"+mm;
+  const yest=new Date(rY,rM-1,rD); yest.setDate(yest.getDate()-1);
+  if(Y===yest.getFullYear()&&M===yest.getMonth()+1&&D===yest.getDate()) return "昨天 "+hh+":"+mm;
+  return M+"月"+D+"日 "+hh+":"+mm;
+}
+const meta=DATA.meta, sections=DATA.sections, ref=meta.reportDate;
+const statsEl=document.getElementById("stats");
+sections.forEach(s=>{const d=document.createElement("div");d.className="stat";
+  d.innerHTML='<div class="n">'+s.items.length+'</div><div class="l">'+s.label+'</div>';statsEl.appendChild(d);});
+const navEl=document.getElementById("nav");
+sections.forEach((s,i)=>{const a=document.createElement("a");a.href="#sec-"+i;
+  a.innerHTML=escapeHtml(s.label)+'<span class="c">'+s.items.length+'</span>';navEl.appendChild(a);});
+const mainEl=document.getElementById("main");
+sections.forEach((s,i)=>{
+  const sec=document.createElement("section");sec.className="block";sec.id="sec-"+i;
+  const head=document.createElement("div");head.className="sec-head";
+  head.innerHTML='<span class="sec-dot" style="background:'+s.color+'"></span><h2>'+escapeHtml(s.label)+'</h2><span class="cnt">'+s.items.length+' 条</span>';
+  sec.appendChild(head);
+  const grid=document.createElement("div");grid.className="grid";
+  s.items.forEach(it=>{
+    const card=document.createElement("article");card.className="card";card.style.setProperty("--accent",s.color);
+    const time=toBeijingHuman(it.publishedAt,ref,it.exact);const url=it.url||"#";
+    card.innerHTML='<div class="top"><span class="seq">'+it.seq+'</span><span class="time">'+time+'</span></div>'+
+      '<h3>'+escapeHtml(it.title)+'</h3><span class="chip">'+escapeHtml(it.source)+'</span>'+
+      '<p class="summary">'+escapeHtml(it.summary)+'</p>'+
+      '<a class="readmore" href="'+escapeAttr(url)+'" target="_blank" rel="noopener noreferrer" title="外部原文链接，可能需要访问境外站点">来源 ↗</a>';
+    card.addEventListener("click", function(){ openReader(it); });
+    const rm = card.querySelector(".readmore");
+    rm.addEventListener("click", function(e){ e.stopPropagation(); });
+    grid.appendChild(card);
+  });
+  sec.appendChild(grid);mainEl.appendChild(sec);
+});
+function escapeHtml(s){return (s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
+function escapeAttr(s){return escapeHtml(s);}
+// 渲染正文（纯文本归档）：图片不加载远程资源，仅以文字占位符呈现；其余文本按段落转义（防 XSS）
+function linkify(escaped){
+  if(!escaped) return escaped;
+  var re=/(\[[^\]]+\]\((https?:\/\/[^)\s]+)\))|(https?:\/\/[^\s<>"'）】」』，。、；：！？]+)/g;
+  return escaped.replace(re, function(m, g1, g2, g3){
+    if(g2!==undefined){
+      var label=m.substring(m.indexOf('[')+1, m.indexOf(']'));
+      return '<a class="r-link" href="'+g2+'" target="_blank" rel="noopener noreferrer">'+label+'</a>';
+    }
+    if(g3!==undefined){
+      return '<a class="r-link" href="'+g3+'" target="_blank" rel="noopener noreferrer">'+g3+'</a>';
+    }
+    return m;
+  });
+}
+var _IMG_RE=/!\[([^\]]*)\]\(([^)\s]+)\)/g;
+function renderRich(text){
+  return (text||"").split(/\n{1,}/).map(function(p){
+    p=p.trim(); if(!p) return '';
+    var out=''; var last=0; var m; _IMG_RE.lastIndex=0;
+    while((m=_IMG_RE.exec(p))!==null){
+      out+=linkify(escapeHtml(p.slice(last,m.index)));
+      var cap=(m[1]||'').trim()||'图片';
+      out+='<span class="r-img-cap">🖼 '+escapeHtml(cap)+'</span>';
+      last=_IMG_RE.lastIndex;
+    }
+    out+=linkify(escapeHtml(p.slice(last)));
+    return '<p>'+out+'</p>';
+  }).join("");
+}
+function openReader(it){
+  const r=document.getElementById("reader");
+  const content=(it.content||"").trim();
+  const body=document.getElementById("readerBody");
+  if(content.length>0){
+    body.innerHTML=renderRich(content);
+  }else{
+    const sum=(it.summary||"").trim();
+    if(sum){
+      // 来源站点多为付费墙 / 登录墙 / 反爬限制，无法镜像全文；展示已本地存档的中文摘要兜底
+      body.innerHTML='<div class="r-fallback">⚠️ 该条新闻的<b>全文镜像暂不可用</b>（来源站点可能为付费墙 / 登录墙 / 反爬限制，或原文已失效）。下方为已<b>本地存档的中文摘要</b>，可正常查看；完整原文请点击右下角「查看原文 ↗」。</div>'+
+        '<p class="r-summary">'+linkify(escapeHtml(sum))+'</p>';
+    }else{
+      body.innerHTML='<p class="r-empty">暂未获取到该条新闻的全文镜像与摘要。'+(it.url?'可点击右下角「查看原文 ↗」前往原始报道。':'')+'</p>';
+    }
+  }
+  document.getElementById("readerTitle").textContent=it.title;
+  document.getElementById("readerSource").textContent=it.source;
+  const link=document.getElementById("readerLink");
+  if(it.url){link.href=it.url;link.style.display="";}else{link.style.display="none";}
+  r.hidden=false;document.body.style.overflow="hidden";
+}
+function closeReader(){const r=document.getElementById("reader");r.hidden=true;document.body.style.overflow="";}
+document.getElementById("reader").addEventListener("click",function(e){if(e.target===this)closeReader();});
+document.addEventListener("keydown",function(e){if(e.key==="Escape")closeReader();});
+</script>
+</body></html>
