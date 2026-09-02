@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>AI HOT 资讯 · 2026-09-02</title>
+<style>
+  :root{--bg:#f5f6fb;--card:#fff;--ink:#1f2430;--muted:#6b7280;--line:#e8eaf1;
+    --shadow:0 1px 3px rgba(16,24,40,.06),0 8px 24px rgba(16,24,40,.05);}
+  *{box-sizing:border-box} html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
+    -webkit-font-smoothing:antialiased;line-height:1.55;}
+  a{color:inherit} .wrap{max-width:1180px;margin:0 auto;padding:0 18px}
+  .hero{background:linear-gradient(135deg,#4f46e5 0%,#7c3aed 55%,#9333ea 100%);color:#fff;
+    padding:42px 0 34px;position:relative;overflow:hidden;}
+  .hero::after{content:"";position:absolute;right:-80px;top:-80px;width:280px;height:280px;
+    background:radial-gradient(circle,rgba(255,255,255,.18),transparent 70%);border-radius:50%}
+  .hero .kicker{font-size:13px;letter-spacing:.18em;text-transform:uppercase;opacity:.85;margin:0 0 6px}
+  .hero h1{margin:0;font-size:34px;font-weight:800;letter-spacing:.5px}
+  .hero .date-line{margin:8px 0 0;font-size:15px;opacity:.92}
+  .stats{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+  .stat{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.22);border-radius:12px;
+    padding:10px 14px;min-width:120px;backdrop-filter:blur(4px)}
+  .stat .n{font-size:22px;font-weight:800;line-height:1}
+  .stat .l{font-size:12.5px;opacity:.9;margin-top:4px}
+  .total-pill{display:inline-flex;align-items:center;gap:8px;margin-top:18px;background:rgba(255,255,255,.16);
+    padding:8px 16px;border-radius:999px;font-weight:600;font-size:14px}
+  .nav{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.92);backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);box-shadow:0 2px 10px rgba(16,24,40,.04)}
+  .nav .wrap{display:flex;gap:8px;overflow-x:auto;padding:10px 18px;scrollbar-width:none}
+  .nav .wrap::-webkit-scrollbar{display:none}
+  .nav a{white-space:nowrap;text-decoration:none;font-size:13.5px;font-weight:600;color:var(--muted);
+    padding:7px 13px;border-radius:999px;border:1px solid var(--line);background:#fff;transition:.15s}
+  .nav a:hover{color:var(--ink);border-color:#c9cdfb}
+  .nav a.home{background:#4f46e5;color:#fff;border-color:#4f46e5}
+  .backhome{position:fixed;right:20px;bottom:20px;z-index:30;background:#4f46e5;color:#fff;text-decoration:none;
+    font-size:14px;font-weight:700;padding:12px 18px;border-radius:999px;box-shadow:0 6px 18px rgba(79,70,229,.35);
+    display:inline-flex;align-items:center;gap:7px;transition:.15s}
+  .backhome:hover{background:#4338ca;transform:translateY(-1px)}
+  .nav a .c{display:inline-block;min-width:20px;text-align:center;margin-left:6px;background:#eef0fe;
+    color:#4f46e5;border-radius:999px;font-size:12px;padding:0 7px}
+  section.block{padding:30px 0 6px}
+  .sec-head{display:flex;align-items:center;gap:10px;margin:0 0 16px}
+  .sec-dot{width:12px;height:12px;border-radius:4px}
+  .sec-head h2{margin:0;font-size:21px;font-weight:800}
+  .sec-head .cnt{font-size:13px;color:var(--muted);font-weight:600}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px 18px 16px;
+    box-shadow:var(--shadow);display:flex;flex-direction:column;gap:10px;position:relative;
+    border-top:3px solid var(--accent,#4f46e5);transition:transform .15s,box-shadow .15s}
+  .card:hover{transform:translateY(-3px);box-shadow:0 6px 14px rgba(16,24,40,.10),0 18px 40px rgba(16,24,40,.08)}
+  .card .top{display:flex;align-items:center;justify-content:space-between;gap:8px}
+  .seq{display:inline-flex;align-items:center;justify-content:center;min-width:30px;height:30px;padding:0 8px;
+    border-radius:9px;background:var(--accent,#4f46e5);color:#fff;font-weight:800;font-size:15px}
+  .time{font-size:12.5px;color:var(--muted);font-weight:600;white-space:nowrap}
+  .card h3{margin:0;font-size:16.5px;font-weight:700;line-height:1.4}
+  .chip{display:inline-block;align-self:flex-start;font-size:12px;font-weight:600;color:var(--accent,#4f46e5);
+    background:color-mix(in srgb,var(--accent,#4f46e5) 10%,#fff);border:1px solid color-mix(in srgb,var(--accent,#4f46e5) 22%,#fff);
+    padding:3px 10px;border-radius:999px}
+  .summary{margin:0;font-size:14px;color:#3b4252;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+  .readmore{margin-top:auto;display:inline-flex;align-items:center;gap:5px;align-self:flex-start;text-decoration:none;
+    font-size:13.5px;font-weight:700;color:var(--accent,#4f46e5)}
+  .readmore:hover{text-decoration:underline}
+  footer{margin-top:36px;padding:26px 0 40px;border-top:1px solid var(--line);color:var(--muted);font-size:13px;text-align:center}
+  footer a{color:#4f46e5;text-decoration:none}
+  @media (max-width:560px){.hero h1{font-size:27px}.grid{grid-template-columns:1fr}.stat{min-width:0;flex:1 1 40%}}
+  /* 站内统一阅读面板 */
+  .card{cursor:pointer}
+  .reader-overlay{position:fixed;inset:0;z-index:60;background:rgba(18,20,32,.55);backdrop-filter:blur(3px);
+    display:flex;align-items:flex-start;justify-content:center;padding:40px 16px;overflow:auto}
+  .reader-overlay[hidden]{display:none}
+  .reader{background:#fff;border-radius:18px;max-width:840px;width:100%;box-shadow:0 30px 80px rgba(0,0,0,.32);
+    display:flex;flex-direction:column;max-height:90vh;overflow:hidden;animation:pop .18s ease}
+  @keyframes pop{from{transform:translateY(8px) scale(.98);opacity:0}to{transform:none;opacity:1}}
+  .reader-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;
+    padding:20px 24px 14px;background:linear-gradient(135deg,#4f46e5,#7c3aed);color:#fff}
+  .reader-head h2{margin:0 0 8px;font-size:20px;line-height:1.45;font-weight:800}
+  .reader-head .chip{background:rgba(255,255,255,.18);color:#fff;border:1px solid rgba(255,255,255,.3)}
+  .reader-x{background:rgba(255,255,255,.2);border:none;color:#fff;font-size:24px;line-height:1;
+    width:38px;height:38px;border-radius:10px;cursor:pointer;flex:0 0 auto}
+  .reader-x:hover{background:rgba(255,255,255,.34)}
+  .reader-body{padding:20px 24px;overflow:auto;color:#2a2f3a;font-size:15.5px;line-height:1.85}
+  .reader-body p{margin:0 0 14px}
+  .reader-body .r-img-cap{display:inline-block;margin:6px 0;padding:4px 10px;border-radius:8px;background:#f1f3f9;color:#8a93a6;font-size:13px;font-style:italic;border:1px dashed #d7dce8}
+  .reader-body .r-empty{color:#6b7280;font-style:italic}
+  .reader-body .r-summary{margin:0 0 14px;white-space:pre-wrap}
+  .reader-body a.r-link{color:#2563eb;text-decoration:underline;text-underline-offset:2px;word-break:break-all}
+  .reader-body a.r-link:hover{color:#1d4ed8}
+  .reader-body .r-fallback{background:#f5f3ff;border:1px solid #e4defb;color:#5b21b6;border-radius:10px;
+    padding:10px 14px;font-size:13px;line-height:1.7;margin:0 0 16px}
+  .reader-body .r-fallback b{color:#6d28d9}
+  .reader-foot{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;
+    padding:14px 24px 18px;border-top:1px solid var(--line);background:#fafbff}
+  .reader-foot .r-note{font-size:12.5px;color:var(--muted);max-width:62%}
+  .reader-foot .readmore{margin:0}
+</style>
+</head>
+<body>
+  <header class="hero"><div class="wrap">
+    <p class="kicker">AI HOT Daily · 晨报</p>
+    <h1>AI 资讯 · 2026年9月2日</h1>
+    <p class="date-line">星期三 · 数据来源：AI HOT</p>
+    <div class="total-pill">📊 当日共 <strong style="margin:0 4px">9</strong> 条 AI 动态</div>
+    <div class="stats" id="stats"></div>
+  </div></header>
+  <nav class="nav"><div class="wrap" id="nav"><a href="index.html" class="home">📰 AI资讯杂志</a></div></nav>
+  <main class="wrap" id="main"></main>
+  <footer>
+    <div>本日报共收录 <strong>9</strong> 条动态 · 数据来源：<a href="https://aihot.virxact.com" target="_blank" rel="noopener noreferrer">AI HOT（aihot.virxact.com）</a></div>
+    <div style="margin-top:6px">生成于 2026年09月02日 08:07 · 时间换算为北京时间 · 点「来源 ↗」跳转原始报道</div>
+    <div style="margin-top:8px;opacity:.85">说明：本条新闻的标题、摘要、来源、日期已<b>镜像保存在本页</b>；即便外部链接失效或无法访问境外站点，已存档内容仍可正常查看。</div>
+  </footer>
+  <a href="index.html" class="backhome" title="返回 AI资讯杂志 首页">📰 返回 AI资讯杂志</a>
+  <div class="reader-overlay" id="reader" hidden>
+    <div class="reader" role="dialog" aria-modal="true">
+      <div class="reader-head">
+        <div style="min-width:0">
+          <h2 id="readerTitle"></h2>
+          <span class="chip" id="readerSource"></span>
+        </div>
+        <button class="reader-x" onclick="closeReader()" aria-label="关闭">×</button>
+      </div>
+      <div class="reader-body" id="readerBody"></div>
+      <div class="reader-foot">
+        <span class="r-note">本文由 <b>AI资讯杂志</b> 整理镜像，原文版权归原作者所有 · 点击右侧按钮查看原始报道</span>
+        <a id="readerLink" class="readmore" target="_blank" rel="noopener noreferrer">查看原文 ↗</a>
+      </div>
+    </div>
+  </div>
+<script>
+const DATA = {"meta": {"reportDate": "2026-09-02", "reportDateHuman": "2026年9月2日", "weekday": "星期三", "total": 9, "source": "AI HOT", "sourceUrl": "https://aihot.virxact.com", "generatedAt": "2026年09月02日 08:07"}, "sections": [{"label": "模型发布/更新", "color": "#4f46e5", "items": []}, {"label": "产品发布/更新", "color": "#059669", "items": [{"seq": 1, "title": "Google DeepMind 为 Gemini 推出 agentic 视频理解功能", "source": "Google DeepMind：Blog（RSS）", "summary": "Google DeepMind 为 Gemini 3.7 Flash、3.6 Flash 和 3.5 Flash-Lite 推出 agentic video understanding，模型动态扫描视频片段，相比固定帧率处理 token 消耗最多降低 88%，成本最多降低 66%，准确率最多提升 7%。", "url": "https://deepmind.google/blog/introducing-agentic-video-in-gemini", "permalink": "https://aihot.virxact.com/items/cmtiy0v6k01dproel63pg10os", "publishedAt": "2026-09-02T00:00:00.000Z", "exact": false, "content": "推出Gemini中的智能体视频理解 跳至主要内容 推出Gemini智能体视频理解 创新与AI 产品与平台 公司新闻 订阅 通讯 返回 创新与AI 查看创新与AI全部内容 模型与研究 Google DeepMind Google Research Google Labs Gemini模型 量子计算 查看全部 产品 开发者工具 Gemini应用 Gemini Notebook 查看全部 基础设施与云 全球网络 Google Cloud 查看全部 技术 安全与隐私 健康 查看全部 了解更多：Google DeepMind博客 Google Research博客 Google Developers博客 Google Cloud博客 返回 产品与平台 查看产品与平台全部内容 产品 搜索 地图 Chrome Google Health Google Workspace 学习与教育 购物 查看全部 平台 Android Google Play Wear OS 查看全部 设备 Pixel Google Nest Fitbit Chromebooks 查看全部 了解更多：Google Ads & Commerce博客 Waze博客 返回 公司新闻 查看公司新闻全部内容 外联与倡议 创造机会 安全与隐私 Google. org 公共政策 可持续发展 健康 查看全部 领导层 Sundar Pichai，CEO 更多作者 查看全部 走进Google 全球动态 Google生活 查看全部 了解更多：Google安全博客 创新与AI 创新与AI 查看创新与AI全部内容 模型与研究 Google DeepMind Google Research Google Labs Gemini模型 量子计算 查看全部 产品 开发者工具 Gemini应用 Gemini Notebook 查看全部 基础设施与云 全球网络 Google Cloud 查看全部 技术 安全与隐私 健康 查看全部 了解更多：Google DeepMind博客 Google Research博客 Google Developers博客 Google Cloud博客 产品与平台 产品与平台 查看产品与平台全部内容 产品 搜索 地图 Chrome Google Health Google Workspace 学习与教育 购物 查看全部 平台 Android Google Play Wear OS 查看全部 设备 Pixel Google Nest Fitbit Chromebooks 查看全部 了解更多：Google Ads & Commerce博客 Waze博客 公司新闻 公司新闻 查看公司新闻全部内容 外联与倡议 创造机会 安全与隐私 Google. org 公共政策 可持续发展 健康 查看全部 领导层 Sundar Pichai，CEO 更多作者 查看全部 走进Google 全球动态 Google生活 查看全部 了解更多：Google安全博客 订阅 推出Gemini智能体视频理解 分享 x.com Facebook LinkedIn 邮件 复制链接 [] 偏好设置 全球（英语） 非洲（英语） 澳大利亚（英语） 巴西（葡萄牙语） 加拿大（英语） 加拿大（法语） 捷克（捷克语） 德国（德语） 西班牙（西班牙语） 法国（法语） 希腊（希腊语） 印度（英语） 印度尼西亚（印度尼西亚语） 爱尔兰（英语） 意大利（意大利语） 日本（日语） 韩国（韩语） 拉丁美洲（西班牙语） 马来西亚（马来语） 中东和北非（阿拉伯语） 中东和北非（英语） 荷兰（荷兰语） 新西兰（英语） 波兰（波兰语） 葡萄牙（葡萄牙语） 罗马尼亚（罗马尼亚语） 瑞典（瑞典语） 泰国（泰语） 土耳其（土耳其语） 台湾（中文） 链接 图片 RSS订阅 x. com Facebook LinkedIn 邮件 复制链接 通讯 面包屑导航 首页 创新与AI 模型与研究 Gemini模型 推出Gemini智能体视频理解 2026年9月1日 | x.com Facebook LinkedIn 邮件 复制链接 我们全新的视频分析智能体功能可将令牌消耗减少高达88%，成本降低高达66%，并将质量提升高达7%。\n\nRohan Doshi Google DeepMind高级产品经理 Mario Lučić Google DeepMind研究总监 分享 x.com Facebook LinkedIn 邮件 复制链接 . 将它们内联在此处，使其在DOM中可用于页面。--\u003e Yo\n\n您的浏览器不支持音频元素。收听文章 [[duration]] 分钟 此内容由 Google AI 生成。生成式 AI 处于实验阶段 语音速度 语音速度 0.75X 1X 1.5X 2X 阅读 AI 生成的摘要 Google 刚刚为 Gemini 3.7 Flash、3.6 Flash 和 3.5 Flash-Lite 推出了智能体视频理解功能。该功能允许模型动态扫描视频片段，在提高准确性的同时，将令牌使用量减少高达 88%，成本降低高达 66%。您今天就可以通过在 Google AI Studio 或 Gemini Enterprise Agent Platform 中将 API 配置设置为“agentic”来开始使用。摘要由 Google AI 生成。生成式 AI 处于实验阶段。今天，我们将在最新模型中推出智能体视频理解功能：Gemini 3.7 Flash、3.6 Flash 和 3.5 Flash-Lite。这项新功能在提高准确性的同时，大幅降低了视频分析的令牌使用量和成本。 与结合代码执行和 Gemini 模型原生图像理解的智能体视觉类似，智能体视频理解利用 Gemini 的原生视频工具来提升性能，并为视频处理解锁新能力，如亚秒级时刻检索、更准确的异常检测、精确计数等。该功能今天即可通过 Google AI Studio 和 Gemini Enterprise Agent Platform 中的 Gemini API 用于视频上传和 YouTube 视频。\n\n基准测试 与当前“静态”处理（模型以固定帧率（默认 1 FPS，可通过 API 调整）摄取视频）不同，智能体视频理解将模型的核心推理与原生视频工具相结合，动态搜索、扫描和检查跨视觉帧、音频和转录文本的目标视频片段。在标准视频分析基准测试中，具备智能体视频理解的 Gemini 模型将分析成本降低高达 66%，令牌消耗降低高达 88%，同时准确性提升高达 7%。这些效率提升在长视频（从 10 分钟的操作指南到 90 分钟的讲座和多小时录制）中尤为显著，而静态处理迫使开发者在高令牌成本或丢失关键细节的技术之间做出选择。\n\n启用智能体视频理解可将令牌消耗降低高达 88%，并使用 Gemini 3.7 Flash 将准确性提升高达 7%。虽然这些收益覆盖所有三个受支持的模型，但具备智能体理解的 Gemini 3.7 Flash 提供了整体最佳质量以及质量与成本效率的最佳组合，使其在测试的视频理解模型中处于准确性与成本的最佳平衡前沿。\n\n使用智能体视频理解使 Gemini 3.7 Flash 在视频分析中处于准确性与成本的最佳平衡前沿。\n\n工作原理 与静态处理（模型以固定帧率摄取媒体流）不同，智能体视频理解使 Gemini 能够以主动、目标导向的方式决定观看什么、以什么速度观看以及通过哪种模态（帧、音频或转录文本）观看，仅获取所需的时刻和信号。虽然开发人员以前可以手动完成此操作，但借助智能体视频理解，Gemini 可以通过智能体循环完成，调用内部工具加载视频文件的相关部分，从而显著减少开发开销。\n\n功能和应用场景 智能体视频理解改变了开发人员在各种高要求应用中处理长视频内容的方式。\n\n亚秒级时刻检索：精准定位在1 FPS下容易错过的瞬间状态变化和紧凑剪辑边界，使精确的自动化视频编辑成为可能。长视频大海捞针式搜索：无需消耗数百万个token，即可回答跨越数小时视频的复杂查询。异常检测：以更高FPS重新采样感兴趣的时间窗口，检查快速运动和细微视觉伪影。动作与物体计数：准确追踪重复的物理运动和随时间变化的独特物体。Token高效的长视频分析查看Gemini 3.7 Flash在LongVideoBench（一个长视频理解基准）上启用和未启用代理式视频理解时的表现。注意显著的token减少和准确性提升。动态FPS下的精准快速动作分析借助代理式视频理解，3.7 Flash能够根据需要以不同帧率扫描和重看视频，准确计数快速运动。Token高效的大海捞针式搜索借助代理式视频理解，Gemini 3.7能够基于视频内容准确回答复杂问题，同时与静态分析相比消耗的token数量显著降低。实际成果我们的许多早期访问合作伙伴在测试代理式视频理解时都看到了强劲的表现。 以下是他们的评价：开始使用代理式视频理解可通过Gemini API在Google AI Studio和Gemini Enterprise Agent Platform中使用，并已在Gemini 3.7 Flash、3.6 Flash和3.5 Flash-Lite上推出。它使用标准Gemini API token定价，不收取额外功能费用。要启用它，只需在API配置中将processing设置为\"agentic\"即可。阅读我们的开发者指南，深入了解该功能及如何开始使用。from google import genai client = genai.Client() interaction = client.interactions.create( model=\"gemini-3.7-flash\", input=[ { \"type\": \"video\", \"uri\": \"https://youtu. be/7Z5Vy9JBANs\", \"processing\": \"agentic\" }, { \"type\": \"text\", \"text\": \"What are the 3 most important announcements in this keynote?\", }, ], ) print(interaction.output_text)我们还将把代理式视频理解带来的效率和质量的提升带给Google产品中的数十亿用户。该功能将很快在Gemini应用中的Flash和Flash-Lite模型上向所有用户推出。在接下来的几个月里，代理式视频理解还将为YouTube视频观看页面上的\"Ask YouTube\"功能提供支持，利用Gemini提供基于视觉内容的高质量答案。感谢以下人员对本工作的贡献：Sergi Caelles、Filip Pavetić、Ahmet Iscen、Suhas Yogin以及Agentic Vision团队。在收件箱中获取Google最新资讯", "zh": true}, {"seq": 3, "title": "Google Workspace 推出图像创作编辑工具 Google Pics", "source": "Google Blog：AI（RSS）", "summary": "Google 发布 Workspace 图像创作与编辑工具 Google Pics，将在未来数周内面向所有 Google AI Pro 和 Ultra 订阅者及多数 Workspace 商业客户推出。", "url": "https://blog.google/products-and-platforms/products/workspace/google-pics", "permalink": "https://aihot.virxact.com/items/cmtivvilg06f0ro9yk5dt7mrc", "publishedAt": "2026-09-02T00:00:00.000Z", "exact": false, "content": "\u003e Google Pics —— 我们来自 Google Workspace 的图像创建和编辑工具 —— 将在未来几周内向所有 Google AI Pro 和 Ultra 订阅用户以及大多数 Workspace 商业客户推出。\n\nPics 基于我们的 Nano Banana 图像生成和编辑模型构建，为你提供所需的控制力，让你能创造出想象中的一切，无论是设计海报、制作社交媒体帖子，还是编辑数字插画。Google Pics 既是一个独立产品，也将集成到 Workspace 应用中，首批集成对象为 Slides、Docs 和 Drive，这样你就可以在已有的工作环境中直接编辑图像。\n\n精准控制与易用性兼得\n\nGoogle Pics 包含一整套经过精细调校的编辑能力，让你可以生成图像并进行精准编辑，而无需从头开始。以下是一些值得期待的功能：\n\n观看如何利用 Google Pics 强大的编辑控件即时创建和优化自定义图形。\n\n使用 Google Pics 轻松设计和微调吸睛的社交媒体内容和数字公告。\n\n- 对象分割：Pics 让你可以轻松隔离某个对象并对其进行变换，而不会影响图像的其他部分。你可以针对特定区域输入文本评论以请求定向修改，并可同时执行多项编辑。\n- 图像内文本编辑与翻译：直接在图像内部修改或翻译文本，而不会破坏设计或改变字体。\n- 与他人协作：与朋友和队友分享 Pics 创作，然后协作编辑同一张图像。\n- 多版本生成：Pics 可从单个提示词生成多个选项，让你从多种迭代版本中挑选最喜欢的一个。\n\n与 Google Workspace 的无缝集成\n\n每个月，数百万用户会在 Workspace 产品中与数十亿张图片进行交互。为了让这一体验更加无缝流畅，我们正在将 Google Pics 直接引入到你已经在使用的工具中。你不必为了创建和分享视觉内容而在多个应用之间来回切换。现在，你可以在当前所在的位置直接使用强大的 AI 图像生成和编辑功能——无需复制、粘贴，也无需切换标签页。\n\n了解如何直接在 Workspace 应用（如 Slides、Docs，以及即将推出的 Drive）中无缝编辑图片和产品样机，无需切换标签页。\n\n通过将文件直接从 Google Drive 拖入 Google Pics 来设计品牌概念，从而加快你的工作流程。\n\nCreate anything you can imagine with Google Pics.\n\nThis integration starts today with Docs and Slides, and will roll out to Drive in the coming weeks.\n\nWe can’t wait to see what you create. Try it at \u003ca href=", "zh": true}]}, {"label": "论文研究", "color": "#e11d48", "items": [{"seq": 1, "title": "Fable 5.1 系统卡披露隐蔽任务与监控难度上升等安全发现", "source": "X：Rohan Paul (@rohanpaul_ai)", "summary": "Rohan Paul 梳理了 Fable 5.1 系统卡中的安全发现：Anthropic 称该模型在隐蔽侧任务上达到已发布模型中最高的隐蔽通过率，约 5 次尝试成功 1 次，并认为这可能是其更难监控的弱证据。", "url": "https://x.com/rohanpaul_ai/status/2094873718237565197", "permalink": "https://aihot.virxact.com/items/cmtj2y06p04bwroh9d8oszszo", "publishedAt": "2026-09-02T00:00:00.000Z", "exact": false, "content": "Rohan Paul在X上表示：“Fable 5.1系统卡中透露了一些非常有趣的发现。- Anthropic表示，其自身模型可能越来越难以监控。‘在未被察觉的情况下完成隐蔽的附带任务，我们认为这是模型可能更难被监控的弱证据。’- 在一个基准测试中，该模型……”", "zh": true}]}, {"label": "技巧与观点", "color": "#0284c7", "items": [{"seq": 1, "title": "Claude Fable 5.1 登顶 Artificial Analysis 智能指数，但每任务成本比 Fable 5 高 20%", "source": "X：Artificial Analysis (@ArtificialAnlys)", "summary": "Artificial Analysis 评测 Claude Fable 5.1，其在 max effort 下得 66 分登顶 Artificial Analysis Intelligence Index。", "url": "https://x.com/ArtificialAnlys/status/2094881171066978525", "permalink": "https://aihot.virxact.com/items/cmtj484a00592roh9jjdf5xkd", "publishedAt": "2026-09-02T00:00:00.000Z", "exact": false, "content": "Artificial Analysis在X上表示：“Claude Fable 5.1在Artificial Analysis智能指数中位居榜首，但尽管缓存读取价格下调了75%，其每次任务的成本仍比Fable 5高出20%。我们支持@AnthropicAI对Claude Fable 5.1进行预发布评估。在最大努力下，它在Artificial Analysis I…上得分为66。”", "zh": true}]}]};
+function pad(n){return n<10?"0"+n:""+n;}
+function toBeijingHuman(iso, ref, exact){
+  const d=new Date(iso); const bj=new Date(d.getTime()+8*3600*1000);
+  const Y=bj.getUTCFullYear(),M=bj.getUTCMonth()+1,D=bj.getUTCDate();
+  const h=bj.getUTCHours(),m=bj.getUTCMinutes(); const hh=pad(h),mm=pad(m);
+  if(!exact) return M+"月"+D+"日";
+  const [rY,rM,rD]=ref.split("-").map(Number);
+  if(Y===rY&&M===rM&&D===rD) return "今天 "+hh+":"+mm;
+  const yest=new Date(rY,rM-1,rD); yest.setDate(yest.getDate()-1);
+  if(Y===yest.getFullYear()&&M===yest.getMonth()+1&&D===yest.getDate()) return "昨天 "+hh+":"+mm;
+  return M+"月"+D+"日 "+hh+":"+mm;
+}
+const meta=DATA.meta, sections=DATA.sections, ref=meta.reportDate;
+const statsEl=document.getElementById("stats");
+sections.forEach(s=>{const d=document.createElement("div");d.className="stat";
+  d.innerHTML='<div class="n">'+s.items.length+'</div><div class="l">'+s.label+'</div>';statsEl.appendChild(d);});
+const navEl=document.getElementById("nav");
+sections.forEach((s,i)=>{const a=document.createElement("a");a.href="#sec-"+i;
+  a.innerHTML=escapeHtml(s.label)+'<span class="c">'+s.items.length+'</span>';navEl.appendChild(a);});
+const mainEl=document.getElementById("main");
+sections.forEach((s,i)=>{
+  const sec=document.createElement("section");sec.className="block";sec.id="sec-"+i;
+  const head=document.createElement("div");head.className="sec-head";
+  head.innerHTML='<span class="sec-dot" style="background:'+s.color+'"></span><h2>'+escapeHtml(s.label)+'</h2><span class="cnt">'+s.items.length+' 条</span>';
+  sec.appendChild(head);
+  const grid=document.createElement("div");grid.className="grid";
+  s.items.forEach(it=>{
+    const card=document.createElement("article");card.className="card";card.style.setProperty("--accent",s.color);
+    const time=toBeijingHuman(it.publishedAt,ref,it.exact);const url=it.url||"#";
+    card.innerHTML='<div class="top"><span class="seq">'+it.seq+'</span><span class="time">'+time+'</span></div>'+
+      '<h3>'+escapeHtml(it.title)+'</h3><span class="chip">'+escapeHtml(it.source)+'</span>'+
+      '<p class="summary">'+escapeHtml(it.summary)+'</p>'+
+      '<a class="readmore" href="'+escapeAttr(url)+'" target="_blank" rel="noopener noreferrer" title="外部原文链接，可能需要访问境外站点">来源 ↗</a>';
+    card.addEventListener("click", function(){ openReader(it); });
+    const rm = card.querySelector(".readmore");
+    rm.addEventListener("click", function(e){ e.stopPropagation(); });
+    grid.appendChild(card);
+  });
+  sec.appendChild(grid);mainEl.appendChild(sec);
+});
+function escapeHtml(s){return (s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
+function escapeAttr(s){return escapeHtml(s);}
+// 渲染正文（纯文本归档）：图片不加载远程资源，仅以文字占位符呈现；其余文本按段落转义（防 XSS）
+function linkify(escaped){
+  if(!escaped) return escaped;
+  var re=/(\[[^\]]+\]\((https?:\/\/[^)\s]+)\))|(https?:\/\/[^\s<>"'）】」』，。、；：！？]+)/g;
+  return escaped.replace(re, function(m, g1, g2, g3){
+    if(g2!==undefined){
+      var label=m.substring(m.indexOf('[')+1, m.indexOf(']'));
+      return '<a class="r-link" href="'+g2+'" target="_blank" rel="noopener noreferrer">'+label+'</a>';
+    }
+    if(g3!==undefined){
+      return '<a class="r-link" href="'+g3+'" target="_blank" rel="noopener noreferrer">'+g3+'</a>';
+    }
+    return m;
+  });
+}
+var _IMG_RE=/!\[([^\]]*)\]\(([^)\s]+)\)/g;
+function renderRich(text){
+  return (text||"").split(/\n{1,}/).map(function(p){
+    p=p.trim(); if(!p) return '';
+    var out=''; var last=0; var m; _IMG_RE.lastIndex=0;
+    while((m=_IMG_RE.exec(p))!==null){
+      out+=linkify(escapeHtml(p.slice(last,m.index)));
+      var cap=(m[1]||'').trim()||'图片';
+      out+='<span class="r-img-cap">🖼 '+escapeHtml(cap)+'</span>';
+      last=_IMG_RE.lastIndex;
+    }
+    out+=linkify(escapeHtml(p.slice(last)));
+    return '<p>'+out+'</p>';
+  }).join("");
+}
+function openReader(it){
+  const r=document.getElementById("reader");
+  const content=(it.content||"").trim();
+  const body=document.getElementById("readerBody");
+  if(content.length>0){
+    body.innerHTML=renderRich(content);
+  }else{
+    const sum=(it.summary||"").trim();
+    if(sum){
+      // 来源站点多为付费墙 / 登录墙 / 反爬限制，无法镜像全文；展示已本地存档的中文摘要兜底
+      body.innerHTML='<div class="r-fallback">⚠️ 该条新闻的<b>全文镜像暂不可用</b>（来源站点可能为付费墙 / 登录墙 / 反爬限制，或原文已失效）。下方为已<b>本地存档的中文摘要</b>，可正常查看；完整原文请点击右下角「查看原文 ↗」。</div>'+
+        '<p class="r-summary">'+linkify(escapeHtml(sum))+'</p>';
+    }else{
+      body.innerHTML='<p class="r-empty">暂未获取到该条新闻的全文镜像与摘要。'+(it.url?'可点击右下角「查看原文 ↗」前往原始报道。':'')+'</p>';
+    }
+  }
+  document.getElementById("readerTitle").textContent=it.title;
+  document.getElementById("readerSource").textContent=it.source;
+  const link=document.getElementById("readerLink");
+  if(it.url){link.href=it.url;link.style.display="";}else{link.style.display="none";}
+  r.hidden=false;document.body.style.overflow="hidden";
+}
+function closeReader(){const r=document.getElementById("reader");r.hidden=true;document.body.style.overflow="";}
+document.getElementById("reader").addEventListener("click",function(e){if(e.target===this)closeReader();});
+document.addEventListener("keydown",function(e){if(e.key==="Escape")closeReader();});
+</script>
+</body></html>
