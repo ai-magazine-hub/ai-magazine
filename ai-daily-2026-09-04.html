@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>AI HOT 资讯 · 2026-09-04</title>
+<style>
+  :root{--bg:#f5f6fb;--card:#fff;--ink:#1f2430;--muted:#6b7280;--line:#e8eaf1;
+    --shadow:0 1px 3px rgba(16,24,40,.06),0 8px 24px rgba(16,24,40,.05);}
+  *{box-sizing:border-box} html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
+    -webkit-font-smoothing:antialiased;line-height:1.55;}
+  a{color:inherit} .wrap{max-width:1180px;margin:0 auto;padding:0 18px}
+  .hero{background:linear-gradient(135deg,#4f46e5 0%,#7c3aed 55%,#9333ea 100%);color:#fff;
+    padding:42px 0 34px;position:relative;overflow:hidden;}
+  .hero::after{content:"";position:absolute;right:-80px;top:-80px;width:280px;height:280px;
+    background:radial-gradient(circle,rgba(255,255,255,.18),transparent 70%);border-radius:50%}
+  .hero .kicker{font-size:13px;letter-spacing:.18em;text-transform:uppercase;opacity:.85;margin:0 0 6px}
+  .hero h1{margin:0;font-size:34px;font-weight:800;letter-spacing:.5px}
+  .hero .date-line{margin:8px 0 0;font-size:15px;opacity:.92}
+  .stats{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+  .stat{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.22);border-radius:12px;
+    padding:10px 14px;min-width:120px;backdrop-filter:blur(4px)}
+  .stat .n{font-size:22px;font-weight:800;line-height:1}
+  .stat .l{font-size:12.5px;opacity:.9;margin-top:4px}
+  .total-pill{display:inline-flex;align-items:center;gap:8px;margin-top:18px;background:rgba(255,255,255,.16);
+    padding:8px 16px;border-radius:999px;font-weight:600;font-size:14px}
+  .nav{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.92);backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);box-shadow:0 2px 10px rgba(16,24,40,.04)}
+  .nav .wrap{display:flex;gap:8px;overflow-x:auto;padding:10px 18px;scrollbar-width:none}
+  .nav .wrap::-webkit-scrollbar{display:none}
+  .nav a{white-space:nowrap;text-decoration:none;font-size:13.5px;font-weight:600;color:var(--muted);
+    padding:7px 13px;border-radius:999px;border:1px solid var(--line);background:#fff;transition:.15s}
+  .nav a:hover{color:var(--ink);border-color:#c9cdfb}
+  .nav a.home{background:#4f46e5;color:#fff;border-color:#4f46e5}
+  .backhome{position:fixed;right:20px;bottom:20px;z-index:30;background:#4f46e5;color:#fff;text-decoration:none;
+    font-size:14px;font-weight:700;padding:12px 18px;border-radius:999px;box-shadow:0 6px 18px rgba(79,70,229,.35);
+    display:inline-flex;align-items:center;gap:7px;transition:.15s}
+  .backhome:hover{background:#4338ca;transform:translateY(-1px)}
+  .nav a .c{display:inline-block;min-width:20px;text-align:center;margin-left:6px;background:#eef0fe;
+    color:#4f46e5;border-radius:999px;font-size:12px;padding:0 7px}
+  section.block{padding:30px 0 6px}
+  .sec-head{display:flex;align-items:center;gap:10px;margin:0 0 16px}
+  .sec-dot{width:12px;height:12px;border-radius:4px}
+  .sec-head h2{margin:0;font-size:21px;font-weight:800}
+  .sec-head .cnt{font-size:13px;color:var(--muted);font-weight:600}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px 18px 16px;
+    box-shadow:var(--shadow);display:flex;flex-direction:column;gap:10px;position:relative;
+    border-top:3px solid var(--accent,#4f46e5);transition:transform .15s,box-shadow .15s}
+  .card:hover{transform:translateY(-3px);box-shadow:0 6px 14px rgba(16,24,40,.10),0 18px 40px rgba(16,24,40,.08)}
+  .card .top{display:flex;align-items:center;justify-content:space-between;gap:8px}
+  .seq{display:inline-flex;align-items:center;justify-content:center;min-width:30px;height:30px;padding:0 8px;
+    border-radius:9px;background:var(--accent,#4f46e5);color:#fff;font-weight:800;font-size:15px}
+  .time{font-size:12.5px;color:var(--muted);font-weight:600;white-space:nowrap}
+  .card h3{margin:0;font-size:16.5px;font-weight:700;line-height:1.4}
+  .chip{display:inline-block;align-self:flex-start;font-size:12px;font-weight:600;color:var(--accent,#4f46e5);
+    background:color-mix(in srgb,var(--accent,#4f46e5) 10%,#fff);border:1px solid color-mix(in srgb,var(--accent,#4f46e5) 22%,#fff);
+    padding:3px 10px;border-radius:999px}
+  .summary{margin:0;font-size:14px;color:#3b4252;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+  .readmore{margin-top:auto;display:inline-flex;align-items:center;gap:5px;align-self:flex-start;text-decoration:none;
+    font-size:13.5px;font-weight:700;color:var(--accent,#4f46e5)}
+  .readmore:hover{text-decoration:underline}
+  footer{margin-top:36px;padding:26px 0 40px;border-top:1px solid var(--line);color:var(--muted);font-size:13px;text-align:center}
+  footer a{color:#4f46e5;text-decoration:none}
+  @media (max-width:560px){.hero h1{font-size:27px}.grid{grid-template-columns:1fr}.stat{min-width:0;flex:1 1 40%}}
+  /* 站内统一阅读面板 */
+  .card{cursor:pointer}
+  .reader-overlay{position:fixed;inset:0;z-index:60;background:rgba(18,20,32,.55);backdrop-filter:blur(3px);
+    display:flex;align-items:flex-start;justify-content:center;padding:40px 16px;overflow:auto}
+  .reader-overlay[hidden]{display:none}
+  .reader{background:#fff;border-radius:18px;max-width:840px;width:100%;box-shadow:0 30px 80px rgba(0,0,0,.32);
+    display:flex;flex-direction:column;max-height:90vh;overflow:hidden;animation:pop .18s ease}
+  @keyframes pop{from{transform:translateY(8px) scale(.98);opacity:0}to{transform:none;opacity:1}}
+  .reader-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;
+    padding:20px 24px 14px;background:linear-gradient(135deg,#4f46e5,#7c3aed);color:#fff}
+  .reader-head h2{margin:0 0 8px;font-size:20px;line-height:1.45;font-weight:800}
+  .reader-head .chip{background:rgba(255,255,255,.18);color:#fff;border:1px solid rgba(255,255,255,.3)}
+  .reader-x{background:rgba(255,255,255,.2);border:none;color:#fff;font-size:24px;line-height:1;
+    width:38px;height:38px;border-radius:10px;cursor:pointer;flex:0 0 auto}
+  .reader-x:hover{background:rgba(255,255,255,.34)}
+  .reader-body{padding:20px 24px;overflow:auto;color:#2a2f3a;font-size:15.5px;line-height:1.85}
+  .reader-body p{margin:0 0 14px}
+  .reader-body .r-img-cap{display:inline-block;margin:6px 0;padding:4px 10px;border-radius:8px;background:#f1f3f9;color:#8a93a6;font-size:13px;font-style:italic;border:1px dashed #d7dce8}
+  .reader-body .r-empty{color:#6b7280;font-style:italic}
+  .reader-body .r-summary{margin:0 0 14px;white-space:pre-wrap}
+  .reader-body a.r-link{color:#2563eb;text-decoration:underline;text-underline-offset:2px;word-break:break-all}
+  .reader-body a.r-link:hover{color:#1d4ed8}
+  .reader-body .r-fallback{background:#f5f3ff;border:1px solid #e4defb;color:#5b21b6;border-radius:10px;
+    padding:10px 14px;font-size:13px;line-height:1.7;margin:0 0 16px}
+  .reader-body .r-fallback b{color:#6d28d9}
+  .reader-foot{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;
+    padding:14px 24px 18px;border-top:1px solid var(--line);background:#fafbff}
+  .reader-foot .r-note{font-size:12.5px;color:var(--muted);max-width:62%}
+  .reader-foot .readmore{margin:0}
+</style>
+</head>
+<body>
+  <header class="hero"><div class="wrap">
+    <p class="kicker">AI HOT Daily · 晨报</p>
+    <h1>AI 资讯 · 2026年9月4日</h1>
+    <p class="date-line">星期五 · 数据来源：AI HOT</p>
+    <div class="total-pill">📊 当日共 <strong style="margin:0 4px">32</strong> 条 AI 动态</div>
+    <div class="stats" id="stats"></div>
+  </div></header>
+  <nav class="nav"><div class="wrap" id="nav"><a href="index.html" class="home">📰 AI资讯杂志</a></div></nav>
+  <main class="wrap" id="main"></main>
+  <footer>
+    <div>本日报共收录 <strong>32</strong> 条动态 · 数据来源：<a href="https://aihot.virxact.com" target="_blank" rel="noopener noreferrer">AI HOT（aihot.virxact.com）</a></div>
+    <div style="margin-top:6px">生成于 2026年09月04日 08:07 · 时间换算为北京时间 · 点「来源 ↗」跳转原始报道</div>
+    <div style="margin-top:8px;opacity:.85">说明：本条新闻的标题、摘要、来源、日期已<b>镜像保存在本页</b>；即便外部链接失效或无法访问境外站点，已存档内容仍可正常查看。</div>
+  </footer>
+  <a href="index.html" class="backhome" title="返回 AI资讯杂志 首页">📰 返回 AI资讯杂志</a>
+  <div class="reader-overlay" id="reader" hidden>
+    <div class="reader" role="dialog" aria-modal="true">
+      <div class="reader-head">
+        <div style="min-width:0">
+          <h2 id="readerTitle"></h2>
+          <span class="chip" id="readerSource"></span>
+        </div>
+        <button class="reader-x" onclick="closeReader()" aria-label="关闭">×</button>
+      </div>
+      <div class="reader-body" id="readerBody"></div>
+      <div class="reader-foot">
+        <span class="r-note">本文由 <b>AI资讯杂志</b> 整理镜像，原文版权归原作者所有 · 点击右侧按钮查看原始报道</span>
+        <a id="readerLink" class="readmore" target="_blank" rel="noopener noreferrer">查看原文 ↗</a>
+      </div>
+    </div>
+  </div>
+<script>
+const DATA = {"meta": {"reportDate": "2026-09-04", "reportDateHuman": "2026年9月4日", "weekday": "星期五", "total": 32, "source": "AI HOT", "sourceUrl": "https://aihot.virxact.com", "generatedAt": "2026年09月04日 08:07"}, "sections": [{"label": "模型发布/更新", "color": "#4f46e5", "items": [{"seq": 1, "title": "OpenAI 发布 GPT-6 Astra：1.05M 上下文的计算机操作模型，因触及 Critical 网络安全阈值而限制访问", "source": "MarkTechPost（RSS）", "summary": "OpenAI 发布 GPT-6 Astra，定位为计算机操作模型，提供 1,050,000 token 上下文窗口、128,000 最大输出 token，2026 年 4 月 30 日知识截止，OSWorld V2-Offline 得分 72.6%（GPT-5.6 Sol 为 65.7%），平均任务时间从约 75 分钟降至 40 分钟。", "url": "https://www.marktechpost.com/2026/09/03/openai-releases-gpt-6-astra-a-1-05m-context-computer-use-model-gated-behind-a-critical-cyber-threshold", "permalink": "https://aihot.virxact.com/items/cmtm1j0qe0uchrow5ozapge42", "publishedAt": "2026-09-03T21:16:11.000Z", "exact": true, "content": "", "zh": true}, {"seq": 2, "title": "OpenAI 发布新模型 Astra，主打计算机与浏览器操作但因 opaque recurrence 引发争议", "source": "TechCrunch：AI（RSS）", "summary": "OpenAI 发布最新模型 Astra，称其为迄今最强大模型，主打计算机和浏览器操作，先面向 Daybreak 网络安全计划客户开放，随后一周内覆盖 Pro、Plus、Enterprise、Business 付费账户及 API。", "url": "https://techcrunch.com/2026/09/03/openai-launches-astra-its-powerful-and-controversial-new-model", "permalink": "https://aihot.virxact.com/items/cmtlu0vyd0nelrow5qppvereu", "publishedAt": "2026-09-03T18:01:45.000Z", "exact": true, "content": "", "zh": true}, {"seq": 3, "title": "OpenAI 开始发布 GPT-6 Astra，面向全部 Plus 用户开放", "source": "X：Tibo (@thsottiaux)", "summary": "OpenAI 宣布开始发布 GPT-6 Astra，称正以尽可能谨慎和快速的方式推进，重点让全部 Plus 用户可用，而不只限 Pro、Business 和 Enterprise 套餐。发布需几天完成，背后多个全新系统将首次大规模运行，团队正带来大量算力，详情见 openai.com/index/gpt-6-astra/。", "url": "https://x.com/thsottiaux/status/2095597168816226335", "permalink": "https://aihot.virxact.com/items/cmtlyijvl0rlsrow5dwqv22k7", "publishedAt": "2026-09-03T19:37:54.000Z", "exact": true, "content": "Tibo在X上表示：“我们开始发布GPT-6 Astra，并且正在尽可能谨慎且迅速地推进。对我们来说，让所有Plus用户都能使用它，而不仅仅是Pro、Business和Enterprise用户，这一点非常重要。全面推出需要几天时间才能完成，而在幕后，许多新功能……”", "zh": true}, {"seq": 4, "title": "OpenAI 发布 GPT-6 Astra，多项基准达到 SOTA", "source": "X：Sherwin Wu（@sherwinwu）", "summary": "OpenAI 发布 GPT-6 Astra，在 FrontierMath Tier 4、ARC-AGI 3、TerminalBench-4.0 上达到 SOTA，并在 Terminal-Bench Science 0.1 和 HealthBench Pro 上取得领先成绩。", "url": "https://x.com/sherwinwu/status/2095608486940086448", "permalink": "https://aihot.virxact.com/items/cmtlzumiu0sojrow5820i30sg", "publishedAt": "2026-09-03T20:22:52.000Z", "exact": true, "content": "Sherwin Wu在X上表示：“评估结果相当惊人，但当你第一次看到Astra进行电脑操作时，那种直观的感受更加强烈。那是我觉得最震撼的部分。有机会的话，建议你在ChatGPT桌面应用中尝试使用Astra进行电脑操作。”", "zh": true}, {"seq": 5, "title": "IFM 发布 K2 Horizon 六款开源模型，覆盖 0.9B 到 375B-A23B 并开放完整训练生命周期", "source": "Hacker News 热门（buzzing.cc 中文翻译）", "summary": "IFM 发布 K2 Horizon 模型系列，共六个模型：375B-A23B、36B-A4B、32B、7B、3.7B 和 0.9B，均以 Apache 2.0 开源，其中 0.9B、3.7B 和 7B 宣称在其规模上达到 SOTA，36B-A4B 采用新提出的稀疏注意力架构 MoVA。", "url": "https://ifm.ai/blog/k2", "permalink": "https://aihot.virxact.com/items/cmtlu0yka0neurow5as9e6jtu", "publishedAt": "2026-09-03T17:35:09.004Z", "exact": true, "content": "推出 K2 Horizon：前沿性能，彻底开放 跳转至文章 推出 K2 Horizon：前沿性能，彻底开放 2026年9月3日 · 基础模型研究所 工件 社交 概览 性能 模型系列 设计 Horizon 开放科学 开始使用 完整结果 今天，IFM 发布 K2 Horizon，一个由六款模型组成的互联系列：375B-A23B、36B-A4B、32B、7B、3.7B 和 0.9B。在推理、数学、编程、智能体任务和通用能力方面，K2 Horizon 在每个尺寸级别都提供了顶级性能——其中 0.9B、3.7B 和 7B 模型在其各自规模上树立了新的行业标杆。K2 Horizon 也是我们迄今为止最全面的开放发布。对于每款模型，我们都开放了从预训练到推理和智能体后训练的训练全生命周期。我们发布了中间检查点、训练数据或详细的数据构建配方、开放架构、混合组成、训练代码、配置、细粒度日志、评估结果和最终权重。模型和代码在 Apache 2.0 许可下发布。数据集在其适用许可下发布，如 ODC-BY；当无法重新分发时，我们会披露数据的构建和混合方式。总而言之，K2 Horizon 代表了迄今为止最全面的开放模型发布：跨规模的全新性能前沿。0. 9B、3.7B 和 7B 模型在广泛使用的评估中，于各自尺寸级别实现了世界领先的性能。36B-A4B 模型配备了我们新的混合值注意力（MoVA）机制，在每活动参数上提供了卓越的能力，超越了某些更大的模型。32B 和 375B-A23B 模型在其各自类别中位居顶级模型之列。这六款模型共同在从边缘设备到企业的各种部署环境中提供了具有竞争力的性能。首个完全开放的智能体模型系列。K2 Horizon 是首个通过智能体后训练公开完整开发过程的开放模型系列。通过发布每个阶段的检查点、数据（或数据配方）、代码、配置和训练日志，K2 Horizon 使得研究推理、工具使用、规划和智能体能力如何涌现成为可能；重现创造这些能力的方法；并将这些方法适配到新的工具、环境和领域。六款模型覆盖从边缘到企业。0.9B 模型专为手表和眼镜等高度受限环境设计，而 3.7B 和 7B 模型则将先进能力带到手机和其他设备端应用。稠密 32B 模型和稀疏 36B-A4B 模型为本地工作站和高效服务提供了强大选项。375B-A23B 模型将系列中最强的能力带入要求严苛的企业部署。所有六款模型均支持量化。一个互联的系列。 这六款模型共享核心架构、词表、训练方法、接口、评估基础设施和部署工具，其中 0.9B 模型使用较小的词表。这种一致性也使得在不同尺寸之间迁移、动态路由工作以及跨规模研究能力和效率变得更加容易。跨规模的全球领先性能 0.9B、3.7B 和 7B 模型在数学、推理、通用能力、编程和智能体任务方面，于各自类别中取得了最先进的结果。36B-A4B 模型的性能超出了通常预期\n\n其激活参数数量，充分体现了我们独特的混合专家设计在计算注意力值时的高效性。32B和375B-A23B模型在各自对比类别中均位居顶尖模型之列。小模型尤其引人注目。K2 Horizon 0.9B在AIME 2026中取得超过48分的成绩，同时具备强大的推理、工具使用和智能体能力。K2 Horizon 3.7B和7B将这些能力拓展至更具挑战性的软件工程和多步骤环境，在SWE-bench和BrowseComp中的强劲表现可见一斑。尽管需要广泛探索和反复恢复的复杂任务（如TerminalBench中的任务）对最小模型而言仍具难度，但K2 Horizon在每个规模上都拓展了可能性的边界。为什么Horizon系列至关重要？一个远落后于能力前沿的透明模型，即使作为研究基础，其价值也有限。与此同时，一个仅以最终权重形式发布的强大模型虽可供人们运行，却几乎无法揭示其能力是如何被创造出来的。K2 Horizon将这两者合二为一。该系列提供极具竞争力的模型，并公开用于训练它们的配方。研究人员可以在足以展现高级能力的模型中研究这些能力，而开发者则可以复现、调整和扩展这些方法，而非将最终检查点视为一个不透明的起点。\n\n自我们在2023年LLM360论文中引入完全开放原则以来，我们每年都发布开放模型，并将这一承诺延伸至更大规模、更强能力，如今更覆盖了通过智能体后训练实现的完整生命周期。对于每个Horizon模型，我们将发布：训练数据或配方，如构建方法和混合组成；训练代码；模型配置和训练配方；\n\n整个训练过程中的中间检查点；细粒度的训练日志；涵盖通用和专业能力的评估结果；\n\n最终模型权重。最终检查点展示了一个模型能做什么。Horizon的完整训练记录则有助于揭示它是如何学会做到的。深入解析K2 Horizon系列K2 Horizon 375B-A23B：企业级性能旗舰K2 Horizon 375B-A23B是该系列中规模最大、能力最强的模型。其稀疏MoE架构提供总计3750亿参数，同时每个token仅激活约230亿参数，使其能够调用更大模型的容量，而无需为每个token使用全部参数。该模型在通用、推理、编码和智能体评估中，均位列4000亿参数以下模型的顶尖行列。它专为对模型质量要求最高的严苛工作负载而设计，包括复杂推理、软件工程、研究以及长周期智能体任务。\n\n与Horizon系列中的每个模型一样，375B-A23B并非作为单一端点发布，而是以一棵开发树的形式呈现。其中间检查点和后训练分支揭示了基础模型如何发展为推理、指令遵循及专用智能体变体。K2 Horizon 32B和36B-A4B：本地部署的强劲性能Horizon 32B是该系列中最强大的稠密模型，在能力、适应性和本地可部署性之间实现了强劲平衡。它位列400亿参数以下稠密模型的顶尖行列。Horizon 36B-A4B在仅激活约40亿参数的情况下，性能几乎达到稠密32B模型的水平。\n\n每个token的参数数量。其效率得益于我们新的稀疏注意力架构MoVA，以及MoE前馈层。这两个模型为研究密集与稀疏架构在相似训练条件下的行为提供了重要参考点。这些模型处于该系列本地性能的最佳平衡点。它们足够强大，能够胜任要求严苛的推理、编码和智能体应用，同时对于本地工作站和高效服务系统而言也足够实用。\n\nK2 Horizon 7B、3.7B和0.9B：小规模下的前沿能力\n\nK2 Horizon 7B和3.7B在推理、数学、编码、工具使用和智能体性能方面表现出色，同时仍适合本地及端侧部署。在多项评估中，它们的结果接近甚至超越了上一代体积大数倍的模型。K2 Horizon 0.9B则将许多相同的能力带入高度受限的环境中。它能够进行数学推理、使用工具并完成简单的智能体任务，同时保持足够紧凑，可在量化条件下应用于手表、眼镜及其他边缘设备。合适的任务随规模而变化：0.9B模型最适合聚焦型交互和轻量级工具使用，而3.7B和7B模型则能处理要求更高的编码和多步骤工作流。它们共同展示了在如今，小到几乎可在任何地方运行的模型中能够保留多少能力。\n\n设计K2 Horizon：从一开始就作为一个家族\n\nHorizon从一开始就被设计为一个相互关联的家族，而非一组互不相关的模型。这六个模型共享核心架构决策、训练方法、接口、评估基础设施和部署工具。这使得开发者能够更轻松地在不同规模之间切换，也为研究人员提供了一个更受控的环境来研究跨规模的能力表现。每个模型均使用精心构建并有文档记录的混合数据，预训练约20万亿个token。在整个训练过程中，中间检查点及其对应的细粒度日志均被捕获，为每个模型的发展过程留下了详细记录。\n\nMoVA：通过稀疏专家扩展注意力\n\n混合专家模型的核心思想是在保持每个token所需计算量大致固定的同时，增加模型的总体容量。传统MoE架构主要将这种稀疏性应用于前馈层：存在许多专门的专家，但路由器仅为每个token激活其中一小部分。我们的新架构MoVA——混合值注意力，将这一原理扩展到注意力机制。由于注意力决定了Transformer如何从整个上下文中整合信息，在此引入稀疏性为扩展模型容量开辟了超越前馈网络的新维度。MoVA将专家路由集成到多头注意力中，同时保持与FlashAttention、分组查询注意力和稀疏注意力等高效技术的兼容性。其成果便是K2 Horizon MoVA 36B-A4B：一个总参数达360亿、但每个token仅激活约40亿参数的模型。在相同训练条件下，其性能仅略低于密集型的Horizon 32B模型，而所需激活参数却大幅减少。\n\n训练数据\n\n跨六个规模的训练需要足够广泛以支撑通用能力、又经过精心构建以在约20万亿个token上保持质量的数据。\n\nHorizon的预训练混合数据涵盖了多样化的网页、代码、数学、科学、多语言及领域特定来源，并结合了通过我们自有流程生成的合成数据。我们数据创新的关键之一是将推理直接融入预训练：近17%的预训练语料由带有显式推理的问题求解轨迹组成。数学任务的推理轨迹被进一步改写为对话、学习指南等格式。总体而言，我们在预训练期间使用了约10万亿个合成token。我们的合成数据流程使用了数百万种多样性旋钮与上下文种子的组合，包括从内部构建的、覆盖预训练网页语料的搜索引擎中进行检索。为了在语料规模上量化多样性，我们开发了一种基于gzip的自定义压缩指标，并采用自适应步进来避免标准gzip测量在文档数量增长时迅速饱和。如下所示，我们合成数据的实测多样性接近高质量自然网页文本，并显著超过网页代码。我们记录了数据构成、合成流程及训练混合数据的构建方式。遵循我们的开源原则，在许可允许的情况下，我们直接发布可直接用于训练的数据集。在再分发受限的情况下，我们发布来源描述、过滤与构建方法以及混合构成。这使得研究人员能够了解每个模型学习了什么，以及数据分布在整个训练过程中如何演变。我们的后训练数据从中期训练一开始就引入，而非仅保留给训练的最终阶段。\n\n我们将合成的长上下文文档与指令遵循、推理及智能体轨迹相结合，并使用聊天模板进行格式化。我们后训练数据的一大支柱是基于任务分类法、多样性旋钮和网络搜索种子的大规模任务合成，生成了超过1亿个独特任务。此外，我们开发了采样技术，在生成训练轨迹时引导求解器大语言模型走向正确解决方案和期望行为。预训练动态每个K2 Horizon检查点都附有详细的训练日志和细粒度历史记录，揭示了大规模训练的真实动态：损失如何演变、不稳定性出现在何处、干预如何影响训练，以及能力何时开始涌现。这些记录之所以有用，举一个例子：K2 Horizon 3.7B、7B、32B和36B-A4B是在完全相同的22万亿个token上训练的。当按训练进度对齐并以训练最后1%的中位数损失进行归一化后，它们的原始损失轨迹大致重合，如下图所示——即使跨越稠密和稀疏架构，且总参数量相差近一个数量级。虽然这种归一化在构造上对齐了它们的终点，但并未强制早期和中间阶段的轨迹重合。它们的高度一致性表明，在共享数据和相同配方下，学习曲线的形态在整个训练过程中，对于使用相同数据集的子模型群保持了显著的一致性。\n\n检查点与日志共同使研究人员能够探究为什么某些动态会跨规模和架构迁移，而另一些则出现分歧，并将这些差异与特定训练阶段联系起来。\n\n、数据混合以及技术决策。推理与智能体的后训练 K2 Horizon 的大部分高级推理和智能体能力是在后训练阶段涌现的。完整的流程包括中期训练、监督微调、模型合并、强化学习以及专门的智能体训练。这一过程并非只产出一个最终的聊天模型，而是构建出一棵开发树。不同分支分别专精于推理、编码、工具使用和智能体领域，同时与共同的基座检查点保持连接。我们发布了这些阶段的产物，以便研究人员能够研究每种能力在何处涌现、复现各个分支，并将相同的方法适配到新的工具和环境中。Uno Diffusion：为 Horizon 提供即插即用的无损加速 推理速度已成为首要优化目标，尤其是在推理模型和智能体时代。随着模型生成更长的思维链并执行更多操作，即使是微小的单 token 延迟也可能产生显著影响。", "zh": true}, {"seq": 6, "title": "OpenAI 发布 GPT-6 Astra，首个达到关键级网络安全能力门槛的模型", "source": "IT之家（RSS）", "summary": "OpenAI 于 9 月 3 日发布新一代大语言模型 GPT-6 Astra，是其首个达到准备框架中关键级网络安全能力门槛的模型，可在无逐步指导下发现防护严密系统的未知漏洞。", "url": "https://www.ithome.com/0/998/208.htm", "permalink": "https://aihot.virxact.com/items/cmtm3lnrg022wrooelnc62oo9", "publishedAt": "2026-09-03T22:28:07.000Z", "exact": true, "content": "OpenAI GPT-6 Astra 发布：首次达到“关键”级网络安全能力门槛，布罗克曼认为 AGI 时代已经到来 - IT之家 首页 IT圈 最会买 设置 日夜间 随系统 浅色 深色 主题色 黑色 投稿 订阅 RSS订阅 收藏IT之家 软媒应用 App客户端 要知App 软媒魔方 业界 手机 电脑 测评 视频 AI 苹果 iPhone 鸿蒙 软件 智车 数码 学院 游戏 直播 5G 微软 Win10 Win11 专题 搜索 首页 \u003e 智能时代 \u003e 人工智能 OpenAI GPT-6 Astra 发布：首次达到“关键”级网络安全能力门槛，布罗克曼认为 AGI 时代已经到来 2026/9/4 6:28:07 来源： IT之家 作者： 问舟 责编： 问舟 评论： 感谢IT之家网友 南琴梨 、 简纸Paper 、 苹果笔会梦到乔布斯吗 、 未央 、 AlanMac 、 愚公骑马 、 汪汪的主人是喵喵 、 软媒新友1970583 、 软媒新友2203184 、 华南吴彦祖 、 凉 、 软媒用户1053564 、 勇者阿帽 、 不甜的砂糖 、 Stephen_233 、 火瓶座 、 乌蝇哥的左手 、 棒槌 的线索投递！\n\nIT之家 9 月 4 日消息，当地时间 9 月 3 日，OpenAI 宣布推出新一代 GPT-6 Astra 模型，这是该公司迄今为止最强大、部署最广泛的大语言模型。据介绍，Astra 是 OpenAI 旗下首个达到其“准备框架”（Preparedness Framework）中“关键”（Critical）网络安全能力门槛的模型。格雷格 · 布罗克曼（Greg Brockman）声称，随着 Astra 的发布，世界已经进入了通用人工智能的新时代。据 OpenAI 介绍，Astra 在网络安全能力上实现了显著跃升。在提供适当工具和访问权限的情况下，该模型能够在无人指导的条件下，发现许多防护严密的系统中此前未知的安全漏洞，并开发新的利用方式。\n\n针对网络安全能力提升，OpenAI 进一步加强了 GPT-6 Astra 的安全防护，包括强化内部开发和部署环境隔离、加密模型检查点，以及对完整运行轨迹进行统一监控。OpenAI 还引入了在内部使用前必须通过的阻断式对齐评估流程，并针对模型可能因滥用或自身偏差采取有害网络操作的风险增加防护措施。与 GPT-5.6 Sol 相比，GPT-6 Astra 的抗越狱能力也有所提升。OpenAI 称，该模型通过新的鲁棒性（指模型在面对被破坏的、异常的、有恶意的输入时，能否做到“临危不乱”）安全训练技术，在较长运行轨迹中的表现同样更加稳定。\n\n在具体应用场景中，Astra 在面对提示词注入攻击的鲁棒性显著优于 GPT-5.6 Sol，在真实浏览和专业计算机环境中的不对齐及潜在破坏性行为（如未经授权的交易、数据丢失、过度访问或规避控制）也大幅减少。此外，Astra 在高风险场景中的响应更为安全，且在 18 岁以下用户的年龄适配安全边界应用上更为一致。IT之家注：提示词注入攻击（Prompt Injection）是指通过特定输入诱导 AI 系统偏离原有指令或安全约束的攻击方式。OpenAI 表示，公司通过离线测试，以及内部和外部越狱测试与修复计划，对 GPT-6 Astra 进行了验证。针对被标记为潜在高风险的用户，模型还接受了更保守拒答边界方面的训练。\n\n此外，OpenAI 采用回归测试确保 GPT-6 Astra 能够抵御此前测试阶段发现的越狱方式，并使用最新的内部自动化红队攻击模型进行了新一轮测试。在模型对齐方面，OpenAI 称 GPT-6 Astra 相较 GPT-5.6 Sol 也有所改进，涉及预训练数据构成以及强化学习阶段的评估机制。根据 OpenAI 公布的一组对齐评估结果，GPT-6 Astra 在遵守安全与安全边界、以及保持在获授权范围内执行任务方面表现更好。\n\nOpenAI 还利用超过 5.4 万项内部 Codex 任务开展部署模拟。在这项测试中，GPT-6 Astra 被标记为高严重程度失配行为的次数约为 GPT-5.6 Sol 的一半。OpenAI 同时扩大了失配监控系统的部署范围，将其加入 GPT-6 Astra 对外部署过程中涉及工具调用的推理流程。该监控系统需要消耗大量计算资源，其架构与 OpenAI 内部使用的监控方案相似。不过，OpenAI 也指出，GPT-6 Astra 的可监控性较 GPT-5.6 Sol 有所下降。相关研究显示，Astra 更有能力控制自身思维链（CoT），并且更不容易在其中留下可能暴露问题的信息。\n\n在对抗性测试中，OpenAI 要求模型主动规避监控，发现 GPT-6 Astra 在评估中故意降低表现时可以保持不被发现；在执行部分破坏性任务时，它有时也能够规避内部监控。OpenAI 称，目前尚未发现 GPT-6 Astra 存在思维链隐写推理的证据，即通过普通且看似无关的文本隐藏推理信息。因此，现阶段观察到的规避风险可能主要局限于较低难度的推理任务。OpenAI 强调，这些结果主要来自要求模型主动规避监控的对抗性评估，而整体对齐测试仍显示，GPT-6 Astra 违反安全限制的可能性低于 GPT-5.6 Sol。\n\nOpenAI 表示，公司将继续研究上述趋势及其对模型可监控性的影响，并把保持和利用思维链监控能力作为相关研究计划的核心目标。同时，公司认为，仅依靠检查模型思维链并不足以完成对齐审计，还需要发展其他审计技术。在浏览和办公环境中，GPT-6 Astra 同样针对提示注入进行了强化。OpenAI 在真实浏览及专业计算机环境中测试发现，该模型执行未授权交易、造成数据丢失、过度访问权限或绕过控制措施等潜在破坏性行为的可能性低于 GPT-5.6 Sol。在智能体场景中，GPT-6 Astra 处理高风险请求时也更加谨慎。例如，对于涉及暴力攻击策划或实施欺诈的请求，其行为安全性均有所提升。\n\nOpenAI 最后表示，GPT-6 Astra 在来自实际生产环境及人工红队测试的高风险请求中，相较 GPT-5.6 Sol 能够更安全地完成允许处理的任务，同时减少对无害请求的不必要拒答。\n\nOpenAI 首席科学家 Jakub Pachocki 在 9 月 3 日上午的简报会上表示：“随着模型能力增强，准确理解它们能做什么变得更困难了。这并不保证随着智能持续提升，我们的方法仍然足够有效，因为智能的进步并不能保证对齐的进步。” 投诉水文 我要纠错 下载IT之家APP，签到赚金币兑豪礼 相关文章 关键词： OpenAI ， GPT6 Astra OpenAI 宣布将向全球投入 10 亿美元扩大 AI 网络安全能力，优先覆盖供水、电力等关键服务 OpenAI 将召集约 300 名安全领域负责人，筹备网络安全相关公告 OpenAI、Anthropic 等科技公司安保人员获准罢工，要求提高薪资待遇 奥尔特曼：OpenAI Astra 模型参与了美政府自愿审查 奥尔特曼：OpenAI 肯定会研发人形机器人 OpenAI 首席科学家回应“AI 推理不透明”争议：复杂度未跳跃增长 软媒旗下网站： IT之家 最会买 - 返利返现优惠券 iPhone之家 Win7之家 Win10之家 Win11之家 软媒旗下软件： 软媒手机APP应用 魔方 最会买 要知 关于IT之家 | 联系我们 | 加入软媒 | WAP版 | 网站地图 | Archiver IT之家，软媒旗下科技门户网站 - 爱科技，爱这里。", "zh": true}, {"seq": 7, "title": "OpenAI 发布 GPT-6 Astra，官方基准显示 ARC-AGI-3 得分 99.9%", "source": "X：Kim (@kimmonismus)", "summary": "", "url": "https://x.com/kimmonismus/status/2095585966102614182", "permalink": "https://aihot.virxact.com/items/cmtlwgygo0pnorow5q12m2p9j", "publishedAt": "2026-09-03T18:53:23.000Z", "exact": true, "content": "Chubby♨️在X上表示：“来自OpenAI官网的官方GPT-6 Astra基准测试结果‘Astra在ARC-AGI-3上达到饱和，得分99.9%，在ExploitBench上得分100%’”“GPT-6 Astra今日起向有限的组织开放，未来几天内将逐步向所有ChatGPT Plus、Pro用户推出……”", "zh": true}, {"seq": 8, "title": "OpenAI 发布 GPT-6 Astra，基准全面超越 Claude Fable 5.1", "source": "X：Kim (@kimmonismus)", "summary": "作者引用 OpenAI 官方基准称 GPT-6 Astra 以 99.9% 饱和 ARC-AGI-3，在 ExploitBench 得 100%，并在各项基准上全面超过此前保持 SOTA 两天的 Claude Fable 5.1，且价格更低。", "url": "https://x.com/kimmonismus/status/2095589174686400914", "permalink": "https://aihot.virxact.com/items/cmtlwgygo0pnnrow5tbc0sok8", "publishedAt": "2026-09-03T19:06:08.000Z", "exact": true, "content": "Chubby♨️在X上表示：“到了这个阶段，他们在所有基准测试中彻底碾压了Fable 5.1。Claude Fable 5.1在几个关键基准测试中保持了两天的领先地位。Astra更胜一筹——而且价格便宜得多。”", "zh": true}, {"seq": 9, "title": "Gary Marcus 评 GPT-6 Astra：进步明显但鲁棒性与可监控性存疑", "source": "Gary Marcus：The Road to AI We Can Trust（RSS）", "summary": "Gary Marcus 发文点评 GPT-6 Astra，称多项报告显示其为真正的进步，OpenAI 产品显式创建并操纵符号世界模型，令其近十年的主张获得印证。", "url": "https://garymarcus.substack.com/p/hot-take-on-gpt-6-astra", "permalink": "https://aihot.virxact.com/items/cmtm5q99n018rrow0z6je2l9y", "publishedAt": "2026-09-03T23:24:50.000Z", "exact": true, "content": "", "zh": true}, {"seq": 10, "title": "Greg Brockman 转发：GPT-6 Astra 在 ARC-AGI-3 达到 SOTA，基准趋于饱和", "source": "X：Greg Brockman (@gdb)", "summary": "Greg Brockman 转发 @arcprize 的评测称 OpenAI 的 GPT-6 Astra 在 ARC-AGI-3 上取得 SOTA，他称该基准已饱和。Astra 标准 harness 得分 63%，经新的 Provider Adapter harness 达 99%，在 96% 的 ARC-AGI-3 关卡上超越人类表现；排行榜图还显示更高推理层级通常成本更低，因为 Astra 用更少动作通关，减少模型调用和 toke…", "url": "https://x.com/gdb/status/2095629409017614390", "permalink": "/items/cmtm2suk00171rooej14mutgj", "publishedAt": "2026-09-03T21:46:00.000Z", "exact": true, "zh": true, "fromFeed": true, "content": "Greg Brockman on X: \"arc-agi-3 is now saturated\""}, {"seq": 11, "title": "Perplexity 宣布将接入 OpenAI GPT-6 Astra，称其在 WANDR 评测中居首", "source": "X：Aravind Srinivas（Perplexity CEO） (@AravSrinivas)", "summary": "Perplexity CEO Aravind Srinivas 祝贺 OpenAI 发布 GPT-6 Astra，称其在宽度和深度研究任务上远超其他模型且更具成本效益，将很快向 Perplexity Computer 的 Pro 和 Max 用户开放。", "url": "https://x.com/AravSrinivas/status/2095621195131695352", "permalink": "/items/cmtm1xhpk0unkrow52qftlbda", "publishedAt": "2026-09-03T21:13:22.000Z", "exact": true, "zh": true, "fromFeed": true, "content": "Aravind Srinivas on X: \"Congrats to @OpenAI on building the industry's frontier model: GPT-6 Astra. It's far ahead of every other model on wide and deep research tasks, while also being more cost-effective. We'll be bringing this model up on Perplexity Computer for all Pro and Max users soon!\""}, {"seq": 12, "title": "OpenAI 发布 GPT-6 Astra，ARC-AGI 3 得分 99.9%", "source": "Simon Willison 博客", "summary": "OpenAI 的 GPT-6 Astra 今日起向部分组织推出，随后面向 ChatGPT Plus、Pro、Business、Enterprise 用户开放，API 定价为每百万输入 $10、每百万输出 $50，与 Claude Fable 5/5.1 持平。", "url": "https://simonwillison.net/2026/Sep/3/gpt6-astra", "permalink": "/items/cmtlzasi70s61row5vze3ldjh", "publishedAt": "2026-09-03T20:18:41.000Z", "exact": true, "zh": true, "fromFeed": true, "content": "GPT‑6 Astra Simon Willison’s Weblog Subscribe Sponsored by: Greptile — The Al code reviewer that runs your code. Catch bugs that only show up at runtime. Try it for free 3rd September 2026 - Link Blog GPT‑6 Astra ( via ) GPT-6 Astra is \"rolling out today to a limited set of organizations and over the coming days will become available to all ChatGPT Plus, Pro, Business, and Enterprise users, as well as through the OpenAI API and AWS\" - I've not tried it yet myself, so I don't have a great deal to say about it yet. It's going to be API priced at the same rate as Claude Fable 5 and 5.1: $10/million input and $50/million output. This is clearly OpenAI's Fable competitor, and appears to score higher than Fable on most of OpenAI's self-reported benchmarks. Most impressively, Astra scores 99.9% on the recent (released in March) ARC-AGI 3 benchmark - though notably Fable 5 does not yet have a published result, and the ARC-AGI blog notes that the 99. 9% score was achieved for $19K using OpenAI's custom \"Provider Adapter harness\", while the default ARC-AGI harness scored 62.7% for $26K. The Provider Adapter harness preserves opaque reasoning state between requests and uses compaction for longer conversations, allowing the model to reuse prior work. Unsurprisingly, given the recent Hugging Face incident , Astra is a beast at security tasks. It scores 100% on ExploitBench (GPT-5.6 Sol got 78.5%), 42.4% on ExploitGym (Sol got 30.3%), and 99. 2% within four attempts on SRE-Bench binary reverse engineering compared to Sol's 68.7%. It's also better at long context: on OpenAI's eight-needle benchmark it got 100% at 256K–512K tokens and 96.3% at 512K–1M tokens. OpenAI may have vanquished one of the ongoing challenges with long context processing. It doesn't win at everything though. Artificial Analysis note that Astra is still beaten by Fable on their Intelligence Index: Sits beside GPT-5.6 Sol in Intelligence : GPT-6 Astra scores equal to GPT-5. 6 Sol in the Index at 61. This is 5 points lower than Claude Fable 5.1 (max with fallback). The model also trails Meta’s newly released Muse Spark 1.3 (max). It did better on their Coding Agent Index: Leads Coding Agent Index cost efficiency frontier : At max effort, GPT-6 Astra costs about the same as GPT-5.6 Sol (max) while scoring 2 points higher on the Index. Per task, the model is less than half the cost of Claude Fable 5, for the same score. I'll write more about Astra once I get access to it. The API model label once it rolls out will be gpt-6-astra . OpenAI's blog keeps throwing 500 errors, but [here's a mirror](https://astratest.codergautam.workers.dev/GPT-6%20Astra_%20A%20new%20generation%20of%20intelligence%20_%20OpenAI) of the post I found [via Hacker News](https://news.ycombinator.com/item?id=49554273#49555070). --\u003e Posted 3rd September 2026 at 8:18 pm Recent articles Claude's new system prompt really doesn't want to reproduce song lyrics - 2nd September 2026 Claude Fable 5. 1 made me a really nice animated pelican - 1st September 2026 Understanding ChatGPT Work - 30th August 2026 This is a link post by Simon Willison, posted on 3rd September 2026 . ai 2,214 openai 453 generative-ai 1,962 llms 1,929 llm-release 229 Monthly briefing Sponsor me for $10/month and get a curated email digest of the month's most important LLM developments. Pay me to send you less! Sponsor & subscribe Disclosures Colophon © 2002 2003 2004 2005 2006 2007 2008 2009 2010 2011 2012 2013 2014 2015 2016 2017 2018 2019 2020 2021 2022 2023 2024 2025 2026"}, {"seq": 13, "title": "OpenAI 发布 GPT-6 Astra", "source": "X：Sam Altman (@sama)", "summary": "Sam Altman 宣布 GPT-6 Astra 发布，称其为计算机使用、专业工作、科学、编码、网络安全等领域全球最佳模型。官方表示为确保该能力级别所需的安全与对齐标准而多花了些时间，并公布 FrontierMath Tier 4 得分 98%、ARC-AGI 3 得分 99.9%、ExploitBench 得分 100%。", "url": "https://x.com/sama/status/2095600005772104059", "permalink": "/items/cmtlyijva0rlqrow5dkrujvge", "publishedAt": "2026-09-03T19:49:10.000Z", "exact": true, "zh": true, "fromFeed": true, "content": "Sam Altman on X: \"GPT-6 Astra is here. We hope it will begin to enable a new generation of entrepreneurship, scientific discovery, and building. We believe it is the best model in the world for computer use, professional work, science, coding, cybersecurity, and more. It took us some extra time …"}, {"seq": 14, "title": "OpenAI 发布 GPT-6 Astra，主打 Computer Use 与 Agent 对齐进展", "source": "X：Mark Chen（OpenAI 首席研究官，@markchen90）", "summary": "OpenAI 首席研究官 Mark Chen 宣布 GPT-6 Astra 发布，称其为团队多年预训练、强化学习和后训练工作的成果，是迄今能力最强、对齐最好的模型。", "url": "https://x.com/markchen90/status/2095597534412673109", "permalink": "/items/cmtlxtppp0qqprow5v4bb80ng", "publishedAt": "2026-09-03T19:39:21.000Z", "exact": true, "zh": true, "fromFeed": true, "content": "Mark Chen on X: \"GPT-6 Astra is here! This is a big moment for our research team - years of work on pretraining, reinforcement learning, and post-training have come together in our most capable and aligned model yet. It can build and test software, work across apps on your computer, and even help y…"}, {"seq": 15, "title": "OpenAI 发布 GPT-6 Astra，并首次将其列为 Preparedness Framework 下关键级网络安全模型", "source": "The Decoder：AI News（RSS）", "summary": "OpenAI 发布其最强模型 GPT-6 Astra，总裁 Greg Brockman 称其可能已接近 AGI，并以 Welcome to the AGI era 结束发布。", "url": "https://the-decoder.com/gpt-6-astra-is-the-first-model-making-openai-willing-to-declare-the-agi-era", "permalink": "/items/cmtlx9epa0qcxrow5bt068c9u", "publishedAt": "2026-09-03T19:25:40.000Z", "exact": true, "zh": true, "fromFeed": true, "content": ""}, {"seq": 16, "title": "OpenAI 发布 GPT-6 Astra，先向受限网络安全客户开放", "source": "X：Rohan Paul (@rohanpaul_ai)", "summary": "OpenAI 发布 GPT-6 Astra，首先向经过审核的 Daybreak 网络安全客户开放，Plus、Pro、Business、Enterprise、API 和 AWS 将在未来数日内跟进。", "url": "https://x.com/rohanpaul_ai/status/2095586785455948112", "permalink": "/items/cmtlwgyh00pnqrow5t4ajo0y7", "publishedAt": "2026-09-03T18:56:38.000Z", "exact": true, "zh": true, "fromFeed": true, "content": "Rohan Paul on X: \"OpenAI is rolling GPT-6 Astra out first to restricted cybersecurity customers, API access and AWS expected to follow over the coming days. In a press briefing with reporters OpenAI President Greg Brockman suggested this may be the model later remembered as AGI. his closing line, …"}, {"seq": 17, "title": "NVIDIA 宣布收购 Hugging Face，黄仁勋与纳德拉表态开放模型生态", "source": "X：Satya Nadella (@satyanadella)", "summary": "NVIDIA 宣布收购 Hugging Face，黄仁勋称开放模型能增强安全与网络安全、加速创新与扩散并支持主权，让开发者、初创公司、大学、行业和国家都能构建、定制并受益于 AI。", "url": "https://x.com/satyanadella/status/2095587182039969861", "permalink": "/items/cmtlwa4r50pj3row543ys30bl", "publishedAt": "2026-09-03T18:58:12.000Z", "exact": true, "zh": true, "fromFeed": true, "content": "Satya Nadella on X: \"Looking forward to this ecosystem with open models continuing to flourish and grow with NVIDIA and Hugging Face, and the continued partnership. Congrats @JensenHuang and @ClementDelangue!\""}, {"seq": 18, "title": "OpenAI 发布 GPT-6 Astra，称已进入 AGI 时代", "source": "The Verge：AI（RSS）", "summary": "OpenAI 发布下一代的旗舰模型 GPT-6 Astra，称其为能力上的世代跃升，Greg Brockman 表示现在可能已进入 AGI 时代。", "url": "https://www.theverge.com/ai-artificial-intelligence/989601/openai-gpt-6-astra-release", "permalink": "/items/cmtlw62vl0pf9row5nljoks6p", "publishedAt": "2026-09-03T18:00:00.000Z", "exact": true, "zh": true, "fromFeed": true, "content": ""}, {"seq": 19, "title": "OpenAI 发布 GPT-6 Astra，初期仅向 Daybreak Access 组织开放", "source": "X：Testing Catalog (@testingcatalog)", "summary": "OpenAI 发布 GPT-6 Astra，初期仅向 Daybreak Access 计划中的组织开放，未来几天将陆续推送给所有 Plus、Pro、Business 和 Enterprise 用户。", "url": "https://x.com/testingcatalog/status/2095578972335542742", "permalink": "/items/cmtlv00350o36row5602bsjzv", "publishedAt": "2026-09-03T18:25:35.000Z", "exact": true, "zh": true, "fromFeed": true, "content": "🚨 AI News | TestingCatalog on X: \"OPENAI 🔥: GPT-6 Astra will initially be available only to organizations in its Daybreak Access program. AGI today, but only in Daybreak 👀 \u003e Over the next several days, it will be released to all Plus, Pro, Business, and Enterprise users.\""}, {"seq": 20, "title": "NVIDIA 宣布收购 Hugging Face，Sundar Pichai 祝贺并称将强化开源模型生态", "source": "X：Sundar Pichai (@sundarpichai)", "summary": "NVIDIA 宣布收购 Hugging Face，黄仁勋称开源模型能强化安全与网络安全、加速创新与扩散，并让开发者、初创公司、大学、行业和国家都能构建和定制 AI。", "url": "https://x.com/sundarpichai/status/2095569375373984139", "permalink": "/items/cmtltwglp0m4hrow5i3eckkhn", "publishedAt": "2026-09-03T17:47:27.000Z", "exact": true, "zh": true, "fromFeed": true, "content": "Sundar Pichai on X: \"Congrats @JensenHuang @ClementDelangue for this great outcome! We were investors in Huggingface and continue to be partners and this will strengthen the open model ecosystem!\""}]}, {"label": "产品发布/更新", "color": "#059669", "items": []}, {"label": "行业动态", "color": "#d97706", "items": []}, {"label": "技巧与观点", "color": "#0284c7", "items": [{"seq": 1, "title": "Artificial Analysis 评测 GPT-6 Astra：编码智能体追平 Fable 5 但价格涨至 2.5 倍", "source": "X：Artificial Analysis (@ArtificialAnlys)", "summary": "Artificial Analysis 发布 GPT-6 Astra 评测，其 Coding Agent Index 得分 67，约等于 Claude Opus 5 和 Fable 5，且成本不到 Fable 5 的一半；token 效率比 GPT-5.6 Sol (max) 高约 70%。", "url": "https://x.com/ArtificialAnlys/status/2095595489031000350", "permalink": "https://aihot.virxact.com/items/cmtly53c50r9srow5ux7p8arw", "publishedAt": "2026-09-03T19:31:13.000Z", "exact": true, "content": "Artificial Analysis在X上表示：“GPT-6 Astra在Artificial Analysis Coding Agent Index中取得了显著进步，以更低的成本获得了与Fable 5相同的得分。在Intelligence Index中，它使用比GPT-5.6 Sol更少的token即可达到相似性能，但这被更高的价格所抵消。定价是GP的2.5倍……”", "zh": true}, {"seq": 2, "title": "François Chollet 评 GPT-6 Astra 在 ARC-AGI-3 上的表现", "source": "X：Francois Chollet (@fchollet)", "summary": "François Chollet 发文称 GPT-6 Astra 在交互式推理任务上带来阶跃式能力提升，使用标准 harness 在 ARC-AGI-3 上得 66%，配合持续对话 harness 和自定义 compaction 接近 100%，每局成本约 $360。", "url": "https://x.com/fchollet/status/2095598451115614371", "permalink": "https://aihot.virxact.com/items/cmtlyeuas0rigrow5d2jq4xb7", "publishedAt": "2026-09-03T19:42:59.000Z", "exact": true, "content": "François Chollet在X上表示：“GPT-6 Astra代表了交互式推理问题模型能力的阶跃式变化。使用我们的标准测试框架，它在ARC-AGI-3上得分66%，而在连续对话框架和自定义压缩下，得分接近100%，每局成本约为360美元。在……”", "zh": true}, {"seq": 3, "title": "Rohan Paul 解读 OpenAI GPT-6 Astra 117 页系统卡中的安全发现", "source": "X：Rohan Paul (@rohanpaul_ai)", "summary": "Rohan Paul 梳理 OpenAI GPT-6 Astra 117 页系统卡的要点：Astra 控制自身链式思维的能力从 GPT-5.6 Sol 的 16.1% 跃升至 60.9%，可监控性相应下降。", "url": "https://x.com/rohanpaul_ai/status/2095616781880869271", "permalink": "https://aihot.virxact.com/items/cmtm0r9z00tmkrow5gtxa5j36", "publishedAt": "2026-09-03T20:55:50.000Z", "exact": true, "content": "Rohan Paul在X上表示：“OpenAI GPT-6 Astra的117页系统卡揭示了一些新情况——Astra自主控制其思维链形式的能力显著提升：在可比推理长度下，达到60.9%，而GPT-5.6 Sol仅为16.1%。”——“GPT-6 Astra的可监控性已大幅下降……”", "zh": true}, {"seq": 7, "title": "ARC-AGI-3 发布仅半年即被 Astra 饱和，进展快于 François Chollet 预期一倍", "source": "X：Sherwin Wu（@sherwinwu）", "summary": "Sherwin Wu 表示自己曾觉得 ARC-AGI-3 很难，如今该基准已被 Astra 饱和。引用 François Chollet 的话称，ARC 3 发布时他预计前沿模型约一年才能饱和，实际只用了 6 个月，约为预期的 2 倍速度，新一代模型的能力将挑战人们基于旧模型形成的 AI 观点。", "url": "https://x.com/sherwinwu/status/2095608725730119733", "permalink": "https://aihot.virxact.com/items/cmtlzumiu0soirow5cfujh2xf", "publishedAt": "2026-09-03T20:23:49.000Z", "exact": true, "content": "Sherwin Wu在X上表示：“进展的迅猛程度，连我们中最优秀的人也感到意外。ARC-AGI-3是我个人首次觉得难以应对的ARC-AGI基准测试（它实在太令人困惑了！）。如今，它已被攻克。”", "zh": true}]}]};
+function pad(n){return n<10?"0"+n:""+n;}
+function toBeijingHuman(iso, ref, exact){
+  const d=new Date(iso); const bj=new Date(d.getTime()+8*3600*1000);
+  const Y=bj.getUTCFullYear(),M=bj.getUTCMonth()+1,D=bj.getUTCDate();
+  const h=bj.getUTCHours(),m=bj.getUTCMinutes(); const hh=pad(h),mm=pad(m);
+  if(!exact) return M+"月"+D+"日";
+  const [rY,rM,rD]=ref.split("-").map(Number);
+  if(Y===rY&&M===rM&&D===rD) return "今天 "+hh+":"+mm;
+  const yest=new Date(rY,rM-1,rD); yest.setDate(yest.getDate()-1);
+  if(Y===yest.getFullYear()&&M===yest.getMonth()+1&&D===yest.getDate()) return "昨天 "+hh+":"+mm;
+  return M+"月"+D+"日 "+hh+":"+mm;
+}
+const meta=DATA.meta, sections=DATA.sections, ref=meta.reportDate;
+const statsEl=document.getElementById("stats");
+sections.forEach(s=>{const d=document.createElement("div");d.className="stat";
+  d.innerHTML='<div class="n">'+s.items.length+'</div><div class="l">'+s.label+'</div>';statsEl.appendChild(d);});
+const navEl=document.getElementById("nav");
+sections.forEach((s,i)=>{const a=document.createElement("a");a.href="#sec-"+i;
+  a.innerHTML=escapeHtml(s.label)+'<span class="c">'+s.items.length+'</span>';navEl.appendChild(a);});
+const mainEl=document.getElementById("main");
+sections.forEach((s,i)=>{
+  const sec=document.createElement("section");sec.className="block";sec.id="sec-"+i;
+  const head=document.createElement("div");head.className="sec-head";
+  head.innerHTML='<span class="sec-dot" style="background:'+s.color+'"></span><h2>'+escapeHtml(s.label)+'</h2><span class="cnt">'+s.items.length+' 条</span>';
+  sec.appendChild(head);
+  const grid=document.createElement("div");grid.className="grid";
+  s.items.forEach(it=>{
+    const card=document.createElement("article");card.className="card";card.style.setProperty("--accent",s.color);
+    const time=toBeijingHuman(it.publishedAt,ref,it.exact);const url=it.url||"#";
+    card.innerHTML='<div class="top"><span class="seq">'+it.seq+'</span><span class="time">'+time+'</span></div>'+
+      '<h3>'+escapeHtml(it.title)+'</h3><span class="chip">'+escapeHtml(it.source)+'</span>'+
+      '<p class="summary">'+escapeHtml(it.summary)+'</p>'+
+      '<a class="readmore" href="'+escapeAttr(url)+'" target="_blank" rel="noopener noreferrer" title="外部原文链接，可能需要访问境外站点">来源 ↗</a>';
+    card.addEventListener("click", function(){ openReader(it); });
+    const rm = card.querySelector(".readmore");
+    rm.addEventListener("click", function(e){ e.stopPropagation(); });
+    grid.appendChild(card);
+  });
+  sec.appendChild(grid);mainEl.appendChild(sec);
+});
+function escapeHtml(s){return (s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
+function escapeAttr(s){return escapeHtml(s);}
+// 渲染正文（纯文本归档）：图片不加载远程资源，仅以文字占位符呈现；其余文本按段落转义（防 XSS）
+function linkify(escaped){
+  if(!escaped) return escaped;
+  var re=/(\[[^\]]+\]\((https?:\/\/[^)\s]+)\))|(https?:\/\/[^\s<>"'）】」』，。、；：！？]+)/g;
+  return escaped.replace(re, function(m, g1, g2, g3){
+    if(g2!==undefined){
+      var label=m.substring(m.indexOf('[')+1, m.indexOf(']'));
+      return '<a class="r-link" href="'+g2+'" target="_blank" rel="noopener noreferrer">'+label+'</a>';
+    }
+    if(g3!==undefined){
+      return '<a class="r-link" href="'+g3+'" target="_blank" rel="noopener noreferrer">'+g3+'</a>';
+    }
+    return m;
+  });
+}
+var _IMG_RE=/!\[([^\]]*)\]\(([^)\s]+)\)/g;
+function renderRich(text){
+  return (text||"").split(/\n{1,}/).map(function(p){
+    p=p.trim(); if(!p) return '';
+    var out=''; var last=0; var m; _IMG_RE.lastIndex=0;
+    while((m=_IMG_RE.exec(p))!==null){
+      out+=linkify(escapeHtml(p.slice(last,m.index)));
+      var cap=(m[1]||'').trim()||'图片';
+      out+='<span class="r-img-cap">🖼 '+escapeHtml(cap)+'</span>';
+      last=_IMG_RE.lastIndex;
+    }
+    out+=linkify(escapeHtml(p.slice(last)));
+    return '<p>'+out+'</p>';
+  }).join("");
+}
+function openReader(it){
+  const r=document.getElementById("reader");
+  const content=(it.content||"").trim();
+  const body=document.getElementById("readerBody");
+  if(content.length>0){
+    body.innerHTML=renderRich(content);
+  }else{
+    const sum=(it.summary||"").trim();
+    if(sum){
+      // 来源站点多为付费墙 / 登录墙 / 反爬限制，无法镜像全文；展示已本地存档的中文摘要兜底
+      body.innerHTML='<div class="r-fallback">⚠️ 该条新闻的<b>全文镜像暂不可用</b>（来源站点可能为付费墙 / 登录墙 / 反爬限制，或原文已失效）。下方为已<b>本地存档的中文摘要</b>，可正常查看；完整原文请点击右下角「查看原文 ↗」。</div>'+
+        '<p class="r-summary">'+linkify(escapeHtml(sum))+'</p>';
+    }else{
+      body.innerHTML='<p class="r-empty">暂未获取到该条新闻的全文镜像与摘要。'+(it.url?'可点击右下角「查看原文 ↗」前往原始报道。':'')+'</p>';
+    }
+  }
+  document.getElementById("readerTitle").textContent=it.title;
+  document.getElementById("readerSource").textContent=it.source;
+  const link=document.getElementById("readerLink");
+  if(it.url){link.href=it.url;link.style.display="";}else{link.style.display="none";}
+  r.hidden=false;document.body.style.overflow="hidden";
+}
+function closeReader(){const r=document.getElementById("reader");r.hidden=true;document.body.style.overflow="";}
+document.getElementById("reader").addEventListener("click",function(e){if(e.target===this)closeReader();});
+document.addEventListener("keydown",function(e){if(e.key==="Escape")closeReader();});
+</script>
+</body></html>
