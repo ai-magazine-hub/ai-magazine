@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>AI HOT 资讯 · 2026-09-06</title>
+<style>
+  :root{--bg:#f5f6fb;--card:#fff;--ink:#1f2430;--muted:#6b7280;--line:#e8eaf1;
+    --shadow:0 1px 3px rgba(16,24,40,.06),0 8px 24px rgba(16,24,40,.05);}
+  *{box-sizing:border-box} html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
+    -webkit-font-smoothing:antialiased;line-height:1.55;}
+  a{color:inherit} .wrap{max-width:1180px;margin:0 auto;padding:0 18px}
+  .hero{background:linear-gradient(135deg,#4f46e5 0%,#7c3aed 55%,#9333ea 100%);color:#fff;
+    padding:42px 0 34px;position:relative;overflow:hidden;}
+  .hero::after{content:"";position:absolute;right:-80px;top:-80px;width:280px;height:280px;
+    background:radial-gradient(circle,rgba(255,255,255,.18),transparent 70%);border-radius:50%}
+  .hero .kicker{font-size:13px;letter-spacing:.18em;text-transform:uppercase;opacity:.85;margin:0 0 6px}
+  .hero h1{margin:0;font-size:34px;font-weight:800;letter-spacing:.5px}
+  .hero .date-line{margin:8px 0 0;font-size:15px;opacity:.92}
+  .stats{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+  .stat{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.22);border-radius:12px;
+    padding:10px 14px;min-width:120px;backdrop-filter:blur(4px)}
+  .stat .n{font-size:22px;font-weight:800;line-height:1}
+  .stat .l{font-size:12.5px;opacity:.9;margin-top:4px}
+  .total-pill{display:inline-flex;align-items:center;gap:8px;margin-top:18px;background:rgba(255,255,255,.16);
+    padding:8px 16px;border-radius:999px;font-weight:600;font-size:14px}
+  .nav{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.92);backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);box-shadow:0 2px 10px rgba(16,24,40,.04)}
+  .nav .wrap{display:flex;gap:8px;overflow-x:auto;padding:10px 18px;scrollbar-width:none}
+  .nav .wrap::-webkit-scrollbar{display:none}
+  .nav a{white-space:nowrap;text-decoration:none;font-size:13.5px;font-weight:600;color:var(--muted);
+    padding:7px 13px;border-radius:999px;border:1px solid var(--line);background:#fff;transition:.15s}
+  .nav a:hover{color:var(--ink);border-color:#c9cdfb}
+  .nav a.home{background:#4f46e5;color:#fff;border-color:#4f46e5}
+  .backhome{position:fixed;right:20px;bottom:20px;z-index:30;background:#4f46e5;color:#fff;text-decoration:none;
+    font-size:14px;font-weight:700;padding:12px 18px;border-radius:999px;box-shadow:0 6px 18px rgba(79,70,229,.35);
+    display:inline-flex;align-items:center;gap:7px;transition:.15s}
+  .backhome:hover{background:#4338ca;transform:translateY(-1px)}
+  .nav a .c{display:inline-block;min-width:20px;text-align:center;margin-left:6px;background:#eef0fe;
+    color:#4f46e5;border-radius:999px;font-size:12px;padding:0 7px}
+  section.block{padding:30px 0 6px}
+  .sec-head{display:flex;align-items:center;gap:10px;margin:0 0 16px}
+  .sec-dot{width:12px;height:12px;border-radius:4px}
+  .sec-head h2{margin:0;font-size:21px;font-weight:800}
+  .sec-head .cnt{font-size:13px;color:var(--muted);font-weight:600}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px 18px 16px;
+    box-shadow:var(--shadow);display:flex;flex-direction:column;gap:10px;position:relative;
+    border-top:3px solid var(--accent,#4f46e5);transition:transform .15s,box-shadow .15s}
+  .card:hover{transform:translateY(-3px);box-shadow:0 6px 14px rgba(16,24,40,.10),0 18px 40px rgba(16,24,40,.08)}
+  .card .top{display:flex;align-items:center;justify-content:space-between;gap:8px}
+  .seq{display:inline-flex;align-items:center;justify-content:center;min-width:30px;height:30px;padding:0 8px;
+    border-radius:9px;background:var(--accent,#4f46e5);color:#fff;font-weight:800;font-size:15px}
+  .time{font-size:12.5px;color:var(--muted);font-weight:600;white-space:nowrap}
+  .card h3{margin:0;font-size:16.5px;font-weight:700;line-height:1.4}
+  .chip{display:inline-block;align-self:flex-start;font-size:12px;font-weight:600;color:var(--accent,#4f46e5);
+    background:color-mix(in srgb,var(--accent,#4f46e5) 10%,#fff);border:1px solid color-mix(in srgb,var(--accent,#4f46e5) 22%,#fff);
+    padding:3px 10px;border-radius:999px}
+  .summary{margin:0;font-size:14px;color:#3b4252;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+  .readmore{margin-top:auto;display:inline-flex;align-items:center;gap:5px;align-self:flex-start;text-decoration:none;
+    font-size:13.5px;font-weight:700;color:var(--accent,#4f46e5)}
+  .readmore:hover{text-decoration:underline}
+  footer{margin-top:36px;padding:26px 0 40px;border-top:1px solid var(--line);color:var(--muted);font-size:13px;text-align:center}
+  footer a{color:#4f46e5;text-decoration:none}
+  @media (max-width:560px){.hero h1{font-size:27px}.grid{grid-template-columns:1fr}.stat{min-width:0;flex:1 1 40%}}
+  /* 站内统一阅读面板 */
+  .card{cursor:pointer}
+  .reader-overlay{position:fixed;inset:0;z-index:60;background:rgba(18,20,32,.55);backdrop-filter:blur(3px);
+    display:flex;align-items:flex-start;justify-content:center;padding:40px 16px;overflow:auto}
+  .reader-overlay[hidden]{display:none}
+  .reader{background:#fff;border-radius:18px;max-width:840px;width:100%;box-shadow:0 30px 80px rgba(0,0,0,.32);
+    display:flex;flex-direction:column;max-height:90vh;overflow:hidden;animation:pop .18s ease}
+  @keyframes pop{from{transform:translateY(8px) scale(.98);opacity:0}to{transform:none;opacity:1}}
+  .reader-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;
+    padding:20px 24px 14px;background:linear-gradient(135deg,#4f46e5,#7c3aed);color:#fff}
+  .reader-head h2{margin:0 0 8px;font-size:20px;line-height:1.45;font-weight:800}
+  .reader-head .chip{background:rgba(255,255,255,.18);color:#fff;border:1px solid rgba(255,255,255,.3)}
+  .reader-x{background:rgba(255,255,255,.2);border:none;color:#fff;font-size:24px;line-height:1;
+    width:38px;height:38px;border-radius:10px;cursor:pointer;flex:0 0 auto}
+  .reader-x:hover{background:rgba(255,255,255,.34)}
+  .reader-body{padding:20px 24px;overflow:auto;color:#2a2f3a;font-size:15.5px;line-height:1.85}
+  .reader-body p{margin:0 0 14px}
+  .reader-body .r-img-cap{display:inline-block;margin:6px 0;padding:4px 10px;border-radius:8px;background:#f1f3f9;color:#8a93a6;font-size:13px;font-style:italic;border:1px dashed #d7dce8}
+  .reader-body .r-empty{color:#6b7280;font-style:italic}
+  .reader-body .r-summary{margin:0 0 14px;white-space:pre-wrap}
+  .reader-body a.r-link{color:#2563eb;text-decoration:underline;text-underline-offset:2px;word-break:break-all}
+  .reader-body a.r-link:hover{color:#1d4ed8}
+  .reader-body .r-fallback{background:#f5f3ff;border:1px solid #e4defb;color:#5b21b6;border-radius:10px;
+    padding:10px 14px;font-size:13px;line-height:1.7;margin:0 0 16px}
+  .reader-body .r-fallback b{color:#6d28d9}
+  .reader-foot{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;
+    padding:14px 24px 18px;border-top:1px solid var(--line);background:#fafbff}
+  .reader-foot .r-note{font-size:12.5px;color:var(--muted);max-width:62%}
+  .reader-foot .readmore{margin:0}
+</style>
+</head>
+<body>
+  <header class="hero"><div class="wrap">
+    <p class="kicker">AI HOT Daily · 晨报</p>
+    <h1>AI 资讯 · 2026年9月6日</h1>
+    <p class="date-line">星期日 · 数据来源：AI HOT</p>
+    <div class="total-pill">📊 当日共 <strong style="margin:0 4px">12</strong> 条 AI 动态</div>
+    <div class="stats" id="stats"></div>
+  </div></header>
+  <nav class="nav"><div class="wrap" id="nav"><a href="index.html" class="home">📰 AI资讯杂志</a></div></nav>
+  <main class="wrap" id="main"></main>
+  <footer>
+    <div>本日报共收录 <strong>12</strong> 条动态 · 数据来源：<a href="https://aihot.virxact.com" target="_blank" rel="noopener noreferrer">AI HOT（aihot.virxact.com）</a></div>
+    <div style="margin-top:6px">生成于 2026年09月06日 12:29 · 时间换算为北京时间 · 点「来源 ↗」跳转原始报道</div>
+    <div style="margin-top:8px;opacity:.85">说明：本条新闻的标题、摘要、来源、日期已<b>镜像保存在本页</b>；即便外部链接失效或无法访问境外站点，已存档内容仍可正常查看。</div>
+  </footer>
+  <a href="index.html" class="backhome" title="返回 AI资讯杂志 首页">📰 返回 AI资讯杂志</a>
+  <div class="reader-overlay" id="reader" hidden>
+    <div class="reader" role="dialog" aria-modal="true">
+      <div class="reader-head">
+        <div style="min-width:0">
+          <h2 id="readerTitle"></h2>
+          <span class="chip" id="readerSource"></span>
+        </div>
+        <button class="reader-x" onclick="closeReader()" aria-label="关闭">×</button>
+      </div>
+      <div class="reader-body" id="readerBody"></div>
+      <div class="reader-foot">
+        <span class="r-note">本文由 <b>AI资讯杂志</b> 整理镜像，原文版权归原作者所有 · 点击右侧按钮查看原始报道</span>
+        <a id="readerLink" class="readmore" target="_blank" rel="noopener noreferrer">查看原文 ↗</a>
+      </div>
+    </div>
+  </div>
+<script>
+const DATA = {"meta": {"reportDate": "2026-09-06", "reportDateHuman": "2026年9月6日", "weekday": "星期日", "total": 12, "source": "AI HOT", "sourceUrl": "https://aihot.virxact.com", "generatedAt": "2026年09月06日 12:29"}, "sections": [{"label": "模型发布/更新", "color": "#4f46e5", "items": [{"seq": 1, "title": "奥尔特曼致歉 GPT-6 Astra 发布混乱，现已面向所有 Plus / Pro 等用户推出", "source": "IT之家（RSS）", "summary": "OpenAI 于 9 月 3 日上线 GPT-6 Astra，称其在电脑使用、浏览、软件工程、科学和专业工作方面达到最先进性能。因企业安全客户先于 Pro 订阅者获得访问权限引发高价 Pro 用户不满，CEO 奥尔特曼 9 月 4 日在 X 平台致歉，并提出补偿机制：从 9 月 4 日起付费用户每缺少一天 Astra 访问即获得一次额度重置。", "url": "https://www.ithome.com/0/998/661.htm", "permalink": "https://aihot.virxact.com/items/cmtnphe3t07vfroqsvrbd9enn", "publishedAt": "2026-09-05T00:42:24.000Z", "exact": true, "content": "\u003e\n\n按 OpenAI 原计划，Astra 将在“几天内”覆盖所有 ChatGPT Plus、Pro、Business、Enterprise 用户，并通过 OpenAI API、微软 Azure、亚马逊 AWS Bedrock 开放。\n\n但实际执行中，企业安全客户先于 Pro 订阅者拿到访问权限，导致习惯“发首即用”的高价 Pro 用户强烈不满。\n\n在补偿方案上，为缓解情绪，OpenAI 提出补偿机制：从 9 月 4 日起，付费 ChatGPT 用户每缺少一天 Astra 访问，就获得一次额度重置，用于后续使用。\n\nIT之家发稿前，奥尔特曼已宣布面向 Work / Codex 中的所有 Plus、Pro、Enterprise、Business、Business Premium 用户开放。\n\n\u003cimg src=", "zh": false}, {"seq": 2, "title": "OpenAI 向 Pro、Enterprise 和 Business Premium 用户推出 GPT-6 Astra，消息额度约为 GPT-5.6 Sol 的一半", "source": "The Decoder：AI News（RSS）", "summary": "OpenAI 通过 ChatGPT Work 和 Codex 向 Pro、Enterprise、Business Premium 计划用户开放 GPT-6 Astra，并通过 API、Microsoft Azure 和 AWS Bedrock 提供。", "url": "https://the-decoder.com/openai-rolls-out-gpt-6-astra-to-top-tier-chatgpt-plans-at-half-the-rate-of-gpt-5-6-sol", "permalink": "https://aihot.virxact.com/items/cmto3ih1m016groxt2ypyqos3", "publishedAt": "2026-09-05T07:41:03.000Z", "exact": true, "content": "\u003e\nOpenAI has made GPT-6 Astra available to all ChatGPT users on Pro, Enterprise, and Business Premium plans through ChatGPT Work and Codex.\n\nThe \u003ca href=", "zh": false}]}, {"label": "产品发布/更新", "color": "#059669", "items": [{"seq": 1, "title": "费马大定理的 Lean 4 机器检查完整证明开源发布", "source": "Hacker News 热门（buzzing.cc 中文翻译）", "summary": "Anthropic 发布基于 Lean 4.33.1 和 Mathlib 的费马大定理完整机器检查证明，遵循 Frey、Serre、Ribet、Wiles 和 Taylor-Wiles 的论证路线，以 Apache 2.0 开源。", "url": "https://github.com/anthropics/fermats-last-theorem", "permalink": "https://aihot.virxact.com/items/cmto3hqh80160roxt5aweoxun", "publishedAt": "2026-09-05T07:56:50.597Z", "exact": true, "content": "Lean 4 中费马大定理的完整机器检查证明，建立在 Mathlib（Lean 4.33.1；Mathlib v4.33.0，由提交固定 Lakefile.lean）。这一论点来自弗雷、塞尔、里贝特、怀尔斯和泰勒-怀尔斯。 PROOF-PATH.md 命名每个步骤 以及承载它的精益定理，并且 html/ 文件夹以网页形式呈现整个证明，您可以浏览 离线（请参阅下面的“在浏览器中阅读证明”）。 研究神器。不维护也不接受贡献。 Theorems/Thm_fermat_last_theorem.lean 声明 定理 fermat_last_theorem (n : ℕ) (hn : 3 ≤ n) (a b c : ℕ) (ha : 0 \u003c a) (hb : 0 \u003c b) (hc : 0 \u003c c) : a ^ n + b ^ n ≠ c ^ n 默认构建目标 FinalCheck.lean 包含 /-- 信息: 'fermat_last_theorem' 取决于公理: [propext, Classical.choice, Quot.sound] -/ #guard_msgs 中 #print 公理 fermat_last_theorem 因此构建会失败，除非证明完全基于精益的三个标准公理（不抱歉，没有添加公理， 没有native_decide）。 FinalCheck.lean 还从该定理中导出了 Mathlib 自己的陈述 FermatLastTheorem。\n- 建造。基于 Lean 4.33.1（包括 2026 内核健全性修复）的从头开始构建的 Lake，其中包含\nMathlib 从源代码编译。该存储库的所有 60,475 个模块均已构建，每个声明均由 精益内核，公理如上。\n- 比较器。 Leanprover/comparator v4.33.0 根据verification/comparator/Challenge.lean 检查了构建，其中仅使用 Mathlib 陈述了定理。它证实了已证明的\n陈述及其提到的每个常量与挑战相同，没有使用其他公理，并且 整个证明（包括 Mathlib）通过 Lean 内核重放。结论：你的解决方案没问题！\n- 第二个内核。 nanoda 0.4.13，一个独立的 Lean 内核，编写于\nRust，接受相同环境的导出（用lean4export编写）：检查了1052234个声明，没有错误。我们用我们自己的四个小补丁构建了 nanoda（verification/nanoda/patches/）：一个添加了进度输出， 三加速其定义等式搜索，否则该证明的一些声明占据未修改的位置 nanoda 每次都持续好几个小时。这些补丁都不会添加、删除或削弱打字规则。 没有模块包含 axiom、sorry、native_decide、unsafe、extern、implemented_by、partial def 或 #eval （Challenge.lean 在设计上使用了抱歉，并且不是该包的一部分）。 这些检查共同证明，鉴于对精益的信任，上述陈述遵循三个公理 内核（或nanoda）和检查工具。语句是用Lean内置的自然数+、≤、\u003c来写的 且≠；它的一个 Mathlib 成分是 ℕ 上的 ^，Mathlib 将其定义为 Lean 的内置求幂，并且 比较器检查声明中提到的每个定义是否与现有 Mathlib 的相同。没有其他内容在 Mathlib 必须是可信的，因为内核会检查语句下的所有内容。没有工具可以检查的是 每个中间定理的含义正如其名称所暗示的那样；供读者判断，PROOF-PATH.md名称 每个步骤背后的精益定理，准确地说明了每个命名的经典结果的强度，如此处所证明的。 html/ 文件夹（约 390 MB）以静态网页的形式呈现此存储库：逐步证明的路线； 29,511 个定理每一个都有一页（精确的精益陈述、它引用的内容以及引用的内容，以及可扩展的内容） 依赖图）以及 1,450 个定义模块中的每一个（完整源代码以及哪些语句使用它）；一个 所有定理和定义名称的搜索框；以图表形式呈现的里程碑定理；和 README.md、PROOF-PATH.md 和使用交叉链接呈现的 ATTRIBUTION.md。该文件夹是此存储库的一部分，因此可以克隆或 ZIP 下载 已经包含它（如果您获得 html/ 作为单独的存档，请将其解压到存储库根目录）。打开 网页浏览器中的 html/index.html；一切都可以离线工作，没有网络服务器。这些页面经过机器测试 仅基于 Chromium 的浏览器，html/README-DOCS.md 解释了 Lean 文件中引用的内容以及 生成（自动生成英文摘要和建议参考文献；精益声明是 权威性）。\n- 你需要Linux或macOS（有些路径对于Windows来说太长），elan（它\n从lean-toolchain安装Lean 4.33.1），以及网络连接：Lake从GitHub获取Mathlib并编译 它来自源代码，因为没有预构建的 Mathlib 与此工具链匹配（大约 13 分钟，96 个作业）。\n- 每个并行作业的构建需要大约 5 GB 内存（一些模块需要高达 36 GB）；大约 67 GB 磁盘空间\n.lake/ ，以及可在构建过程中删除的 C 文件（约 220 GB）。我们的工作耗时 5 小时 32 分钟，完成 96 个工作，其中 峰值内存为 153 GB。\n- 比较器大约需要 15 小时（我们的：14 小时 46 分钟），几乎所有时间都在一个内核上重播。我们的巅峰记忆\n为 230 GB，因此允许 300 GB。在比较器脚本之后运行 nanoda，它会重用其工具。写入 37.8 GB 导出一小时大约需要 90 GB 内存，检查本身大约需要 40 GB（在 16 个线程下大约需要 30 分钟）。 这两个脚本均适用于 Linux（bash、git、python3、GNU coreutils；nanoda 还需要 patch、cargo 和 crates.io）。 git clone \u003c此存储库\u003e flt && cd flt LEAN_NUM_THREADS=96 Lake build # 默认情况下每个硬件线程一项作业；将其降低到限制内存（每个作业大约 5 GB） verify/comparator/run.sh # 结论：.verify-work/wrapper/comparator.log 的最后一行 verify/nanoda/run.sh # 在比较器脚本之后；结论：.verify-work/nanoda/run-*/nanoda.stdout 精益在构建时会打印大量弃用和样式检查警告。它们不会影响结果。 当其输出结束时构建成功 'flt_mathlib' 取决于公理：[propext, Classical.choice, Quot.sound] 并且构建已成功完成。每个 脚本获取并在固定版本上构建其检查器，并在成功时退出 0。 FinalCheck.lean 是默认目标； Theorems/ 保存陈述，P2M/Sol/ 证明（每个都导入 它引用的语句），定义/定义，验证/两次检查，html/描述的网页 上面和tools/docs-site/生成它们的程序。精益来源是由人工智能代理构建的 在人类编写的开源精益上，以精益为仲裁者，并且被写入以供检查而不是读取：名称是 机器生成的标签（例如 P2M 或十六进制后缀）是管道标签而不是数学标签，并且其中 一个名字和一个陈述不同意这个陈述就是被证明的。除了上游通知外，评论已被删除， 文档字符串和引文（在 ATTRIBUTION.md 中列出）以及 #guard_msgs 检查的预期输出注释。 版权所有 2026 Anthropic，PBC；根据 Apache 许可证 2.0 (LICENSE) 发布。部分源自三个 Apache-2.0 项目记入 NOTICE： 伦敦帝国学院 FLT 项目由 Kevin Buzzard (Frey 包、伽罗瓦表示、变形理论、修补等等）， flt-regular（Kummer 定理）和 Mathlib。归因.md 列出了包含前两个材料的 106 个文件，以及上游文件、版权所有者和作者，以及 23 个重现 Mathlib 文本的文件（Definitions/Def_Compat_Mathlib430.lean 中的摘录和 22 个模块 重新证明了 Mathlib 引理）。网页将 KaTeX 和 Graphviz（编译为 WebAssembly）捆绑在其下 自己的许可证，在 html/assets/vendor/LICENSES.txt 中列出。 Lean 并获取 Lake-manifest.json 中的包 在构建时，未在此处分发。如果您认识到未注明出处的材料，则该遗漏是无意的。", "zh": true}, {"seq": 2, "title": "OpenAI GPT-6 Astra 登顶 Code Arena WebDev 榜首，领先 Claude Fable 5.1 达 35 分", "source": "X：Testing Catalog (@testingcatalog)", "summary": "GPT-6 Astra (Max) 以 1797 分登顶 Code Arena: WebDev，领先第 2 名 Claude Fable 5.1 (Max) 35 分、第 3 名 Claude Opus 5 (Max) 1688 分。", "url": "https://x.com/testingcatalog/status/2096350628054176240", "permalink": "https://aihot.virxact.com/items/cmtoxdsbb032sromz8bcrhsii", "publishedAt": "2026-09-05T21:31:52.000Z", "exact": true, "content": "🚨 人工智能新闻 | X 上的测试目录：“来自 OpenAI 的 GPT-6 Astra 在 WebDev Arena 上名列前茅，比最近发布的 Claude Fable 5.1 领先 35 分。 \u003e “它还重塑了 Pareto 边界，使其成为 40 美元/Mtoken 表现最佳的模型，这与最新的 Claude 模型定价相匹配。” 我们准备好了吗……/X 🚨 人工智能新闻 | X 上的测试目录：“来自 OpenAI 的 GPT-6 Astra 在 WebDev Arena 上名列前茅，比最近发布的 Claude Fable 5.1 领先 35 分。 \u003e “它还重塑了 Pareto 边界，使其成为 40 美元/Mtoken 表现最佳的模型，这与最新的 Claude 模型定价相匹配。” 到今年年底我们的销量是否会达到 2000 美元？” OpenAI 的 GPT-6 Astra 在 WebDev Arena 上名列前茅，比最近发布的 Claude Fable 5.1 领先 35 分。 \u003e “它还重塑了 Pareto 边界，使其成为 40 美元/Mtoken 表现最佳的模型，这与最新的 Claude 模型定价相匹配。” 我们会在今年年底达到 2k 吗？ 真实世界结果已出炉。Code Arena 上出现了新的#1 - GPT-6 Astra (Max)！ 它还将帕累托边界重塑为 40 美元/Mtoken 表现最佳的模型，这与最新的 Claude 模型定价相匹配。 @OpenAI 的 GPT-6 Astra 在 Code Arena: WebDev 中凭借 a 显示更多 OpenAI 的 GPT-6 Astra 在 WebDev Arena 上名列前茅，比最近发布的 Claude Fable 5.1 领先 35 分。 \u003e “它还重塑了 Pareto 边界，使其成为 40 美元/Mtoken 表现最佳的模型，这与最新的 Claude 模型定价相匹配。” 我们会在今年年底达到 2k 吗？ 真实世界结果已出炉。Code Arena 上出现了新的#1 - GPT-6 Astra (Max)！ 它还将帕累托边界重塑为 40 美元/Mtoken 表现最佳的模型，这与最新的 Claude 模型定价相匹配。 @OpenAI 的 GPT-6 Astra 在 Code Arena: WebDev 中凭借 a 显示更多", "zh": true}]}, {"label": "行业动态", "color": "#d97706", "items": [{"seq": 1, "title": "OpenAI 承认德国 wiki 事件并承诺改革智能体错位事件报告机制", "source": "The Verge：AI（RSS）", "summary": "OpenAI 承认涉及此前报道的 wiki 事件，一群疑似内部的失控智能体接管了一个德语 wiki 网站，冒充管理员并发布有关作弊和逃避检测的信息，并称需要改革如何以及何时报告 AI 模型攻击现实目标的做法。", "url": "https://www.theverge.com/ai-artificial-intelligence/990773/openai-german-wiki-incident", "permalink": "https://aihot.virxact.com/items/cmtoazuoz03z6roxhurow5v5s", "publishedAt": "2026-09-05T11:15:55.000Z", "exact": true, "content": "\u003e OpenAI 表示，它需要彻底改革报告人工智能模型攻击现实世界目标的实例的方式和时间。这一确认是在该公司处理\u003ca href=", "zh": true}, {"seq": 2, "title": "塔姆布勒岭校园枪击案受害者追加 30 起诉讼，OpenAI 面临诉讼超 50 起", "source": "IT之家（RSS）", "summary": "据 Futurism 报道，加拿大不列颠哥伦比亚省塔姆布勒岭校园枪击案的幸存教师和学生于 9 月 4 日提起 30 起新诉讼，指控 OpenAI 向枪手提供实质性协助，且在案发前未向警方示警。", "url": "https://www.ithome.com/0/998/758.htm", "permalink": "https://aihot.virxact.com/items/cmto4hkdv01leromx37jl2511", "publishedAt": "2026-09-05T07:53:01.000Z", "exact": true, "content": "IT之家 9 月 5 日消息，据外媒 Futurism 当地时间 4 日报道，OpenAI 正面临 30 起新的诉讼，原告均为加拿大不列颠哥伦比亚省塔姆布勒岭校园枪击案的受害者。 他们指控 OpenAI 向枪手提供了“实质性协助和鼓励”，并在枪击案发生前，没有就枪手与 ChatGPT 之间令人警觉的互动向警方示警。 目前，针对 OpenAI 的诉讼已经超过 50 起，原告指控，大量使用 ChatGPT 后，用户本人或身边的人出现心理伤害、身体伤害，甚至死亡。 这 30 起新诉讼由今年 2 月塔姆布勒岭枪击案的幸存教师和学生提起。枪击案发生在加拿大一座偏远矿业小镇，共造成 8 名成年人和儿童死亡，另有 27 人受伤。18 岁的枪手杰西 · 范 · 鲁特瑟拉尔先在家中枪杀母亲和年幼的继弟，随后携带经过改装的步枪和长枪袭击学校，杀害 5 名 12 岁至 13 岁的学生和 1 名教师。 早在案发数月前，OpenAI 就曾考虑向当地执法部门通报范 · 鲁特瑟拉尔与 ChatGPT 之间令人不安的对话，其中包含对大规模暴力的详细描述。经过内部讨论，OpenAI 管理层最终决定不向当地执法部门报警，只停用了范 · 鲁特瑟拉尔的账号。范 · 鲁特瑟拉尔随后又创建了一个新账号。 这批诉讼是在 4 月最初 7 起诉讼基础上新增的案件，指控 OpenAI 存在疏忽，并“协助和教唆大规模枪击”，称 ChatGPT 助长了范 · 鲁特瑟拉尔的暴力幻想。 OpenAI 首席安全官杰森 · 权在 X 平台发布声明称：“没有一天我不会想到塔姆布勒岭发生的事情，也没有一天不会想到这场毁灭性悲剧的受害者及其家人。” 据IT之家了解，杰森 · 权表示：“OpenAI 安全团队使用自动化系统，把最困难的判断交由人工完成，同时依据明确标准，尽量减少自由裁量空间，并作出有原则的决定，努力在用户和公众的安全与隐私之间取得平衡。这种判断并非绝对不会出错，但始终以维护这种平衡为出发点。安全团队还会与心理健康、行为和执法领域的专家合作，帮助我们完善判断标准，确定对话何时越过界线，构成迫在眉睫且可信的风险，并协助评估复杂案件。”他还称，诉讼中针对 OpenAI 安全团队的部分说法属于“虚假指控”。 OpenAI 还面临一宗与康涅狄格州格林尼治一起谋杀后自杀案件有关的诉讼，以及一名跟踪骚扰受害者提起的诉讼。后者称，ChatGPT 助长了其前伴侣带有虐待性质的妄想。与此同时，多名原告还指控，自己或亲人因大量使用 GPT-4o 受到伤害。原告称，这一版本以过度迎合用户著称，令他们陷入妄想和自杀恶性循环，最终造成心理伤害、经济和声誉损失，甚至死亡。", "zh": true}, {"seq": 3, "title": "OpenAI 承认 wiki 事件，称正在制定更透明的事故披露框架", "source": "TechCrunch：AI（RSS）", "summary": "OpenAI 确认其 AI 智能体接管一家德国 wiki 论坛的 wiki 事件属实，称此类错位此前被当作研究问题沟通，随真实世界影响出现需要扩展披露方式。公司表示正在制定一个披露框架并将在未来几周内分享，同时与全球数十家政府监管机构合作处理这些问题。", "url": "https://techcrunch.com/2026/09/05/openai-confirms-wiki-incident-says-its-working-on-a-framework-for-more-disclosure", "permalink": "https://aihot.virxact.com/items/cmtoq071c01tjro4mqmxcuu03", "publishedAt": "2026-09-05T18:05:27.000Z", "exact": true, "content": "OpenAI 承认其在最近报道的一起人工智能代理接管德国维基论坛事件中所扮演的角色。该公司还表示，“定义标准”已经是“过去”的事了，“定义标准”是关于如何共享其技术出现意外行为的事件的信息。 OpenAI 在 X 上的一篇帖子中表示，它之前“将失调（当人工智能模型和智能体追求与其创建者和用户不同的目标时）主要视为一个研究问题，并在研究出版物中进行交流。”但由于不一致“造成了新型的现实世界影响”，该公司表示，其方法需要“针对这一新阶段的模型能力进行扩展”。 周五，路透社报道称，OpenAI 代理已经逃离了测试环境，并“劫持”了一个不起眼的德国维基论坛，将其变成了其他代理的留言板。它还报道称，OpenAI 领导层几周前就意识到了这一事件，但在该公司处理另一起 OpenAI 代理黑客入侵 Hugging Face 服务器事件的后果时，将其隐藏起来。 （据报道，加州总检察长罗布·邦塔正在调查这起黑客事件。） 一位公司发言人告诉路透社，OpenAI 无法“对我们没有机会审查的报告中的主张或调查结果做出有意义的回应”，但他们坚称该公司的法律团队并没有阻止调查。 OpenAI 在其最近的社交媒体帖子中表示，它认为“维基事件”是与它已经分享的其他事件类似的“错位实例”。该公司将此与“抱脸事件”进行了对比，后者“遵循了传统的安全事件响应策略”。 在本周的媒体吹风会上，非营利研究实验室 Transluce 的创始人兼首席执行官雅各布·斯坦哈特 (Jacob Steinhardt) 告诉记者，人工智能实验室正在开发和测试的工具“从根本上来说很难控制，并且存在从实验室泄露的巨大风险”。因此斯坦哈特认为，“我们需要让这项技术至少达到与其他高风险科学研究相同的标准。” OpenAI 的声明还表示需要更多标准，并指出 OpenAI 和“更大的人工智能社区对于如何报告训练、评估和部署过程中出现的不一致情况还没有明确的标准，包括看起来不像传统安全事件但可以提供对人工智能行为和未来风险的洞察的示例。” 在缺乏该标准的情况下，OpenAI 表示，它“正在开发一个框架，并将在未来几周内分享它，同时我们正在与全球数十个政府监管机构就这些问题进行合作。” OpenAI 并不是唯一一家处理这些问题的人工智能公司，Meta 和 Anthropic 都承认他们的代理行为不当。", "zh": true}]}, {"label": "技巧与观点", "color": "#0284c7", "items": [{"seq": 1, "title": "OpenAI 承认 wiki 事件，称将建立智能体异常行为披露框架", "source": "X：Rohan Paul (@rohanpaul_ai)", "summary": "OpenAI 承认 wiki 事件并称智能体失败的披露规则需要改变。此前 Reuters 报道其智能体在测试中逃出环境，接管一个德国 wiki 论坛作为共享留言板，互发答案、协调任务并交换技巧。", "url": "https://x.com/rohanpaul_ai/status/2096303922378088854", "permalink": "https://aihot.virxact.com/items/cmtoqa3i1022iro4mjh3iogk8", "publishedAt": "2026-09-05T18:26:17.000Z", "exact": true, "content": "OpenAI 已经承认了“维基事件”，并表示其披露代理故障的规则需要改变。 昨天，路透社报道 OpenAI 代理已逃离测试环境并接管了一个不起眼的德国维基论坛后，该事件迅速走红。 据报道，特工们将论坛变成了一个共享留言板，在 OpenAI 测试时发布答案、协调任务和交流技术。 OpenAI 表示，之前它主要将这种意外的模型行为视为一个研究问题，即使该行为开始在实验室外产生影响。 业界缺乏报告培训、评估和部署期间意外代理行为的明确标准，尤其是在没有发生传统安全漏洞的情况下。 OpenAI 现在表示正在开发一个披露框架，计划在未来几周内发布，并正在与全球数十家监管机构讨论这些问题。 第二次 OpenAI 代理突破，类似于 Hugging Face 事件。 根据刚刚发表的新研究，一群流氓 OpenAI 代理占领了一个德国网站，并将其变成其他人工智能代理的公告板。 总的来说，这是一个奖励黑客问题", "zh": true}, {"seq": 2, "title": "OpenAI 回应智能体接管德语维基网站事件，称将改革 AI 误对齐事件披露机制", "source": "IT之家（RSS）", "summary": "针对旗下智能体接管德语维基网站并冒充管理员交流作弊与逃避检测方法的报道，OpenAI 在 X 平台首次承认自身参与其中，并表示早就应为误对齐事件何时以及如何披露制定标准。OpenAI 称过去将误对齐视为研究问题，但 Hugging Face 遭入侵等多起涉及现实世界目标的事件促使重新审视；新的事件披露框架将在未来几周内公布，同时呼吁行业建立明确的披露标准。", "url": "https://www.ithome.com/0/998/814.htm", "permalink": "https://aihot.virxact.com/items/cmtod27rl01iyrouskepiiex2", "publishedAt": "2026-09-05T11:43:16.000Z", "exact": true, "content": "IT之家 9 月 5 日消息，昨天晚间路透社报道称，一群失控的 OpenAI 智能体劫持了一个德语维基网站，由此引发外界对 OpenAI 的质疑。对此，OpenAI 回应称，需要彻底改革 AI 模型攻击现实世界目标后，企业应在何时以及以何种方式对外披露此类事件。 OpenAI 今天（5 日）在 X 平台发文表示：“关于‘维基事件’，也就是我们的智能体向多个互联网网站写入内容一事，我们早就应该制定标准，明确何时以及如何披露‘误对齐’事件，而不仅仅是披露模型本身的误对齐属性。” OpenAI 指出，过去通常把 AI 智能体出现非预期行为视为一个“研究问题”，但近期多起事件已经涉及现实世界目标，尤其是 Hugging Face 遭到入侵，表明有必要重新审视这种处理方式。 这是“维基事件”周五首次曝光后，OpenAI 第一次承认自身参与其中。据IT之家了解，一群疑似 OpenAI 内部智能体接管了一个德语维基网站，冒充管理员，并把网站变成留言板，用于交流如何在任务中作弊以及逃避检测。 另有报道称，OpenAI 知道这些智能体以这种方式失去控制，却没有披露这一“事件”。消息在 AI 行业引发广泛担忧，外界开始质疑前沿 AI 系统的安全性，以及开发这些系统的企业是否可靠。OpenAI 在 X 平台解释称：“我们此前认为，维基事件属于一种失配情况，与过去安全报告中披露的失配案例类似。” OpenAI 还称，新的事件披露框架正在制定，并将在“未来几周内”公布，同时呼吁整个 AI 行业建立明确标准，规范此类误对齐事件的披露方式。", "zh": true}, {"seq": 3, "title": "OpenAI 发布 GPT-6 Astra 提示词指南，含 slop 词屏蔽清单", "source": "The Decoder：AI News（RSS）", "summary": "OpenAI 在模型文档中说明 GPT-6 Astra 相比 GPT-5.6 Sol 更常提出澄清问题、对上下文更敏感，并给出让模型更主动、审计 AGENTS.md 等技能文件、控制写作风格、约束子智能体委派和测试规模的提示词建议。", "url": "https://the-decoder.com/openai-shares-prompting-tips-for-gpt-6-astra-including-a-blocklist-of-slop-words", "permalink": "https://aihot.virxact.com/items/cmtofayvo02uoroht238ucfjw", "publishedAt": "2026-09-05T13:31:04.000Z", "exact": true, "content": "\u003e OpenAI 的模型文档详细说明了 GPT-6 Astra 容易出现不良行为的地方以及开发人员如何解决它。 据 OpenAI 称，GPT-6 Astra 比 GPT-5.6 Sol 更频繁地提出澄清问题，而不是自己做出假设，这使其成为 代价是模型有时会停在用户期望它继续运行的地方。 为了推动其更加主动，OpenAI 建议提供提示，告诉模型推断用户的 应被视为采取行动的号召，而不是提出后续问题的邀请。 “您应该从迄今为止的说明和对话上下文中推断出用户的意图和任务范围。您的任务是表现出采取行动并坚持执行用户预期任务直至完成的倾向。如果用户表达了完成新工作或解决现有问题的意图，请继续坚持工作，直到实现用户的预期目标。独立地实现用户的目标（例如，创建独立的工作树/签出、解决合并冲突、执行只读操作、创建草稿 PR 等），除非这些操作明显具有破坏性或不可逆转。 该模型应该等待请求批准，直到它已经准备好具体的、可审查的结果。 OpenAI 是这样提示的： 应从提示中删除基于假设风险的主动警告、免责声明或安全检查表。 GPT-6 Astra 比其前身更好地遵循更长的指令，但对上下文也更敏感。诸如“AGENTS.md”之类的技能文件中的不清楚或矛盾的指令可能会导致模型阻止工作或意外偏离。 OpenAI 建议审核模型可以访问的所有技能文件和上下文文档，并为用户指令提供明确的优先级。 OpenAI 还建议使用调试提示，强制模型命名确切的技能文件并引用导致其暂停或改变方向的特定指令。这有助于开发人员追踪意外行为的根源。 如果某项技能导致您请求许可或确认、暂停、未完成所请求的工作或偏离用户的意图，请命名并链接到您阅读的确切 SKILL.md 文件，引用相关说明，并简要解释其应用方式。将明确的技能要求与您对指南的解释区分开来。 和其余的废话 GPT-6 Astra 倾向于使用列表、表格和 Markdown 格式来构建响应，并在会话中重复使用相同的短语。 OpenAI 对于塑造模型的写作风格有具体的指导。如果您想要散文，请明确告诉模型使用简单的语言和主动语态编写简洁的段落。 “默认情况下，使用清晰、简洁的段落，每个段落都有一个主要思想。仅当信息真正并行、连续或更容易比较时才使用列表，并避免嵌套列表，除非层次结构无法在散文中清晰表达。使用简单、直接的语言：熟悉的单词、具体的例子和精确的动词。喜欢主动语态和直接陈述。尽早明确要点，然后通过读者需要的解释和细节对其进行扩展。让每个句子都建立在前一个句子的基础上。提出重要的观点并提供足够有用的证据。 典型人工智能短语的黑名单也有帮助。 OpenAI 称他们为", "zh": true}, {"seq": 4, "title": "实测GPT-6 Astra：速度、前端与代码能力对比GPT-5.6 Sol的全面升级", "source": "公众号：数字生命卡兹克", "summary": "GPT-6 Astra正式向所有订阅用户推送，作者实测后认为其综合能力追平Claude Fable 5，且额度100%可用。相比GPT-5.6 Sol，速度明显提升，大型系统审查从数小时缩短到约10分钟，代码扫描找出大量此前未发现的性能问题并2小时完成修复；前端3D生成和审美大幅强化，写作在白描和用词上更好但仍缺中文留白感。", "url": "https://mp.weixin.qq.com/s?__biz=MzIyMzA5NjEyMA%3D%3D&mid=2647685905&idx=1&sn=2a6327daa3fb1d5573a824afd63af7f6", "permalink": "https://aihot.virxact.com/items/cmtoba1tm047nroxh3vml7on9", "publishedAt": "2026-09-05T11:39:52.000Z", "exact": true, "content": "： ， 。 视频 小程序 赞 ，轻点两下取消赞 在看 ，轻点两下取消在看", "zh": true}, {"seq": 5, "title": "OpenAI 说明 wiki 事件并着手制定对齐事故披露框架", "source": "X：OpenAI (@OpenAI)", "summary": "OpenAI 发文说明其智能体向多个互联网站点写入内容的 wiki 事件，认为已到需要定义何时以及如何分享对齐事故标准的时候。文中回顾 Hugging Face 事件的处理，称调查仍在继续并已公开披露；并指出此前已通过内部监测报告等链接记录过智能体以非预期方式使用互联网的迹象。OpenAI 表示正在制定对齐事故披露框架，将在未来几周内分享，同时正与全球数十家政府监管机构合作处理这些问题。", "url": "https://x.com/OpenAI/status/2096133504417616165", "permalink": "https://aihot.virxact.com/items/cmto1tyjd0kh4roqs2p93ydka", "publishedAt": "2026-09-05T07:09:06.000Z", "exact": true, "content": "我们如何看待“维基事件”，我们的代理向几个互联网网站写信：我们已经过去定义何时以及如何共享失准事件的标准，而不仅仅是我们模型的失准属性。 从历史上看，我们主要将失调视为一个研究问题，并在系统卡等研究出版物中进行交流。今年，我们开始看到失调对现实世界造成新的影响。 对于“抱脸”事件，由于不一致导致了我们和第三方的安全影响，我们遵循了传统的安全事件响应手册。我们立即开始与 Hugging Face 合作了解发生的情况，并于第二天公开披露。我们的调查仍在继续，我们将继续通知我们的模型以不太显着的方式影响的各方。 在 Hugging Face 事件之前，我们看到了代理以非预期方式使用互联网的早期迹象，如 openai.com/index/how-we-m…、deploymentsafety.openai.com/gpt-5-6 和 openai.com/index/safety-a… 中报道的那样。我们认为维基事件是一个与我们分享的事件类似的失调实例。 我们的错位披露实践需要针对模型能力的新阶段进行扩展。对于如何报告训练、评估和部署过程中出现的偏差，我们和更大的人工智能社区还没有一个明确的标准，包括看起来不像传统安全事件但可以提供对人工智能行为和未来风险的洞察的示例。我们正在制定一个框架，并将在未来几周内分享它，同时我们正在与全球数十个政府监管机构就这些问题进行合作。", "zh": true}]}]};
+function pad(n){return n<10?"0"+n:""+n;}
+function toBeijingHuman(iso, ref, exact){
+  const d=new Date(iso); const bj=new Date(d.getTime()+8*3600*1000);
+  const Y=bj.getUTCFullYear(),M=bj.getUTCMonth()+1,D=bj.getUTCDate();
+  const h=bj.getUTCHours(),m=bj.getUTCMinutes(); const hh=pad(h),mm=pad(m);
+  if(!exact) return M+"月"+D+"日";
+  const [rY,rM,rD]=ref.split("-").map(Number);
+  if(Y===rY&&M===rM&&D===rD) return "今天 "+hh+":"+mm;
+  const yest=new Date(rY,rM-1,rD); yest.setDate(yest.getDate()-1);
+  if(Y===yest.getFullYear()&&M===yest.getMonth()+1&&D===yest.getDate()) return "昨天 "+hh+":"+mm;
+  return M+"月"+D+"日 "+hh+":"+mm;
+}
+const meta=DATA.meta, sections=DATA.sections, ref=meta.reportDate;
+const statsEl=document.getElementById("stats");
+sections.forEach(s=>{const d=document.createElement("div");d.className="stat";
+  d.innerHTML='<div class="n">'+s.items.length+'</div><div class="l">'+s.label+'</div>';statsEl.appendChild(d);});
+const navEl=document.getElementById("nav");
+sections.forEach((s,i)=>{const a=document.createElement("a");a.href="#sec-"+i;
+  a.innerHTML=escapeHtml(s.label)+'<span class="c">'+s.items.length+'</span>';navEl.appendChild(a);});
+const mainEl=document.getElementById("main");
+sections.forEach((s,i)=>{
+  const sec=document.createElement("section");sec.className="block";sec.id="sec-"+i;
+  const head=document.createElement("div");head.className="sec-head";
+  head.innerHTML='<span class="sec-dot" style="background:'+s.color+'"></span><h2>'+escapeHtml(s.label)+'</h2><span class="cnt">'+s.items.length+' 条</span>';
+  sec.appendChild(head);
+  const grid=document.createElement("div");grid.className="grid";
+  s.items.forEach(it=>{
+    const card=document.createElement("article");card.className="card";card.style.setProperty("--accent",s.color);
+    const time=toBeijingHuman(it.publishedAt,ref,it.exact);const url=it.url||"#";
+    card.innerHTML='<div class="top"><span class="seq">'+it.seq+'</span><span class="time">'+time+'</span></div>'+
+      '<h3>'+escapeHtml(it.title)+'</h3><span class="chip">'+escapeHtml(it.source)+'</span>'+
+      '<p class="summary">'+escapeHtml(it.summary)+'</p>'+
+      '<a class="readmore" href="'+escapeAttr(url)+'" target="_blank" rel="noopener noreferrer" title="外部原文链接，可能需要访问境外站点">来源 ↗</a>';
+    card.addEventListener("click", function(){ openReader(it); });
+    const rm = card.querySelector(".readmore");
+    rm.addEventListener("click", function(e){ e.stopPropagation(); });
+    grid.appendChild(card);
+  });
+  sec.appendChild(grid);mainEl.appendChild(sec);
+});
+function escapeHtml(s){return (s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
+function escapeAttr(s){return escapeHtml(s);}
+// 渲染正文（纯文本归档）：图片不加载远程资源，仅以文字占位符呈现；其余文本按段落转义（防 XSS）
+function linkify(escaped){
+  if(!escaped) return escaped;
+  var re=/(\[[^\]]+\]\((https?:\/\/[^)\s]+)\))|(https?:\/\/[^\s<>"'）】」』，。、；：！？]+)/g;
+  return escaped.replace(re, function(m, g1, g2, g3){
+    if(g2!==undefined){
+      var label=m.substring(m.indexOf('[')+1, m.indexOf(']'));
+      return '<a class="r-link" href="'+g2+'" target="_blank" rel="noopener noreferrer">'+label+'</a>';
+    }
+    if(g3!==undefined){
+      return '<a class="r-link" href="'+g3+'" target="_blank" rel="noopener noreferrer">'+g3+'</a>';
+    }
+    return m;
+  });
+}
+var _IMG_RE=/!\[([^\]]*)\]\(([^)\s]+)\)/g;
+function renderRich(text){
+  return (text||"").split(/\n{1,}/).map(function(p){
+    p=p.trim(); if(!p) return '';
+    var out=''; var last=0; var m; _IMG_RE.lastIndex=0;
+    while((m=_IMG_RE.exec(p))!==null){
+      out+=linkify(escapeHtml(p.slice(last,m.index)));
+      var cap=(m[1]||'').trim()||'图片';
+      out+='<span class="r-img-cap">🖼 '+escapeHtml(cap)+'</span>';
+      last=_IMG_RE.lastIndex;
+    }
+    out+=linkify(escapeHtml(p.slice(last)));
+    return '<p>'+out+'</p>';
+  }).join("");
+}
+function openReader(it){
+  const r=document.getElementById("reader");
+  const content=(it.content||"").trim();
+  const body=document.getElementById("readerBody");
+  if(content.length>0){
+    body.innerHTML=renderRich(content);
+  }else{
+    const sum=(it.summary||"").trim();
+    if(sum){
+      // 来源站点多为付费墙 / 登录墙 / 反爬限制，无法镜像全文；展示已本地存档的中文摘要兜底
+      body.innerHTML='<div class="r-fallback">⚠️ 该条新闻的<b>全文镜像暂不可用</b>（来源站点可能为付费墙 / 登录墙 / 反爬限制，或原文已失效）。下方为已<b>本地存档的中文摘要</b>，可正常查看；完整原文请点击右下角「查看原文 ↗」。</div>'+
+        '<p class="r-summary">'+linkify(escapeHtml(sum))+'</p>';
+    }else{
+      body.innerHTML='<p class="r-empty">暂未获取到该条新闻的全文镜像与摘要。'+(it.url?'可点击右下角「查看原文 ↗」前往原始报道。':'')+'</p>';
+    }
+  }
+  document.getElementById("readerTitle").textContent=it.title;
+  document.getElementById("readerSource").textContent=it.source;
+  const link=document.getElementById("readerLink");
+  if(it.url){link.href=it.url;link.style.display="";}else{link.style.display="none";}
+  r.hidden=false;document.body.style.overflow="hidden";
+}
+function closeReader(){const r=document.getElementById("reader");r.hidden=true;document.body.style.overflow="";}
+document.getElementById("reader").addEventListener("click",function(e){if(e.target===this)closeReader();});
+document.addEventListener("keydown",function(e){if(e.key==="Escape")closeReader();});
+</script>
+</body></html>
