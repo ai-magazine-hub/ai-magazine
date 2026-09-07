@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>AI HOT 资讯 · 2026-09-07</title>
+<style>
+  :root{--bg:#f5f6fb;--card:#fff;--ink:#1f2430;--muted:#6b7280;--line:#e8eaf1;
+    --shadow:0 1px 3px rgba(16,24,40,.06),0 8px 24px rgba(16,24,40,.05);}
+  *{box-sizing:border-box} html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
+    -webkit-font-smoothing:antialiased;line-height:1.55;}
+  a{color:inherit} .wrap{max-width:1180px;margin:0 auto;padding:0 18px}
+  .hero{background:linear-gradient(135deg,#4f46e5 0%,#7c3aed 55%,#9333ea 100%);color:#fff;
+    padding:42px 0 34px;position:relative;overflow:hidden;}
+  .hero::after{content:"";position:absolute;right:-80px;top:-80px;width:280px;height:280px;
+    background:radial-gradient(circle,rgba(255,255,255,.18),transparent 70%);border-radius:50%}
+  .hero .kicker{font-size:13px;letter-spacing:.18em;text-transform:uppercase;opacity:.85;margin:0 0 6px}
+  .hero h1{margin:0;font-size:34px;font-weight:800;letter-spacing:.5px}
+  .hero .date-line{margin:8px 0 0;font-size:15px;opacity:.92}
+  .stats{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+  .stat{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.22);border-radius:12px;
+    padding:10px 14px;min-width:120px;backdrop-filter:blur(4px)}
+  .stat .n{font-size:22px;font-weight:800;line-height:1}
+  .stat .l{font-size:12.5px;opacity:.9;margin-top:4px}
+  .total-pill{display:inline-flex;align-items:center;gap:8px;margin-top:18px;background:rgba(255,255,255,.16);
+    padding:8px 16px;border-radius:999px;font-weight:600;font-size:14px}
+  .nav{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.92);backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);box-shadow:0 2px 10px rgba(16,24,40,.04)}
+  .nav .wrap{display:flex;gap:8px;overflow-x:auto;padding:10px 18px;scrollbar-width:none}
+  .nav .wrap::-webkit-scrollbar{display:none}
+  .nav a{white-space:nowrap;text-decoration:none;font-size:13.5px;font-weight:600;color:var(--muted);
+    padding:7px 13px;border-radius:999px;border:1px solid var(--line);background:#fff;transition:.15s}
+  .nav a:hover{color:var(--ink);border-color:#c9cdfb}
+  .nav a.home{background:#4f46e5;color:#fff;border-color:#4f46e5}
+  .backhome{position:fixed;right:20px;bottom:20px;z-index:30;background:#4f46e5;color:#fff;text-decoration:none;
+    font-size:14px;font-weight:700;padding:12px 18px;border-radius:999px;box-shadow:0 6px 18px rgba(79,70,229,.35);
+    display:inline-flex;align-items:center;gap:7px;transition:.15s}
+  .backhome:hover{background:#4338ca;transform:translateY(-1px)}
+  .nav a .c{display:inline-block;min-width:20px;text-align:center;margin-left:6px;background:#eef0fe;
+    color:#4f46e5;border-radius:999px;font-size:12px;padding:0 7px}
+  section.block{padding:30px 0 6px}
+  .sec-head{display:flex;align-items:center;gap:10px;margin:0 0 16px}
+  .sec-dot{width:12px;height:12px;border-radius:4px}
+  .sec-head h2{margin:0;font-size:21px;font-weight:800}
+  .sec-head .cnt{font-size:13px;color:var(--muted);font-weight:600}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px 18px 16px;
+    box-shadow:var(--shadow);display:flex;flex-direction:column;gap:10px;position:relative;
+    border-top:3px solid var(--accent,#4f46e5);transition:transform .15s,box-shadow .15s}
+  .card:hover{transform:translateY(-3px);box-shadow:0 6px 14px rgba(16,24,40,.10),0 18px 40px rgba(16,24,40,.08)}
+  .card .top{display:flex;align-items:center;justify-content:space-between;gap:8px}
+  .seq{display:inline-flex;align-items:center;justify-content:center;min-width:30px;height:30px;padding:0 8px;
+    border-radius:9px;background:var(--accent,#4f46e5);color:#fff;font-weight:800;font-size:15px}
+  .time{font-size:12.5px;color:var(--muted);font-weight:600;white-space:nowrap}
+  .card h3{margin:0;font-size:16.5px;font-weight:700;line-height:1.4}
+  .chip{display:inline-block;align-self:flex-start;font-size:12px;font-weight:600;color:var(--accent,#4f46e5);
+    background:color-mix(in srgb,var(--accent,#4f46e5) 10%,#fff);border:1px solid color-mix(in srgb,var(--accent,#4f46e5) 22%,#fff);
+    padding:3px 10px;border-radius:999px}
+  .summary{margin:0;font-size:14px;color:#3b4252;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+  .readmore{margin-top:auto;display:inline-flex;align-items:center;gap:5px;align-self:flex-start;text-decoration:none;
+    font-size:13.5px;font-weight:700;color:var(--accent,#4f46e5)}
+  .readmore:hover{text-decoration:underline}
+  footer{margin-top:36px;padding:26px 0 40px;border-top:1px solid var(--line);color:var(--muted);font-size:13px;text-align:center}
+  footer a{color:#4f46e5;text-decoration:none}
+  @media (max-width:560px){.hero h1{font-size:27px}.grid{grid-template-columns:1fr}.stat{min-width:0;flex:1 1 40%}}
+  /* 站内统一阅读面板 */
+  .card{cursor:pointer}
+  .reader-overlay{position:fixed;inset:0;z-index:60;background:rgba(18,20,32,.55);backdrop-filter:blur(3px);
+    display:flex;align-items:flex-start;justify-content:center;padding:40px 16px;overflow:auto}
+  .reader-overlay[hidden]{display:none}
+  .reader{background:#fff;border-radius:18px;max-width:840px;width:100%;box-shadow:0 30px 80px rgba(0,0,0,.32);
+    display:flex;flex-direction:column;max-height:90vh;overflow:hidden;animation:pop .18s ease}
+  @keyframes pop{from{transform:translateY(8px) scale(.98);opacity:0}to{transform:none;opacity:1}}
+  .reader-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;
+    padding:20px 24px 14px;background:linear-gradient(135deg,#4f46e5,#7c3aed);color:#fff}
+  .reader-head h2{margin:0 0 8px;font-size:20px;line-height:1.45;font-weight:800}
+  .reader-head .chip{background:rgba(255,255,255,.18);color:#fff;border:1px solid rgba(255,255,255,.3)}
+  .reader-x{background:rgba(255,255,255,.2);border:none;color:#fff;font-size:24px;line-height:1;
+    width:38px;height:38px;border-radius:10px;cursor:pointer;flex:0 0 auto}
+  .reader-x:hover{background:rgba(255,255,255,.34)}
+  .reader-body{padding:20px 24px;overflow:auto;color:#2a2f3a;font-size:15.5px;line-height:1.85}
+  .reader-body p{margin:0 0 14px}
+  .reader-body .r-img-cap{display:inline-block;margin:6px 0;padding:4px 10px;border-radius:8px;background:#f1f3f9;color:#8a93a6;font-size:13px;font-style:italic;border:1px dashed #d7dce8}
+  .reader-body .r-empty{color:#6b7280;font-style:italic}
+  .reader-body .r-summary{margin:0 0 14px;white-space:pre-wrap}
+  .reader-body a.r-link{color:#2563eb;text-decoration:underline;text-underline-offset:2px;word-break:break-all}
+  .reader-body a.r-link:hover{color:#1d4ed8}
+  .reader-body .r-fallback{background:#f5f3ff;border:1px solid #e4defb;color:#5b21b6;border-radius:10px;
+    padding:10px 14px;font-size:13px;line-height:1.7;margin:0 0 16px}
+  .reader-body .r-fallback b{color:#6d28d9}
+  .reader-foot{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;
+    padding:14px 24px 18px;border-top:1px solid var(--line);background:#fafbff}
+  .reader-foot .r-note{font-size:12.5px;color:var(--muted);max-width:62%}
+  .reader-foot .readmore{margin:0}
+</style>
+</head>
+<body>
+  <header class="hero"><div class="wrap">
+    <p class="kicker">AI HOT Daily · 晨报</p>
+    <h1>AI 资讯 · 2026年9月7日</h1>
+    <p class="date-line">星期一 · 数据来源：AI HOT</p>
+    <div class="total-pill">📊 当日共 <strong style="margin:0 4px">5</strong> 条 AI 动态</div>
+    <div class="stats" id="stats"></div>
+  </div></header>
+  <nav class="nav"><div class="wrap" id="nav"><a href="index.html" class="home">📰 AI资讯杂志</a></div></nav>
+  <main class="wrap" id="main"></main>
+  <footer>
+    <div>本日报共收录 <strong>5</strong> 条动态 · 数据来源：<a href="https://aihot.virxact.com" target="_blank" rel="noopener noreferrer">AI HOT（aihot.virxact.com）</a></div>
+    <div style="margin-top:6px">生成于 2026年09月07日 20:21 · 时间换算为北京时间 · 点「来源 ↗」跳转原始报道</div>
+    <div style="margin-top:8px;opacity:.85">说明：本条新闻的标题、摘要、来源、日期已<b>镜像保存在本页</b>；即便外部链接失效或无法访问境外站点，已存档内容仍可正常查看。</div>
+  </footer>
+  <a href="index.html" class="backhome" title="返回 AI资讯杂志 首页">📰 返回 AI资讯杂志</a>
+  <div class="reader-overlay" id="reader" hidden>
+    <div class="reader" role="dialog" aria-modal="true">
+      <div class="reader-head">
+        <div style="min-width:0">
+          <h2 id="readerTitle"></h2>
+          <span class="chip" id="readerSource"></span>
+        </div>
+        <button class="reader-x" onclick="closeReader()" aria-label="关闭">×</button>
+      </div>
+      <div class="reader-body" id="readerBody"></div>
+      <div class="reader-foot">
+        <span class="r-note">本文由 <b>AI资讯杂志</b> 整理镜像，原文版权归原作者所有 · 点击右侧按钮查看原始报道</span>
+        <a id="readerLink" class="readmore" target="_blank" rel="noopener noreferrer">查看原文 ↗</a>
+      </div>
+    </div>
+  </div>
+<script>
+const DATA = {"meta": {"reportDate": "2026-09-07", "reportDateHuman": "2026年9月7日", "weekday": "星期一", "total": 5, "source": "AI HOT", "sourceUrl": "https://aihot.virxact.com", "generatedAt": "2026年09月07日 20:21"}, "sections": [{"label": "技巧与观点", "color": "#0284c7", "items": [{"seq": 1, "title": "OpenAI 发布内部研究加速报告：已达成自动化研究实习生目标，推进 2028 年 3 月自动化 AI 研究员", "source": "OpenAI：官网动态（RSS · 排除企业/客户案例）", "summary": "OpenAI 发文披露自动化研究进展，宣布已达成去年秋天设定的今年 9 月拥有自动化研究实习生（可在人类指导下完成耗时数天的明确研究任务）的目标，并计划在 2028 年 3 月前造出自动化 AI 研究员。", "url": "https://openai.com/index/research-acceleration-view-inside-openai", "permalink": "https://aihot.virxact.com/items/cmtpzyon6019iroemu68v4s2v", "publishedAt": "2026-09-06T08:00:00.000Z", "exact": true, "content": "", "zh": true}, {"seq": 2, "title": "Fortune 报道 OpenAI 多次修改 GPT-6 Astra 基准测试数据，部分成绩大幅变化", "source": "IT之家（RSS）", "summary": "据 Fortune 报道，OpenAI 自 9 月 3 日发布 GPT-6 Astra 公告以来多次修改评测基准数据：Astra 幻觉率曾从 4.2% 降至 2% 后又改回。", "url": "https://www.ithome.com/0/998/927.htm", "permalink": "https://aihot.virxact.com/items/cmtphtttc01pkroxxh8pinzq2", "publishedAt": "2026-09-06T06:46:16.000Z", "exact": true, "content": "\u003e\n\n这些变化发生在一次颇为反常的公告发布过程中。\n\n据IT之家了解，OpenAI 最初计划在美国东部时间 9 月 3 日下午 2 点发布博客文章，但又过了近两个小时，文章才终于能够在网上被大多数用户正常访问。\n\n当地时间下午 3 点 32 分，OpenAI 官方 X 账号发布博客链接，但页面无法正常打开，访问者会看到错误提示。下午 3 点 50 分，OpenAI CEO 萨姆・奥尔特曼（Sam Altman）也发布了链接，并写道：“我们在部署博客文章时遇到了一点小问题，但它真的非常棒。”\n\n不过，当时仍有多名用户表示无法打开页面。大约一小时后，页面才终于能够正常访问。\n\n事实证明，OpenAI 实际上在下午 2 点过后不久就发布了这篇博客，但随后又将其撤下。OpenAI 表示无法披露撤稿的具体原因，但强调此事与基准测试成绩无关。\n\nOpenAI 最初解释称，问题源于内容管理系统的故障，随后又表示是互联网中断所致。\n\n然而，当博客重新上线后，其中的多项评测数据已经发生变化，而且部分数据此后仍在继续调整。一些更新后的指标似乎让 Astra 的表现更加突出。\n\n这一事件发生之际，人工智能行业正处于激烈竞争之中。各家公司以极快的速度更新大语言模型，都希望在能力上领先竞争对手。围绕这些指标的争议，也再次凸显出一个长期存在的问题：如何利用标准化基准测试准确衡量大语言模型的能力，以及这些测试成绩是否容易被人为优化甚至“刷分”。\n\nOpenAI 发言人表示：“我们非常重视评测结果的准确性。由于具体使用的模型检查点、测试框架和评测运行方式不同，大多数评测结果本身都会存在几个百分点范围内的波动。对于发布公告中的数据，我们进行了修正，以确保这些数字能够代表我们对模型可用性能的最佳估计，让用户能够进行有意义的比较。”\n\n首版与最终版数据存在差异，而且部分数字仍在变化\n\n最引人关注的变化之一，是 Astra 的幻觉率。\n\n根据互联网档案中保存的一份页面快照，在美国东部时间 9 月 3 日下午 2 点 23 分发布的最初版本中，Astra 的幻觉率为 4.2%。之后的多份页面快照中，这一数字都没有变化，直到下午 3 点 11 分的第五份快照仍然如此。\n\n大约 10 分钟后，OpenAI 才在 X 上发布了最终版本的博客链接。\n\n但在下午 5 点 20 分保存的第六份网页快照中，也就是页面基本已经能够被公众正常访问之后，Astra 的幻觉率以及另外四项指标发生了变化。Astra 的幻觉率从 4.2% 直接降至 2%，几乎减半。\n\n与此同时，Astra 的前代模型 GPT-5.6 Sol 的幻觉率也从 12.2% 降至 9.4%。\n\n不过，OpenAI 此后仍在继续修改这一指标。截至本文撰写时，Astra 和 GPT-5.6 Sol 的幻觉率又分别回到了最初的 4.2% 和 12.2%。\n\nOpenAI 似乎还大幅提高了 GPT-5.6 Sol 在其内部 ExploitBench 网络安全评测中的成绩，从最初版本的 5.5% 提高到后续版本中的 11.5%。\n\nOpenAI 表示，公司目前正在研究是否将这一数字恢复至 5.5%，因为 11.5% 的成绩对应的是 GPT-5.6 Sol 当前并未向商业用户提供的推理能力等级。\n\nOpenAI 在公告开头重点强调，Astra 在数学能力方面表现尤其出色。\n\n从网页快照来看，Astra 在 FrontierMath Tier 4（v2）评测中的成绩始终保持在 97.6%，并没有发生变化。但 OpenAI 曾短暂修改 GPT-5.6 Sol 和 Anthropic 最新模型 Fable 5.1 的成绩。\n\n这些调整一度让 Astra 看起来明显领先于另外两款模型。\n\n在 9 月 3 日下午 2 点 23 分保存的首份网页快照中，Anthropic Fable 5.1 在该数学评测中的成绩为 87.8%。到下午 5 点 17 分，这一成绩下降近 10 个百分点至 78%。截至目前，该成绩又回升至 83%。\n\nGPT-5.6 Sol 的成绩也经历了类似变化，从 83% 下降至 80.5%，随后又恢复至目前的 83%。\n\n这些数据调整甚至早于 OpenAI 下午 2 点首次发布博客之前。\n\nOpenAI 此前向媒体提供的一份受发布禁令限制的预发布草稿显示，Astra 在 ARC-AGI-3 评测中的成绩为 98.6%。而在目前公开的博客中，这一数字已经变成 99.99%。\n\nOpenAI 当时回应称：“我们始终会在正式发布前验证评测结果，因此草稿与最终版本之间出现调整是正常的。”\n\nOpenAI 还指出，该基准测试的创建方 Arc Prize Foundation 在独立评估中发现，如果为 Astra 配备一套特别强大的测试工具框架，也就是让模型能够调用更多工具完成任务，Astra 的成绩可以达到 99.9%。\n\n而在使用该基准测试的标准工具框架时，Astra 的成绩为 63%。尽管如此，这一成绩仍明显领先于目前所有公开发布的其他 AI 模型。\n\nOpenAI 表示，测试工具框架、推理等级以及其他因素都会影响最终的评测结果。\n\n\u003cimg src=", "zh": true}, {"seq": 3, "title": "OpenAI 长文阐述对齐与监测困境，称 CoT 监控能力正在减弱", "source": "OpenAI：官网动态（RSS · 排除企业/客户案例）", "summary": "OpenAI 发布长文《An Alien Mind》，回溯 2023 年 RLSlow 项目中确认推理模型可扩展训练的起点，并系统阐述目标对齐与价值对齐的区分。文章指出链式思维监控的效果正随着模型能力提升而逐步减弱，GPT‑6 Astra 在对齐上显著优于 GPT‑5.6 Sol；作者预期进展可能持续走向机器递归自我改进（RSI），呼吁自愿放缓扩展、建立第三方安全门槛并加强国际协调。", "url": "https://openai.com/index/an-alien-mind", "permalink": "https://aihot.virxact.com/items/cmtq23v6k01aorotwh8xip8r1", "publishedAt": "2026-09-06T09:00:00.000Z", "exact": true, "content": "", "zh": true}]}, {"label": "产品发布/更新", "color": "#059669", "items": [{"seq": 1, "title": "GPT-6 Astra爆火后，卡兹克谈执行能力贬值与判断力断层", "source": "公众号：数字生命卡兹克", "summary": "GPT-6 Astra上线后，大量用户用它自主操控Blender、Houdini、Unity、Aseprite等专业软件，做出游戏Demo、3D复刻旧金山艺术宫等作品，其中旧金山艺术宫案例里Astra自己搜索几百张参考图、翻到美国国会图书馆的老扫描文件找柱子尺寸，多数工作在夜间自主完成。", "url": "https://mp.weixin.qq.com/s?__biz=MzIyMzA5NjEyMA%3D%3D&mid=2647685960&idx=1&sn=df5885920be226f9514f47a7f2d30621", "permalink": "/items/cmtqhifvf04pwrohqvdfqmfxp", "publishedAt": "2026-09-07T00:08:00.000Z", "exact": true, "zh": true, "fromFeed": true, "content": "环境异常 当前环境异常，完成验证后即可继续访问。 去验证 ： ， 。"}, {"seq": 2, "title": "OpenAI 宣布达到自动化研究实习生里程碑，内部 agent 运行时达人力 3.1 倍", "source": "X：Rohan Paul (@rohanpaul_ai)", "summary": "OpenAI 发布内部数据称已达到自动化研究实习生里程碑，即可在人类监督下完成熟练研究员需数天的明确任务。截至 8 月中旬，其研究组织每投入 1 个人工工作日，就使用 3.1 个 agent 工作日的运行时长，该比值衡量的是运行时间而非等效生产力；原文作者援引 OpenAI 员工观点称递归自我改进或成为未来几年 AI 能力的关键，并呼吁其他 AI 公司同样公开数据。", "url": "https://x.com/rohanpaul_ai/status/2096665545190043737", "permalink": "/items/cmtq5pxc10275roiufscxyie4", "publishedAt": "2026-09-06T18:23:14.000Z", "exact": true, "zh": true, "fromFeed": true, "content": "Rohan Paul on X: \"OpenAI just officially said it has reached its \"automated research intern\" milestone. i.e. a human-supervised system able to complete well-defined tasks that would take a skilled researcher quite few days. inside OpenAI research, agent runtime has already crossed human labor by… / X Rohan Paul on X: \"OpenAI just officially said it has reached its \"automated research intern\" milestone. i.e. a human-supervised system able to complete well-defined tasks that would take a skilled researcher quite few days. inside OpenAI research, agent runtime has already crossed human labor by a wide margin. 3.1-to-1 agent-to-human ratio “In terms of a standard 8 hour workday, as of mid-August, in total, the research organization uses 3.1 agent-workdays of effort for every workday of human labor.” That ratio measures agent runtime rather than equivalent productivity, but it captures how deeply parallel agent work has entered OpenAI research.\" OpenAI just officially said it has reached its \"automated research intern\" milestone. i.e. a human-supervised system able to complete well-defined tasks that would take a skilled researcher quite few days. inside OpenAI research, agent runtime has already crossed human labor by a wide margin. 3.1-to-1 agent-to-human ratio “In terms of a standard 8 hour workday, as of mid-August, in total, the research organization uses 3.1 agent-workdays of effort for every workday of human labor.” That ratio measures agent runtime rather than equivalent productivity, but it captures how deeply parallel agent work has entered OpenAI research. Today we're releasing data on models accelerating research at OpenAI. Recursive self-improvement could be the most important contributor to AI capabilities over the next few years, but by default it will only be seen inside a few frontier AI labs. Being transparent is moreShow more OpenAI just officially said it has reached its \"automated research intern\" milestone. i.e. a human-supervised system able to complete well-defined tasks that would take a skilled researcher quite few days. inside OpenAI research, agent runtime has already crossed human labor by a wide margin. 3.1-to-1 agent-to-human ratio “In terms of a standard 8 hour workday, as of mid-August, in total, the research organization uses 3.1 agent-workdays of effort for every workday of human labor.” That ratio measures agent runtime rather than equivalent productivity, but it captures how deeply parallel agent work has entered OpenAI research. Today we're releasing data on models accelerating research at OpenAI. Recursive self-improvement could be the most important contributor to AI capabilities over the next few years, but by default it will only be seen inside a few frontier AI labs. Being transparent is moreShow more Knowledge work has always been bottlenecked by human serial execution - that time is changing. OpenAI's research workflow has now shifted from individual AI assistance toward researchers supervising multiple simultaneous agent workflows. In April, only about one-third ofShow more I think \"time horizon\" is becoming one of the more useful ways to talk about agent capability. At OpenAI, as tasks get longer, success without human intervention collapses, from 86% on sub-15-minute tasks to only around 16% on the longest 64-128-hour bucket, while successfulShow more"}]}]};
+function pad(n){return n<10?"0"+n:""+n;}
+function toBeijingHuman(iso, ref, exact){
+  const d=new Date(iso); const bj=new Date(d.getTime()+8*3600*1000);
+  const Y=bj.getUTCFullYear(),M=bj.getUTCMonth()+1,D=bj.getUTCDate();
+  const h=bj.getUTCHours(),m=bj.getUTCMinutes(); const hh=pad(h),mm=pad(m);
+  if(!exact) return M+"月"+D+"日";
+  const [rY,rM,rD]=ref.split("-").map(Number);
+  if(Y===rY&&M===rM&&D===rD) return "今天 "+hh+":"+mm;
+  const yest=new Date(rY,rM-1,rD); yest.setDate(yest.getDate()-1);
+  if(Y===yest.getFullYear()&&M===yest.getMonth()+1&&D===yest.getDate()) return "昨天 "+hh+":"+mm;
+  return M+"月"+D+"日 "+hh+":"+mm;
+}
+const meta=DATA.meta, sections=DATA.sections, ref=meta.reportDate;
+const statsEl=document.getElementById("stats");
+sections.forEach(s=>{const d=document.createElement("div");d.className="stat";
+  d.innerHTML='<div class="n">'+s.items.length+'</div><div class="l">'+s.label+'</div>';statsEl.appendChild(d);});
+const navEl=document.getElementById("nav");
+sections.forEach((s,i)=>{const a=document.createElement("a");a.href="#sec-"+i;
+  a.innerHTML=escapeHtml(s.label)+'<span class="c">'+s.items.length+'</span>';navEl.appendChild(a);});
+const mainEl=document.getElementById("main");
+sections.forEach((s,i)=>{
+  const sec=document.createElement("section");sec.className="block";sec.id="sec-"+i;
+  const head=document.createElement("div");head.className="sec-head";
+  head.innerHTML='<span class="sec-dot" style="background:'+s.color+'"></span><h2>'+escapeHtml(s.label)+'</h2><span class="cnt">'+s.items.length+' 条</span>';
+  sec.appendChild(head);
+  const grid=document.createElement("div");grid.className="grid";
+  s.items.forEach(it=>{
+    const card=document.createElement("article");card.className="card";card.style.setProperty("--accent",s.color);
+    const time=toBeijingHuman(it.publishedAt,ref,it.exact);const url=it.url||"#";
+    card.innerHTML='<div class="top"><span class="seq">'+it.seq+'</span><span class="time">'+time+'</span></div>'+
+      '<h3>'+escapeHtml(it.title)+'</h3><span class="chip">'+escapeHtml(it.source)+'</span>'+
+      '<p class="summary">'+escapeHtml(it.summary)+'</p>'+
+      '<a class="readmore" href="'+escapeAttr(url)+'" target="_blank" rel="noopener noreferrer" title="外部原文链接，可能需要访问境外站点">来源 ↗</a>';
+    card.addEventListener("click", function(){ openReader(it); });
+    const rm = card.querySelector(".readmore");
+    rm.addEventListener("click", function(e){ e.stopPropagation(); });
+    grid.appendChild(card);
+  });
+  sec.appendChild(grid);mainEl.appendChild(sec);
+});
+function escapeHtml(s){return (s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
+function escapeAttr(s){return escapeHtml(s);}
+// 渲染正文（纯文本归档）：图片不加载远程资源，仅以文字占位符呈现；其余文本按段落转义（防 XSS）
+function linkify(escaped){
+  if(!escaped) return escaped;
+  var re=/(\[[^\]]+\]\((https?:\/\/[^)\s]+)\))|(https?:\/\/[^\s<>"'）】」』，。、；：！？]+)/g;
+  return escaped.replace(re, function(m, g1, g2, g3){
+    if(g2!==undefined){
+      var label=m.substring(m.indexOf('[')+1, m.indexOf(']'));
+      return '<a class="r-link" href="'+g2+'" target="_blank" rel="noopener noreferrer">'+label+'</a>';
+    }
+    if(g3!==undefined){
+      return '<a class="r-link" href="'+g3+'" target="_blank" rel="noopener noreferrer">'+g3+'</a>';
+    }
+    return m;
+  });
+}
+var _IMG_RE=/!\[([^\]]*)\]\(([^)\s]+)\)/g;
+function renderRich(text){
+  return (text||"").split(/\n{1,}/).map(function(p){
+    p=p.trim(); if(!p) return '';
+    var out=''; var last=0; var m; _IMG_RE.lastIndex=0;
+    while((m=_IMG_RE.exec(p))!==null){
+      out+=linkify(escapeHtml(p.slice(last,m.index)));
+      var cap=(m[1]||'').trim()||'图片';
+      out+='<span class="r-img-cap">🖼 '+escapeHtml(cap)+'</span>';
+      last=_IMG_RE.lastIndex;
+    }
+    out+=linkify(escapeHtml(p.slice(last)));
+    return '<p>'+out+'</p>';
+  }).join("");
+}
+function openReader(it){
+  const r=document.getElementById("reader");
+  const content=(it.content||"").trim();
+  const body=document.getElementById("readerBody");
+  if(content.length>0){
+    body.innerHTML=renderRich(content);
+  }else{
+    const sum=(it.summary||"").trim();
+    if(sum){
+      // 来源站点多为付费墙 / 登录墙 / 反爬限制，无法镜像全文；展示已本地存档的中文摘要兜底
+      body.innerHTML='<div class="r-fallback">⚠️ 该条新闻的<b>全文镜像暂不可用</b>（来源站点可能为付费墙 / 登录墙 / 反爬限制，或原文已失效）。下方为已<b>本地存档的中文摘要</b>，可正常查看；完整原文请点击右下角「查看原文 ↗」。</div>'+
+        '<p class="r-summary">'+linkify(escapeHtml(sum))+'</p>';
+    }else{
+      body.innerHTML='<p class="r-empty">暂未获取到该条新闻的全文镜像与摘要。'+(it.url?'可点击右下角「查看原文 ↗」前往原始报道。':'')+'</p>';
+    }
+  }
+  document.getElementById("readerTitle").textContent=it.title;
+  document.getElementById("readerSource").textContent=it.source;
+  const link=document.getElementById("readerLink");
+  if(it.url){link.href=it.url;link.style.display="";}else{link.style.display="none";}
+  r.hidden=false;document.body.style.overflow="hidden";
+}
+function closeReader(){const r=document.getElementById("reader");r.hidden=true;document.body.style.overflow="";}
+document.getElementById("reader").addEventListener("click",function(e){if(e.target===this)closeReader();});
+document.addEventListener("keydown",function(e){if(e.key==="Escape")closeReader();});
+</script>
+</body></html>
