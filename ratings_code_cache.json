@@ -1,13 +1,13 @@
 {
-  "updated_at": 1789171938,
+  "updated_at": 1789196834,
   "ratings": {
-    "GPT": 1796,
-    "Claude": 1764,
+    "GPT": 1800,
+    "Claude": 1758,
     "Gemini": 1587,
-    "Grok": 1624,
-    "DeepSeek 系列": 1582,
-    "通义千问 Qwen": 1685,
-    "智谱 GLM": 1613,
+    "Grok": 1618,
+    "DeepSeek 系列": 1614,
+    "通义千问 Qwen": 1681,
+    "智谱 GLM": 1614,
     "Kimi": 1674,
     "Seed": 1519,
     "MiniMax 系列": 1486
