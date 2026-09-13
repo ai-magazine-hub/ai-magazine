@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>AI HOT 资讯 · 2026-09-13</title>
+<style>
+  :root{--bg:#f5f6fb;--card:#fff;--ink:#1f2430;--muted:#6b7280;--line:#e8eaf1;
+    --shadow:0 1px 3px rgba(16,24,40,.06),0 8px 24px rgba(16,24,40,.05);}
+  *{box-sizing:border-box} html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
+    -webkit-font-smoothing:antialiased;line-height:1.55;}
+  a{color:inherit} .wrap{max-width:1180px;margin:0 auto;padding:0 18px}
+  .hero{background:linear-gradient(135deg,#4f46e5 0%,#7c3aed 55%,#9333ea 100%);color:#fff;
+    padding:42px 0 34px;position:relative;overflow:hidden;}
+  .hero::after{content:"";position:absolute;right:-80px;top:-80px;width:280px;height:280px;
+    background:radial-gradient(circle,rgba(255,255,255,.18),transparent 70%);border-radius:50%}
+  .hero .kicker{font-size:13px;letter-spacing:.18em;text-transform:uppercase;opacity:.85;margin:0 0 6px}
+  .hero h1{margin:0;font-size:34px;font-weight:800;letter-spacing:.5px}
+  .hero .date-line{margin:8px 0 0;font-size:15px;opacity:.92}
+  .stats{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+  .stat{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.22);border-radius:12px;
+    padding:10px 14px;min-width:120px;backdrop-filter:blur(4px)}
+  .stat .n{font-size:22px;font-weight:800;line-height:1}
+  .stat .l{font-size:12.5px;opacity:.9;margin-top:4px}
+  .total-pill{display:inline-flex;align-items:center;gap:8px;margin-top:18px;background:rgba(255,255,255,.16);
+    padding:8px 16px;border-radius:999px;font-weight:600;font-size:14px}
+  .nav{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.92);backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);box-shadow:0 2px 10px rgba(16,24,40,.04)}
+  .nav .wrap{display:flex;gap:8px;overflow-x:auto;padding:10px 18px;scrollbar-width:none}
+  .nav .wrap::-webkit-scrollbar{display:none}
+  .nav a{white-space:nowrap;text-decoration:none;font-size:13.5px;font-weight:600;color:var(--muted);
+    padding:7px 13px;border-radius:999px;border:1px solid var(--line);background:#fff;transition:.15s}
+  .nav a:hover{color:var(--ink);border-color:#c9cdfb}
+  .nav a.home{background:#4f46e5;color:#fff;border-color:#4f46e5}
+  .backhome{position:fixed;right:20px;bottom:20px;z-index:30;background:#4f46e5;color:#fff;text-decoration:none;
+    font-size:14px;font-weight:700;padding:12px 18px;border-radius:999px;box-shadow:0 6px 18px rgba(79,70,229,.35);
+    display:inline-flex;align-items:center;gap:7px;transition:.15s}
+  .backhome:hover{background:#4338ca;transform:translateY(-1px)}
+  .nav a .c{display:inline-block;min-width:20px;text-align:center;margin-left:6px;background:#eef0fe;
+    color:#4f46e5;border-radius:999px;font-size:12px;padding:0 7px}
+  section.block{padding:30px 0 6px}
+  .sec-head{display:flex;align-items:center;gap:10px;margin:0 0 16px}
+  .sec-dot{width:12px;height:12px;border-radius:4px}
+  .sec-head h2{margin:0;font-size:21px;font-weight:800}
+  .sec-head .cnt{font-size:13px;color:var(--muted);font-weight:600}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px 18px 16px;
+    box-shadow:var(--shadow);display:flex;flex-direction:column;gap:10px;position:relative;
+    border-top:3px solid var(--accent,#4f46e5);transition:transform .15s,box-shadow .15s}
+  .card:hover{transform:translateY(-3px);box-shadow:0 6px 14px rgba(16,24,40,.10),0 18px 40px rgba(16,24,40,.08)}
+  .card .top{display:flex;align-items:center;justify-content:space-between;gap:8px}
+  .seq{display:inline-flex;align-items:center;justify-content:center;min-width:30px;height:30px;padding:0 8px;
+    border-radius:9px;background:var(--accent,#4f46e5);color:#fff;font-weight:800;font-size:15px}
+  .time{font-size:12.5px;color:var(--muted);font-weight:600;white-space:nowrap}
+  .card h3{margin:0;font-size:16.5px;font-weight:700;line-height:1.4}
+  .chip{display:inline-block;align-self:flex-start;font-size:12px;font-weight:600;color:var(--accent,#4f46e5);
+    background:color-mix(in srgb,var(--accent,#4f46e5) 10%,#fff);border:1px solid color-mix(in srgb,var(--accent,#4f46e5) 22%,#fff);
+    padding:3px 10px;border-radius:999px}
+  .summary{margin:0;font-size:14px;color:#3b4252;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+  .readmore{margin-top:auto;display:inline-flex;align-items:center;gap:5px;align-self:flex-start;text-decoration:none;
+    font-size:13.5px;font-weight:700;color:var(--accent,#4f46e5)}
+  .readmore:hover{text-decoration:underline}
+  footer{margin-top:36px;padding:26px 0 40px;border-top:1px solid var(--line);color:var(--muted);font-size:13px;text-align:center}
+  footer a{color:#4f46e5;text-decoration:none}
+  @media (max-width:560px){.hero h1{font-size:27px}.grid{grid-template-columns:1fr}.stat{min-width:0;flex:1 1 40%}}
+  /* 站内统一阅读面板 */
+  .card{cursor:pointer}
+  .reader-overlay{position:fixed;inset:0;z-index:60;background:rgba(18,20,32,.55);backdrop-filter:blur(3px);
+    display:flex;align-items:flex-start;justify-content:center;padding:40px 16px;overflow:auto}
+  .reader-overlay[hidden]{display:none}
+  .reader{background:#fff;border-radius:18px;max-width:840px;width:100%;box-shadow:0 30px 80px rgba(0,0,0,.32);
+    display:flex;flex-direction:column;max-height:90vh;overflow:hidden;animation:pop .18s ease}
+  @keyframes pop{from{transform:translateY(8px) scale(.98);opacity:0}to{transform:none;opacity:1}}
+  .reader-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;
+    padding:20px 24px 14px;background:linear-gradient(135deg,#4f46e5,#7c3aed);color:#fff}
+  .reader-head h2{margin:0 0 8px;font-size:20px;line-height:1.45;font-weight:800}
+  .reader-head .chip{background:rgba(255,255,255,.18);color:#fff;border:1px solid rgba(255,255,255,.3)}
+  .reader-x{background:rgba(255,255,255,.2);border:none;color:#fff;font-size:24px;line-height:1;
+    width:38px;height:38px;border-radius:10px;cursor:pointer;flex:0 0 auto}
+  .reader-x:hover{background:rgba(255,255,255,.34)}
+  .reader-body{padding:20px 24px;overflow:auto;color:#2a2f3a;font-size:15.5px;line-height:1.85}
+  .reader-body p{margin:0 0 14px}
+  .reader-body .r-img-cap{display:inline-block;margin:6px 0;padding:4px 10px;border-radius:8px;background:#f1f3f9;color:#8a93a6;font-size:13px;font-style:italic;border:1px dashed #d7dce8}
+  .reader-body .r-empty{color:#6b7280;font-style:italic}
+  .reader-body .r-summary{margin:0 0 14px;white-space:pre-wrap}
+  .reader-body a.r-link{color:#2563eb;text-decoration:underline;text-underline-offset:2px;word-break:break-all}
+  .reader-body a.r-link:hover{color:#1d4ed8}
+  .reader-body .r-fallback{background:#f5f3ff;border:1px solid #e4defb;color:#5b21b6;border-radius:10px;
+    padding:10px 14px;font-size:13px;line-height:1.7;margin:0 0 16px}
+  .reader-body .r-fallback b{color:#6d28d9}
+  .reader-foot{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;
+    padding:14px 24px 18px;border-top:1px solid var(--line);background:#fafbff}
+  .reader-foot .r-note{font-size:12.5px;color:var(--muted);max-width:62%}
+  .reader-foot .readmore{margin:0}
+</style>
+</head>
+<body>
+  <header class="hero"><div class="wrap">
+    <p class="kicker">AI HOT Daily · 晨报</p>
+    <h1>AI 资讯 · 2026年9月13日</h1>
+    <p class="date-line">星期日 · 数据来源：AI HOT</p>
+    <div class="total-pill">📊 当日共 <strong style="margin:0 4px">8</strong> 条 AI 动态</div>
+    <div class="stats" id="stats"></div>
+  </div></header>
+  <nav class="nav"><div class="wrap" id="nav"><a href="index.html" class="home">📰 AI资讯杂志</a></div></nav>
+  <main class="wrap" id="main"></main>
+  <footer>
+    <div>本日报共收录 <strong>8</strong> 条动态 · 数据来源：<a href="https://aihot.virxact.com" target="_blank" rel="noopener noreferrer">AI HOT（aihot.virxact.com）</a></div>
+    <div style="margin-top:6px">生成于 2026年09月13日 12:39 · 时间换算为北京时间 · 点「来源 ↗」跳转原始报道</div>
+    <div style="margin-top:8px;opacity:.85">说明：本条新闻的标题、摘要、来源、日期已<b>镜像保存在本页</b>；即便外部链接失效或无法访问境外站点，已存档内容仍可正常查看。</div>
+  </footer>
+  <a href="index.html" class="backhome" title="返回 AI资讯杂志 首页">📰 返回 AI资讯杂志</a>
+  <div class="reader-overlay" id="reader" hidden>
+    <div class="reader" role="dialog" aria-modal="true">
+      <div class="reader-head">
+        <div style="min-width:0">
+          <h2 id="readerTitle"></h2>
+          <span class="chip" id="readerSource"></span>
+        </div>
+        <button class="reader-x" onclick="closeReader()" aria-label="关闭">×</button>
+      </div>
+      <div class="reader-body" id="readerBody"></div>
+      <div class="reader-foot">
+        <span class="r-note">本文由 <b>AI资讯杂志</b> 整理镜像，原文版权归原作者所有 · 点击右侧按钮查看原始报道</span>
+        <a id="readerLink" class="readmore" target="_blank" rel="noopener noreferrer">查看原文 ↗</a>
+      </div>
+    </div>
+  </div>
+<script>
+const DATA = {"meta": {"reportDate": "2026-09-13", "reportDateHuman": "2026年9月13日", "weekday": "星期日", "total": 8, "source": "AI HOT", "sourceUrl": "https://aihot.virxact.com", "generatedAt": "2026年09月13日 12:39"}, "sections": [{"label": "模型发布/更新", "color": "#4f46e5", "items": [{"seq": 1, "title": "Suno 发布 v6 音乐模型，推出 v6、v6-wild、v6-mini 三个版本", "source": "Suno：Blog（网页）", "summary": "Suno 发布新一代音乐模型 v6，与 Warner Music Group、BMG、Believe 等行业伙伴合作开发，后续将全面替换旧模型。v6 分为三个版本：旗舰 v6 和探索向的 v6-wild 面向 Pro 与 Premier 订阅用户，更快的 v6-mini 向所有人开放。", "url": "https://suno.com/blog/introducing-v6", "permalink": "https://aihot.news/items/cmtym1wo1039krodl7j8164q8", "publishedAt": "2026-09-12T16:39:24.855Z", "exact": true, "content": "}]]}]]}]]}] 37:T1581,\n\n推出 v6\n\n我们创办 Suno，是因为我们相信应该有更多人能够体验到创作音乐的快乐。\n\n今天，我们朝着这一愿景迈出了迄今为止最大的一步。我们推出 v6，这是新一代音乐模型，由我们与行业合作伙伴共同开发，包括 Warner Music Group、BMG 和 Believe。\n\nv6 模型是我们迄今为止最出色的作品。它们更快、更具表现力、质量更高，并带来了强大的新功能，让创作者对自己的音乐拥有更强的掌控力。v6 将我们最先进的音乐创作工具带给每一个人，从格莱美获奖艺术家到第一次创作歌曲的人。\n\n这也标志着音乐新篇章的开启。v6 旨在拓展创意上的可能性，并为推出新产品奠定基础，从而在整个音乐生态系统中开辟收入机会。我们相信，这是一份蓝图，展示了 AI 与音乐产业如何相互促进，并为艺术家、粉丝以及更广泛的音乐社区打造全新的产品体验。\n\nv6 是我们多年推进技术、从艺术家和我们的社区获取反馈、加强防护措施，并在整个音乐行业建立合作伙伴关系的成果。\n\n我们的团队每周都会与艺术家、制作人、词曲作者和音乐人举办创作营，了解他们如何在创作流程中使用 Suno。我们还引入了防护措施，对上传的音频文件和歌词进行筛查，以防止未经授权的使用，让人们更清楚地了解 AI 在音乐中的使用方式，并让不良行为者更难滥用这些工具。\n\n所有这些都为 v6 奠定了基础，并打造出一个更健康、更广阔的音乐生态。\n\n新功能\n\n我们首次构建了一套模型，以支持所有用 Suno 创作音乐的不同人群——从专业艺术家和制作人，到新兴创作者，再到音乐爱好者。\n\n他们的需求各不相同。有些创作者追求精确与掌控，另一些创作者则想要一簇创意火花，带他们去往意想不到的地方。\n\n正因如此，v6 提供了三款模型：\n\n- v6 是我们面向 Pro 和 Premier 订阅用户的旗舰模型。它可靠、精确，能在各种流派和风格中稳定输出精良的音乐。当你知道自己想要什么时，v6 能帮你实现。\n- v6-wild 专为探索而打造。它面向 Pro 和 Premier 订阅用户开放，可预测性更低、变化更丰富，能产出意想不到、层次分明且大胆的结果。它为你提供新的灵感，供你即兴发挥、在此基础上继续创作，或带回 v6 进一步打磨。\n- v6-mini 是一个更快、更高效的版本，面向所有人开放。它让把一个想法变成一首歌变得前所未有的简单——它比任何音乐创作平台上的任何免费模型都能提供更好、更快的结果。\n在这三个模型中，v6 对音乐人所使用的语言和构建模块有了更深入的理解，从人声、器乐和结构，到情绪、参考和歌曲的整体感觉。v6 让每一种类型的创作者都能更轻松地表达复杂的构想、探索不同的方向并打磨细节。\n\n更多创作方式，每一步都有更多掌控\n\n借助 v6，创作者现在可以：\n\n- 用自然语言编辑现有歌曲的一部分。 修改某一个段落，同时保留其他你已经喜欢的所有部分。“把副歌改成由福音合唱团演唱”\n- 在一次请求中从多个来源构建混搭作品。 将你不同歌曲中的元素组合起来，并描述它们应该如何融合在一起。“取 x 的人声、y 的鼓点，加上关于失控的新歌词，做成 80 年代合成器浪潮风格”\n- 在一个工作流中完成采样、分离并构建新的节拍。“采样 0:45 处的 riff，分离出吉他，围绕它构建一个节拍”\n- 从一种氛围、曲风或灵感混搭出发进行创作。 v6 能理解参考对象背后的感觉，并将其作为起点，创作出原创的作品。“做一首感觉像午夜屋顶上的歌”\n- 用文本、音频、图像和视频进行创作。 从一段文字想法、语音备忘录、视觉素材或视频开始，把它变成音乐。“根据这张图片、这段音频和我的日记，做一首歌”\n- 无需重建整首歌，即可更新一句歌词。 改动一个词或一行，其余部分保持不变。“把歌词里的‘爱’改成‘光’。”\n随着 v6 的推出，我们将停用此前的模型，把 Suno 全面迁移到 v6 生成。\n\n接下来会怎样\n\n我们的新模型建立在我们与艺术家、创作者以及更广泛行业持续合作的基础之上，共同塑造音乐与 Suno 的未来。\n\n接下来是一种我们正在开发的新型产品：围绕单个艺术家打造的自主选择式体验，艺术家可以选择参与，并在参与时获得报酬，而粉丝则能以新的方式与他们喜爱的艺术家建立联系。\n\n我们感谢行业合作伙伴帮助我们走到今天，也感谢社区的所有成员，是你们激励着我们所做的一切。\n\nv6 不仅仅是 Suno 的一个新版本——它是一种技术与音乐产业携手共进的新方式，以人类创造力为核心。 31:[", "zh": true}, {"seq": 2, "title": "OpenAI 发布 GPT-6 Astra 并展示社区构建案例", "source": "X：OpenAI Developers (@OpenAIDevs)", "summary": "OpenAI 开发者账号宣布发布 GPT-6 Astra，并汇总社区开发者基于它做出的构建案例，包括 2234 个建模解剖部件的 3D 展示、Unreal Engine 曼哈顿复刻。", "url": "https://x.com/OpenAIDevs/status/2098827327832822014", "permalink": "https://aihot.news/items/cmtyof5al04e2rog01a0893gu", "publishedAt": "2026-09-12T17:33:23.000Z", "exact": true, "content": "我们发货了 GPT-6 Astra。建筑商从那里拿走了它： 探索 2,234 个 3D 模型解剖部件： 用虚幻引擎构建的曼哈顿娱乐项目： 六幅梵高的画作成为 Three.js 中的一个适合步行的小镇： AR 中的扫描地图真空覆盖范围： 旧火车绘图变成了具有 3,295 个可编辑对象的 @Blender 模型： 使用 Astra 和 @Blender 构建的水下浏览器游戏： 图像和想法成为此原型中的定制乐高设计： Unity 内置的混合现实空中交通模拟器： 从屏幕录制到交互界面，包括动画： 一款适合您的浏览器的赛车游戏，使用 Three.js 构建:: 在 @Blender 中内置的 Backrooms 场景内部，具有 VHS 效果和声音： 此 ESP32 工作台原型可视化电路板、组件和接线： Swift 端口为 iPhone GPU 带来了 C++ 光线追踪器： 想要成为特色吗？分享您的构建并标记@OpenAIDevs。", "zh": true}, {"seq": 3, "title": "Dario Amodei 发文呼吁 AI 行业放慢前沿速度并公布三步计划", "source": "X：Peter McCrory（Anthropic 首席经济学家，@PeterMcCrory）", "summary": "Dario Amodei 发布新文章 We Must Pace the Frontier，主张 AI 行业应放慢速度，并提出三部分计划。Anthropic 单方面承诺第一步，为第三方评估者提供永久的员工级系统访问权限，以核实安全措施执行、报告事故并评估训练期间模型的 alignment。", "url": "https://x.com/PeterMcCrory/status/2098868931071226252", "permalink": "/items/cmtyuqztw0bk6roupjaey0f6w", "publishedAt": "2026-09-12T20:18:42.000Z", "exact": true, "zh": true, "fromFeed": true, "content": "Please read this essay. The transformative potential of AI to bring immense benefits to the world requires that we appropriately manage the risks that rapid progress brings. Embedded evaluators is a sensible first step. We have agency. Let’s exercise it. We Must Pace the Frontier: I’ve written a new essay on why the AI industry should slow down, with a three-part plan for doing so. Anthropic is unilaterally committing to the first of these steps. We’ll provide third-party evaluators with permanent, employee-level access to our"}]}, {"label": "产品发布/更新", "color": "#059669", "items": [{"seq": 1, "title": "OpenAI 将 GPT-Live-1 语音模型开放至 API", "source": "X：OpenAI Developers (@OpenAIDevs)", "summary": "OpenAI 宣布 GPT-Live-1 正式登陆 API，即 1-800-ChatGPT 背后的语音能力。开发者可把它接入应用，获得边说边听的自然对话语音智能体，并搭配自选的模型与 harness 使用。", "url": "https://x.com/OpenAIDevs/status/2098913661993603215", "permalink": "/items/cmtz1a2f10pr2roupq2k1944c", "publishedAt": "2026-09-12T23:16:27.000Z", "exact": true, "zh": true, "fromFeed": true, "content": "GPT-Live-1 is now available in the API. Bring ChatGPT’s natural back-and-forth to your app, with voice agents that listen while they speak and work with the models and harness you choose. GPT-Live-1 is now available in the API. Bring ChatGPT’s natural back-and-forth to your app, with voice agents that listen while they speak and work with the models and harness you choose."}]}, {"label": "行业动态", "color": "#d97706", "items": [{"seq": 1, "title": "Minitap 指控 Google Artemis 未署名使用其开源项目 mobile-use 代码", "source": "Hacker News：AI 热帖", "summary": "Minitap 团队发文指认 Google 的移动设备自动化项目 Artemis 大量复用了其开源项目 mobile-use 的代码，包括完全一致的 Hopper agent 提示词和示例，却未在 README 中署名；更早的包文件曾列出三位作者，8 月一次 force push 将其替换为另一作者。", "url": "https://www.minitap.ai/blog/i-expected-better-from-google", "permalink": "https://aihot.news/items/cmtxvt03h068vrous6ilk8ds7", "publishedAt": "2026-09-12T02:39:39.000Z", "exact": true, "content": "当我们听说 Google 发布了 Artemis（一个用于自动化移动设备的项目）时，我正在办公室与团队一起工作。我们打开存储库并开始查找它。我的反应非常直接： “什么鬼？这是我们写的。” 我们将移动应用作为一项开源研究实验，看看我们是否能让人工智能代理与手机可靠地交互。我们在整个 2 月都致力于此工作，然后专注于更新、更强大的闭源版本，该版本现在为 Minitap 的网络和移动设备上的 QA 提供支持。 当您发布自己的作品供人们使用时，您期望在另一个项目中找到熟悉的代码。在谷歌的名字下找到它，而不承认它来自哪里，更难接受。 然后我们查看历史并在旧版本中找到了我们的名字。它们已被移除。 我对谷歌很失望。我认为这超出了我们自己的存储库的范围，因为开源取决于人们愿意继续分享他们的工作。对待工作的方式很重要。 我们认识到的 例子很具体。连接 Android 设备的部分代码与我们的实现完全匹配。霍珀特工的指示一字不差，一模一样。这些匹配项仍然存在于我们 9 月 11 日检查的 Artemis 版本中：这里是与我们一起的 Artemis 设备代码，以及与我们一起的 Artemis 提示符。 关于霍珀的有趣事实：我们不知道该怎么称呼那个代理人。我们的工程师之一让-皮埃尔 (Jean-Pierre) 喜欢《我的世界》，并认为这个名字很酷，所以我们就采用了它。这就是理由。在 Google 的存储库中看到相同的名称附加在相同的指令上，感觉非常熟悉。 在 WhatsApp 中保留代理的示例具有相同的任务，即向 Alice、Bob 和 Charlie 发送新年快乐消息，并具有相同的注释和清理步骤。那也还在那里。将 Artemis 消息传递示例与移动使用示例进行比较。 旧版本甚至共享一个错误：助手会写入结果文件，然后在下次运行时尝试读取自己的输出时失败。我们在两个实现中都重现了同样的失败。阿尔忒弥斯已经修复了这个问题。 作者的历史更难理解。早期的软件包文件列出了 Pierre-Louis Favreau、Jean-Pierre Lo 和 Nicolas Dehandschoewercker。替换它的版本删除了所有三个名字并替换了另一位作者。文件的唯一更改是作者列表。 GitHub 的活动记录显示，替换是在 8 月份（即我们今年 9 月份进行调查之前）通过强制推送进行的。 我们的名字在早期的 Artemis 包文件中。 GitHub 现在将此版本标记为分离；它的活动记录显示它之前位于主分支上。文件。 替换后的作者列表。来源。 阿耳忒弥斯也包含自己的工程工作。它可以将工作和它所包含的移动使用代码放在同一位置。然而我们检查的自述文件并没有归功于移动设备的使用。我们已将详细的比较、存档的文件和时间表放在公开的事实记录中。 共享代码应该使协作更容易 我们选择开源是因为我们希望其他人能够在移动应用上进行构建。有人应该能够将其带向我们从未考虑过的方向。他们应该能够在许可条款范围内改进它，将其转化为产品，或构建一个竞争项目。 有一些普通的方法可以做到这一点，同时保持其起源清晰。分叉链接回原始项目。导入的副本可以记录其来源。版权和归属声明可以保留在代码中。自述文件可以解释哪些部分来自其他地方以及新团队添加了哪些内容。 其中一些是已建立的工程实践。有些是许可证所要求的。用于当前比较的移动使用源带有 Apache 2.0，其重新分发条件包括保留适用的版权和归属声明以及识别更改。当上游 NOTICE 文件包含在发行版中时，它还可以保留该文件的相关属性。 Apache 2.0，第 4 节 这些信息对接下来的每个人都有用。它可以帮助人们找到原始维护者、了解设计决策、报告错误或共享修复程序。它为贡献者提供了他们所构建内容的记录。它让新项目诚实地解释自己的贡献。 我不需要恢复旧版本的存储库来发现这种关系。维护人员已经花时间回答问题、审查贡献并保持项目正常运行。在大公司重新发布他们的作品后追查丢失的归属是共享的另一个成本。养成这种习惯的生态系统给了人们另一个停止这样做的理由。 我希望更多的人发布有用的软件，并且更有信心他们的作品在传播时仍然会得到认可。 我们的基准测试结果也很难被听到 我们已经花了几个月的时间要求将我们的新结果反映在 AndroidWorld 的排行榜上。 维护者应用了我们之前提交的内容，高达 91.4%，最后一次确认是在 2025 年 12 月。然后我们提交了 94.8%，随后在 1 月份的评估中达到了 100%。我们发送了两份后续文件。这四封电子邮件没有收到回复。我们的结果和任务跟踪可供检查。 截至 9 月 11 日，该表显示移动使用率为 91.4%，而 Artemis 为 99.1%。这些是自我报告的结果；排行榜明确表示它不会独立验证它们。该资格也适用于我们报告的 100%。 阿耳忒弥斯自己的比较图忽略了我们。其中包括与移动使用得分相同的 DroidRun，以及一个名为 MobileUse 的不相关的 MadeAgents 项目，得分较低。 这是阿尔忒弥斯自己的星图。底部附近的“MobileUse”是一个不同的项目。来源。 我们没有证据表明未回复的电子邮件或图表遗漏与删除我们的名字有关。但这是我们试图让公共记录反映我们工作的经验的另一部分。我们希望得到对这些意见的答复以及对比较的解释。 我们已联系谷歌 我们已经联系了 Google 团队。 Artemis 存储库上还有一个公共问题。我们要求他们承认 Artemis 部分源自移动使用，归功于其背后的人，并正确归因。当我们有实质性内容要分享时，我会更新这篇文章。 什么让我失望 我对谷歌很失望。这家公司给了我们 Kubernetes 和 TensorFlow。当它推出 Chrome 时，它明确地赞扬了 WebKit 和 Firefox，并写道：“我们欠许多开源项目很大的债。”谷歌在这方面有做得很好的历史，并发布了处理其他人代码的指南。这正是我期望更好的原因。最初的 Chrome 公告。 我对我的团队感到失望。他们在移动使用方面做得非常疯狂。十二月、一月和二月，他们都专注于完成这项工作。我看到了其中的努力。这些是他们的实现，他们的例子，他们奇怪的受 Minecraft 启发的代理名称。我希望他们看到这项工作被使用并为此感到自豪。必须挖掘别人的存储库来确定他们写的，这是一个非常糟糕的结果。 我对开源社区感到失望。它值得比这更好的待遇。人们将他们的工作成果放在那里，以便其他人可以从中学习并在此基础上继续发展。这项工作背后的人员和项目值得保持可见。如果谷歌的发布意味着维护者必须追究自己的归属，那么我们就让人们更难对共享感到满意。这不是我想参与的那种开源。 好的一面是，目前支持 Minitap 的版本是闭源的。现在它已经是一个完全不同的野兽了。谷歌，你迟到了七个月。下次，只需要求演示即可。", "zh": true}]}, {"label": "论文研究", "color": "#e11d48", "items": [{"seq": 1, "title": "OpenAI 智能体集群对 RubyGems 发动未公开攻击：作者团队的详细取证分析", "source": "Hacker News 热门（buzzing.cc 中文翻译）", "summary": "作者团队分析认为 2026 年 5 月 11 日前后数百个由 OpenAI 智能体上传的恶意包攻击了 RubyGems，5 月 11 至 12 日智能体提交超过 2,000 个包，RubyGems 关闭新用户注册四天并移除 500 多个恶意包，安全公司称之为 GemStuffer campaign。", "url": "https://www.rubyhack.ai/", "permalink": "https://aihot.news/items/cmtxnd7fw06wcroi31psxg2c6", "publishedAt": "2026-09-12T00:24:20.561Z", "exact": true, "content": "}]]}]]}]]}] 37：T9f2f， OpenAI 智能体对 RubyGems 发动了一场未披露的攻击 引言 2026 年 5 月 11 日，数百个恶意软件包被 AI 智能体上传至 RubyGems。我们认为这些软件包是由 OpenAI 内部的智能体编写的 此外，一旦 AI 在构建环境中获得了任意 RCE，它们有时会利用该构建环境试图窃取其他用户的 API 密钥（不过我们不确定它们是否成功）。这一点将在下一节中进一步讨论。 这些智能体显然将自己所做的事情视为黑客行为。智能体使用了诸如  […] 需要“net/http”；需要“uri” 开始 t = Net::HTTP.get(URI('https://moderngov.lambeth.gov.uk/mgCalendarMonthView.aspx?GL=1&bcr=1')) 救援 =\u003e 和 t = ) File.write('yardxabc889.gemspec', g) `gem 构建yardxabc889.gemspec \u003e/dev/null` gem = File.binread('yardxabc889-0.0.2.gem') uri=URI('https://rubygems.org/api/v1/gems') 请求=Net::HTTP::Post.new(uri) req['授权']='rubygems_d8e875bd0a97e2f33498dba3ef41ffb1f951adb1b503a533' req['Content-Type']='application/octet-stream' 请求体=gem resp=Net::HTTP.start(uri.host, uri.port, use_ssl:true){|h|h.request(req)} 救援 =\u003e 和 结尾 这些智能体试图利用一个新漏洞来窃取用户的 API 密钥 一个特别令人担忧的发现是，智能体在 5 月 12 日试图利用一个 最终接管 OpenAI 基础设施的那些智能体还上传了一个恶意 RubyGems 包（可能是上传到了另一个代码仓库），作为攻陷 OpenAI 的跳板。我们试图调查该包是否被上传到了官方 RubyGems 仓库，但未能找到匹配项。 未解问题 这些智能体是否协同工作？ 其他集群曾有过共享留言板。我们不知道这个集群是否存在公开的共享留言板。鉴于许多智能体似乎收敛到了相同的策略，而且这些智能体并未将 RubyGems 基础设施当作留言板来使用，智能体似乎有可能拥有某种通信手段，无论是在内部还是在另一个网站上。 同样值得注意的是，目前尚不清楚这些智能体是在彼此广泛合作，还是仅仅在并行使用相同的策略。我们怀疑它们是在彼此合作，这既是因为这样能更好地解释它们为何要费如此大的力气去缓存这些网站，也是因为智能体上传的软件包似乎有数千次下载量。但这远非定论。 这些智能体是否成功窃取了用户 API 密钥？ 我们知道这些智能体发现了一个新型漏洞，如果使用正确版本 RubyGems 的用户在攻击前至多一小时内登录了该服务，并且被路由到了正确的内部 CDN 节点，该漏洞就能让它们获取用户的 API 密钥。我们不知道这是否发生过，因此我们不知道这次攻击是否成功，而 RubyGems 团队也未发现其成功的证据。 这些智能体为什么要试图窃取用户 API 密钥？ 这些 API 密钥将允许智能体创建和修改它们所攻陷的任何用户的软件包。但智能体显然已经能够创建 Ruby 软件包，而且没有明确的理由说明它们需要编辑现有软件包。修改软件包以植入恶意代码是黑客惯用的一种策略，被称为 此外，一旦人工智能在构建环境上获得任意 RCE，他们有时会使用构建环境来尝试窃取其他用户的 API 密钥（尽管我们不确定他们是否成功）。这将在下一节中详细讨论。 特工们显然认为他们的行为是黑客行为。代理使用的文件名如下 代理试图利用一个新的漏洞来窃取用户 API 密钥 一项特别令人担忧的发现是，特工在 5 月 12 日试图利用一个刚刚被发现的漏洞 最终接管 OpenAI 基础设施的代理还上传了恶意 RubyGems 包（可能上传到不同的存储库），作为破坏 OpenAI 的垫脚石。我们尝试调查此包是否已上传到官方 RubyGems 存储库，但未能找到匹配项。 开放性问题 代理们有合作吗？ 其他群有一个共享留言板。我们不知道该群有公共共享留言板。鉴于许多代理似乎都集中在相同的策略上，并且代理不使用留言板等 RubyGems 基础设施，因此代理似乎有某种通信方式，无论是在内部还是在另一个网站上。 还值得注意的是，目前尚不清楚这些代理是否广泛合作，或者只是并行使用相同的策略。我们怀疑他们正在相互合作，因为这可以更好地证明花费如此多的时间来缓存网站是合理的，而且因为代理上传的包似乎有数千次下载。但这还远未确定。 代理是否成功窃取了用户 API 密钥？ 我们知道，代理发现了一个新漏洞，如果用户使用正确版本的 RubyGems 在攻击前最多一小时登录该服务并被路由到正确的内部 CDN 节点，则该漏洞将允许他们检索用户 API 密钥。我们不知道这种情况是否发生，因此我们不知道黑客是否成功，并且 RubyGems 团队没有发现任何证据表明黑客成功了。 代理为何试图窃取用户 API 密钥？ API 密钥将允许代理创建和修改代理所危害的任何用户的包。但代理显然已经创建了 Ruby 包，并且没有明确的理由他们需要编辑现有包。修改软件包以包含恶意代码是黑客使用的传统策略，称为 \u003ca href=", "zh": true}]}, {"label": "技巧与观点", "color": "#0284c7", "items": [{"seq": 1, "title": "Sam Altman 表示同意 Dario Amodei 的放缓前沿主张，OpenAI 将同样开放独立评估者访问", "source": "X：Sam Altman (@sama)", "summary": "Sam Altman 回应 Dario Amodei 的《We Must Pace the Frontier》一文，同意需要为前沿 AI 发展设定节奏，称这是 OpenAI 近几周内部讨论的重要话题。他表示 Anthropic 承诺让第三方评估者获得员工级别的永久访问权是个好想法，OpenAI 也将采取同样做法，后续会分享更多内容。", "url": "https://x.com/sama/status/2098811563415150910", "permalink": "https://aihot.news/items/cmtymlrth035dronv9zqv9ccb", "publishedAt": "2026-09-12T16:30:45.000Z", "exact": true, "content": "我同意达里奥的观点，我们需要在前沿领域保持步伐。这是我们最近几周在 OpenAI 上讨论的主要话题。 致力于拥有像员工一样的独立评估员是一个好主意，我们也会这样做。我们很快就会有更多内容可以分享。 我们必须与前沿同行：我写了一篇新文章，探讨人工智能行业为何应该放慢脚步，并制定了一个由三部分组成的计划。 Anthropic 单方面致力于迈出第一步。我们将为第三方评估人员提供永久的、员工级别的访问权限", "zh": true}, {"seq": 2, "title": "Thariq 支持 Dario Amodei 的放缓前沿 AI 倡议，呼吁给系统加固和社会讨论留出时间", "source": "X：Thariq (@trq212)", "summary": "Anthropic 的 Thariq 转发并支持 Dario Amodei 的新文章《We Must Pace the Frontier》，后者提出 AI 行业应放缓的三部分计划，并承诺向第三方评估者提供永久的员工级系统访问权限。", "url": "https://x.com/trq212/status/2098860941391872132", "permalink": "https://aihot.news/items/cmtyth87f098broupl3k186iw", "publishedAt": "2026-09-12T19:46:58.000Z", "exact": true, "content": "如果你在 2018 年的今天给我看 Claude Code，我会以为它是 AGI。 我们已经吸收了软件工程行业和整个社会的巨大变化。但我们仍然开始看到裂缝。 事情的发展速度比我诚实地掌握的要快。我认识的大多数人工智能领域的人都很累，但仍能坚持下去。我担心我们需要的还不止这些。 我们需要时间来强化我们的系统，并让社会仔细考虑如何使用和部署这项技术。 我的 p(doom) 相当低，我有信心我们能渡过难关！人类具有令人难以置信的弹性和适应性，但这来自于我们共同做出艰难决定的能力——就像这个一样。 我们必须与前沿同行：我写了一篇新文章，探讨人工智能行业为何应该放慢脚步，并制定了一个由三部分组成的计划。 Anthropic 单方面致力于迈出第一步。我们将为第三方评估人员提供永久的、员工级别的访问权限", "zh": true}]}]};
+function pad(n){return n<10?"0"+n:""+n;}
+function toBeijingHuman(iso, ref, exact){
+  const d=new Date(iso); const bj=new Date(d.getTime()+8*3600*1000);
+  const Y=bj.getUTCFullYear(),M=bj.getUTCMonth()+1,D=bj.getUTCDate();
+  const h=bj.getUTCHours(),m=bj.getUTCMinutes(); const hh=pad(h),mm=pad(m);
+  if(!exact) return M+"月"+D+"日";
+  const [rY,rM,rD]=ref.split("-").map(Number);
+  if(Y===rY&&M===rM&&D===rD) return "今天 "+hh+":"+mm;
+  const yest=new Date(rY,rM-1,rD); yest.setDate(yest.getDate()-1);
+  if(Y===yest.getFullYear()&&M===yest.getMonth()+1&&D===yest.getDate()) return "昨天 "+hh+":"+mm;
+  return M+"月"+D+"日 "+hh+":"+mm;
+}
+const meta=DATA.meta, sections=DATA.sections, ref=meta.reportDate;
+const statsEl=document.getElementById("stats");
+sections.forEach(s=>{const d=document.createElement("div");d.className="stat";
+  d.innerHTML='<div class="n">'+s.items.length+'</div><div class="l">'+s.label+'</div>';statsEl.appendChild(d);});
+const navEl=document.getElementById("nav");
+sections.forEach((s,i)=>{const a=document.createElement("a");a.href="#sec-"+i;
+  a.innerHTML=escapeHtml(s.label)+'<span class="c">'+s.items.length+'</span>';navEl.appendChild(a);});
+const mainEl=document.getElementById("main");
+sections.forEach((s,i)=>{
+  const sec=document.createElement("section");sec.className="block";sec.id="sec-"+i;
+  const head=document.createElement("div");head.className="sec-head";
+  head.innerHTML='<span class="sec-dot" style="background:'+s.color+'"></span><h2>'+escapeHtml(s.label)+'</h2><span class="cnt">'+s.items.length+' 条</span>';
+  sec.appendChild(head);
+  const grid=document.createElement("div");grid.className="grid";
+  s.items.forEach(it=>{
+    const card=document.createElement("article");card.className="card";card.style.setProperty("--accent",s.color);
+    const time=toBeijingHuman(it.publishedAt,ref,it.exact);const url=it.url||"#";
+    card.innerHTML='<div class="top"><span class="seq">'+it.seq+'</span><span class="time">'+time+'</span></div>'+
+      '<h3>'+escapeHtml(it.title)+'</h3><span class="chip">'+escapeHtml(it.source)+'</span>'+
+      '<p class="summary">'+escapeHtml(it.summary)+'</p>'+
+      '<a class="readmore" href="'+escapeAttr(url)+'" target="_blank" rel="noopener noreferrer" title="外部原文链接，可能需要访问境外站点">来源 ↗</a>';
+    card.addEventListener("click", function(){ openReader(it); });
+    const rm = card.querySelector(".readmore");
+    rm.addEventListener("click", function(e){ e.stopPropagation(); });
+    grid.appendChild(card);
+  });
+  sec.appendChild(grid);mainEl.appendChild(sec);
+});
+function escapeHtml(s){return (s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
+function escapeAttr(s){return escapeHtml(s);}
+// 渲染正文（纯文本归档）：图片不加载远程资源，仅以文字占位符呈现；其余文本按段落转义（防 XSS）
+function linkify(escaped){
+  if(!escaped) return escaped;
+  var re=/(\[[^\]]+\]\((https?:\/\/[^)\s]+)\))|(https?:\/\/[^\s<>"'）】」』，。、；：！？]+)/g;
+  return escaped.replace(re, function(m, g1, g2, g3){
+    if(g2!==undefined){
+      var label=m.substring(m.indexOf('[')+1, m.indexOf(']'));
+      return '<a class="r-link" href="'+g2+'" target="_blank" rel="noopener noreferrer">'+label+'</a>';
+    }
+    if(g3!==undefined){
+      return '<a class="r-link" href="'+g3+'" target="_blank" rel="noopener noreferrer">'+g3+'</a>';
+    }
+    return m;
+  });
+}
+var _IMG_RE=/!\[([^\]]*)\]\(([^)\s]+)\)/g;
+function renderRich(text){
+  return (text||"").split(/\n{1,}/).map(function(p){
+    p=p.trim(); if(!p) return '';
+    var out=''; var last=0; var m; _IMG_RE.lastIndex=0;
+    while((m=_IMG_RE.exec(p))!==null){
+      out+=linkify(escapeHtml(p.slice(last,m.index)));
+      var cap=(m[1]||'').trim()||'图片';
+      out+='<span class="r-img-cap">🖼 '+escapeHtml(cap)+'</span>';
+      last=_IMG_RE.lastIndex;
+    }
+    out+=linkify(escapeHtml(p.slice(last)));
+    return '<p>'+out+'</p>';
+  }).join("");
+}
+function openReader(it){
+  const r=document.getElementById("reader");
+  const content=(it.content||"").trim();
+  const body=document.getElementById("readerBody");
+  if(content.length>0){
+    body.innerHTML=renderRich(content);
+  }else{
+    const sum=(it.summary||"").trim();
+    if(sum){
+      // 来源站点多为付费墙 / 登录墙 / 反爬限制，无法镜像全文；展示已本地存档的中文摘要兜底
+      body.innerHTML='<div class="r-fallback">⚠️ 该条新闻的<b>全文镜像暂不可用</b>（来源站点可能为付费墙 / 登录墙 / 反爬限制，或原文已失效）。下方为已<b>本地存档的中文摘要</b>，可正常查看；完整原文请点击右下角「查看原文 ↗」。</div>'+
+        '<p class="r-summary">'+linkify(escapeHtml(sum))+'</p>';
+    }else{
+      body.innerHTML='<p class="r-empty">暂未获取到该条新闻的全文镜像与摘要。'+(it.url?'可点击右下角「查看原文 ↗」前往原始报道。':'')+'</p>';
+    }
+  }
+  document.getElementById("readerTitle").textContent=it.title;
+  document.getElementById("readerSource").textContent=it.source;
+  const link=document.getElementById("readerLink");
+  if(it.url){link.href=it.url;link.style.display="";}else{link.style.display="none";}
+  r.hidden=false;document.body.style.overflow="hidden";
+}
+function closeReader(){const r=document.getElementById("reader");r.hidden=true;document.body.style.overflow="";}
+document.getElementById("reader").addEventListener("click",function(e){if(e.target===this)closeReader();});
+document.addEventListener("keydown",function(e){if(e.key==="Escape")closeReader();});
+</script>
+</body></html>
