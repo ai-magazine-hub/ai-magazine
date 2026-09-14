@@ -1,12 +1,12 @@
 {
-  "updated_at": 1789389386,
+  "updated_at": 1789413438,
   "ratings": {
-    "GPT": 1482,
+    "GPT": 1483,
     "Claude": 1506,
     "Gemini": 1493,
     "Grok": 1475,
     "通义千问 Qwen": 1481,
-    "智谱 GLM": 1486,
+    "智谱 GLM": 1483,
     "Kimi": 1485
   }
 }
