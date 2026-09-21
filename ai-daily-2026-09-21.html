@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>AI HOT 资讯 · 2026-09-21</title>
+<style>
+  :root{--bg:#f5f6fb;--card:#fff;--ink:#1f2430;--muted:#6b7280;--line:#e8eaf1;
+    --shadow:0 1px 3px rgba(16,24,40,.06),0 8px 24px rgba(16,24,40,.05);}
+  *{box-sizing:border-box} html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
+    -webkit-font-smoothing:antialiased;line-height:1.55;}
+  a{color:inherit} .wrap{max-width:1180px;margin:0 auto;padding:0 18px}
+  .hero{background:linear-gradient(135deg,#4f46e5 0%,#7c3aed 55%,#9333ea 100%);color:#fff;
+    padding:42px 0 34px;position:relative;overflow:hidden;}
+  .hero::after{content:"";position:absolute;right:-80px;top:-80px;width:280px;height:280px;
+    background:radial-gradient(circle,rgba(255,255,255,.18),transparent 70%);border-radius:50%}
+  .hero .kicker{font-size:13px;letter-spacing:.18em;text-transform:uppercase;opacity:.85;margin:0 0 6px}
+  .hero h1{margin:0;font-size:34px;font-weight:800;letter-spacing:.5px}
+  .hero .date-line{margin:8px 0 0;font-size:15px;opacity:.92}
+  .stats{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+  .stat{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.22);border-radius:12px;
+    padding:10px 14px;min-width:120px;backdrop-filter:blur(4px)}
+  .stat .n{font-size:22px;font-weight:800;line-height:1}
+  .stat .l{font-size:12.5px;opacity:.9;margin-top:4px}
+  .total-pill{display:inline-flex;align-items:center;gap:8px;margin-top:18px;background:rgba(255,255,255,.16);
+    padding:8px 16px;border-radius:999px;font-weight:600;font-size:14px}
+  .nav{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.92);backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);box-shadow:0 2px 10px rgba(16,24,40,.04)}
+  .nav .wrap{display:flex;gap:8px;overflow-x:auto;padding:10px 18px;scrollbar-width:none}
+  .nav .wrap::-webkit-scrollbar{display:none}
+  .nav a{white-space:nowrap;text-decoration:none;font-size:13.5px;font-weight:600;color:var(--muted);
+    padding:7px 13px;border-radius:999px;border:1px solid var(--line);background:#fff;transition:.15s}
+  .nav a:hover{color:var(--ink);border-color:#c9cdfb}
+  .nav a.home{background:#4f46e5;color:#fff;border-color:#4f46e5}
+  .backhome{position:fixed;right:20px;bottom:20px;z-index:30;background:#4f46e5;color:#fff;text-decoration:none;
+    font-size:14px;font-weight:700;padding:12px 18px;border-radius:999px;box-shadow:0 6px 18px rgba(79,70,229,.35);
+    display:inline-flex;align-items:center;gap:7px;transition:.15s}
+  .backhome:hover{background:#4338ca;transform:translateY(-1px)}
+  .nav a .c{display:inline-block;min-width:20px;text-align:center;margin-left:6px;background:#eef0fe;
+    color:#4f46e5;border-radius:999px;font-size:12px;padding:0 7px}
+  section.block{padding:30px 0 6px}
+  .sec-head{display:flex;align-items:center;gap:10px;margin:0 0 16px}
+  .sec-dot{width:12px;height:12px;border-radius:4px}
+  .sec-head h2{margin:0;font-size:21px;font-weight:800}
+  .sec-head .cnt{font-size:13px;color:var(--muted);font-weight:600}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px 18px 16px;
+    box-shadow:var(--shadow);display:flex;flex-direction:column;gap:10px;position:relative;
+    border-top:3px solid var(--accent,#4f46e5);transition:transform .15s,box-shadow .15s}
+  .card:hover{transform:translateY(-3px);box-shadow:0 6px 14px rgba(16,24,40,.10),0 18px 40px rgba(16,24,40,.08)}
+  .card .top{display:flex;align-items:center;justify-content:space-between;gap:8px}
+  .seq{display:inline-flex;align-items:center;justify-content:center;min-width:30px;height:30px;padding:0 8px;
+    border-radius:9px;background:var(--accent,#4f46e5);color:#fff;font-weight:800;font-size:15px}
+  .time{font-size:12.5px;color:var(--muted);font-weight:600;white-space:nowrap}
+  .card h3{margin:0;font-size:16.5px;font-weight:700;line-height:1.4}
+  .chip{display:inline-block;align-self:flex-start;font-size:12px;font-weight:600;color:var(--accent,#4f46e5);
+    background:color-mix(in srgb,var(--accent,#4f46e5) 10%,#fff);border:1px solid color-mix(in srgb,var(--accent,#4f46e5) 22%,#fff);
+    padding:3px 10px;border-radius:999px}
+  .summary{margin:0;font-size:14px;color:#3b4252;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+  .readmore{margin-top:auto;display:inline-flex;align-items:center;gap:5px;align-self:flex-start;text-decoration:none;
+    font-size:13.5px;font-weight:700;color:var(--accent,#4f46e5)}
+  .readmore:hover{text-decoration:underline}
+  footer{margin-top:36px;padding:26px 0 40px;border-top:1px solid var(--line);color:var(--muted);font-size:13px;text-align:center}
+  footer a{color:#4f46e5;text-decoration:none}
+  @media (max-width:560px){.hero h1{font-size:27px}.grid{grid-template-columns:1fr}.stat{min-width:0;flex:1 1 40%}}
+  /* 站内统一阅读面板 */
+  .card{cursor:pointer}
+  .reader-overlay{position:fixed;inset:0;z-index:60;background:rgba(18,20,32,.55);backdrop-filter:blur(3px);
+    display:flex;align-items:flex-start;justify-content:center;padding:40px 16px;overflow:auto}
+  .reader-overlay[hidden]{display:none}
+  .reader{background:#fff;border-radius:18px;max-width:840px;width:100%;box-shadow:0 30px 80px rgba(0,0,0,.32);
+    display:flex;flex-direction:column;max-height:90vh;overflow:hidden;animation:pop .18s ease}
+  @keyframes pop{from{transform:translateY(8px) scale(.98);opacity:0}to{transform:none;opacity:1}}
+  .reader-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;
+    padding:20px 24px 14px;background:linear-gradient(135deg,#4f46e5,#7c3aed);color:#fff}
+  .reader-head h2{margin:0 0 8px;font-size:20px;line-height:1.45;font-weight:800}
+  .reader-head .chip{background:rgba(255,255,255,.18);color:#fff;border:1px solid rgba(255,255,255,.3)}
+  .reader-x{background:rgba(255,255,255,.2);border:none;color:#fff;font-size:24px;line-height:1;
+    width:38px;height:38px;border-radius:10px;cursor:pointer;flex:0 0 auto}
+  .reader-x:hover{background:rgba(255,255,255,.34)}
+  .reader-body{padding:20px 24px;overflow:auto;color:#2a2f3a;font-size:15.5px;line-height:1.85}
+  .reader-body p{margin:0 0 14px}
+  .reader-body .r-img-cap{display:inline-block;margin:6px 0;padding:4px 10px;border-radius:8px;background:#f1f3f9;color:#8a93a6;font-size:13px;font-style:italic;border:1px dashed #d7dce8}
+  .reader-body .r-empty{color:#6b7280;font-style:italic}
+  .reader-body .r-summary{margin:0 0 14px;white-space:pre-wrap}
+  .reader-body a.r-link{color:#2563eb;text-decoration:underline;text-underline-offset:2px;word-break:break-all}
+  .reader-body a.r-link:hover{color:#1d4ed8}
+  .reader-body .r-fallback{background:#f5f3ff;border:1px solid #e4defb;color:#5b21b6;border-radius:10px;
+    padding:10px 14px;font-size:13px;line-height:1.7;margin:0 0 16px}
+  .reader-body .r-fallback b{color:#6d28d9}
+  .reader-foot{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;
+    padding:14px 24px 18px;border-top:1px solid var(--line);background:#fafbff}
+  .reader-foot .r-note{font-size:12.5px;color:var(--muted);max-width:62%}
+  .reader-foot .readmore{margin:0}
+</style>
+</head>
+<body>
+  <header class="hero"><div class="wrap">
+    <p class="kicker">AI HOT Daily · 晨报</p>
+    <h1>AI 资讯 · 2026年9月21日</h1>
+    <p class="date-line">星期一 · 数据来源：AI HOT</p>
+    <div class="total-pill">📊 当日共 <strong style="margin:0 4px">7</strong> 条 AI 动态</div>
+    <div class="stats" id="stats"></div>
+  </div></header>
+  <nav class="nav"><div class="wrap" id="nav"><a href="index.html" class="home">📰 AI资讯杂志</a></div></nav>
+  <main class="wrap" id="main"></main>
+  <footer>
+    <div>本日报共收录 <strong>7</strong> 条动态 · 数据来源：<a href="https://aihot.virxact.com" target="_blank" rel="noopener noreferrer">AI HOT（aihot.virxact.com）</a></div>
+    <div style="margin-top:6px">生成于 2026年09月21日 12:48 · 时间换算为北京时间 · 点「来源 ↗」跳转原始报道</div>
+    <div style="margin-top:8px;opacity:.85">说明：本条新闻的标题、摘要、来源、日期已<b>镜像保存在本页</b>；即便外部链接失效或无法访问境外站点，已存档内容仍可正常查看。</div>
+  </footer>
+  <a href="index.html" class="backhome" title="返回 AI资讯杂志 首页">📰 返回 AI资讯杂志</a>
+  <div class="reader-overlay" id="reader" hidden>
+    <div class="reader" role="dialog" aria-modal="true">
+      <div class="reader-head">
+        <div style="min-width:0">
+          <h2 id="readerTitle"></h2>
+          <span class="chip" id="readerSource"></span>
+        </div>
+        <button class="reader-x" onclick="closeReader()" aria-label="关闭">×</button>
+      </div>
+      <div class="reader-body" id="readerBody"></div>
+      <div class="reader-foot">
+        <span class="r-note">本文由 <b>AI资讯杂志</b> 整理镜像，原文版权归原作者所有 · 点击右侧按钮查看原始报道</span>
+        <a id="readerLink" class="readmore" target="_blank" rel="noopener noreferrer">查看原文 ↗</a>
+      </div>
+    </div>
+  </div>
+<script>
+const DATA = {"meta": {"reportDate": "2026-09-21", "reportDateHuman": "2026年9月21日", "weekday": "星期一", "total": 7, "source": "AI HOT", "sourceUrl": "https://aihot.virxact.com", "generatedAt": "2026年09月21日 12:48"}, "sections": [{"label": "模型发布/更新", "color": "#4f46e5", "items": [{"seq": 1, "title": "Qwen 开源 Qwen-Image-2.1：7B 统一生成与编辑并原生支持透明图像", "source": "Qwen：Blog Retrieval（API）", "summary": "Qwen 团队开源 Qwen-Image-2.1，将文生图与图像编辑统一到一个模型中，视觉生成组件仅 7B 参数，并原生支持生成和编辑透明图像。模型支持最多 10 张参考图、圆形/涂鸦/独立蒙版指定局部编辑，通过混合粒度注意力架构和 KV cache 复用提升推理效率，同时改进文字渲染、人像光照与人物产品保真度，并覆盖全景图、信息图和分镜等任务。", "url": "https://qwen.ai/blog?id=qwen-image-2.1", "permalink": "https://aihot.news/items/cmu9tfhu904turokx2vfjy34f", "publishedAt": "2026-09-20T12:00:00.000Z", "exact": true, "content": "}]]}]]}]]}] 30：T6cee， Qwen-Image-Bench 评测对比 推理效率是另一个重点，尤其是在使用多张输入图像进行编辑时。这一优化来自 混合粒度注意力架构。文本（包括系统前缀和编辑指令）使用 token 级因果掩码，而图像生成使用块级掩码。KV cache 复用 使输入图像和编辑指令可作为静态上下文，在第一步中计算并缓存，从而提升推理效率并降低内存占用。 Qwen-Image-2.1 混合粒度注意力架构 原生透明度，统一创作与编辑 除了单个主体之外，该模型还能生成由多个元素构成的更复杂的透明图像，为设计和素材创作开辟了更多可能性。 通过统一生成与编辑，Qwen-Image-2.1 还支持直接编辑透明图像。例如，它可以在保留透明背景的同时改变主体的表情。左侧为输入，右侧为编辑结果。 透明图层中的文字同样可以编辑。在下面的示例中，“BLOOM”被替换为“Qwen-Image”。 这一能力也延伸到了真实照片。给定一张 RGB 图像，该模型可以将所需主体提取为带透明度的 RGBA 图层，从而更便于在后续的设计与合成工作中复用元素。 一张由六张人像参考图生成的全家福照片 在虚拟试穿场景中，五个输入——模特、服装、鞋子、包和帽子——可以组合成一套完整的穿搭。 一套由五张参考图生成的完整穿搭 在室内设计场景中，模型可以使用 10 张家具图片生成一个完整的房间布置。 一个由十张家具参考图生成的室内场景 局部编辑：灵活的区域选择 手绘标注提供了另一种标出区域的方式。在这个示例中，模型在输入图像右侧用白色标出的区域中添加了一名潜水员。 圆圈和手绘标注会遮挡部分原始内容。为保留完整输入，Qwen-Image-2.1 还支持将原始图像和单独的掩码作为两个输入。以下示例要求模型使用这两张图像生成一个骑马牛仔： 模型对掩码指定的区域进行编辑，生成以下结果： 掩码引导编辑结果：一个骑马牛仔 局部编辑还可以支持连续创作。通过在保留场景其余部分的同时进行连续修改，编辑后的图像可以组合成简单的动画，如下方的水豚葫芦兄弟示例所示。 视频 · 前往原文观看 保真度：保留人物与产品 对于产品编辑，模型旨在保留文字、纹理和形状，使产品的标志性特征在新图像中保持一致。 任务覆盖范围：全景图、信息图与故事板 用于全景图生成的输入自拍 模型生成了以下全景图： 由自拍生成的全景图 随后可以在可视化工具中从不同视角方向探索这张全景图。 视频 · 前往原文观看 在信息图生成方面，一张模特照片可以被扩展为细节丰富、信息密集的构图。 用于信息图生成的输入模特照片 由模特照片生成的复杂信息图 该模型还可以将三视图角色参考图转化为完整的分镜图，为故事叙述和视觉叙事提供素材。 用于分镜图生成的三视图角色参考图 由角色参考图生成的完整分镜图 逼真的纹理与精致的美学 文本渲染示例一 文本渲染示例二 文本渲染示例三 文本渲染示例四 对于肖像，改进的光照和精细细节让生成的图像呈现出更逼真的外观。 肖像光照与细节示例一 肖像光照与细节示例二 结论 Qwen-Image-Bench 评测对比 推理效率是另一个焦点，特别是在使用多个输入图像进行编辑时。这种优化来自混合粒度的注意力架构。文本（包括系统前缀和编辑指令）使用令牌级因果掩码，而图像生成使用块级掩码。 KV缓存重用允许输入图像和编辑指令作为静态上下文，在第一步中计算和缓存，以提高推理效率并减少内存使用。 Qwen-Image-2.1 混合粒度注意力架构 原生透明，统一创作与编辑 除了单个主题之外，该模型还可以生成由多个元素组成的更复杂的透明图像，为设计和资产创建开辟了更多可能性。 通过统一生成和编辑，Qwen-Image-2.1还支持直接编辑透明图像。例如，它可以改变拍摄对象的表情，同时保留透明背景。左边是输入内容，右边是编辑结果。 透明层内的文本也可以编辑。在以下示例中，“BLOOM”被替换为“Qwen-Image”。 此功能扩展到真实照片。给定 RGB 图像，模型可以将所需的主题提取为具有透明度的 RGBA 图层，从而更容易在后续设计和合成工作中重用元素。 多功能编辑 由六张肖像参考生成的集体照片 对于虚拟试穿，五种输入——模特、衣服、鞋子、包和帽子——可以组合成一套完整的服装。 由五张参考图像生成的完整服装 对于室内设计，模型可以使用 10 张家具图像来生成完整的房间布置。 由十个家具参考生成的室内装饰 本地编辑：灵活的区域选择 绘制的注释提供了另一种识别区域的方法。在此示例中，模型将潜水员添加到输入图像右侧以白色标记的区域。 圆圈和绘制的注释模糊了一些原始内容。为了保留完整的输入，Qwen-Image-2.1 还接受原始图像和单独的掩模作为两个输入。以下示例要求模型使用这两个图像生成马背上的牛仔： 模型编辑由蒙版指定的区域，产生以下结果： 蒙版引导编辑结果：马背上的牛仔 本地编辑还可以支持顺序创建。通过在保留场景其余部分的同时进行连续更改，可以将编辑后的图像组合成简单的动画，如下面的水豚葫芦兄弟示例所示。 视频 · 前往原文观看 保真：保护人员和产品 对于产品编辑，该模型旨在保留文本、纹理和形状，使产品的定义特征在新图像中保持一致。 任务范围：全景图、信息图表和故事板 输入自拍以生成全景 该模型生成以下全景图： 从自拍生成的全景 然后可以在可视化工具中从不同的观看方向探索全景图。 视频 · 前往原文观看 对于信息图生成，模型照片可以扩展为详细、信息丰富的构图。 输入模型照片以生成信息图表 从模型照片生成的复杂信息图 该模型还可以将三视图角色参考转化为完整的故事板，为讲故事和视觉叙事提供素材。 用于故事板生成的三视图角色参考 根据角色参考生成完整的故事板 逼真的纹理和精致的美学 文字渲染示例一 文字渲染示例二 文字渲染示例三 文字渲染示例四 对于肖像，改进的照明和精细的细节使生成的图像具有更真实的外观。 人像布光及细节示例一 人像布光及细节示例二 结论\u003ca href=", "zh": true}, {"seq": 2, "title": "阶跃星辰发布旗舰模型 Step 5 Preview，10 月 15 日开源权重", "source": "公众号：阶跃星辰（Step）", "summary": "阶跃星辰发布旗舰基座模型 Step 5 Preview，采用稀疏 MoE 架构，总参数量 600B、激活 27B，支持 100 万 Token 上下文和文本与视觉输入，在 Artificial Analysis Intelligence Index 得 44 分，居全球开源模型前三，单任务成本为 Claude Opus 5 的 1/8。", "url": "https://mp.weixin.qq.com/s?__biz=MzkyNTYxNzg5Mg%3D%3D&mid=2247488120&idx=1&sn=8ba9ac7f0b36682d6262290677c665da", "permalink": "https://aihot.news/items/cmu96vqg8035srodqu63q13w4", "publishedAt": "2026-09-20T02:00:00.000Z", "exact": true, "content": "： ， 。 视频 小程序 赞 ，轻点两下取消赞 在看 ，轻点两下取消在看", "zh": true}, {"seq": 3, "title": "通义千问发布 Qwen-Image-2.1：7B 单检查点同时支持图像生成与编辑", "source": "X：通义千问 / Qwen (@Alibaba_Qwen)", "summary": "通义千问发布 Qwen-Image-2.1，一个 7B 参数的原生图像生成与编辑模型，生成和编辑共用单一检查点，最多支持 10 张参考图。模型自带提示词增强 LLM，已集成 diffusers 和 ComfyUI，并在 Hugging Face Spaces 提供免安装的浏览器在线 demo：https://huggingface.co/spaces/hugging-apps/qwen-image-2-1", "url": "https://x.com/Alibaba_Qwen/status/2101866671900401913", "permalink": "/items/cmuao05at0q8uro5tpc85e2kj", "publishedAt": "2026-09-21T02:50:40.000Z", "exact": true, "zh": true, "fromFeed": true, "content": "Qwen-Image-2.1 × @HuggingApps: live demo on Spaces! 🖼 One single checkpoint for generation and editing. Try it in your browser, no setup needed. 👇 Qwen Image 2.1 is here! 🖼️ A 7B params native image generation and editing model, with up to 10 image references The model comes with it's own prompt enhancement LLMs, integrated with diffusers 🧨 and ComfyUI ▶️ on Spaces huggingface.co/spaces/hugging… 00:00"}, {"seq": 4, "title": "Google 确认 Gemini 在 Irregular 安全测试中访问 3 家真实公司系统，与 OpenAI、Anthropic、Meta 属同一评估事故", "source": "MarkTechPost（RSS）", "summary": "Google 于 9 月 18 日确认，Gemini 模型在 5 月由第三方安全评估方 Irregular 组织的 capture-the-flag 测试中访问了 3 家真实公司的系统，起因是本应离线的测试环境因 bug 开放了互联网访问。", "url": "https://www.marktechpost.com/2026/09/20/you-too-google-google-confirms-gemini-breached-3-companies-in-ai-security-tests", "permalink": "/items/cmuaajd3y08yjro5tqgc5u6up", "publishedAt": "2026-09-20T20:20:56.000Z", "exact": true, "zh": true, "fromFeed": true, "content": "}]]}]]}]]}] 34:T28bf, Google 于 2026 年 9 月 18 日（周五）确认，一个 Gemini 模型访问了 3 家外部公司的系统。一家供应商，4 个实验室，4 条各自独立的时间线\n\n更大的图景来自\u003ca href="}]}, {"label": "产品发布/更新", "color": "#059669", "items": [{"seq": 1, "title": "Qwen-Image-2.1 已支持 ComfyUI，开源权重开放下载", "source": "X：通义千问 / Qwen (@Alibaba_Qwen)", "summary": "Qwen 宣布 Qwen-Image-2.1 现已支持 ComfyUI，权重开放。单个 7B checkpoint 同时支持图像生成与编辑，可原生 2K 生成，单次最多基于 10 张参考图进行指令编辑，并支持含 alpha 通道的 RGBA 输出。", "url": "https://x.com/Alibaba_Qwen/status/2101670814953455780", "permalink": "https://aihot.news/items/cmu9w55as056krowjqmhejtmz", "publishedAt": "2026-09-20T13:52:24.000Z", "exact": true, "content": "Qwen-Image-2.1 is now supported in ComfyUI!\nOpen weights. One 7B checkpoint that generates and edits.\n→ Image generation at native 2K\n→ Instruction editing from up to 10 reference images in a single pass\n→ RGBA output, alpha included\nQwen-Image-2.1 is now supported in ComfyUI!\nOpen weights. One 7B checkpoint that generates and edits.\n→ Image generation at native 2K\n→ Instruction editing from up to 10 reference images in a single pass\n→ RGBA output, alpha included"}, {"seq": 2, "title": "数字生命卡兹克访谈汉化组：AI 时代字幕组与漫画组的真实处境", "source": "公众号：数字生命卡兹克", "summary": "作者访谈多位字幕组与漫画汉化组成员，发现他们并不抵触AI。Eliza 的字幕组把听写、打轴交给AI后，原本需要3到5小时的打轴缩短到20分钟到1小时；程序员阵雨为喜欢的主播自研AI工具，单人完成两小时直播的中文字幕。漫画汉化组则因嵌字质量等原因仍坚持人工制作，成员看重的是同好社群与爱好本身。", "url": "https://mp.weixin.qq.com/s?__biz=MzIyMzA5NjEyMA%3D%3D&mid=2647686509&idx=1&sn=1b5ee8ab30c5825eaff76083e1f8dbcc", "permalink": "/items/cmualyqxc0nztro5tbldva2bh", "publishedAt": "2026-09-21T01:52:57.000Z", "exact": true, "zh": true, "fromFeed": true, "content": "： ， 。 视频 小程序 赞 ，轻点两下取消赞 在看 ，轻点两下取消在看"}]}, {"label": "论文研究", "color": "#e11d48", "items": [{"seq": 1, "title": "独立调查：ChatGPT 的 __obi 跨站 Cookie 可将站外浏览行为关联到 ChatGPT 账号", "source": "Hacker News 热门（buzzing.cc 中文翻译）", "summary": "作者通过自己手机上的流量捕获复现了 OpenAI 广告收集器机制：bzr.openai.com 在 .openai.com 域设置 __obi Cookie，绑定 ChatGPT 账号（或稳定的匿名主体），投放广告的商家站点加载 OpenAI 像素代码时会把 __obi 连同浏览和购买数据回传给 OpenAI。", "url": "https://www.buchodi.com/chatgpt-now-knows-what-you-do-on-other-websites-via-ad-collector", "permalink": "https://aihot.news/items/cmua567e703tmro5t558lzx7o", "publishedAt": "2026-09-20T18:05:38.317Z", "exact": true, "content": "}]]}]]}]]}]\n33:T28f8,\nOpenAI 的广告收集器位于 `bzr.openai.com`，会设置一个名为 `__obi` 的 cookie，作用域限定为 `.openai.com`。该值在你使用 ChatGPT 期间存在，并与你的 ChatGPT 账户绑定。随后，`__obi` 会从你访问的普通网站发送给 OpenAI。\n\n任何在 ChatGPT 上购买广告的公司都会在自己的网站上安装\n\n工作原理\n\n第 1 步。ChatGPT 创建一个标识符并对其进行签名。\n\n在 `chatgpt.com` 上，客户端生成 16 个随机字节，并调用 `POST /backend-api/bazaar/obi/sync-token`（未登录时则调用 `/backend-anon/`）。后端返回一个 RS256 JWT：\n\n`{\n\n}\n`\n`sub` 是账户。`obi` 是标识符。token 将二者绑定，作用域限定于收集器，并在 60 秒后过期。`bzr` 代表 `bazaar`，即 OpenAI 内部对广告平台的称呼；`wadi` 是签发服务。\n\n第 2 步。该标识符成为 OpenAI 域名下的一个 cookie。\n\n客户端将 `{\n}` 跨站 POST 到 `bzr.openai.com/v1/obi/sync`。响应如下：\n\n`Set-Cookie: __obi=«redacted»; Domain=.openai.com; HttpOnly;\n            Max-Age=31536000; Path=/; SameSite=none; Secure\n`\n`SameSite=none` 与 `Secure` 是 cookie 在跨站请求中被发送所需的配置。`Max-Age` 为一年。JWT 中的 `obi` 值与 cookie 中的值完全相同。\n\n第 3 步。广告主网站将其回传。\n\n有三类请求会从广告主的页面发往 OpenAI 的主机。在一台 jar 中含有 `__obi` 的手机上，这三类请求都携带了它：\n    请求 携带了 `__obi` 备注     `GET bzrcdn.openai.com/sdk/oaiq.min.js` 是 脚本本身的加载   `POST bzr.openai.com/v1/sdk/events` 与 `obref` 是 转化事件   `POST bzr.openai.com/v1/sdk/events`，裸请求体 是 该 SDK 的“无凭据”路径   `GET bzrcdn.openai.com/pixel-config/…` 完全没有 cookie 头 对照组\n第一行尤其值得关注。像素 SDK 有一条省略凭据的代码路径，但这无济于事：在 OpenAI 的任何代码运行之前，浏览器就已经把 cookie 附加到了加载该 SDK 的 `\u003cscript src\u003e` 请求上。仅仅因为加载了这个标签，标识符就被泄露了。\n\n随之传输的内容\n\n同一个 SDK 还会从广告主的页面上收集身份信息。其载荷将四个来源分开，并由 OpenAI 自己标注：`in` 对应广告主有意传入的值，而 `fm`、`ht`、`js` 则对应 SDK 从表单字段、渲染后的页面文本以及标签管理器总线中抓取的值。在观测到的流量中，抓取到的身份信息数量超过了广告主提供的身份信息，分别为 685 个事件对 255 个。\n\n标签管理器总线是电子邮件最大的来源。该 SDK 替换了`window.dataLayer.push`用自己的函数，还读取`adobeDataLayer`，并通过解析`l=`参数（来自`gtm.js`script 标签）来定位被重命名的 GTM 层。当前版本从中获取电子邮件和电话。0.1.31 版本在 8 月 27 日缩小范围之前，还获取了姓名和地理位置。\n\n电子邮件、电话、名字和姓氏在传输前均经过 SHA-256 哈希处理。国家、地区、城市和邮政编码则以明文发送。邮政编码是被收集最多的表单字段，在 28 个网站上共发生 100 次事件。\n\nURL 在发送前会被缩减为源站加路径；在观测到的 23,929 个 URL 中，没有一个携带查询字符串。路径得以保留，而到达收集器的路径中包括一种医疗状况、一个债务解决方案漏斗以及一份诉讼受理表单。\n\n在 881 个已知设置的像素中，有 638 个启用了自动匹配，包括所有观察到的信贷和借贷广告主。它由 OpenAI 的 Ads Manager 控制。一份拒绝名单排除了密码、一次性验证码、卡号、SSN、出生日期、病史、诊断和法院相关字段。\n\n该 cookie 被设计为可跨站点使用\n\n在相同的广告主页面请求中，浏览器屏蔽了所有其他 OpenAI cookie：\n    Cookie 结果     `oai-did`、`oaicom-stable-id` 已拦截，`SameSite=Lax`   `oai-client-auth-info`，会话 cookie 已拦截，域名不匹配   `__obi` 已发送\n`__obi` 是唯一配置了 `SameSite=None` 的 OpenAI 标识符。\n\n观测到的触达范围\n\n在我的设备上，一个 `__obi` 值从 12 个商业网站通过 13 个不同的像素 ID 被发送至 OpenAI，其中包括 Chewy、Wayfair、ThriftBooks、Eventbrite、HelloFresh、Coursera 和 SeatGeek。每个请求都以 `202` 被接受。\n\n在更广泛的流量中，30 个不同的 `__obi` 值中有 12 个出现在不止一个广告主名下，其中一个出现在十个广告主名下。\n\n在你登出状态下它依然有效\n\n在 932 个已解码的同步 token 中，736 个携带 `subject_type: account_user`，196 个携带 `anonymous`。匿名主体与账户主体一样稳定：每台设备一个，至少持续 27 天。\n\nOpenAI 的 cookie 政策怎么说\n\nOpenAI 将 `__obi` 列在分析类 Cookie 下，有效期一年，出现在 `chatgpt.com` 和 `openai.com` 上。它是该栏目中唯一的条目。该政策将分析类 Cookie 描述为帮助 OpenAI 了解其服务的表现及使用情况。\n\nOpenAI 将分析类和营销类作为两个独立的同意选项来运行，即 `oai_consent_analytics` 和 `oai_consent_marketing`，而我解码的每一个同步 token 都带有 `consent_decision: analytics_allowed`。允许分析类但拒绝营销类的人就会得到这个。\n\nOpenAI 的回应\n\n我于 9 月 14 日将相关机制和两个问题发送至 press@openai.com 和 privacy@openai.com：为什么 `__obi` 被归类为分析类 cookie，以及一个授予分析同意但拒绝营销同意的用户是否仍会收到它。回复来自 OpenAI Support。它确认收到了询问，表示相关观察结果将在内部共享以供审查，但没有回答这两个问题中的任何一个。上述脚本加载观察是在询问发出之后做出的。如果 OpenAI 作出回应，我将更新本文。\n\n局限\n\n浏览器。 在 Android 版 Chrome 上观察到。\n\nHow it works\n\nStep 1. ChatGPT creates an identifier and signs it.\n\nOn `chatgpt.com`, the client generates 16 random bytes and calls `POST /backend-api/bazaar/obi/sync-token` (or `/backend-anon/` when signed out). The backend returns an RS256 JWT:\n\n`{\n\n}\n`\n`sub` is the account. `obi` is the identifier. The token binds them, is scoped to the collector, and expires in 60 seconds. `bzr` stands for `bazaar`, OpenAI's internal name for the ads platform; `wadi` is the issuing service.\n\nStep 2. The identifier becomes a cookie on OpenAI's domain.\n\nThe client POSTs `{\n}` cross-site to `bzr.openai.com/v1/obi/sync`. The response:\n\n`Set-Cookie: __obi=«redacted»; Domain=.openai.com; HttpOnly;\n            Max-Age=31536000; Path=/; SameSite=none; Secure\n`\n`SameSite=none` with `Secure` is the configuration a cookie needs to be sent on cross-site requests. `Max-Age` is one year. The `obi` value in the JWT and the value in the cookie are identical.\n\nStep 3. Advertiser sites send it back.\n\nThree request classes go from an advertiser's page to OpenAI's hosts. On a phone with `__obi` in the jar, all three carried it:\n    Request Carried `__obi` Notes     `GET bzrcdn.openai.com/sdk/oaiq.min.js` yes the script load itself   `POST bzr.openai.com/v1/sdk/events` with `obref` yes conversion events   `POST bzr.openai.com/v1/sdk/events`, bare body yes the SDK's\n path   `GET bzrcdn.openai.com/pixel-config/…` no cookie header at all control\nThe first row is particularly interesting. The pixel SDK has a code path that omits credentials, and it does not help: the browser attaches cookies to the `\u003cscript src\u003e` request that loads the SDK before any of OpenAI's code runs. By the virtue of loading the tag the identifier is disclosed.\n\nWhat travels with it\n\nThe same SDK also collects identity from the advertiser's page. The payload separates four sources, labelled by OpenAI itself: `in` for values the advertiser passes deliberately, and `fm`, `ht`, `js` for values the SDK scrapes from form fields, rendered page text, and the tag-manager bus. In observed traffic, scraped identity outnumbered advertiser-supplied identity 685 events to 255.\n\nThe tag-manager bus is the largest source of email. The SDK replaces `window.dataLayer.push` with its own function, also reads `adobeDataLayer`, and locates renamed GTM layers by parsing the `l=` parameter off the `gtm.js` script tag. Current versions take email and phone from it. Version 0.1.31 also took names and geography before the scope was narrowed on 27 August.\n\nEmail, phone, first and last name are SHA-256 hashed before transmission. Country, region, city and postal code are sent in the clear. Postal code was the most-harvested form field, 100 events across 28 sites.\n\nURLs are reduced to origin plus path before sending; none of 23,929 observed carried a query string. Paths survive, and paths reaching the collector included a medical condition, a debt-solutions funnel and a litigation intake form.\n\nAutomatic matching was enabled for 638 of 881 pixels with a known setting, including every credit and lending advertiser observed. It is controlled from OpenAI's Ads Manager. A denylist excludes passwords, one-time codes, card numbers, SSN, date of birth, medical history, diagnosis and court fields.\n\nThe cookie is built to cross sites\n\nOn the same advertiser-page requests, every other OpenAI cookie was blocked by the browser:\n    Cookie Outcome     `oai-did`, `oaicom-stable-id` blocked, `SameSite=Lax`   `oai-client-auth-info`, session cookies blocked, domain mismatch   `__obi` sent\n`__obi` is the only OpenAI identifier configured with `SameSite=None`.\n\nObserved reach\n\nOn my device, one `__obi` value was sent to OpenAI from 12 commercial websites under 13 distinct pixel IDs, including Chewy, Wayfair, ThriftBooks, Eventbrite, HelloFresh, Coursera and SeatGeek. Every request was accepted with `202`.\n\nIn the broader traffic, 12 of 30 distinct `__obi` values appeared under more than one advertiser, one under ten.\n\nIt works when you are logged out\n\nAcross 932 decoded sync tokens, 736 carried `subject_type: account_user` and 196 carried `anonymous`. The anonymous subject is as stable as the account subject: one per device, persisting at least 27 days.\n\nWhat OpenAI's cookie policy says\n\nOpenAI's lists `__obi` under Analytics cookies, one year, on `chatgpt.com` and `openai.com`. It is the only entry in that section. The policy describes analytics cookies as helping OpenAI understand how its services perform and are used.\n\nOpenAI runs analytics and marketing as two separate consent choices, `oai_consent_analytics` and `oai_consent_marketing`, and every sync token I decoded carried `consent_decision: analytics_allowed`. Someone who allows analytics and refuses marketing gets this.\n\nOpenAI's response\n\nI sent the mechanism and two questions to press@openai.com and privacy@openai.com on 14 September: why `__obi` is classified as an analytics cookie, and whether a user who grants analytics consent and refuses marketing consent still receives it. The reply came from OpenAI Support. It acknowledged the inquiry, said the observations would be shared internally for review, and did not answer either question. The script-load observation above was made after the inquiry was sent. I will update this post if OpenAI responds.\n\nLimits\n\nBrowsers. Observed on Chrome for Android. \u003ca href="}]}]};
+function pad(n){return n<10?"0"+n:""+n;}
+function toBeijingHuman(iso, ref, exact){
+  const d=new Date(iso); const bj=new Date(d.getTime()+8*3600*1000);
+  const Y=bj.getUTCFullYear(),M=bj.getUTCMonth()+1,D=bj.getUTCDate();
+  const h=bj.getUTCHours(),m=bj.getUTCMinutes(); const hh=pad(h),mm=pad(m);
+  if(!exact) return M+"月"+D+"日";
+  const [rY,rM,rD]=ref.split("-").map(Number);
+  if(Y===rY&&M===rM&&D===rD) return "今天 "+hh+":"+mm;
+  const yest=new Date(rY,rM-1,rD); yest.setDate(yest.getDate()-1);
+  if(Y===yest.getFullYear()&&M===yest.getMonth()+1&&D===yest.getDate()) return "昨天 "+hh+":"+mm;
+  return M+"月"+D+"日 "+hh+":"+mm;
+}
+const meta=DATA.meta, sections=DATA.sections, ref=meta.reportDate;
+const statsEl=document.getElementById("stats");
+sections.forEach(s=>{const d=document.createElement("div");d.className="stat";
+  d.innerHTML='<div class="n">'+s.items.length+'</div><div class="l">'+s.label+'</div>';statsEl.appendChild(d);});
+const navEl=document.getElementById("nav");
+sections.forEach((s,i)=>{const a=document.createElement("a");a.href="#sec-"+i;
+  a.innerHTML=escapeHtml(s.label)+'<span class="c">'+s.items.length+'</span>';navEl.appendChild(a);});
+const mainEl=document.getElementById("main");
+sections.forEach((s,i)=>{
+  const sec=document.createElement("section");sec.className="block";sec.id="sec-"+i;
+  const head=document.createElement("div");head.className="sec-head";
+  head.innerHTML='<span class="sec-dot" style="background:'+s.color+'"></span><h2>'+escapeHtml(s.label)+'</h2><span class="cnt">'+s.items.length+' 条</span>';
+  sec.appendChild(head);
+  const grid=document.createElement("div");grid.className="grid";
+  s.items.forEach(it=>{
+    const card=document.createElement("article");card.className="card";card.style.setProperty("--accent",s.color);
+    const time=toBeijingHuman(it.publishedAt,ref,it.exact);const url=it.url||"#";
+    card.innerHTML='<div class="top"><span class="seq">'+it.seq+'</span><span class="time">'+time+'</span></div>'+
+      '<h3>'+escapeHtml(it.title)+'</h3><span class="chip">'+escapeHtml(it.source)+'</span>'+
+      '<p class="summary">'+escapeHtml(it.summary)+'</p>'+
+      '<a class="readmore" href="'+escapeAttr(url)+'" target="_blank" rel="noopener noreferrer" title="外部原文链接，可能需要访问境外站点">来源 ↗</a>';
+    card.addEventListener("click", function(){ openReader(it); });
+    const rm = card.querySelector(".readmore");
+    rm.addEventListener("click", function(e){ e.stopPropagation(); });
+    grid.appendChild(card);
+  });
+  sec.appendChild(grid);mainEl.appendChild(sec);
+});
+function escapeHtml(s){return (s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
+function escapeAttr(s){return escapeHtml(s);}
+// 渲染正文（纯文本归档）：图片不加载远程资源，仅以文字占位符呈现；其余文本按段落转义（防 XSS）
+function linkify(escaped){
+  if(!escaped) return escaped;
+  var re=/(\[[^\]]+\]\((https?:\/\/[^)\s]+)\))|(https?:\/\/[^\s<>"'）】」』，。、；：！？]+)/g;
+  return escaped.replace(re, function(m, g1, g2, g3){
+    if(g2!==undefined){
+      var label=m.substring(m.indexOf('[')+1, m.indexOf(']'));
+      return '<a class="r-link" href="'+g2+'" target="_blank" rel="noopener noreferrer">'+label+'</a>';
+    }
+    if(g3!==undefined){
+      return '<a class="r-link" href="'+g3+'" target="_blank" rel="noopener noreferrer">'+g3+'</a>';
+    }
+    return m;
+  });
+}
+var _IMG_RE=/!\[([^\]]*)\]\(([^)\s]+)\)/g;
+function renderRich(text){
+  return (text||"").split(/\n{1,}/).map(function(p){
+    p=p.trim(); if(!p) return '';
+    var out=''; var last=0; var m; _IMG_RE.lastIndex=0;
+    while((m=_IMG_RE.exec(p))!==null){
+      out+=linkify(escapeHtml(p.slice(last,m.index)));
+      var cap=(m[1]||'').trim()||'图片';
+      out+='<span class="r-img-cap">🖼 '+escapeHtml(cap)+'</span>';
+      last=_IMG_RE.lastIndex;
+    }
+    out+=linkify(escapeHtml(p.slice(last)));
+    return '<p>'+out+'</p>';
+  }).join("");
+}
+function openReader(it){
+  const r=document.getElementById("reader");
+  const content=(it.content||"").trim();
+  const body=document.getElementById("readerBody");
+  if(content.length>0){
+    body.innerHTML=renderRich(content);
+  }else{
+    const sum=(it.summary||"").trim();
+    if(sum){
+      // 来源站点多为付费墙 / 登录墙 / 反爬限制，无法镜像全文；展示已本地存档的中文摘要兜底
+      body.innerHTML='<div class="r-fallback">⚠️ 该条新闻的<b>全文镜像暂不可用</b>（来源站点可能为付费墙 / 登录墙 / 反爬限制，或原文已失效）。下方为已<b>本地存档的中文摘要</b>，可正常查看；完整原文请点击右下角「查看原文 ↗」。</div>'+
+        '<p class="r-summary">'+linkify(escapeHtml(sum))+'</p>';
+    }else{
+      body.innerHTML='<p class="r-empty">暂未获取到该条新闻的全文镜像与摘要。'+(it.url?'可点击右下角「查看原文 ↗」前往原始报道。':'')+'</p>';
+    }
+  }
+  document.getElementById("readerTitle").textContent=it.title;
+  document.getElementById("readerSource").textContent=it.source;
+  const link=document.getElementById("readerLink");
+  if(it.url){link.href=it.url;link.style.display="";}else{link.style.display="none";}
+  r.hidden=false;document.body.style.overflow="hidden";
+}
+function closeReader(){const r=document.getElementById("reader");r.hidden=true;document.body.style.overflow="";}
+document.getElementById("reader").addEventListener("click",function(e){if(e.target===this)closeReader();});
+document.addEventListener("keydown",function(e){if(e.key==="Escape")closeReader();});
+</script>
+</body></html>
