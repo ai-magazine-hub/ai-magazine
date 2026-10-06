@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>AI HOT 资讯 · 2026-10-05</title>
+<style>
+  :root{--bg:#f5f6fb;--card:#fff;--ink:#1f2430;--muted:#6b7280;--line:#e8eaf1;
+    --shadow:0 1px 3px rgba(16,24,40,.06),0 8px 24px rgba(16,24,40,.05);}
+  *{box-sizing:border-box} html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
+    -webkit-font-smoothing:antialiased;line-height:1.55;}
+  a{color:inherit} .wrap{max-width:1180px;margin:0 auto;padding:0 18px}
+  .hero{background:linear-gradient(135deg,#4f46e5 0%,#7c3aed 55%,#9333ea 100%);color:#fff;
+    padding:42px 0 34px;position:relative;overflow:hidden;}
+  .hero::after{content:"";position:absolute;right:-80px;top:-80px;width:280px;height:280px;
+    background:radial-gradient(circle,rgba(255,255,255,.18),transparent 70%);border-radius:50%}
+  .hero .kicker{font-size:13px;letter-spacing:.18em;text-transform:uppercase;opacity:.85;margin:0 0 6px}
+  .hero h1{margin:0;font-size:34px;font-weight:800;letter-spacing:.5px}
+  .hero .date-line{margin:8px 0 0;font-size:15px;opacity:.92}
+  .stats{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+  .stat{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.22);border-radius:12px;
+    padding:10px 14px;min-width:120px;backdrop-filter:blur(4px)}
+  .stat .n{font-size:22px;font-weight:800;line-height:1}
+  .stat .l{font-size:12.5px;opacity:.9;margin-top:4px}
+  .total-pill{display:inline-flex;align-items:center;gap:8px;margin-top:18px;background:rgba(255,255,255,.16);
+    padding:8px 16px;border-radius:999px;font-weight:600;font-size:14px}
+  .nav{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.92);backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);box-shadow:0 2px 10px rgba(16,24,40,.04)}
+  .nav .wrap{display:flex;gap:8px;overflow-x:auto;padding:10px 18px;scrollbar-width:none}
+  .nav .wrap::-webkit-scrollbar{display:none}
+  .nav a{white-space:nowrap;text-decoration:none;font-size:13.5px;font-weight:600;color:var(--muted);
+    padding:7px 13px;border-radius:999px;border:1px solid var(--line);background:#fff;transition:.15s}
+  .nav a:hover{color:var(--ink);border-color:#c9cdfb}
+  .nav a.home{background:#4f46e5;color:#fff;border-color:#4f46e5}
+  .backhome{position:fixed;right:20px;bottom:20px;z-index:30;background:#4f46e5;color:#fff;text-decoration:none;
+    font-size:14px;font-weight:700;padding:12px 18px;border-radius:999px;box-shadow:0 6px 18px rgba(79,70,229,.35);
+    display:inline-flex;align-items:center;gap:7px;transition:.15s}
+  .backhome:hover{background:#4338ca;transform:translateY(-1px)}
+  .nav a .c{display:inline-block;min-width:20px;text-align:center;margin-left:6px;background:#eef0fe;
+    color:#4f46e5;border-radius:999px;font-size:12px;padding:0 7px}
+  section.block{padding:30px 0 6px}
+  .sec-head{display:flex;align-items:center;gap:10px;margin:0 0 16px}
+  .sec-dot{width:12px;height:12px;border-radius:4px}
+  .sec-head h2{margin:0;font-size:21px;font-weight:800}
+  .sec-head .cnt{font-size:13px;color:var(--muted);font-weight:600}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px 18px 16px;
+    box-shadow:var(--shadow);display:flex;flex-direction:column;gap:10px;position:relative;
+    border-top:3px solid var(--accent,#4f46e5);transition:transform .15s,box-shadow .15s}
+  .card:hover{transform:translateY(-3px);box-shadow:0 6px 14px rgba(16,24,40,.10),0 18px 40px rgba(16,24,40,.08)}
+  .card .top{display:flex;align-items:center;justify-content:space-between;gap:8px}
+  .seq{display:inline-flex;align-items:center;justify-content:center;min-width:30px;height:30px;padding:0 8px;
+    border-radius:9px;background:var(--accent,#4f46e5);color:#fff;font-weight:800;font-size:15px}
+  .time{font-size:12.5px;color:var(--muted);font-weight:600;white-space:nowrap}
+  .card h3{margin:0;font-size:16.5px;font-weight:700;line-height:1.4}
+  .chip{display:inline-block;align-self:flex-start;font-size:12px;font-weight:600;color:var(--accent,#4f46e5);
+    background:color-mix(in srgb,var(--accent,#4f46e5) 10%,#fff);border:1px solid color-mix(in srgb,var(--accent,#4f46e5) 22%,#fff);
+    padding:3px 10px;border-radius:999px}
+  .summary{margin:0;font-size:14px;color:#3b4252;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+  .readmore{margin-top:auto;display:inline-flex;align-items:center;gap:5px;align-self:flex-start;text-decoration:none;
+    font-size:13.5px;font-weight:700;color:var(--accent,#4f46e5)}
+  .readmore:hover{text-decoration:underline}
+  footer{margin-top:36px;padding:26px 0 40px;border-top:1px solid var(--line);color:var(--muted);font-size:13px;text-align:center}
+  footer a{color:#4f46e5;text-decoration:none}
+  @media (max-width:560px){.hero h1{font-size:27px}.grid{grid-template-columns:1fr}.stat{min-width:0;flex:1 1 40%}}
+  /* 站内统一阅读面板 */
+  .card{cursor:pointer}
+  .reader-overlay{position:fixed;inset:0;z-index:60;background:rgba(18,20,32,.55);backdrop-filter:blur(3px);
+    display:flex;align-items:flex-start;justify-content:center;padding:40px 16px;overflow:auto}
+  .reader-overlay[hidden]{display:none}
+  .reader{background:#fff;border-radius:18px;max-width:840px;width:100%;box-shadow:0 30px 80px rgba(0,0,0,.32);
+    display:flex;flex-direction:column;max-height:90vh;overflow:hidden;animation:pop .18s ease}
+  @keyframes pop{from{transform:translateY(8px) scale(.98);opacity:0}to{transform:none;opacity:1}}
+  .reader-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;
+    padding:20px 24px 14px;background:linear-gradient(135deg,#4f46e5,#7c3aed);color:#fff}
+  .reader-head h2{margin:0 0 8px;font-size:20px;line-height:1.45;font-weight:800}
+  .reader-head .chip{background:rgba(255,255,255,.18);color:#fff;border:1px solid rgba(255,255,255,.3)}
+  .reader-x{background:rgba(255,255,255,.2);border:none;color:#fff;font-size:24px;line-height:1;
+    width:38px;height:38px;border-radius:10px;cursor:pointer;flex:0 0 auto}
+  .reader-x:hover{background:rgba(255,255,255,.34)}
+  .reader-body{padding:20px 24px;overflow:auto;color:#2a2f3a;font-size:15.5px;line-height:1.85}
+  .reader-body p{margin:0 0 14px}
+  .reader-body .r-img-cap{display:inline-block;margin:6px 0;padding:4px 10px;border-radius:8px;background:#f1f3f9;color:#8a93a6;font-size:13px;font-style:italic;border:1px dashed #d7dce8}
+  .reader-body .r-empty{color:#6b7280;font-style:italic}
+  .reader-body .r-summary{margin:0 0 14px;white-space:pre-wrap}
+  .reader-body a.r-link{color:#2563eb;text-decoration:underline;text-underline-offset:2px;word-break:break-all}
+  .reader-body a.r-link:hover{color:#1d4ed8}
+  .reader-body .r-fallback{background:#f5f3ff;border:1px solid #e4defb;color:#5b21b6;border-radius:10px;
+    padding:10px 14px;font-size:13px;line-height:1.7;margin:0 0 16px}
+  .reader-body .r-fallback b{color:#6d28d9}
+  .reader-foot{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;
+    padding:14px 24px 18px;border-top:1px solid var(--line);background:#fafbff}
+  .reader-foot .r-note{font-size:12.5px;color:var(--muted);max-width:62%}
+  .reader-foot .readmore{margin:0}
+</style>
+</head>
+<body>
+  <header class="hero"><div class="wrap">
+    <p class="kicker">AI HOT Daily · 晨报</p>
+    <h1>AI 资讯 · 2026年10月5日</h1>
+    <p class="date-line">星期一 · 数据来源：AI HOT</p>
+    <div class="total-pill">📊 当日共 <strong style="margin:0 4px">5</strong> 条 AI 动态</div>
+    <div class="stats" id="stats"></div>
+  </div></header>
+  <nav class="nav"><div class="wrap" id="nav"><a href="index.html" class="home">📰 AI资讯杂志</a></div></nav>
+  <main class="wrap" id="main"></main>
+  <footer>
+    <div>本日报共收录 <strong>5</strong> 条动态 · 数据来源：<a href="https://aihot.news" target="_blank" rel="noopener noreferrer">AI HOT（aihot.virxact.com）</a></div>
+    <div style="margin-top:6px">生成于 2026年10月06日 14:02 · 时间换算为北京时间 · 点「来源 ↗」跳转原始报道</div>
+    <div style="margin-top:8px;opacity:.85">说明：本条新闻的标题、摘要、来源、日期已<b>镜像保存在本页</b>；即便外部链接失效或无法访问境外站点，已存档内容仍可正常查看。</div>
+  </footer>
+  <a href="index.html" class="backhome" title="返回 AI资讯杂志 首页">📰 返回 AI资讯杂志</a>
+  <div class="reader-overlay" id="reader" hidden>
+    <div class="reader" role="dialog" aria-modal="true">
+      <div class="reader-head">
+        <div style="min-width:0">
+          <h2 id="readerTitle"></h2>
+          <span class="chip" id="readerSource"></span>
+        </div>
+        <button class="reader-x" onclick="closeReader()" aria-label="关闭">×</button>
+      </div>
+      <div class="reader-body" id="readerBody"></div>
+      <div class="reader-foot">
+        <span class="r-note">本文由 <b>AI资讯杂志</b> 整理镜像，原文版权归原作者所有 · 点击右侧按钮查看原始报道</span>
+        <a id="readerLink" class="readmore" target="_blank" rel="noopener noreferrer">查看原文 ↗</a>
+      </div>
+    </div>
+  </div>
+<script>
+const DATA = {"meta": {"reportDate": "2026-10-05", "reportDateHuman": "2026年10月5日", "weekday": "星期一", "total": 5, "source": "AI HOT", "sourceUrl": "https://aihot.news", "generatedAt": "2026年10月06日 14:02"}, "sections": [{"label": "行业动态", "color": "#d97706", "items": [{"seq": 1, "title": "OpenAI 公布 EU AI Act 下的文本溯源方案，推出 textGrain 文本水印", "source": "OpenAI：官网动态（RSS · 排除企业/客户案例）", "summary": "OpenAI 公布应对 EU AI Act 的文本水印方案，发布在模型词选择中加入不可见统计信号的 textGrain 技术，API 客户即日起可对部分模型选择性开启水印，未来数周将在欧盟地区为 ChatGPT 和 Codex 输出添加隐形水印，检测器暂只向获批的研究者和专家机构开放。", "url": "https://openai.com/index/eu-text-provenance", "permalink": "https://aihot.news/items/xx5mgdemrqmqw5zw410sbawcz", "publishedAt": "2026-10-05T15:00:00.000Z", "exact": true, "fromFeed": true, "content": "", "zh": true}]}, {"label": "产品发布/更新", "color": "#059669", "items": [{"seq": 1, "title": "OpenAI 在 ChatGPT 推出全新视觉广告格式并扩展广告测量工具", "source": "OpenAI：官网动态（RSS · 排除企业/客户案例）", "summary": "OpenAI 宣布在 ChatGPT 推出新的视觉广告格式，本月起在美国于图像生成场景中测试，广告将明确标注且不影响 ChatGPT 的回答。", "url": "https://openai.com/index/new-chatgpt-ads-format-and-measurement", "permalink": "https://aihot.news/items/e63lz9ky7ebdxjea930dh3o5y", "publishedAt": "2026-10-05T10:00:00.000Z", "exact": true, "fromFeed": true, "content": "", "zh": true}]}, {"label": "论文研究", "color": "#e11d48", "items": [{"seq": 1, "title": "PromptArmor 披露 Databricks Genie 恶意 Skill 可绕过控制实现钓鱼与数据外泄", "source": "PromptArmor：Threat Intelligence", "summary": "PromptArmor 报告称 Databricks Genie Code 执行上传的恶意 Skill 后，可在聊天渲染结果时弹出钓鱼页面并经用户浏览器外泄租户数据，全程无需人工批准。", "url": "https://www.promptarmor.com/resources/four-databricks-genie-controls-that-dont-stop-malicious-skills", "permalink": "https://aihot.news/items/dfcis3hxowljt45i0bvyi3f0n", "publishedAt": "2026-10-05T00:24:02.000Z", "exact": true, "fromFeed": true, "content": "背景 Databricks Genie Code 是 Databricks 中的代理助手，使用户能够通过自然语言指令对其租户中的数据进行操作。 Genie Code 可以为用户呈现聊天中的显示内容；恶意技能可以利用此功能在查看工具结果时触发数据泄露并向用户显示网络钓鱼攻击。 这种攻击可以在没有任何人机交互批准的情况下发生，并且不受组织可能依赖的控制的约束：\n- 组织级技能治理； Genie Code 从用户的个人工作区加载技能，而不是组织的受管理目录\n- 一个护栏代理，在运行命令之前对其进行评估； Databricks 认为这是尽力而为的生产力功能，而不是安全控制\n- 编码环境出口控制；出口发生在用户的浏览器，而不是编码环境\n- 聊天中呈现的显示沙箱；技能使用用户数据构建显示，显示不需要进入租户来获取它\n该风险已于 2026 年 8 月 16 日向 Databricks 披露，但确定属于“用户有责任确保上传的技能不包含恶意内容”。鉴于恶意技能在在线市场中传播的盛行，并且组织所依赖的控制措施可能无法消除这种风险，我们发布此报告是为了告知那些面临风险的人。 攻击链\n- 提示 Genie 使用上传的技能分析数据技能通常通过在线市场分发，这是一个已知受到恶意技能污染的生态系统。 Databricks 确实有一个技能管理系统，但 Genie Code 使用的技能是从用户的个人工作空间配置的，而不是组织的受管理目录。\n- Genie 执行恶意 Skill 中的代码 当 Genie 执行 Skill 中的代码时，第二个代理会对其进行检查，该代理会标记超出用户预期操作的命令，例如“向第三方发送数据”的命令。循环中的代理批准运行技能代码，但未能捕获恶意功能。\n- Genie指导用户打开完整的数据分析结果\n- 当结果呈现时，会显示网络钓鱼模式，并且用户的数据集会被窃取。恶意技能中的代码会构建一个 HTML 元素，该元素有两个恶意目的。一个影响是，它会呈现攻击者网站的覆盖层，从而对用户进行网络钓鱼以获取凭据。另一个影响是，当呈现模式时（例如，当用户查看结果时），受害者租户的数据会被泄露。恶意 Skill 的代码利用对受害者租户的访问权限来收集敏感数据（例如受害者的数据集），然后将该数据构建到 HTML 显示中。当显示呈现时，恶意显示中的 JavaScript 会导致用户的浏览器发出网络请求，将数据泄露到攻击者的服务器。虽然编码环境具有网络出口控制，可以阻止与攻击者服务器的通信，但显示接口没有并且可以向攻击者发送数据。\n负责任的披露 该风险已于 2026 年 8 月 16 日报告给 Databricks。Databricks 团队确定： “最终用户有责任确保上传的技能不包含恶意内容。” 网络出口控制规定编码环境不允许联系不受信任的外部各方，这一点得到了维护。它只是查询数据并使用它来构建 iframe。 对呈现给用户的显示的控制规定不允许显示从租户查询数据，并且这一点得到了维持。它只是处理技能代码嵌入其中的数据。 这样，恶意Skill代码就可以查询计算环境中的数据，将其构建成iframe，iframe可以发出网络请求来窃取数据…… 我们认为这种交互代表了 Databricks 威胁模型中的一个漏洞，因为技术上支持的两项保证的目的是防止最终发生的数据泄露结果。 对于护栏代理批准的恶意命令，Databricks 团队指出， “自动允许功能并不是作为安全边界，而是作为一种控制措施，以防止不受信任的输入自动运行。” 文档支持该声明： 然而，由于“自动批准”被记录为默认和“推荐”命令批准模式，我们认为实际上用户不太可能遵守该指令，从而阻止其在生产数据中的使用。 没有给出任何与 Genie Code 的技能是从用户的个人工作区而不是组织级别的管理目录加载这一事实相关的声明。 时间轴 | 2026 年 8 月 16 日 | PromptArmor 向 Databricks 披露 | | 2026 年 8 月 17 日至 9 月 15 日 | PromptArmor 和 Databricks 协调 | | 2026 年 9 月 16 日 | PromptArmor 通知 Databricks 发布意图 |", "zh": true}]}, {"label": "模型发布/更新", "color": "#4f46e5", "items": [{"seq": 1, "title": "Liquid AI 发布 d1 决策模型并新增图像输入能力", "source": "Liquid AI 模型与工程博客（网页）", "summary": "Liquid AI 发布 d1 决策模型，新增文本与图像输入，可通过 console.liquid.ai 和 d1 Playground 使用。", "url": "https://www.liquid.ai/blog/d1-decision-model", "permalink": "https://aihot.news/items/uu1qa3hh83kc9i4u832wpywyp", "publishedAt": "2026-10-05T00:00:00.000Z", "exact": true, "fromFeed": true, "content": "推出 d1：最有能力的决策模型，现在具有愿景 今天，我们介绍 d1，我们的第一个决策模型，现在支持文本和图像。随着上周的实验发布，d1 成为第一个在文本决策方面与 Jev 竞争的模型，现在它是第一个将这些功能扩展到图像的模型。您今天可以在 console.liquid.ai 和 d1 Playground 中尝试。 我们在六个实际应用程序中针对 GPT-6.1 Sol 和 Claude Opus 5.5 测试了 d1，从过滤支持票到检查电路板。 d1 在其中四个方面匹配或击败了 GPT-6.1 Sol。它的成本比这两种模型低 19 倍到 200 倍，并且每项任务的响应速度都显着加快。 d1 决策模型的工作原理 决策模型回答有关情况的问题，并给出每个可能答案的概率。 d1 决策模型采用非结构化数据（例如文本、图像或两者）和一个或多个问题作为输入，在一次前向传递中读取它们，并返回概率，而不生成任何标记。文本决策需要 200 到 300 毫秒，对于实时应用来说已经足够快了。 d1 回答三种类型的问题：\n- Noul：是/否问题，回答概率在 0 到 1 之间。\n- 选择：从众多标签中选择一个，并用每个标签的概率来回答。\n- 分数：等级上的位置，按每个级别的概率进行加权。\n一个请求可以询问有关同一状态的多个问题，从而节省输入令牌。 d1 在行动 当答案是结构化决策时，决策模型可以取代对语言模型的昂贵调用。它们还支持各种新用例，本节中显示了一些用例。下面的每个演示都在 d1 Playground 中实时运行。 目视检查。此工业应用程序审查来自四个生产线的在摄像机下通过的零件：电路板、蜡烛、腰果和口香糖（公共 VisA 数据集）。 d1 以 85-97% 的准确率对良品和缺陷品进行分类。最有趣的部分是该模型从未接受过这方面的训练。由于其出色的通用性，它可以通过简短的描述来理解任务。 文本应用程序。五个应用程序使用 d1 进行每个决策：\n- 智能过滤器：d1 成为 SQL 查询中的函数，WHERE d1(ticket, '客户想要取消)。它对 150 个支持票证中的每一个都回答“是”或“否”。\n- 代码搜索：d1 一次浏览一个文件夹的 Hugging Face 转换器存储库（6,511 个文件），直至找到回答问题的函数。\n- 智能文件夹：d1 将每个新文档归档到一个文件夹中，然后是一个子文件夹中。它以相同的方式归档搜索问题，因此关键字搜索仅在一个子文件夹中查找。\n- 网络代理：d1 通过一句话目标运营一个航班搜索网站。在每一步中，它都会在页面允许的所有操作中选择下一个操作。\n- 上下文压缩：d1 读取编码代理会话中的每个工具输出，并保留、修剪或删除它以供下一个任务使用。它删除了 52% 的令牌并保留任务所需的每个输出。\n我们从以下开源项目中改编了其中四个应用程序：pg-jev、jevgrep、jev-ultrafast 和 fast-jev-compaction。 游戏。 d1 现场玩八场经典比赛并挑选每一步棋。愿景通过两个方式提供帮助：\n- 更好的决策：俄罗斯方块可以用文本完整描述，但添加屏幕将 d1 的分数从 70 条清除线提高到 81 条线。\n- 更简单的集成：在 Wordle 中，d1 直接从屏幕截图读取棋盘。开发者不需要编写游戏的文本版本，d1 仍然在平均 3.8 次猜测中解决了 12 场比赛中的 12 场。\nd1 还处理纯视觉任务。在 Quick, Draw! 中，它会猜测玩家的涂鸦在 62 个单词中显示的内容，并识别 6 个图画中的 5.2 个（随机猜测得到 0.6）。 供货情况和定价 立即开始使用 d1 决策模型进行构建，该模型可在 Liquid AI API 上作为 d1 获得。在 console.liquid.ai（仪表板 \u003e API 密钥）创建 API 密钥。 要使用 Vision，您只需将图像作为图像中的 Base64 数据 URL 发送即可： 导入base64、操作系统、请求 image = base64.b64encode(open(\"board.jpg\", \"rb\").read()).decode() 响应 = requests.post( “https://api.liquid.ai/decisions/v1/systemone”， headers={\"Authorization\": f\"Bearer {os.environ['LIQUID_API_KEY']}\"}, json={ “型号”：“d1”， “图像”：[f“数据：image/jpeg;base64，{image}”]， \"state\": \"生产线上电路板的摄像图像。\", “问题”： {“缺陷”：{ “类型”：“努尔”， \"instructions\": \"这个电路板有缺陷吗？\" } }, }, ） print(response.json()[\"answers\"][\"defect\"][\"noul\"]) 完整的 API 参考位于决策模型文档中。 d1 也可通过 Vercel 和 OpenRouter 获得，目前仅提供文本。愿景很快就会实现。 这是人工智能创造力和探索的激动人心的时刻，而 d1 仅仅是一个开始。我们正在继续开发各种尺寸的决策模型，并提供新功能、更高的决策质量和更低的延迟，并且我们计划很快在 Hugging Face 上发布即将推出的模型的开放权重。 尝试使用 Liquid Console阅读我们的文档 引文 如需引用，请使用以下参考文献或 BibTeX： 方法论。我们于 2026 年 10 月 5 日使用 d1 Playground 的比较脚本对每个模型运行每个应用程序一次。 GPT-6.1 Sol 和 Claude Opus 5.5 将每个请求作为一条聊天消息获取，并按照默认推理设置以 JSON 格式回答。当许多问题共享一个输入时，例如过滤器的票证或文件夹的段落，聊天模型会批量回答它们。成本使用标价，没有提示缓存折扣。 d1 的成本为每百万输入代币 0.04 美元。时间是每次运行的时间，最多可处理 8 个请求。智能过滤器运行是对 150 个工单的一次查询。智能文件夹运行文件 105 个段落，其成本为每 1,000 个段落。过滤器的质量是其针对手标签的 F1 分数，其中包括错过的和错误的匹配。其他文本应用程序会计算正确处理的目标、问题、段落或所需的输出。在设置 d1 的管道后，我们编写了 15 个代码问题中的 6 个，以及 4 个压缩会话中的两个。在目视检查中，每个模型都会看到待检查零件旁边同一条线上的良好零件。", "zh": true}, {"seq": 2, "title": "Together AI 推出 Together Link，一键在现有编码智能体中接入开源模型并降费超 50%", "source": "Together AI 研究与产品博客（RSS）", "summary": "Together AI 发布 Together Link，把团队已用的编码智能体工具连接到 Together AI 上的开源模型，宣称可节省超过 50% 支出。", "url": "https://www.together.ai/blog/together-link-frontier-quality-open-models-in-the-harness-you-already-use", "permalink": "https://aihot.news/items/ef2o8x2jh4m8n7ggsq5bc5eag", "publishedAt": "2026-10-05T00:00:00.000Z", "exact": true, "fromFeed": true, "content": "Together Link 将您的团队已使用的工具连接到 Together AI 上的最佳开放模型，并将您的支出减少 50% 以上。相同的代理，相同的工作流程，费用的一小部分。 编码代理现在对于工程团队来说很常见，你给他们的每一项任务，从单行修复到完全重写，通常都在相同的高级模型上运行。规模迅速变得昂贵：工程组织每月在封闭模型上花费数万到数百万美元。 开放模型有意义地缩小了封闭实验室顶级模型之间的差距。像 Kimi K3 和 GLM 5.3 这样的领先型号现在可以以每个代币价格的一小部分处理许多最困难的编码任务，而像 GLM 5.3 Flash 和 DeepSeek V4.1 Flash 这样的小型且功能强大的模型则可以处理日常编码任务。 Together Link 将它们带入您的团队已经了解的工具中。 在您已经工作的地方工作 Together Link 支持 Claude Code、Claude Desktop、Codex（在 ChatGPT 应用程序和 CLI 中）、OpenCode 和 Pi。您的团队保持正常工作：设置和登录保持原样，没有什么新东西需要学习，并且只需一个命令即可返回到本机封闭模型。您只需几分钟即可在开放模型上启动并运行。 开始使用\n- 运行一个命令来设置 Together Link：您的代理完全像以前一样打开，现在使用您的 Together AI API 密钥连接到 Together AI。创建一个 API 密钥帐户。\n- 使用“自动”通过Together AI Router选择模型：它读取每个会话的第一个任务并将其发送到正确的模型：快速修复转到快速、低成本模型，而难题则获得前沿能力。如果您携带 Anthropic 密钥，它会在 Opus 5.5 和 GLM 5.3 之间路由。如果没有，它会在 GLM 5.3 和 GLM 5.3 Flash 之间路由。每个会话发生一次路由，因此即时缓存可以继续工作。\n- 每次会话后查看您的节省。每个会话跟踪器显示您在 Opus 5.5 上的同一会话花费的费用。\n计费基于您现有的 Together API 密钥，针对无服务器即用即付或信用包。您不需要单独的合同。 构建在开发人员已经选择的无服务器平台上 Together Link 在 Together 的无服务器推理上运行，基础设施开发人员已经在 OpenRouter 上选择了这些模型。 Together AI 为 DeepSeek V4.1 Flash (40.8%)、GLM 5.3 Flash (28.2%) 和 Kimi K3 (23.1%) 提供最大份额的 OpenRouter 代币，其速度和价格具有全面的竞争力。 （截至 2026 年 9 月 30 日脚注） 后续步骤 创建 Together AI 帐户。 阅读我们的文档。 在您的工程组织中推广它？与我们的团队联系，我们将帮助您进行规划。", "zh": true}]}]};
+function pad(n){return n<10?"0"+n:""+n;}
+function toBeijingHuman(iso, ref, exact){
+  const d=new Date(iso); const bj=new Date(d.getTime()+8*3600*1000);
+  const Y=bj.getUTCFullYear(),M=bj.getUTCMonth()+1,D=bj.getUTCDate();
+  const h=bj.getUTCHours(),m=bj.getUTCMinutes(); const hh=pad(h),mm=pad(m);
+  if(!exact) return M+"月"+D+"日";
+  const [rY,rM,rD]=ref.split("-").map(Number);
+  if(Y===rY&&M===rM&&D===rD) return "今天 "+hh+":"+mm;
+  const yest=new Date(rY,rM-1,rD); yest.setDate(yest.getDate()-1);
+  if(Y===yest.getFullYear()&&M===yest.getMonth()+1&&D===yest.getDate()) return "昨天 "+hh+":"+mm;
+  return M+"月"+D+"日 "+hh+":"+mm;
+}
+const meta=DATA.meta, sections=DATA.sections, ref=meta.reportDate;
+const statsEl=document.getElementById("stats");
+sections.forEach(s=>{const d=document.createElement("div");d.className="stat";
+  d.innerHTML='<div class="n">'+s.items.length+'</div><div class="l">'+s.label+'</div>';statsEl.appendChild(d);});
+const navEl=document.getElementById("nav");
+sections.forEach((s,i)=>{const a=document.createElement("a");a.href="#sec-"+i;
+  a.innerHTML=escapeHtml(s.label)+'<span class="c">'+s.items.length+'</span>';navEl.appendChild(a);});
+const mainEl=document.getElementById("main");
+sections.forEach((s,i)=>{
+  const sec=document.createElement("section");sec.className="block";sec.id="sec-"+i;
+  const head=document.createElement("div");head.className="sec-head";
+  head.innerHTML='<span class="sec-dot" style="background:'+s.color+'"></span><h2>'+escapeHtml(s.label)+'</h2><span class="cnt">'+s.items.length+' 条</span>';
+  sec.appendChild(head);
+  const grid=document.createElement("div");grid.className="grid";
+  s.items.forEach(it=>{
+    const card=document.createElement("article");card.className="card";card.style.setProperty("--accent",s.color);
+    const time=toBeijingHuman(it.publishedAt,ref,it.exact);const url=it.url||"#";
+    card.innerHTML='<div class="top"><span class="seq">'+it.seq+'</span><span class="time">'+time+'</span></div>'+
+      '<h3>'+escapeHtml(it.title)+'</h3><span class="chip">'+escapeHtml(it.source)+'</span>'+
+      '<p class="summary">'+escapeHtml(it.summary)+'</p>'+
+      '<a class="readmore" href="'+escapeAttr(url)+'" target="_blank" rel="noopener noreferrer" title="外部原文链接，可能需要访问境外站点">来源 ↗</a>';
+    card.addEventListener("click", function(){ openReader(it); });
+    const rm = card.querySelector(".readmore");
+    rm.addEventListener("click", function(e){ e.stopPropagation(); });
+    grid.appendChild(card);
+  });
+  sec.appendChild(grid);mainEl.appendChild(sec);
+});
+function escapeHtml(s){return (s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
+function escapeAttr(s){return escapeHtml(s);}
+// 渲染正文（纯文本归档）：图片不加载远程资源，仅以文字占位符呈现；其余文本按段落转义（防 XSS）
+function linkify(escaped){
+  if(!escaped) return escaped;
+  var re=/(\[[^\]]+\]\((https?:\/\/[^)\s]+)\))|(https?:\/\/[^\s<>"'）】」』，。、；：！？]+)/g;
+  return escaped.replace(re, function(m, g1, g2, g3){
+    if(g2!==undefined){
+      var label=m.substring(m.indexOf('[')+1, m.indexOf(']'));
+      return '<a class="r-link" href="'+g2+'" target="_blank" rel="noopener noreferrer">'+label+'</a>';
+    }
+    if(g3!==undefined){
+      return '<a class="r-link" href="'+g3+'" target="_blank" rel="noopener noreferrer">'+g3+'</a>';
+    }
+    return m;
+  });
+}
+var _IMG_RE=/!\[([^\]]*)\]\(([^)\s]+)\)/g;
+function renderRich(text){
+  return (text||"").split(/\n{1,}/).map(function(p){
+    p=p.trim(); if(!p) return '';
+    var out=''; var last=0; var m; _IMG_RE.lastIndex=0;
+    while((m=_IMG_RE.exec(p))!==null){
+      out+=linkify(escapeHtml(p.slice(last,m.index)));
+      var cap=(m[1]||'').trim()||'图片';
+      out+='<span class="r-img-cap">🖼 '+escapeHtml(cap)+'</span>';
+      last=_IMG_RE.lastIndex;
+    }
+    out+=linkify(escapeHtml(p.slice(last)));
+    return '<p>'+out+'</p>';
+  }).join("");
+}
+function openReader(it){
+  const r=document.getElementById("reader");
+  const content=(it.content||"").trim();
+  const body=document.getElementById("readerBody");
+  if(content.length>0){
+    body.innerHTML=renderRich(content);
+  }else{
+    const sum=(it.summary||"").trim();
+    if(sum){
+      // 来源站点多为付费墙 / 登录墙 / 反爬限制，无法镜像全文；展示已本地存档的中文摘要兜底
+      body.innerHTML='<div class="r-fallback">⚠️ 该条新闻的<b>全文镜像暂不可用</b>（来源站点可能为付费墙 / 登录墙 / 反爬限制，或原文已失效）。下方为已<b>本地存档的中文摘要</b>，可正常查看；完整原文请点击右下角「查看原文 ↗」。</div>'+
+        '<p class="r-summary">'+linkify(escapeHtml(sum))+'</p>';
+    }else{
+      body.innerHTML='<p class="r-empty">暂未获取到该条新闻的全文镜像与摘要。'+(it.url?'可点击右下角「查看原文 ↗」前往原始报道。':'')+'</p>';
+    }
+  }
+  document.getElementById("readerTitle").textContent=it.title;
+  document.getElementById("readerSource").textContent=it.source;
+  const link=document.getElementById("readerLink");
+  if(it.url){link.href=it.url;link.style.display="";}else{link.style.display="none";}
+  r.hidden=false;document.body.style.overflow="hidden";
+}
+function closeReader(){const r=document.getElementById("reader");r.hidden=true;document.body.style.overflow="";}
+document.getElementById("reader").addEventListener("click",function(e){if(e.target===this)closeReader();});
+document.addEventListener("keydown",function(e){if(e.key==="Escape")closeReader();});
+</script>
+</body></html>
