@@ -10,8 +10,7 @@ AI HOT 日报 → 每日文件 + 索引页（无限归档版，可每日定时�
 输出目录：脚本同目录
 """
 import json, re, os, sys, ssl, time, datetime, threading, urllib.request, urllib.parse, html
-from concurrent.futures import ThreadPoolExecutor, as_completed
-from concurrent.futures import TimeoutError as _FTimeout
+from runtime_limits import bounded_call, bounded_results
 
 # 运行模式：--render-only 仅用本地归档重渲染（跳过抓取/回填/翻译，最快出页面）；
 #           --no-translate 跳过英文→中文翻译；--no-backfill 跳过头像/图片本地化回填
@@ -21,9 +20,10 @@ NO_TRANSLATE = "--no-translate" in sys.argv
 NO_BACKFILL = "--no-backfill" in sys.argv
 
 UA = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36"
-BASE = "https://aihot.virxact.com/api/public"
-# dailies 接口不支持翻页(offset/page 均被忽略)，take 上限约 120(超过即 400)
-# 取 120 可覆盖未来约 4 个月；已抓取的日期由 archive.json 永久保留，不会因接口截断而丢失
+BASE = "https://aihot.news/api/v1"
+# Reserve time for body enrichment (120s), translation (600s), rendering and Pages.
+API_DEADLINE = time.monotonic() + 240
+# v1 日报索引取最近 120 期；已抓日期由 archive.json 永久保留。
 DAILIES_TAKE = 120
 
 SECTIONS = [
@@ -601,7 +601,7 @@ def init_live_ratings():
     if RENDER_ONLY:
         return
     try:
-        live = fetch_live_ratings()
+        live = bounded_call(fetch_live_ratings, timeout=40)
         if live:
             merged = {**cache, **live}
             save_ratings_cache(merged)
@@ -698,7 +698,7 @@ def init_live_code_ratings():
     if RENDER_ONLY:
         return
     try:
-        live = fetch_live_code_ratings()
+        live = bounded_call(fetch_live_code_ratings, timeout=40)
         if live:
             merged = {**cache, **live}
             save_code_cache(merged)
@@ -931,9 +931,16 @@ def is_major_model(text):
     return False
 
 def http_get_json(url):
+    return bounded_call(_http_get_json, url,
+                        timeout=min(20, API_DEADLINE - time.monotonic()))
+
+def _http_get_json(url):
     req = urllib.request.Request(url, headers={"User-Agent": UA})
-    with urllib.request.urlopen(req, timeout=30) as r:
-        return json.loads(r.read().decode("utf-8"))
+    with urllib.request.urlopen(req, timeout=10) as r:
+        raw = r.read(5_000_001)
+        if len(raw) > 5_000_000:
+            raise ValueError("API response exceeds 5 MB")
+        return json.loads(raw.decode("utf-8"))
 
 def traolid(permalink):
     if not permalink:
@@ -1035,12 +1042,13 @@ def fetch_aihot_body(pid):
     无登录墙/页脚/导航等 chrome 噪声，可整体替代回源抓取。"""
     if not pid or not re.match(r"^[A-Za-z0-9]+$", pid):
         return None
-    url = f"https://aihot.virxact.com/items/{pid}"
+    url = f"https://aihot.news/items/{pid}"
     req = urllib.request.Request(url, headers={
         "User-Agent": _UA, "Cookie": _AIOHOT_CHALLENGE_CK,
         "Accept-Language": "zh-CN,zh;q=0.9"})
     try:
-        raw = urllib.request.urlopen(req, timeout=30, context=_SSL_CTX).read().decode("utf-8", "ignore")
+        with urllib.request.urlopen(req, timeout=8, context=_SSL_CTX) as r:
+            raw = r.read(5_000_000).decode("utf-8", "ignore")
     except Exception:
         return None
     if "EO_Bot_Ssid" in raw and "__next_f" not in raw:
@@ -1171,11 +1179,11 @@ def _save_img(src, page_url):
     except Exception:
         return None
 
-def backfill_content(arch, workers=8):
-    """并发回填缺失全文（纯文本归档，不下载图片）；写入 content。
-    具备：单任务超时（避免个别慢站拖垮整体）、每 100 条增量落盘（可断点续传）、不阻塞退出。"""
+def backfill_content(arch, workers=8, wall=120):
+    """并发回填全文：每篇 25s、整轮 120s；超时终止进程，摘要和旧正文保留。"""
     todos = []
-    for d, rec in arch.items():
+    for d in sorted(arch, reverse=True):
+        rec = arch[d]
         for s in rec.get("sections", []):
             for it in s.get("items", []):
                 # 仅回填正文缺失或过短的条目，避免对已镜像内容重复抓取
@@ -1186,28 +1194,20 @@ def backfill_content(arch, workers=8):
         return 0
     print(f"[3.5] 回填全文镜像：{len(todos)} 条（并发 {workers}）...")
     done = 0
-    ex = ThreadPoolExecutor(max_workers=workers)
-    futs = {ex.submit(fetch_content, it["url"], it.get("permalink")): it for it in todos}
-    try:
-        for f in as_completed(futs, timeout=120):
-            it = futs[f]
-            try:
-                new = f.result()
-            except Exception:
-                new = ""
-            # 安全策略：新抓取为空但旧内容尚在时，保留旧内容，避免丢失已镜像全文
-            if new:
-                it["content"] = new
-            done += 1
-            if done % 100 == 0:
-                save_archive(arch)
-                print(f"     {done}/{len(todos)}（已落盘）")
-    except _FTimeout:
-        print(f"    ! 回填超时（{done}/{len(todos)}），进度已落盘，重跑可续传")
-    except Exception as e:
-        print(f"    ! 回填异常({e})，进度已落盘")
+    tasks = [(it["url"], it.get("permalink")) for it in todos]
+    for index, new, error in bounded_results(
+            fetch_content, tasks, workers=workers, timeout=25, wall=wall):
+        it = todos[index]
+        if new:
+            it["content"] = new
+            it.pop("zh", None)  # 新正文需要重新判断语言，不能继承空正文的 zh=True
+        done += 1
+        if done % 25 == 0:
+            save_archive(arch)
+            print(f"     {done}/{len(todos)}（已落盘）", flush=True)
+    if done < len(todos):
+        print(f"    ! 回填预算用尽（{done}/{len(todos)}），未完成任务已终止，下轮续传")
     save_archive(arch)
-    ex.shutdown(wait=False)
     ok = sum(1 for it in todos if len((it.get("content") or "").strip()) >= 80)
     print(f"     完成：已回填正文 {ok}/{len(todos)}")
     return ok
@@ -1271,7 +1271,8 @@ _IMG_RE = re.compile(r'^\s*!\[[^\]]*\]\([^)]*\)\s*$')
 
 def translate_en_zh(text):
     """段落级翻译：图片标记行、纯中文行原样保留；含拉丁字母的段落送翻。"""
-    paras = re.split(r'\n{1,}', text)
+    # 合并短段，避免一篇多行正文触发数百次串行请求；仍保留段落换行。
+    paras = _chunk_for_llm(text, limit=1800)
     out = []
     for p in paras:
         if not p.strip():
@@ -1349,13 +1350,13 @@ def translate_deepseek_text(text, key):
             "max_tokens": 4096,
         }).encode("utf-8")
         last_err = None
-        for attempt in range(5):
+        for attempt in range(2):
             try:
                 req = urllib.request.Request(
                     _DS_API, data=body,
                     headers={"Authorization": f"Bearer {key}",
                              "Content-Type": "application/json"})
-                with urllib.request.urlopen(req, timeout=60) as r:
+                with urllib.request.urlopen(req, timeout=20) as r:
                     d = json.loads(r.read().decode("utf-8"))
                 out_parts.append(d["choices"][0]["message"]["content"])
                 break
@@ -2398,6 +2399,11 @@ def _translate_item(it, ds_key=None):
         else:
             it["zh"] = False
 
+def _translated_copy(it, ds_key):
+    it = dict(it)
+    _translate_item(it, ds_key)
+    return it
+
 def translate_archive(arch, wall=600):
     """将英文为主的全文翻译为中文（保留专有名词）。已翻译(it['zh'])或纯中文跳过。
     优先 DeepSeek（DEEPSEEK_API_KEY 或 /tmp/dskey），无 key 时回退 Google 免费端点。
@@ -2437,20 +2443,23 @@ def translate_archive(arch, wall=600):
         print("[3.6] 翻译：无待处理条目")
         return 0
     print(f"[3.6] 英文全文→中文({engine})：{len(todos)} 条待处理；本轮预算 {wall}s（到点即停，可续传）")
-    deadline = time.time() + wall
+    deadline = time.monotonic() + wall
     done = 0
     consecutive_fail = 0
     for it in todos:
-        if time.time() > deadline:
+        if time.monotonic() >= deadline:
             print(f"    ! 翻译墙钟预算用尽，本轮完成 {done} 条，剩余留待下次续传")
             break
         if consecutive_fail >= 8:
             print(f"    ! 连续 {consecutive_fail} 条翻译失败，判定翻译端点不可用，放弃本轮（已存 {done} 条）")
             break
         try:
-            _translate_item(it, ds_key)
-        except Exception:
-            pass
+            updated = bounded_call(_translated_copy, it, ds_key,
+                                   timeout=min(60, deadline - time.monotonic()))
+            it.update(updated)
+        except Exception as exc:
+            it["zh"] = False
+            print(f"    ! 翻译保留原文: {it.get('title', '')[:40]} ({exc})", flush=True)
         if it.get("zh") is True:
             done += 1
             consecutive_fail = 0
@@ -2619,9 +2628,9 @@ if RENDER_ONLY:
     all_dates = sorted(arch.keys(), reverse=True)
     lead_map = {d: arch[d].get("lead", "") for d in all_dates}
 else:
-    print(f"[1] 拉取全部可用日报列表 (take={DAILIES_TAKE}) ...")
+    print(f"[1] 拉取全部可用日报列表 (limit={DAILIES_TAKE}) ...")
     try:
-        arch_list = http_get_json(f"{BASE}/dailies?take={DAILIES_TAKE}")
+        arch_list = http_get_json(f"{BASE}/dailies?limit={DAILIES_TAKE}")
         all_dates = [it["date"] for it in arch_list.get("items", [])]
         lead_map = {it["date"]: it.get("leadTitle") or "" for it in arch_list.get("items", [])}
         all_dates.sort(reverse=True)  # 最新在前
@@ -2635,14 +2644,18 @@ else:
 # ---------- 2. 补全近 7 天真实发布时间（仅新生成的日期会用到） ----------
 if not RENDER_ONLY:
     print("[2] 拉取 items 补全近 7 天发布时间 ...")
-    since = (beijing_now() - datetime.timedelta(days=7)).strftime("%Y-%m-%dT00:00:00Z")
     id2pub = {}
     try:
         cursor = None
+        seen_cursors = set()
         pages = 0
+        mapping_deadline = time.monotonic() + 60
         while True:
+            if time.monotonic() >= mapping_deadline:
+                print("    ! 时间补全预算用尽，保留已取映射，继续抓日报")
+                break
             pages += 1
-            params = {"mode": "all", "since": since, "take": 100}
+            params = {"mode": "all", "window": "7d", "limit": 100, "by": "published"}
             if cursor:
                 params["cursor"] = cursor
             data = http_get_json(f"{BASE}/items?" + urllib.parse.urlencode(params))
@@ -2650,16 +2663,22 @@ if not RENDER_ONLY:
                 pid = traolid(it.get("permalink")) or it.get("id")
                 if pid and it.get("publishedAt"):
                     id2pub[pid] = it["publishedAt"]
-            if not data.get("hasNext") or not data.get("nextCursor") or pages >= 20:
+            page = data.get("page", {})
+            next_cursor = page.get("nextCursor")
+            if not page.get("hasMore") or not next_cursor or next_cursor in seen_cursors or pages >= 20:
                 break
-            cursor = data.get("nextCursor")
+            seen_cursors.add(next_cursor)
+            cursor = next_cursor
         print(f"    时间映射 {len(id2pub)} 条（翻 {pages} 页）")
     except Exception as e:
         print(f"    ! 时间补全失败({e})，新日期将退化为仅显示日期")
 
 # ---------- 3. 逐日组装（增量：已生成的跳过，只追加新日期） ----------
-def build_day_record(date):
-    daily = http_get_json(f"{BASE}/daily/{date}")
+def build_day_record(date, daily=None):
+    if daily is None:
+        daily = http_get_json(f"{BASE}/dailies/{date}").get("report")
+    if not isinstance(daily, dict) or daily.get("date") != date or not isinstance(daily.get("sections"), list):
+        raise ValueError("Invalid daily report; leave date missing for retry")
     ordered = {label: [] for label, _ in SECTIONS}
     seq = 0
     for sec in daily.get("sections", []):
@@ -2667,21 +2686,23 @@ def build_day_record(date):
         if label not in ordered:
             continue
         for it in sec.get("items", []):
-            pid = traolid(it.get("permalink"))
+            links = it.get("links") or {}
+            permalink = links.get("aihot") or it.get("permalink", "")
+            pid = traolid(permalink)
             pub = id2pub.get(pid) if pid else None
             exact = pub is not None
             seq += 1
             item = {
                 "seq": seq,
                 "title": it.get("title", "").strip(),
-                "source": it.get("sourceName", "").strip() or "AI HOT",
+                "source": (it.get("source") or {}).get("name") or it.get("sourceName") or "AI HOT",
                 "summary": truncate(it.get("summary", ""), 220),
-                "url": it.get("sourceUrl") or it.get("permalink") or "",
-                "permalink": it.get("permalink", ""),
+                "url": links.get("original") or it.get("sourceUrl") or permalink,
+                "permalink": permalink,
                 "publishedAt": pub or (date + "T00:00:00.000Z"),
                 "exact": exact,
             }
-            item["content"] = fetch_content(item["url"], pid if pid else None)  # 优先 AI HOT 已清洗正文
+            item["content"] = ""  # 摘要先落盘；全文统一在有硬预算的并发回填阶段抓取
             ordered[label].append(item)
     total = sum(len(v) for v in ordered.values())
     present = [{"label": l, "color": c, "items": ordered[l]} for l, c in SECTIONS if ordered[l]]
@@ -2691,10 +2712,10 @@ def build_day_record(date):
         "weekday": weekday_cn(date),
         "total": total,
         "source": "AI HOT",
-        "sourceUrl": "https://aihot.virxact.com",
+        "sourceUrl": "https://aihot.news",
         "generatedAt": beijing_now().strftime("%Y年%m月%d日 %H:%M"),
     }
-    lead = lead_map.get(date, "") or fallback_lead(present)
+    lead = lead_map.get(date, "") or (daily.get("lead") or {}).get("title") or fallback_lead(present)
     rec = {"meta": meta, "sections": present, "lead": lead}
     reroute_model_release_items(rec)
     return rec
@@ -2760,10 +2781,28 @@ def merge_today_feed(arch, dates=None):
         dates = [(base - datetime.timedelta(days=i)).strftime("%Y-%m-%d") for i in (0, 1)]
     # feed 只拉一次，供多日期复用
     try:
-        feed = http_get_json(f"{BASE}/feed?take=100")
+        feed = {"items": []}
+        cursor = None
+        seen_cursors = set()
+        for _ in range(20):
+            params = {"mode": "selected", "window": "7d", "limit": 100, "by": "published"}
+            if cursor:
+                params["cursor"] = cursor
+            data = http_get_json(f"{BASE}/items?" + urllib.parse.urlencode(params))
+            items = data.get("items", [])
+            feed["items"].extend(items)
+            page = data.get("page", {})
+            cursor = page.get("nextCursor")
+            if (not page.get("hasMore") or not cursor or cursor in seen_cursors
+                    or any(_beijing_date_of(it.get("publishedAt")) < min(dates)
+                           for it in items if it.get("publishedAt"))):
+                break
+            seen_cursors.add(cursor)
     except Exception as e:
         print(f"    ! 实时 feed 拉取失败({e})，跳过补充")
-        return 0
+        # 保留已取到的分页，失败的后续页留待下轮。
+        if not feed["items"]:
+            return 0
     total = 0
     for d in dates:
         if d not in arch:
@@ -2814,15 +2853,18 @@ def _merge_feed_into_date(arch, today, feed):
             continue
         if not title:
             continue
-        url = it.get("url") or ""
-        permalink = f"/items/{pid}" if pid else ""
+        links = it.get("links") or {}
+        url = links.get("original") or it.get("url") or ""
+        permalink = links.get("aihot") or (f"/items/{pid}" if pid else "")
         src = ""
         s = it.get("source") or {}
         if isinstance(s, dict):
             src = s.get("name") or ""
         summary = (it.get("summaryZh") or it.get("summary") or "").strip()
         ai_tags = [t.get("tag") for t in (it.get("aiTags") or []) if isinstance(t, dict)]
-        label = _classify_section(ai_tags, title + " " + summary)
+        label = {"ai-models": "模型发布/更新", "ai-products": "产品发布/更新",
+                 "industry": "行业动态", "paper": "论文研究", "tip": "技巧与观点"}.get(
+                     it.get("category")) or _classify_section(ai_tags, title + " " + summary)
         if label not in sec_map:
             rec["sections"].append({"label": label, "color": _sec_color(label), "items": []})
             sec_map[label] = rec["sections"][-1]
@@ -2836,10 +2878,9 @@ def _merge_feed_into_date(arch, today, feed):
             "permalink": permalink,
             "publishedAt": pub,
             "exact": True,
-            "zh": True,
             "fromFeed": True,
         }
-        item["content"] = fetch_content(url, pid if pid else None)
+        item["content"] = ""
         target["items"].append(item)
         if pid:
             existing_pids.add(pid)
@@ -2865,6 +2906,7 @@ if not RENDER_ONLY:
             continue
         try:
             arch[date] = build_day_record(date)
+            save_archive(arch)
             new_added += 1
             print(f"    + {date}: {arch[date]['meta']['total']} 条")
         except Exception as e:
@@ -2879,9 +2921,10 @@ if not RENDER_ONLY:
             if gd in arch:
                 continue
             try:
-                probe = http_get_json(f"{BASE}/daily/{gd}")
-                if probe.get("sections"):
-                    arch[gd] = build_day_record(gd)
+                probe = http_get_json(f"{BASE}/dailies/{gd}").get("report")
+                if isinstance(probe, dict) and isinstance(probe.get("sections"), list):
+                    arch[gd] = build_day_record(gd, probe)
+                    save_archive(arch)
                     new_added += 1
                     print(f"    + {gd}（缺口补抓）: {arch[gd]['meta']['total']} 条")
                 else:

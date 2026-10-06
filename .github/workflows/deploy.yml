@@ -2,6 +2,7 @@ name: 部署 AI资讯杂志
 
 on:
   push:
+    branches: [main]
   schedule:
     # 每 2 小时一次（北京时间 02/04/06/08/10/12/14/16/18/20/22/00 的 :07 分）。
     # 关键背景：GitHub Actions 定时任务跑在共享基础设施上，实测常延迟 6–9 小时甚至被跳过；
@@ -17,10 +18,9 @@ permissions:
   pages: write
   id-token: write
 
-# push 与 schedule 用不同并发组，且取消在途任务 = false：
-# 避免一次 push（很快）把正在跑的 schedule 抓取取消掉，从而导致当天漏抓。
+# 所有触发共用一个写入/部署队列，避免不同事件同时更新 archive.json。
 concurrency:
-  group: ai-magazine-${{ github.event_name }}
+  group: ai-magazine-pages
   cancel-in-progress: false
 
 jobs:
@@ -32,6 +32,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          ref: main
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -39,7 +40,10 @@ jobs:
           python-version: '3.13'
 
       - name: Install dependencies
-        run: pip install trafilatura
+        run: pip install trafilatura==2.3.0 lxml_html_clean
+
+      - name: Verify failure budgets
+        run: python -m unittest discover -s tests -v
 
       # 记录抓取前的期数与条目总数：
       # - 期数用于判断「是否新增了日期」；
@@ -59,7 +63,7 @@ jobs:
       - name: Generate / update archive
         env:
           DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
-        run: python generate_archive.py
+        run: python -u generate_archive.py
 
       # 当「新增了日期」或「条目总数增加」时提交并回推：
       # - 新增日期 -> 提交一次 -> 下一轮看到日期已存在 -> 期数不变 -> 跳过提交 -> 循环终止；
@@ -75,10 +79,11 @@ jobs:
           echo "dates_before=${{ steps.before.outputs.dates }} dates_after=$DATES_AFTER items_before=${{ steps.before.outputs.items }} items_after=$ITEMS_AFTER arch_before=${{ steps.before.outputs.arch_hash }} arch_after=$ARCH_HASH_AFTER"
           # 提交条件：新增日期 / 条目数增长 / archive.json 内容变化（翻译等改动不改数量，必须靠哈希捕获）
           if [ "$DATES_AFTER" -gt "${{ steps.before.outputs.dates }}" ] || [ "$ITEMS_AFTER" -gt "${{ steps.before.outputs.items }}" ] || [ "$ARCH_HASH_AFTER" != "${{ steps.before.outputs.arch_hash }}" ]; then
-            git pull --rebase --autostash
             git add archive.json index.html ai-daily.html "ai-daily-*.html" ratings_cache.json ratings_code_cache.json
             git commit -m "chore: 自动同步 AI HOT 日报（$(date -u +%Y-%m-%dT%H:%M:%SZ)）"
-            git push
+            # 并发的人工作业若改了相同文件，安全失败，不用 autostash 覆盖数据。
+            git pull --rebase origin main
+            git push origin HEAD:main
           else
             echo "无新增日期/条目，跳过提交"
           fi
