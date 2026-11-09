@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>AI HOT 资讯 · 2026-11-09</title>
+<style>
+  :root{--bg:#f5f6fb;--card:#fff;--ink:#1f2430;--muted:#6b7280;--line:#e8eaf1;
+    --shadow:0 1px 3px rgba(16,24,40,.06),0 8px 24px rgba(16,24,40,.05);}
+  *{box-sizing:border-box} html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
+    -webkit-font-smoothing:antialiased;line-height:1.55;}
+  a{color:inherit} .wrap{max-width:1180px;margin:0 auto;padding:0 18px}
+  .hero{background:linear-gradient(135deg,#4f46e5 0%,#7c3aed 55%,#9333ea 100%);color:#fff;
+    padding:42px 0 34px;position:relative;overflow:hidden;}
+  .hero::after{content:"";position:absolute;right:-80px;top:-80px;width:280px;height:280px;
+    background:radial-gradient(circle,rgba(255,255,255,.18),transparent 70%);border-radius:50%}
+  .hero .kicker{font-size:13px;letter-spacing:.18em;text-transform:uppercase;opacity:.85;margin:0 0 6px}
+  .hero h1{margin:0;font-size:34px;font-weight:800;letter-spacing:.5px}
+  .hero .date-line{margin:8px 0 0;font-size:15px;opacity:.92}
+  .stats{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+  .stat{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.22);border-radius:12px;
+    padding:10px 14px;min-width:120px;backdrop-filter:blur(4px)}
+  .stat .n{font-size:22px;font-weight:800;line-height:1}
+  .stat .l{font-size:12.5px;opacity:.9;margin-top:4px}
+  .total-pill{display:inline-flex;align-items:center;gap:8px;margin-top:18px;background:rgba(255,255,255,.16);
+    padding:8px 16px;border-radius:999px;font-weight:600;font-size:14px}
+  .nav{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.92);backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);box-shadow:0 2px 10px rgba(16,24,40,.04)}
+  .nav .wrap{display:flex;gap:8px;overflow-x:auto;padding:10px 18px;scrollbar-width:none}
+  .nav .wrap::-webkit-scrollbar{display:none}
+  .nav a{white-space:nowrap;text-decoration:none;font-size:13.5px;font-weight:600;color:var(--muted);
+    padding:7px 13px;border-radius:999px;border:1px solid var(--line);background:#fff;transition:.15s}
+  .nav a:hover{color:var(--ink);border-color:#c9cdfb}
+  .nav a.home{background:#4f46e5;color:#fff;border-color:#4f46e5}
+  .backhome{position:fixed;right:20px;bottom:20px;z-index:30;background:#4f46e5;color:#fff;text-decoration:none;
+    font-size:14px;font-weight:700;padding:12px 18px;border-radius:999px;box-shadow:0 6px 18px rgba(79,70,229,.35);
+    display:inline-flex;align-items:center;gap:7px;transition:.15s}
+  .backhome:hover{background:#4338ca;transform:translateY(-1px)}
+  .nav a .c{display:inline-block;min-width:20px;text-align:center;margin-left:6px;background:#eef0fe;
+    color:#4f46e5;border-radius:999px;font-size:12px;padding:0 7px}
+  section.block{padding:30px 0 6px}
+  .sec-head{display:flex;align-items:center;gap:10px;margin:0 0 16px}
+  .sec-dot{width:12px;height:12px;border-radius:4px}
+  .sec-head h2{margin:0;font-size:21px;font-weight:800}
+  .sec-head .cnt{font-size:13px;color:var(--muted);font-weight:600}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px 18px 16px;
+    box-shadow:var(--shadow);display:flex;flex-direction:column;gap:10px;position:relative;
+    border-top:3px solid var(--accent,#4f46e5);transition:transform .15s,box-shadow .15s}
+  .card:hover{transform:translateY(-3px);box-shadow:0 6px 14px rgba(16,24,40,.10),0 18px 40px rgba(16,24,40,.08)}
+  .card .top{display:flex;align-items:center;justify-content:space-between;gap:8px}
+  .seq{display:inline-flex;align-items:center;justify-content:center;min-width:30px;height:30px;padding:0 8px;
+    border-radius:9px;background:var(--accent,#4f46e5);color:#fff;font-weight:800;font-size:15px}
+  .time{font-size:12.5px;color:var(--muted);font-weight:600;white-space:nowrap}
+  .card h3{margin:0;font-size:16.5px;font-weight:700;line-height:1.4}
+  .chip{display:inline-block;align-self:flex-start;font-size:12px;font-weight:600;color:var(--accent,#4f46e5);
+    background:color-mix(in srgb,var(--accent,#4f46e5) 10%,#fff);border:1px solid color-mix(in srgb,var(--accent,#4f46e5) 22%,#fff);
+    padding:3px 10px;border-radius:999px}
+  .summary{margin:0;font-size:14px;color:#3b4252;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+  .readmore{margin-top:auto;display:inline-flex;align-items:center;gap:5px;align-self:flex-start;text-decoration:none;
+    font-size:13.5px;font-weight:700;color:var(--accent,#4f46e5)}
+  .readmore:hover{text-decoration:underline}
+  footer{margin-top:36px;padding:26px 0 40px;border-top:1px solid var(--line);color:var(--muted);font-size:13px;text-align:center}
+  footer a{color:#4f46e5;text-decoration:none}
+  @media (max-width:560px){.hero h1{font-size:27px}.grid{grid-template-columns:1fr}.stat{min-width:0;flex:1 1 40%}}
+  /* 站内统一阅读面板 */
+  .card{cursor:pointer}
+  .reader-overlay{position:fixed;inset:0;z-index:60;background:rgba(18,20,32,.55);backdrop-filter:blur(3px);
+    display:flex;align-items:flex-start;justify-content:center;padding:40px 16px;overflow:auto}
+  .reader-overlay[hidden]{display:none}
+  .reader{background:#fff;border-radius:18px;max-width:840px;width:100%;box-shadow:0 30px 80px rgba(0,0,0,.32);
+    display:flex;flex-direction:column;max-height:90vh;overflow:hidden;animation:pop .18s ease}
+  @keyframes pop{from{transform:translateY(8px) scale(.98);opacity:0}to{transform:none;opacity:1}}
+  .reader-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;
+    padding:20px 24px 14px;background:linear-gradient(135deg,#4f46e5,#7c3aed);color:#fff}
+  .reader-head h2{margin:0 0 8px;font-size:20px;line-height:1.45;font-weight:800}
+  .reader-head .chip{background:rgba(255,255,255,.18);color:#fff;border:1px solid rgba(255,255,255,.3)}
+  .reader-x{background:rgba(255,255,255,.2);border:none;color:#fff;font-size:24px;line-height:1;
+    width:38px;height:38px;border-radius:10px;cursor:pointer;flex:0 0 auto}
+  .reader-x:hover{background:rgba(255,255,255,.34)}
+  .reader-body{padding:20px 24px;overflow:auto;color:#2a2f3a;font-size:15.5px;line-height:1.85}
+  .reader-body p{margin:0 0 14px}
+  .reader-body .r-img-cap{display:inline-block;margin:6px 0;padding:4px 10px;border-radius:8px;background:#f1f3f9;color:#8a93a6;font-size:13px;font-style:italic;border:1px dashed #d7dce8}
+  .reader-body .r-empty{color:#6b7280;font-style:italic}
+  .reader-body .r-summary{margin:0 0 14px;white-space:pre-wrap}
+  .reader-body a.r-link{color:#2563eb;text-decoration:underline;text-underline-offset:2px;word-break:break-all}
+  .reader-body a.r-link:hover{color:#1d4ed8}
+  .reader-body .r-fallback{background:#f5f3ff;border:1px solid #e4defb;color:#5b21b6;border-radius:10px;
+    padding:10px 14px;font-size:13px;line-height:1.7;margin:0 0 16px}
+  .reader-body .r-fallback b{color:#6d28d9}
+  .reader-foot{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;
+    padding:14px 24px 18px;border-top:1px solid var(--line);background:#fafbff}
+  .reader-foot .r-note{font-size:12.5px;color:var(--muted);max-width:62%}
+  .reader-foot .readmore{margin:0}
+</style>
+</head>
+<body>
+  <header class="hero"><div class="wrap">
+    <p class="kicker">AI HOT Daily · 晨报</p>
+    <h1>AI 资讯 · 2026年11月9日</h1>
+    <p class="date-line">星期一 · 数据来源：AI HOT</p>
+    <div class="total-pill">📊 当日共 <strong style="margin:0 4px">2</strong> 条 AI 动态</div>
+    <div class="stats" id="stats"></div>
+  </div></header>
+  <nav class="nav"><div class="wrap" id="nav"><a href="index.html" class="home">📰 AI资讯杂志</a></div></nav>
+  <main class="wrap" id="main"></main>
+  <footer>
+    <div>本日报共收录 <strong>2</strong> 条动态 · 数据来源：<a href="https://aihot.news" target="_blank" rel="noopener noreferrer">AI HOT（aihot.virxact.com）</a></div>
+    <div style="margin-top:6px">生成于 2026年11月09日 09:40 · 时间换算为北京时间 · 点「来源 ↗」跳转原始报道</div>
+    <div style="margin-top:8px;opacity:.85">说明：本条新闻的标题、摘要、来源、日期已<b>镜像保存在本页</b>；即便外部链接失效或无法访问境外站点，已存档内容仍可正常查看。</div>
+  </footer>
+  <a href="index.html" class="backhome" title="返回 AI资讯杂志 首页">📰 返回 AI资讯杂志</a>
+  <div class="reader-overlay" id="reader" hidden>
+    <div class="reader" role="dialog" aria-modal="true">
+      <div class="reader-head">
+        <div style="min-width:0">
+          <h2 id="readerTitle"></h2>
+          <span class="chip" id="readerSource"></span>
+        </div>
+        <button class="reader-x" onclick="closeReader()" aria-label="关闭">×</button>
+      </div>
+      <div class="reader-body" id="readerBody"></div>
+      <div class="reader-foot">
+        <span class="r-note">本文由 <b>AI资讯杂志</b> 整理镜像，原文版权归原作者所有 · 点击右侧按钮查看原始报道</span>
+        <a id="readerLink" class="readmore" target="_blank" rel="noopener noreferrer">查看原文 ↗</a>
+      </div>
+    </div>
+  </div>
+<script>
+const DATA = {"meta": {"reportDate": "2026-11-09", "reportDateHuman": "2026年11月9日", "weekday": "星期一", "total": 2, "source": "AI HOT", "sourceUrl": "https://aihot.news", "generatedAt": "2026年11月09日 09:40"}, "sections": [{"label": "行业动态", "color": "#d97706", "items": [{"seq": 1, "title": "NVIDIA 董事会宣布就 CEO 黄仁勋遭外国情报行动瞄准一事启动独立调查", "source": "X：Rohan Paul (@rohanpaul_ai)", "summary": "NVIDIA 董事会于 11 月 8 日发布声明，就近期有关创始人兼 CEO 黄仁勋成为外国情报行动目标的报道启动独立调查。调查由独立董事组成的委员会在外部独立律师协助下监督，黄仁勋全力配合。董事会表示没有理由认为国家安全或 NVIDIA 机密已受损，但调查将审视所有可用信息，并表示对黄仁勋及其领导团队有信心。", "url": "https://x.com/rohanpaul_ai/status/2119540787147059491", "permalink": "https://aihot.news/items/mg4znyraf1xbbwg1vd915wqoi", "publishedAt": "2026-11-08T21:21:17.000Z", "exact": true, "content": "NVIDIA 正式发布了董事会声明。 据报道，首席执行官黄仁勋已成为外国情报机构的目标。 彭博社记者：英伟达董事会将调查首席执行官黄仁勋承认不忠后是否成为外国间谍目标。 他的员工备忘录中写道“我对我的妻子不忠”，但没有点名任何人。 美国官员怀疑中国间谍机构招募了她，而总部位于美国的 Megaspeed", "zh": true}]}, {"label": "产品发布/更新", "color": "#059669", "items": [{"seq": 1, "title": "数字生命卡兹克上线免费 Token 福利聚合网站 Token羊毛", "source": "公众号：数字生命卡兹克", "summary": "数字生命卡兹克上线免费聚合网站 Token羊毛（aihot.news/free-tokens），把各厂商公开的免费额度、签到积分、限时免费等活动汇总到一页，页面显示今日可领金额并按日、周、月分组，还设计了随领取次数升级亮度的卡片收集玩法。", "url": "https://mp.weixin.qq.com/s/MyNWZlURmO0xIxQpMOQZWg", "permalink": "https://aihot.news/items/e80fmjdp23n217sd6e7ky52om", "publishedAt": "2026-11-08T23:56:00.000Z", "exact": true, "fromFeed": true, "content": "可能有些朋友还不太了解AIHOT，我非常简单的介绍一下。 AIHOT是我们自己做的一个AI资讯站，aihot.news，目前已经100多万的月活了，也把底层的引擎和架构全部开源了，目前有近1万的Star。 它现在盯着近几千个信源，AI自动分析，每天从整个AI世界里面，把真正值得看的精选的AI动态挑出来，按5分钟的监控维度，做成精选和日报周报推荐给大家，如果你想获取AI资讯的话，其实讲道理，AIHOT这一站就足够了。 并且我们也开放了免费且匿名的Skill、MCP还有API，大家可以随便接入到Agent和二创使用。 同时因为每天的信息实在太多了，肯定是有无数重复的，全部推出来就会刷屏，用户体验极差，并且一个事件，被多少的信源报道过，本身就是热度的一种体现，于是我又做了一整套的聚簇算法，把事件归类，只推最具有代表性最核心的那一条新闻，其他的变成关联消息，然后又写了一下热度的算法，于是，又有了热点榜。 但这么多信源和信息，每天分门别类的监控和存到我的数据库里，能干的事，其实远不止看新闻。 很久前，每天有很多人都在互相传递Tibo发布的Codex重置消息，想知道，Codex啥时候会重置，因为AIHOT已经监控了Tibo的X，每一条Tibo的发言我们都在实时监控以及存到了我们的数据库里，那对于我们来说，把原本就监控的信息，做一下二次的处理和分析，转变成一个Codex重置监控功能，那就再简单不过了。 所以，Tibo一发帖，我们就能第一时间告诉你，北京时间几点生效，谁能用上，他的原话是怎么说的，还做了一个日历，把每一次重置都记了下来。 最近大家又在说，有一个叫Andrew的小哥要接棒Tibo了，这个人我们本身也监控了，又顺道把他也监控了一下，同时举一反三，顺道手又把Google的Antigravity和Claude的重置监控也做了。 这其实就是过去做AIHOT监控了那么多的信源和结构化处理信息之后，稍微加工一下，做出来的却对大家有一些用处的副产品。 然后前段时间，大家又聊到Token越来越贵这件事，我突然意识到，这些羊毛，它本身就是资讯啊。 我平时就经常能看到，很多厂商在发这种福利，新人送多少钱，每天签到送多少积分，哪个模型限时免费。 但是在以前AIHOT的逻辑里，这些东西，是一定要被剔除掉的。 因为从新闻的角度来讲，它们就是广告，就是噪声，绝对不应该出现在我们的精选列表里的。 我还记得当时为了剔除掉这些广告，花了很多力气去做剔除规则，但是现在反过来看，等等，这不就恰恰是很多人每天在群里找的东西吗。 对新闻来说，它是噪声。 但从需求端来说，它是实打实的福利啊。 既然这样，那就反过来做。 把那些剔除掉的规则，直接反过来，那不就是“什么样的资讯是福利的公告”了吗？ 于是就有了这个念头，也就有了今天的Token羊毛。 网址在此：aihot.news/free-tokens 打开之后，左上角最大的那个数字，是今天还能领多少钱。我写这篇文章的时候，它写着201块。 旁边两个小一点的数字，一个是这个月你已经领到了多少，一个是离下次刷新还有多久。 下面，所有羊毛按领取的节奏分成了几组，每天都能领的，每周都能领的，每月都能领的，还有其他福利，像新人礼包、限时免费，和一些特定条件下的免费模型之类的。 你可以直接点击右边的去领取，有些是要在客户端里领的。比如WorkBuddy之类的，每天的积分，都得打开它们的客户端，在里面签到才能领。 所以在电脑上，为了提高大家的用户体验，我就开发了一下客户端的快捷唤起。你点这个按钮之后，如果你装了这个客户端，浏览器会直接问你，要不要打开这个客户端，你点一下允许，客户端就开了，直接领就行。如果你还没装，我们就直接帮你打开它官网的下载页。 做到这一步，一个能用的Token羊毛合集，就已经有了。 但是我总感觉，还是有哪里不是特别好玩。 因为领羊毛这件事，说实话，是有点枯燥的，每天打开几个客户端，点一下签到，领个100积分，然后就没有然后了，我又没办法帮大家直接开发一个Agent来帮大家去领，因为各个系统、各个Agent啥的兼容性差异太大了。 那怎么让大家感觉到，这个事好玩呢，因为我想让大家每天领Token羊毛的时候，能有一点爽感，能直观地看到，自己省了多少钱，攒下了多少东西。 就是尽可能地，给大家一点情绪价值吧。 然后，想起了我自己玩的卡牌手游，于是，一个好玩的想法就出现在了我的脑子里，要不然，做成卡片收集册吧。。。 现在，页面上的每一份羊毛，都是一张卡，没领过的，是一张淡淡的普通卡，领到了，它就会被点亮。 然后，卡会越领越亮。 每天都能领的，累计领满7天，变成蓝卡，领满15天变成金卡，30天，就是一张闪卡。每周能领的要2次、4次、8次，每月能领的要1次、2次、3次。只能领一次的那些，看你领的这一次值多少，10块起是蓝卡，50块起是金卡，100块起直接就是闪卡。 我自己还是很喜欢这个设计的= = 闪卡我就学了一下游戏，做得最花哨，边框是一圈转动的彩虹，卡面上有流光，鼠标放上去，它还会放大，跟着你的鼠标倾斜，反正就，情绪价值给满。。。 整个卡册，越亮的越靠前，闪卡在最前面，然后是金卡、蓝卡，没领过的排在最后。只能领一次的卡，按你领的那一刻值多少钱来定，之后厂商改价、汇率变了，你手里的卡不升也不降。 如果一些Token活动结束了，你领过的那张卡，也不会消失。 它会被盖上一个红色的「绝版」章，写上它的最后一天，攒到的等级也留着，排在卡册的最后面，没领过的，就不放了。 活动没了，但是卡还会在，算是给大家留个纪念玩。 列表里也一样，领完的那一行，会啪的一下盖上一个墨印，写着「今天已领」和日期，手滑点错了，鼠标移到印章上，也可以点一下撤销。 这些玩意，说实话都不是什么大功能。 但我觉得，每天领Token羊毛这件小事，如果能让大家每天多开心一点点，在领福利的时候，也有一些情绪价值，那就太棒了。 最后，非常简单的再跟大家聊一下Token羊毛用到的技术。 第一层，就是雷达了。 除了AIHOT原来那些看新闻的信息源，我们还专门给Token羊毛加了一批来源，厂商自己的账号和页面，专门挖羊毛的大佬，还有社区里的各种合集。 雷达每个小时读一轮这些来源的新内容，先用一张故意撒得很宽的关键词网过一遍，免费、白嫖、薅、羊毛、额度、赠金、签到、限免这些，英文的free、credits也算，这一层足够的宽，宁可多放进来一些。 毕竟多放进来一条，只是多花一次很短很便宜的模型调用，但漏掉的，就再也看不到了。 过了这一层预筛的内容，再交给大模型去做一层额外的确定性判断，把里面提到的每一个活动都列出来，判断算不算羊毛，不算的话为什么不算，是中转站，是返利，还是只给付费用户的。 第二层，是核实。 雷达找到的，毕竟还只是线索。只有厂商自己的账号说了，或者有两个不同的来源都在说，或者帖子里直接链了厂商自己的页面，才会叫醒一个Agent去核实。 只有一个社区帖子孤零零在说的，就先放着不管了，等第二个来源。 Agent核实的时候，只认厂商自己的页面，还得确认这个页面真是这家厂商的，因为假官网上的活动页真的还不少，所以这个核实的Agent，得从厂商官网的首页，或者它的官方账号，一路点到这个活动页，确认是真的才可以。 核实完了，还得再过一关，叫「值得领」。只能用很老的模型的，比如GLM-4.7、DeepSeek v3之类的，那肯定就不能要了，因为实在是没啥意义。 很多营销文章喜欢把「每个模型各送100万Token」加在一起，写成「送7000万Token」，这种这个核实的Agent也会直接毙掉，然后各种返利和邀请链接、API中转站、二手积分、共享账号、接码多开等等的，也都直接毙掉，只给付费用户的、要先充值才送的，也毙掉，因为大家领不到。 真的，这些都是踩坑踩出来的血泪经验。。。 第三层，就是巡查了。 羊毛上架以后，厂商随时可能改规则，可能提前结束，也可能额度早就被领完了。所以每一条上架的时候，我们都会从厂商的页面上照抄一到三句原话，送多少，怎么领，到哪天，之后专门有个脚本每天去对照两次。 原话连着两次都找不到了，或者页面上新冒出来「暂停」「结束」这一类的字眼，就马上派一个Agent去复查。 然后每天晚上，还会有一个Agent照着一本巡检手册，把页面上的每一条Token羊毛都重新过一遍，第二天早上，新上架的和换了链接的，会列成一张单子发给我和另一个Agent确认。 这一整套呢，基本也都是Agent自己自动化在跑了，我每天早上，就像批奏折一样，扫一眼那张单子就行了。 整体大概就是这样。 最后，我希望这个小东西，能对大家有一些用。 坦率的讲，我一直觉得，AI的世界，是不平权的。 所有人都知道，真想拿好一点的大模型干点活，跑Agent、调API，几乎都是要钱的。 但我也见过很多很多人，也想跟上这个时代，想试试大模型到底能干嘛，想用Agent做点有意思的事，可最后，却被额度，被费用，挡在了门外。 我也知道，第一步有多难，因为那都是白花花的钱。 所以，就做了这样一个小东西。 它不碰任何灰色地带，用的全部都是各个厂商自己公开的运营活动，厂商发福利，本来就是希望更多的人来用一用，试一试，我们做的，就是把这些散在各处的活动，聚合到一页里，让更多需要的人看到。 当然，坦率的讲，Token羊毛这种行为，肯定不是长久之计，活动总会结束，免费的额度，也总有用完的一天。 但我希望，它能让你不用花一分钱，先把门推开，先用起来。 等你用顺手了，觉得它值，那时候再花钱，就自会权衡利弊了。 最后，Token羊毛今天才刚刚上线，肯定还有很多不完善的地方。 如果你看到了我们还没收录的羊毛，可以点页面顶上的「提报一条羊毛」告诉我们，哪一条错了，也一样。 这一页上的每一个额度，可能都没有那么多。 但我希望，很多人第一次把AI真正用起来，可能就是从这里开始的。 我也希望，尽我所能，帮大家抹平那一些信息差。 让所有人，都感受到AI的魅力。 也希望能激发，大家对AI的好奇。 以上，既然看到这里了，如果觉得不错，随手点个赞、在看、转发三连吧，如果想第一时间收到推送，也可以给我个星标⭐～谢谢你看我的文章，我们，下次再见。 \u003e/ 作者：卡兹克 \u003e/ 投稿或爆料，请联系邮箱：agent@virxact.com", "zh": true}]}]};
+function pad(n){return n<10?"0"+n:""+n;}
+function toBeijingHuman(iso, ref, exact){
+  const d=new Date(iso); const bj=new Date(d.getTime()+8*3600*1000);
+  const Y=bj.getUTCFullYear(),M=bj.getUTCMonth()+1,D=bj.getUTCDate();
+  const h=bj.getUTCHours(),m=bj.getUTCMinutes(); const hh=pad(h),mm=pad(m);
+  if(!exact) return M+"月"+D+"日";
+  const [rY,rM,rD]=ref.split("-").map(Number);
+  if(Y===rY&&M===rM&&D===rD) return "今天 "+hh+":"+mm;
+  const yest=new Date(rY,rM-1,rD); yest.setDate(yest.getDate()-1);
+  if(Y===yest.getFullYear()&&M===yest.getMonth()+1&&D===yest.getDate()) return "昨天 "+hh+":"+mm;
+  return M+"月"+D+"日 "+hh+":"+mm;
+}
+const meta=DATA.meta, sections=DATA.sections, ref=meta.reportDate;
+const statsEl=document.getElementById("stats");
+sections.forEach(s=>{const d=document.createElement("div");d.className="stat";
+  d.innerHTML='<div class="n">'+s.items.length+'</div><div class="l">'+s.label+'</div>';statsEl.appendChild(d);});
+const navEl=document.getElementById("nav");
+sections.forEach((s,i)=>{const a=document.createElement("a");a.href="#sec-"+i;
+  a.innerHTML=escapeHtml(s.label)+'<span class="c">'+s.items.length+'</span>';navEl.appendChild(a);});
+const mainEl=document.getElementById("main");
+sections.forEach((s,i)=>{
+  const sec=document.createElement("section");sec.className="block";sec.id="sec-"+i;
+  const head=document.createElement("div");head.className="sec-head";
+  head.innerHTML='<span class="sec-dot" style="background:'+s.color+'"></span><h2>'+escapeHtml(s.label)+'</h2><span class="cnt">'+s.items.length+' 条</span>';
+  sec.appendChild(head);
+  const grid=document.createElement("div");grid.className="grid";
+  s.items.forEach(it=>{
+    const card=document.createElement("article");card.className="card";card.style.setProperty("--accent",s.color);
+    const time=toBeijingHuman(it.publishedAt,ref,it.exact);const url=it.url||"#";
+    card.innerHTML='<div class="top"><span class="seq">'+it.seq+'</span><span class="time">'+time+'</span></div>'+
+      '<h3>'+escapeHtml(it.title)+'</h3><span class="chip">'+escapeHtml(it.source)+'</span>'+
+      '<p class="summary">'+escapeHtml(it.summary)+'</p>'+
+      '<a class="readmore" href="'+escapeAttr(url)+'" target="_blank" rel="noopener noreferrer" title="外部原文链接，可能需要访问境外站点">来源 ↗</a>';
+    card.addEventListener("click", function(){ openReader(it); });
+    const rm = card.querySelector(".readmore");
+    rm.addEventListener("click", function(e){ e.stopPropagation(); });
+    grid.appendChild(card);
+  });
+  sec.appendChild(grid);mainEl.appendChild(sec);
+});
+function escapeHtml(s){return (s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
+function escapeAttr(s){return escapeHtml(s);}
+// 渲染正文（纯文本归档）：图片不加载远程资源，仅以文字占位符呈现；其余文本按段落转义（防 XSS）
+function linkify(escaped){
+  if(!escaped) return escaped;
+  var re=/(\[[^\]]+\]\((https?:\/\/[^)\s]+)\))|(https?:\/\/[^\s<>"'）】」』，。、；：！？]+)/g;
+  return escaped.replace(re, function(m, g1, g2, g3){
+    if(g2!==undefined){
+      var label=m.substring(m.indexOf('[')+1, m.indexOf(']'));
+      return '<a class="r-link" href="'+g2+'" target="_blank" rel="noopener noreferrer">'+label+'</a>';
+    }
+    if(g3!==undefined){
+      return '<a class="r-link" href="'+g3+'" target="_blank" rel="noopener noreferrer">'+g3+'</a>';
+    }
+    return m;
+  });
+}
+var _IMG_RE=/!\[([^\]]*)\]\(([^)\s]+)\)/g;
+function renderRich(text){
+  return (text||"").split(/\n{1,}/).map(function(p){
+    p=p.trim(); if(!p) return '';
+    var out=''; var last=0; var m; _IMG_RE.lastIndex=0;
+    while((m=_IMG_RE.exec(p))!==null){
+      out+=linkify(escapeHtml(p.slice(last,m.index)));
+      var cap=(m[1]||'').trim()||'图片';
+      out+='<span class="r-img-cap">🖼 '+escapeHtml(cap)+'</span>';
+      last=_IMG_RE.lastIndex;
+    }
+    out+=linkify(escapeHtml(p.slice(last)));
+    return '<p>'+out+'</p>';
+  }).join("");
+}
+function openReader(it){
+  const r=document.getElementById("reader");
+  const content=(it.content||"").trim();
+  const body=document.getElementById("readerBody");
+  if(content.length>0){
+    body.innerHTML=renderRich(content);
+  }else{
+    const sum=(it.summary||"").trim();
+    if(sum){
+      // 来源站点多为付费墙 / 登录墙 / 反爬限制，无法镜像全文；展示已本地存档的中文摘要兜底
+      body.innerHTML='<div class="r-fallback">⚠️ 该条新闻的<b>全文镜像暂不可用</b>（来源站点可能为付费墙 / 登录墙 / 反爬限制，或原文已失效）。下方为已<b>本地存档的中文摘要</b>，可正常查看；完整原文请点击右下角「查看原文 ↗」。</div>'+
+        '<p class="r-summary">'+linkify(escapeHtml(sum))+'</p>';
+    }else{
+      body.innerHTML='<p class="r-empty">暂未获取到该条新闻的全文镜像与摘要。'+(it.url?'可点击右下角「查看原文 ↗」前往原始报道。':'')+'</p>';
+    }
+  }
+  document.getElementById("readerTitle").textContent=it.title;
+  document.getElementById("readerSource").textContent=it.source;
+  const link=document.getElementById("readerLink");
+  if(it.url){link.href=it.url;link.style.display="";}else{link.style.display="none";}
+  r.hidden=false;document.body.style.overflow="hidden";
+}
+function closeReader(){const r=document.getElementById("reader");r.hidden=true;document.body.style.overflow="";}
+document.getElementById("reader").addEventListener("click",function(e){if(e.target===this)closeReader();});
+document.addEventListener("keydown",function(e){if(e.key==="Escape")closeReader();});
+</script>
+</body></html>
